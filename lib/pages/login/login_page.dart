@@ -14,12 +14,15 @@ class _UserLoginPageState extends State<UserLoginPage> {
         appBar: AppBar(
           centerTitle: true,
           title: Text("Taxi Segurito"),
-          backgroundColor: Colors.yellow.shade800,
+          backgroundColor: Colors.white,
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
                   onPressed: () => print("Ir Atras"),
-                  icon: Icon(Icons.arrow_back));
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Colors.black,
+                  ));
             },
           ),
         ),
@@ -29,32 +32,18 @@ class _UserLoginPageState extends State<UserLoginPage> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 3.8,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xfff9a825), Color(0xffffeb3b)],
-                    ),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(50),
-                        bottomRight: Radius.circular(50))),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 25),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Text(
-                          "Login User",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          "Iniciar Sesión",
+                          style: TextStyle(color: Colors.black, fontSize: 20),
                         ),
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(Icons.account_box_rounded,
-                          size: 80, color: Colors.white),
                     ),
                   ],
                 ),
@@ -70,12 +59,13 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(color: Colors.black, blurRadius: 3)
+                            BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
                       child: TextField(
+                        textAlign: TextAlign.center,
                         decoration: InputDecoration(
-                            icon: Icon(Icons.account_box_outlined),
-                            hintText: "Ingrese Login"),
+                            //icon: Icon(Icons.account_box_outlined),
+                            hintText: "Ingrese su celular o e-mail"),
                       ),
                     ),
                     Container(
@@ -86,38 +76,23 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: Colors.white,
                           boxShadow: [
-                            BoxShadow(color: Colors.black, blurRadius: 3)
+                            BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
                       child: TextField(
+                        textAlign: TextAlign.center,
                         decoration: InputDecoration(
-                            icon: Icon(Icons.lock),
-                            hintText: "Ingrese Pssword"),
+                          // icon: Icon(Icons.lock),
+                          hintText: "Ingrese su Contaseña",
+                        ),
                       ),
                     ),
 
                     //
-                    Align(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Column(
-                          children: [
-                            Container(
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Text("Olvide Contraseña",
-                                    style: TextStyle(color: Colors.black26)),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
 
                     // btn Ingresar
                     Container(
                       padding: EdgeInsets.only(top: 50),
                       child: Container(
-                        width: 500,
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -128,11 +103,29 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                           Colors.yellow.shade600),
                                 ),
                                 onPressed: () {},
-                                child: Text("Ingresar"))
+                                child:
+                                    Text("             Ingresar            "))
                           ],
                         ),
                       ),
-                    )
+                    ),
+
+                    Align(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: Column(
+                          children: [
+                            Container(
+                              child: TextButton(
+                                onPressed: () {},
+                                child: Text("Olvidaste tu contraseña?",
+                                    style: TextStyle(color: Colors.blueAccent)),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
