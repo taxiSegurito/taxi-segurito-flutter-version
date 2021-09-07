@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/bloc/blocValidate.dart';
+import 'package:taxi_segurito_app/bloc/userBloc.dart';
+import 'package:taxi_segurito_app/models/usuario.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -61,11 +65,19 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           boxShadow: [
                             BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            //icon: Icon(Icons.account_box_outlined),
-                            hintText: "Ingrese su celular o e-mail"),
+                      child: StreamBuilder(
+                        stream: bloc.username,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            keyboardType: TextInputType.text,
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                                //icon: Icon(Icons.account_box_outlined),
+                                hintText: "Ingrese su celular o e-mail",
+                                errorText: snapshot.error?.toString()),
+                            onChanged: bloc.changeEmail,
+                          );
+                        },
                       ),
                     ),
                     Container(
@@ -78,12 +90,18 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           boxShadow: [
                             BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          // icon: Icon(Icons.lock),
-                          hintText: "Ingrese su Contaseña",
-                        ),
+                      child: StreamBuilder(
+                        stream: bloc.password,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                                // icon: Icon(Icons.lock),
+                                hintText: "Ingrese su Contaseña",
+                                errorText: snapshot.error?.toString()),
+                            onChanged: bloc.changePassword,
+                          );
+                        },
                       ),
                     ),
 
@@ -96,15 +114,46 @@ class _UserLoginPageState extends State<UserLoginPage> {
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.yellow.shade600),
-                                ),
-                                onPressed: () {},
-                                child:
-                                    Text("             Ingresar            "))
+                            StreamBuilder(
+                              stream: bloc.submitValid,
+                              builder: (context, snapshot) {
+                                return ElevatedButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.yellow.shade600),
+                                    ),
+                                    onPressed: snapshot.hasData
+                                        ? () async {
+                                            Usuario us = Usuario(
+                                                bloc.usernameController.value,
+                                                bloc.passwordController.value);
+                                            final result = await login(us);
+                                            if (result) {
+                                              print("Bienvenido");
+                                              FToast fToast = FToast();
+                                              fToast.init(context);
+                                              fToast.showToast(
+                                                child: toast,
+                                                toastDuration:
+                                                    Duration(seconds: 2),
+                                              );
+                                            } else {
+                                              print("Datos Incorrectos");
+                                              FToast fToast = FToast();
+                                              fToast.init(context);
+                                              fToast.showToast(
+                                                child: errorToast,
+                                                toastDuration:
+                                                    Duration(seconds: 2),
+                                              );
+                                            }
+                                          }
+                                        : null,
+                                    child: Text(
+                                        "             Ingresar            "));
+                              },
+                            )
                           ],
                         ),
                       ),
@@ -133,4 +182,44 @@ class _UserLoginPageState extends State<UserLoginPage> {
           ),
         ));
   }
+
+  Widget toast = Center(
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.greenAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.check),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text("Bienvenido"),
+        ],
+      ),
+    ),
+  );
+
+  Widget errorToast = Center(
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: Colors.redAccent,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.error),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text("Datos Invalidos"),
+        ],
+      ),
+    ),
+  );
 }
