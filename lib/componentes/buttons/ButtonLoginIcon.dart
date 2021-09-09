@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 // ignore: must_be_immutable
 class ButtonLoginsIcon extends StatelessWidget {
   final VoidCallback onTap;
-  final String contenidoButton;
+  final String contenidoBoton;
   final Icon icon;
   const ButtonLoginsIcon(
       {Key? key,
       required this.onTap,
-      required this.contenidoButton,
+      required this.contenidoBoton,
       required this.icon})
       : super(key: key);
 
@@ -47,7 +47,7 @@ class ButtonLoginsIcon extends StatelessWidget {
                 margin: new EdgeInsets.only(left: 10.0, right: 10.0),
                 child: icon,
               ),
-              Text(contenidoButton,
+              Text(contenidoBoton,
                   style: const TextStyle(
                       color: const Color(0xff000000),
                       fontWeight: FontWeight.w400,
