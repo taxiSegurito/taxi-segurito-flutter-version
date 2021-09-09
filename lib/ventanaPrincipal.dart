@@ -45,7 +45,7 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
     //Este boton sirve para llamar al metodo Iniciar sesion con cuenta de google
     ButtonLoginsIcon btnInicioSesionGoogle = new ButtonLoginsIcon(
         onTap: onPressedbtnIniciarSesionGoogle,
-        contenidoButton: "Iniciar sesión con Google",
+        contenidoBoton: "Iniciar sesión con Google",
         icon: Icon(
           MyFlutterApp.google,
           color: Colors.black,
@@ -54,7 +54,7 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
     //Este boton sirve para llamar al metodo Iniciar sesion con cuenta de Facebook
     ButtonLoginsIcon btnInicioSesionFacebook = new ButtonLoginsIcon(
         onTap: onPressedbtnIniciarSesionCorreoCelular,
-        contenidoButton: "Iniciar sesión con Facebook",
+        contenidoBoton: "Iniciar sesión con Facebook",
         icon: Icon(
           MyFlutterApp.facebook,
           color: Colors.black,
