@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'BackApp.dart';
+import 'package:taxi_segurito_app/ventanaPrincipal.dart';
 
 /*void main() {
   runApp(MaterialApp(
       // Incluir primer widget
       ));
 }*/
-
 void main() {
   runApp(MyApp());
 }
@@ -32,8 +30,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: new BackApp(),
+      //home: new Header(),
       //home: new Header()
+      home: new VentanaPrincipal(),
     );
   }
 }
