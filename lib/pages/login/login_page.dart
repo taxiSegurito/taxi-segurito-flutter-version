@@ -3,6 +3,7 @@ import 'package:taxi_segurito_app/bloc/blocValidate.dart';
 import 'package:taxi_segurito_app/bloc/userBloc.dart';
 import 'package:taxi_segurito_app/models/usuario.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/pages/login/toast/toats_glo.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -12,7 +13,14 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
+  FToast fToast = FToast();
   @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -131,10 +139,11 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                             final result = await login(us);
                                             if (result) {
                                               print("Bienvenido");
-                                              FToast fToast = FToast();
-                                              fToast.init(context);
                                               fToast.showToast(
-                                                child: toast,
+                                                child: GlobalToast.toast(
+                                                    Text("Bienvenido"),
+                                                    Colors.greenAccent,
+                                                    Icon(Icons.check)),
                                                 toastDuration:
                                                     Duration(seconds: 2),
                                               );
@@ -143,7 +152,10 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                               FToast fToast = FToast();
                                               fToast.init(context);
                                               fToast.showToast(
-                                                child: errorToast,
+                                                child: GlobalToast.toast(
+                                                    Text("Datos Incorrectos"),
+                                                    Colors.redAccent,
+                                                    Icon(Icons.error)),
                                                 toastDuration:
                                                     Duration(seconds: 2),
                                               );
@@ -182,44 +194,4 @@ class _UserLoginPageState extends State<UserLoginPage> {
           ),
         ));
   }
-
-  Widget toast = Center(
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.greenAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.check),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text("Bienvenido"),
-        ],
-      ),
-    ),
-  );
-
-  Widget errorToast = Center(
-    child: Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.0),
-        color: Colors.redAccent,
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.error),
-          SizedBox(
-            width: 12.0,
-          ),
-          Text("Datos Invalidos"),
-        ],
-      ),
-    ),
-  );
 }
