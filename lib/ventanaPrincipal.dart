@@ -53,7 +53,7 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
 
     //Este boton sirve para llamar al metodo Iniciar sesion con cuenta de Facebook
     ButtonLoginsIcon btnInicioSesionFacebook = new ButtonLoginsIcon(
-        onTap: onPressedbtnIniciarSesionCorreoCelular,
+        onTap: onPressedbtnIniciarSesionFacebook,
         contenidoBoton: "Iniciar sesión con Facebook",
         icon: Icon(
           MyFlutterApp.facebook,
@@ -81,14 +81,11 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
               })
       ],
     ));
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        //reciven hijos como arreglos
-        //las columnas toman el ancho de la pantalla y tambien el alto
-        mainAxisAlignment: MainAxisAlignment.center, //mide la pantalla
-        mainAxisSize: MainAxisSize.max, //mide lo minimo posible
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Expanded(
@@ -115,7 +112,6 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
                     btnInicioSesionGoogle,
                     btnInicioSesionFacebook,
                     new Container(
-                      //color: Colors.green,
                       alignment: Alignment.center,
                       margin: new EdgeInsets.only(
                           top: 10.0, bottom: 10.0, left: 35.0, right: 35.0),
@@ -161,51 +157,46 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
 
   //evento click del boton de inicio sesion correo/numero
   onPressedbtnIniciarSesionCorreoCelular() {
-    Fluttertoast.showToast(
-        msg: "Inciar sesion correo celular",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
+    Navigator.pushNamed(context, 'loginUser');
   }
+}
 
-  //evento click del boton de inicio sesion con google
-  onPressedbtnIniciarSesionGoogle() {
-    Fluttertoast.showToast(
-        msg: "Iniciar sesion google",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-  }
+//evento click del boton de inicio sesion con google
+onPressedbtnIniciarSesionGoogle() {
+  Fluttertoast.showToast(
+      msg: "Iniciar sesion google",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.yellow);
+}
 
-  //evento click del boton de inicio sesion con facebook
-  onPressedbtnIniciarSesionFacebook() {
-    Fluttertoast.showToast(
-        msg: "Inisiar sesion facebook",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-  }
+//evento click del boton de inicio sesion con facebook
+onPressedbtnIniciarSesionFacebook() {
+  Fluttertoast.showToast(
+      msg: "Inisiar sesion facebook",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.yellow);
+}
 
-  //evento click del boton de inicio sin sesion o escanear QR
-  onPressedbtnIniciarSinSesion() {
-    Fluttertoast.showToast(
-        msg: "Iniciar sin sesion",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-  }
+//evento click del boton de inicio sin sesion o escanear QR
+onPressedbtnIniciarSinSesion() {
+  Fluttertoast.showToast(
+      msg: "Iniciar sin sesion",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.yellow);
+}
 
-  //evento click del boton de crear cuenta
-  onPressedrtCrearCuenta() {
-    Fluttertoast.showToast(
-        msg: "Crear Cuenta",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-  }
+//evento click del boton de crear cuenta
+onPressedrtCrearCuenta() {
+  Fluttertoast.showToast(
+      msg: "Crear Cuenta",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      backgroundColor: Colors.red,
+      textColor: Colors.yellow);
 }
