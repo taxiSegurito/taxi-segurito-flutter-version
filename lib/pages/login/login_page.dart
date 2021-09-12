@@ -18,7 +18,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
-                  onPressed: () => print("Ir Atras"),
+                  onPressed: () => Navigator.pop(context),
                   icon: Icon(
                     Icons.arrow_back,
                     color: Colors.black,
