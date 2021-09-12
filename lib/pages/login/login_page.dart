@@ -149,8 +149,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                               );
                                             } else {
                                               print("Datos Incorrectos");
-                                              FToast fToast = FToast();
-                                              fToast.init(context);
                                               fToast.showToast(
                                                 child: GlobalToast.toast(
                                                     Text("Datos Incorrectos"),
