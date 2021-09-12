@@ -2,11 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MenuLateral extends StatelessWidget {
-  
   const MenuLateral({
-    
     Key? key,
-    
   }) : super(key: key);
 
   @override
@@ -14,21 +11,14 @@ class MenuLateral extends StatelessWidget {
     TextStyle myText = new TextStyle(fontFamily: "Raleway");
     return ClipRRect(
       borderRadius: BorderRadius.only(
-        topRight: Radius.circular(25),
-        bottomRight: Radius.circular(25)
-      ),
+          topRight: Radius.circular(25), bottomRight: Radius.circular(25)),
       child: Drawer(
-        
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-          
             DrawerHeader(
-              
               decoration: BoxDecoration(
-                
                 color: Colors.amber[300],
-                
               ),
               child: Column(
                 children: [
@@ -40,20 +30,20 @@ class MenuLateral extends StatelessWidget {
                     ),
                   ),
                   Text("Nombre Usuario"),
-                  Text("+591 xxxxxxxxx",style: TextStyle(color: Colors.grey[500], fontFamily: "Raleway"),),
-                                 
+                  Text(
+                    "+591 xxxxxxxxx",
+                    style: TextStyle(
+                        color: Colors.grey[500], fontFamily: "Raleway"),
+                  ),
                   SizedBox(
                     height: 10.0,
                   ),
                 ],
-                
               ),
             ),
             ListTile(
               leading: Icon(Icons.access_time_outlined),
               title: Text('Historial De Reseñas'),
-              
-              
             ),
             Divider(
               color: Colors.grey[350],
@@ -93,7 +83,6 @@ class MenuLateral extends StatelessWidget {
             ),
           ],
         ),
-        
       ),
     );
   }
