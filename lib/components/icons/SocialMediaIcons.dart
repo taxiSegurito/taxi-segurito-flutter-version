@@ -23,10 +23,10 @@
 ///
 import 'package:flutter/widgets.dart';
 
-class MyFlutterApp {
-  MyFlutterApp._();
+class SocialMediaIcons {
+  SocialMediaIcons._();
 
-  static const _kFontFam = 'MyFlutterApp';
+  static const _kFontFam = 'SocialMediaIcons';
   static const String? _kFontPkg = null;
 
   static const IconData google =

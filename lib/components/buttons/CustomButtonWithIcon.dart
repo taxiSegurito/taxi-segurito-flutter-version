@@ -2,17 +2,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class ButtonLogins extends StatelessWidget {
+class CustomButtonWithIcon extends StatelessWidget {
   final VoidCallback onTap;
   final String contenidoBoton;
-  final Color colorBoton;
-  final Color colorTextoBoton;
-  const ButtonLogins(
+  final Icon icon;
+  const CustomButtonWithIcon(
       {Key? key,
       required this.onTap,
       required this.contenidoBoton,
-      required this.colorBoton,
-      required this.colorTextoBoton})
+      required this.icon})
       : super(key: key);
 
   @override
@@ -40,21 +38,28 @@ class ButtonLogins extends StatelessWidget {
         onPressed: () {
           onTap();
         },
-        child: // Iniciar sesión con correo / número de celular
-            Text(contenidoBoton,
-                style: TextStyle(
-                    color: colorTextoBoton,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Raleway",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 14.0),
-                textAlign: TextAlign.center),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                margin: new EdgeInsets.only(left: 10.0, right: 10.0),
+                child: icon,
+              ),
+              Text(contenidoBoton,
+                  style: const TextStyle(
+                      color: const Color(0xff000000),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Raleway",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 14.0),
+                  textAlign: TextAlign.center),
+            ]),
         style: ElevatedButton.styleFrom(
-          primary: colorBoton,
-
+          primary: Colors.white,
+          alignment: Alignment.center,
           fixedSize: Size(300, 100),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          //shadowColor: Colors.blue,
         ),
       ),
     );

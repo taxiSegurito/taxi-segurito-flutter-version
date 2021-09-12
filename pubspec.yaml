@@ -47,13 +47,13 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   fonts:
-    - family:  MyFlutterApp
+    - family:  SocialMediaIcons
       fonts:
-      - asset: fonts/MyFlutterApp.ttf
+      - asset: fonts/SocialMediaFonts.ttf
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/componentes/assets/images/
+    - lib/components/assets/images/
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

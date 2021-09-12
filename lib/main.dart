@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/ventanaPrincipal.dart';
+import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 
 void main() => runApp(AppTaxiSegurito());
@@ -19,7 +19,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'firstScreen': (BuildContext contextFirstScreen) => VentanaPrincipal()
+        'firstScreen': (BuildContext contextFirstScreen) => MainWindow()
       },
     );
   }

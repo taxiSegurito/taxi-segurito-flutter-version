@@ -1,30 +1,31 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/componentes/buttons/ButtonLoginIcon.dart';
-import 'package:taxi_segurito_app/componentes/buttons/buttonLogin.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/componentes/my_flutter_app_icons.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButtonWithIcon.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/components/icons/SocialMediaIcons.dart';
+import 'package:taxi_segurito_app/pages/mainWindow/MainWindowFunctionality.dart';
 
-//import 'package:componentes/buttons/ButtonLogin.dart';
-
-class VentanaPrincipal extends StatefulWidget {
-  VentanaPrincipal({Key? key}) : super(key: key);
+class MainWindow extends StatefulWidget {
+  MainWindow({Key? key}) : super(key: key);
 
   @override
-  _VentanaPrincipalState createState() => _VentanaPrincipalState();
+  _MainWindowState createState() => _MainWindowState();
 }
 
-class _VentanaPrincipalState extends State<VentanaPrincipal> {
+class _MainWindowState extends State<MainWindow> {
   @override
   Widget build(BuildContext context) {
+    MainWindowFunctionality mainWindowFunctionality =
+        new MainWindowFunctionality(context);
+
     Image logo = new Image.asset(
-      "lib/componentes/assets/images/logoPrincipal2.png",
+      "lib/components/assets/images/logoPrincipal.png",
       height: 150,
       width: 150,
     );
 
     //Este texto es para el encabezado de la pagina en donde se mostrara el titulo
-    Text encabezado = new Text(
+    Text header = new Text(
         "Conoce nuestra propuesta de movilidad segura en Cochabamba",
         style: const TextStyle(
             color: const Color(0xff000000),
@@ -35,50 +36,55 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
         textAlign: TextAlign.center);
 
     //Este boton sirve para llamar al metodo Iniciar sesion con el correo o tu numero de celular
-    ButtonLogins btnIniciarSesionCorreoCelular = new ButtonLogins(
-      onTap: onPressedbtnIniciarSesionCorreoCelular,
-      contenidoBoton: "Iniciar sesión con correo / número de celular",
-      colorBoton: Colors.white,
-      colorTextoBoton: Colors.black,
+    CustomButton btnIniciarSesionCorreoCelular = new CustomButton(
+      onTap: () {
+        mainWindowFunctionality.onPressedbtnIniciarSesionCorreoCelular();
+      },
+      buttonText: "Iniciar sesión con correo / número de celular",
+      buttonColor: Colors.white,
+      buttonTextColor: Colors.black,
     );
 
     //Este boton sirve para llamar al metodo Iniciar sesion con cuenta de google
-    ButtonLoginsIcon btnInicioSesionGoogle = new ButtonLoginsIcon(
-        onTap: onPressedbtnIniciarSesionGoogle,
+    CustomButtonWithIcon btnInicioSesionGoogle = new CustomButtonWithIcon(
+        onTap: () {
+          mainWindowFunctionality.onPressedbtnIniciarSesionGoogle();
+        },
         contenidoBoton: "Iniciar sesión con Google",
         icon: Icon(
-          MyFlutterApp.google,
+          SocialMediaIcons.google,
           color: Colors.black,
         ));
 
     //Este boton sirve para llamar al metodo Iniciar sesion con cuenta de Facebook
-    ButtonLoginsIcon btnInicioSesionFacebook = new ButtonLoginsIcon(
-        onTap: onPressedbtnIniciarSesionFacebook,
+    CustomButtonWithIcon btnInicioSesionFacebook = new CustomButtonWithIcon(
+        onTap: () {
+          mainWindowFunctionality.onPressedbtnIniciarSesionFacebook();
+        },
         contenidoBoton: "Iniciar sesión con Facebook",
         icon: Icon(
-          MyFlutterApp.facebook,
+          SocialMediaIcons.facebook,
           color: Colors.black,
         ));
 
     //Este boton sirve para ingresar a la aplicacion escaneando tu Q
-    ButtonLogins btnSinSesion = new ButtonLogins(
-      onTap: onPressedbtnIniciarSesionGoogle,
-      contenidoBoton: "Escanear QR sin iniciar sesión",
-      colorBoton: Color.fromRGBO(255, 193, 7, 1),
-      colorTextoBoton: Colors.white,
+    CustomButton btnSinSesion = new CustomButton(
+      onTap: () {
+        mainWindowFunctionality.onPressedbtnIniciarSinSesion();
+      },
+      buttonText: "Escanear QR sin iniciar sesión",
+      buttonColor: Color.fromRGBO(255, 193, 7, 1),
+      buttonTextColor: Colors.white,
     );
 
     //Este RichText sirve para poder ingresar al apartado de crearte una cuenta
-    RichText rtCrearCuenta = new RichText(
+    RichText rtCreateAccount = new RichText(
         text: TextSpan(
       children: [
         TextSpan(
             style: TextStyle(color: Colors.blue),
             text: "Crear una cuenta nueva",
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                onPressedrtCrearCuenta();
-              })
+            recognizer: TapGestureRecognizer()..onTap = () {})
       ],
     ));
     return Scaffold(
@@ -95,7 +101,7 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
               child: new Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
-                  children: [logo, encabezado]),
+                  children: [logo, header]),
             ),
           ),
           Expanded(
@@ -146,7 +152,7 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 15),
                             textAlign: TextAlign.center),
-                        rtCrearCuenta,
+                        rtCreateAccount,
                       ]),
                 )),
           )
@@ -154,49 +160,4 @@ class _VentanaPrincipalState extends State<VentanaPrincipal> {
       ),
     );
   }
-
-  //evento click del boton de inicio sesion correo/numero
-  onPressedbtnIniciarSesionCorreoCelular() {
-    Navigator.pushNamed(context, 'loginUser');
-  }
-}
-
-//evento click del boton de inicio sesion con google
-onPressedbtnIniciarSesionGoogle() {
-  Fluttertoast.showToast(
-      msg: "Iniciar sesion google",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.yellow);
-}
-
-//evento click del boton de inicio sesion con facebook
-onPressedbtnIniciarSesionFacebook() {
-  Fluttertoast.showToast(
-      msg: "Inisiar sesion facebook",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.yellow);
-}
-
-//evento click del boton de inicio sin sesion o escanear QR
-onPressedbtnIniciarSinSesion() {
-  Fluttertoast.showToast(
-      msg: "Iniciar sin sesion",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.yellow);
-}
-
-//evento click del boton de crear cuenta
-onPressedrtCrearCuenta() {
-  Fluttertoast.showToast(
-      msg: "Crear Cuenta",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.yellow);
 }

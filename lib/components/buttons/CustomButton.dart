@@ -2,15 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class ButtonLoginsIcon extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
-  final String contenidoBoton;
-  final Icon icon;
-  const ButtonLoginsIcon(
+  final String buttonText;
+  final Color buttonColor;
+  final Color buttonTextColor;
+  const CustomButton(
       {Key? key,
       required this.onTap,
-      required this.contenidoBoton,
-      required this.icon})
+      required this.buttonText,
+      required this.buttonColor,
+      required this.buttonTextColor})
       : super(key: key);
 
   @override
@@ -39,30 +41,18 @@ class ButtonLoginsIcon extends StatelessWidget {
           onTap();
         },
         child: // Iniciar sesión con correo / número de celular
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center, //mide la pantalla
-                mainAxisSize: MainAxisSize.max,
-                children: [
-              Container(
-                margin: new EdgeInsets.only(left: 10.0, right: 10.0),
-                child: icon,
-              ),
-              Text(contenidoBoton,
-                  style: const TextStyle(
-                      color: const Color(0xff000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Raleway",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 14.0),
-                  textAlign: TextAlign.center),
-            ]),
+            Text(buttonText,
+                style: TextStyle(
+                    color: buttonTextColor,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Raleway",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.center),
         style: ElevatedButton.styleFrom(
-          primary: Colors.white,
-          alignment: Alignment.center,
-
+          primary: buttonColor,
           fixedSize: Size(300, 100),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          //shadowColor: Colors.blue,
         ),
       ),
     );
