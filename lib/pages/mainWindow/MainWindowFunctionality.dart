@@ -1,4 +1,7 @@
+import 'package:flutter_qr_bar_scanner/flutter_qr_bar_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/pages/login/menuLateral.dart';
+import 'package:taxi_segurito_app/pages/login/qr_page.dart';
 
 import 'MainWindow.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +43,10 @@ class MainWindowFunctionality {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.yellow);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => QRPAGE()),
+    );
   }
 
   //evento click del boton de crear cuenta
