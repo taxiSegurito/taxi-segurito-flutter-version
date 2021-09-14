@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/bloc/blocValidate.dart';
-import 'package:taxi_segurito_app/bloc/userBloc.dart';
-import 'package:taxi_segurito_app/models/usuario.dart';
+import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
+import 'package:taxi_segurito_app/bloc/services/authService.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
+import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/pages/login/toast/toats_glo.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -74,16 +75,15 @@ class _UserLoginPageState extends State<UserLoginPage> {
                             BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
                       child: StreamBuilder(
-                        stream: bloc.username,
+                        stream: validator.username,
                         builder: (context, snapshot) {
                           return TextField(
                             keyboardType: TextInputType.text,
                             textAlign: TextAlign.center,
                             decoration: InputDecoration(
-                                //icon: Icon(Icons.account_box_outlined),
                                 hintText: "Ingrese su celular o e-mail",
                                 errorText: snapshot.error?.toString()),
-                            onChanged: bloc.changeEmail,
+                            onChanged: validator.changeEmail,
                           );
                         },
                       ),
@@ -99,7 +99,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                             BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
                       child: StreamBuilder(
-                        stream: bloc.password,
+                        stream: validator.password,
                         builder: (context, snapshot) {
                           return TextField(
                             textAlign: TextAlign.center,
@@ -107,7 +107,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                 // icon: Icon(Icons.lock),
                                 hintText: "Ingrese su Contaseña",
                                 errorText: snapshot.error?.toString()),
-                            onChanged: bloc.changePassword,
+                            onChanged: validator.changePassword,
                           );
                         },
                       ),
@@ -123,45 +123,39 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             StreamBuilder(
-                              stream: bloc.submitValid,
+                              stream: validator.submitValid,
                               builder: (context, snapshot) {
-                                return ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.yellow.shade600),
-                                    ),
-                                    onPressed: snapshot.hasData
-                                        ? () async {
-                                            Usuario us = Usuario(
-                                                bloc.usernameController.value,
-                                                bloc.passwordController.value);
-                                            final result = await login(us);
-                                            if (result) {
-                                              print("Bienvenido");
-                                              fToast.showToast(
-                                                child: GlobalToast.toast(
-                                                    Text("Bienvenido"),
-                                                    Colors.greenAccent,
-                                                    Icon(Icons.check)),
-                                                toastDuration:
-                                                    Duration(seconds: 2),
-                                              );
-                                            } else {
-                                              print("Datos Incorrectos");
-                                              fToast.showToast(
-                                                child: GlobalToast.toast(
-                                                    Text("Datos Incorrectos"),
-                                                    Colors.redAccent,
-                                                    Icon(Icons.error)),
-                                                toastDuration:
-                                                    Duration(seconds: 2),
-                                              );
-                                            }
+                                // funcionalidad de que el boton se deshabilite cuando hayan datos incorrectos no funciona
+                                return new CustomButton(
+                                  onTap: snapshot.hasData
+                                      ? () async {
+                                          User us = User(
+                                              validator
+                                                  .usernameController.value,
+                                              validator
+                                                  .passwordController.value);
+                                          final result = await login(us);
+                                          if (result) {
+                                            GlobalToast.displayToast(
+                                                Text("Bienvenido"),
+                                                Colors.greenAccent,
+                                                Icon(Icons.check),
+                                                2);
+                                          } else {
+                                            GlobalToast.displayToast(
+                                                Text("Datos Incorrectos"),
+                                                Colors.redAccent,
+                                                Icon(Icons.error),
+                                                2);
                                           }
-                                        : null,
-                                    child: Text(
-                                        "             Ingresar            "));
+                                        }
+                                      : () {
+                                          return null;
+                                        },
+                                  buttonText: "    Ingresar    ",
+                                  buttonColor: Colors.yellow.shade600,
+                                  buttonTextColor: Colors.black,
+                                );
                               },
                             )
                           ],

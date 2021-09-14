@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+FToast fToast = FToast();
 
 class GlobalToast {
   static Widget toast(Text msg, Color color, Icon icons) {
@@ -21,5 +24,11 @@ class GlobalToast {
         ),
       ),
     );
+  }
+
+  static displayToast(Text text, Color color, Icon icon, int duration) {
+    fToast.showToast(
+        child: toast(text, color, icon),
+        toastDuration: Duration(seconds: duration));
   }
 }

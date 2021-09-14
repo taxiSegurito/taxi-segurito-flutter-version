@@ -1,6 +1,6 @@
 import 'dart:io';
 
-class MyHttpOverrides extends HttpOverrides {
+class HttpProvider extends HttpOverrides {
   @override
   HttpClient createHttpClient(context) {
     return super.createHttpClient(context)

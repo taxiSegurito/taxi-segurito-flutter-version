@@ -1,7 +1,7 @@
-class Usuario {
+class User {
   // faltan definir algunos atributos
   String username;
   String password;
 
-  Usuario(this.username, this.password);
+  User(this.username, this.password);
 }

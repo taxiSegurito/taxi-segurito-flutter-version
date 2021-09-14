@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/overrides.dart';
+import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 
 void main() {
-  HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = new HttpProvider();
   runApp(AppTaxiSegurito());
 }
 

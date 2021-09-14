@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:rxdart/rxdart.dart';
-import 'package:taxi_segurito_app/bloc/validator.dart';
+import 'package:taxi_segurito_app/bloc/validators/validator.dart';
 
-class Bloc with Validators {
+class Validator with Validators {
   final usernameController = BehaviorSubject<String>();
   final passwordController = BehaviorSubject<String>();
 
@@ -23,4 +23,4 @@ class Bloc with Validators {
   }
 }
 
-final bloc = Bloc();
+final validator = Validator();
