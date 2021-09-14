@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:taxi_segurito_app/bloc/env.dart';
+import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 
 Future<bool> login(User user) async {
