@@ -1,7 +1,7 @@
 import 'package:flutter_qr_bar_scanner/flutter_qr_bar_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/pages/login/menuLateral.dart';
-import 'package:taxi_segurito_app/pages/login/qr_page.dart';
+import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
+import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 
 import 'MainWindow.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +38,7 @@ class MainWindowFunctionality {
   //evento click del boton de inicio sin sesion o escanear QR
   onPressedbtnIniciarSinSesion() {
     Fluttertoast.showToast(
-        msg: "Iniciar sin sesion",
+        msg: "Iniciar Lector QR",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,

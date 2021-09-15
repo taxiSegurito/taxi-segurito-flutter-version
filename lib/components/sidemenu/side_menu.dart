@@ -1,14 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class MenuLateral extends StatelessWidget {
-  const MenuLateral({
+class SideMenu extends StatelessWidget {
+  const SideMenu({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextStyle myText = new TextStyle(fontFamily: "Raleway");
+    //variable utilizada para separar ListTile
+    var divider = Divider(
+      color: Colors.grey[350],
+      height: 5,
+      thickness: 1.5,
+      indent: 10,
+      endIndent: 10,
+    );
     return ClipRRect(
       borderRadius: BorderRadius.only(
           topRight: Radius.circular(25), bottomRight: Radius.circular(25)),
@@ -45,24 +52,12 @@ class MenuLateral extends StatelessWidget {
               leading: Icon(Icons.access_time_outlined),
               title: Text('Historial De Reseñas'),
             ),
-            Divider(
-              color: Colors.grey[350],
-              height: 5,
-              thickness: 1.5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            divider,
             ListTile(
               leading: Icon(Icons.contact_page_rounded),
               title: Text('Contactos de Emergencia'),
             ),
-            Divider(
-              color: Colors.grey[350],
-              height: 5,
-              thickness: 1.5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            divider,
             ListTile(
               tileColor: Colors.red.shade100,
               leading: Icon(
@@ -74,13 +69,7 @@ class MenuLateral extends StatelessWidget {
                 style: TextStyle(color: Colors.red),
               ),
             ),
-            Divider(
-              color: Colors.grey[350],
-              height: 5,
-              thickness: 1.5,
-              indent: 10,
-              endIndent: 10,
-            ),
+            divider,
           ],
         ),
       ),
