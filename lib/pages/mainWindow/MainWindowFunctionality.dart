@@ -28,7 +28,7 @@ class MainWindowFunctionality {
   //evento click del boton de inicio sesion con facebook
   onPressedbtnIniciarSesionFacebook() {
     Fluttertoast.showToast(
-        msg: "Inisiar sesion facebook",
+        msg: "Iniciar sesion facebook",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,

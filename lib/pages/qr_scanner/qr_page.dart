@@ -37,10 +37,6 @@ class _QrBarcodeState extends State<QRPAGE> {
     _scanCode();
   }
 
-  void dispose() {
-    super.dispose();
-  }
-
   _scanCode() {
     setState(() {
       _camState = true;
@@ -56,47 +52,48 @@ class _QrBarcodeState extends State<QRPAGE> {
 
   Widget _scanner(BuildContext context) {
     return Container(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Expanded(
-          child: Container(
-            child: _camState
-                ? QRBarScannerCamera(
-                    onError: (context, error) => Text(
-                      error.toString(),
-                      style: TextStyle(color: Colors.red),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Expanded(
+            child: Container(
+              child: _camState
+                  ? QRBarScannerCamera(
+                      onError: (context, error) => Text(
+                        error.toString(),
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      qrCodeCallback: (code) {
+                        _qrCallback(code!);
+                      },
+                    )
+                  : Center(
+                      child: SizedBox(
+                          width: 80.0,
+                          height: 80.0,
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.red[100],
+                            strokeWidth: 10.0,
+                          )),
                     ),
-                    qrCodeCallback: (code) {
-                      _qrCallback(code!);
-                    },
-                  )
-                : Center(
-                    child: SizedBox(
-                        width: 80.0,
-                        height: 80.0,
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.red[100],
-                          strokeWidth: 10.0,
-                        )),
-                  ),
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.amber,
-          ),
-          padding: const EdgeInsets.all(10.0),
-          margin: const EdgeInsets.only(bottom: 8),
-          child: Center(
-            child: Text(
-              'Ubique el codigo QR frente a la cámara',
-              style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
             ),
           ),
-        )
-      ],
-    ));
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.amber,
+            ),
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.only(bottom: 8),
+            child: Center(
+              child: Text(
+                'Ubique el codigo QR frente a la cámara',
+                style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
