@@ -6,11 +6,19 @@ class CustomButtonWithIcon extends StatelessWidget {
   final VoidCallback onTap;
   final String contenidoBoton;
   final Icon icon;
-  const CustomButtonWithIcon(
+  double marginLeft;
+  double marginRight;
+  double marginBotton;
+  double marginTop;
+  CustomButtonWithIcon(
       {Key? key,
       required this.onTap,
       required this.contenidoBoton,
-      required this.icon})
+      required this.icon,
+      this.marginLeft = 50,
+      this.marginRight = 50,
+      this.marginTop = 10,
+      this.marginBotton = 10})
       : super(key: key);
 
   @override
@@ -20,8 +28,11 @@ class CustomButtonWithIcon extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return new Container(
-      margin:
-          new EdgeInsets.only(top: 10.0, bottom: 10.0, left: 50.0, right: 50.0),
+      margin: new EdgeInsets.only(
+          top: marginTop,
+          bottom: marginBotton,
+          left: marginLeft,
+          right: marginRight),
       width: width,
       height: 40.0,
       decoration: BoxDecoration(

@@ -24,6 +24,11 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
           fontSize: 30.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.right,
     );
+    Image imageAuto = new Image.asset(
+      "lib/components/assets/images/auto.png",
+      height: 150,
+      width: 150,
+    );
 
     CustomTextField txtNameOwner = new CustomTextField(hint: "Nombre Usuario");
     CustomTextField txtDni =
@@ -37,30 +42,30 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     CustomTextField txtCapacity = new CustomTextField(hint: "Capacidad");
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-        onTap: () {},
-        buttonText: "Cancelar",
-        buttonColor: Colors.white,
-        buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
-        buttonBorderColor: Color.fromRGBO(255, 193, 7, 1));
+      onTap: () {},
+      buttonText: "Cancelar",
+      buttonColor: Colors.white,
+      buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
+      buttonBorderColor: Color.fromRGBO(255, 193, 7, 1),
+      marginBotton: 0,
+      marginLeft: 0,
+      marginRight: 5,
+      marginTop: 0,
+    );
 
     CustomButton btnRegister = new CustomButton(
-        onTap: () {},
-        buttonText: "Registrar",
-        buttonColor: Color.fromRGBO(255, 193, 7, 1),
-        buttonTextColor: Colors.white);
+      onTap: () {},
+      buttonText: "Registrar",
+      buttonColor: Color.fromRGBO(255, 193, 7, 1),
+      buttonTextColor: Colors.white,
+      marginBotton: 0,
+      marginLeft: 5,
+      marginRight: 0,
+      marginTop: 0,
+    );
 
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Fluttertoast.showToast(
-                msg: txtNameOwner.getValue(),
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                backgroundColor: Colors.red,
-                textColor: Colors.yellow);
-          },
-        ),
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
             child: Column(
@@ -70,8 +75,9 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
             Container(
                 alignment: Alignment.centerLeft,
                 margin: new EdgeInsets.only(
-                    top: 40.0, bottom: 10.0, left: 35.0, right: 35.0),
+                    top: 20.0, bottom: 10.0, left: 35.0, right: 35.0),
                 child: title),
+            imageAuto,
             txtNameOwner,
             txtDni,
             txtNacinonalityOwner,
@@ -80,25 +86,18 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
             txtNumberPlate,
             txtCarColor,
             txtCapacity,
-            Row(
-              //crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: btnCancel),
-                Expanded(child: btnRegister)
-
-                //btnCancel
-              ],
-            )
+            Container(
+                alignment: Alignment.centerLeft,
+                margin: new EdgeInsets.only(
+                    top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
+                child: Row(
+                  children: [
+                    Expanded(flex: 1, child: btnCancel),
+                    Divider(),
+                    Expanded(flex: 1, child: btnRegister)
+                  ],
+                )),
           ],
         )));
-  }
-
-  void imprimir(String value) {
-    Fluttertoast.showToast(
-        msg: value,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
   }
 }
