@@ -10,7 +10,7 @@ class CustomTextField extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return new Container(
       margin:
-          new EdgeInsets.only(top: 7.0, bottom: 7.0, left: 50.0, right: 50.0),
+          new EdgeInsets.only(top: 7.0, bottom: 7.0, left: 40.0, right: 40.0),
       width: width,
       child: new TextField(
           controller: valueController,

@@ -1,8 +1,8 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/components/buttons/button.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 
 class RegisterOwnerAndVehicle extends StatefulWidget {
@@ -40,8 +40,14 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
         onTap: () {},
         buttonText: "Cancelar",
         buttonColor: Colors.white,
-        buttonTextColor: Colors.yellow,
-        buttonBorderColor: Colors.yellow);
+        buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
+        buttonBorderColor: Color.fromRGBO(255, 193, 7, 1));
+
+    CustomButton btnRegister = new CustomButton(
+        onTap: () {},
+        buttonText: "Registrar",
+        buttonColor: Color.fromRGBO(255, 193, 7, 1),
+        buttonTextColor: Colors.white);
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -75,8 +81,13 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
             txtCarColor,
             txtCapacity,
             Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              //children: [btnCancel, btnCancel],
+              //crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(child: btnCancel),
+                Expanded(child: btnRegister)
+
+                //btnCancel
+              ],
             )
           ],
         )));

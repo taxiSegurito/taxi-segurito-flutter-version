@@ -26,7 +26,7 @@ class CustomButtonWithLinearBorder extends StatelessWidget {
     return new Container(
       margin:
           new EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
-      width: 10,
+      //width: width,
       height: 40.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
