@@ -1,43 +1,110 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
-  final String hint;
-  final TextEditingController valueController = TextEditingController();
+class CustomTextField extends StatefulWidget {
+  String hint;
+  String? value;
   double marginLeft;
   double marginRight;
   double marginBotton;
   double marginTop;
-
+  bool isValidEmail, isValidName, isValidPassword, isNotNull, isValidPhone;
+  double heightNum;
+  _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
   CustomTextField(
       {Key? key,
-      required this.hint,
+      this.hint = "Campo de text",
       this.marginLeft = 50,
       this.marginRight = 50,
       this.marginTop = 5,
-      this.marginBotton = 5})
+      this.marginBotton = 5,
+      this.heightNum = 35,
+      this.isValidEmail = false,
+      this.isValidName = false,
+      this.isValidPassword = false,
+      this.isNotNull = false,
+      this.isValidPhone = false})
       : super(key: key);
+
+  @override
+  State<CustomTextField> createState() {
+    return _customTextFieldState;
+  }
+
+  String getValue() {
+    return value = _customTextFieldState.getValue();
+  }
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  final TextEditingController valueController = TextEditingController();
 
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    changeHeightTextField(double num) {
+      setState(() {
+        widget.heightNum = num;
+      });
+    }
+
+    changeHintTextField(String text) {
+      setState(() {
+        widget.hint = text;
+      });
+    }
+
     return new Container(
       margin: new EdgeInsets.only(
-          top: marginTop,
-          bottom: marginBotton,
-          left: marginLeft,
-          right: marginRight),
+          top: widget.marginTop,
+          bottom: widget.marginBotton,
+          left: widget.marginLeft,
+          right: widget.marginRight),
       width: width,
-      height: 40,
+      height: widget.heightNum,
       alignment: Alignment.bottomCenter,
-      //color: Colors.red,
-      child: new TextField(
+      child: new TextFormField(
+          validator: (value) {
+            if (value!.isEmpty) {
+              changeHeightTextField(60);
+              return 'Campo vacio';
+            }
+
+            if (widget.isValidPassword) {
+              if (!value.isValidPassword) {
+                changeHeightTextField(60);
+                return 'Ingrese contraseña con Mayuscula Números gestos';
+              }
+            }
+
+            if (widget.isValidPhone) {
+              if (!value.isValidPhone) {
+                changeHeightTextField(60);
+                return 'Ingrese número de celular';
+              }
+            }
+
+            if (widget.isValidEmail) {
+              if (!value.isValidEmail) {
+                changeHeightTextField(60);
+                return 'Ingrese correctamente su Email';
+              }
+            }
+
+            if (widget.isValidName) {
+              if (!value.isValidName) {
+                changeHeightTextField(60);
+                return 'Ingrese correctamente su Nombre';
+              }
+            }
+
+            changeHeightTextField(60);
+          },
           textAlignVertical: TextAlignVertical.center,
           controller: valueController,
-          //style: TextStyle(height: 0.5, color: Colors.green),
           textAlign: TextAlign.start,
+          style: TextStyle(fontSize: 13),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(10),
-            hintText: hint,
+            hintText: widget.hint,
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
               borderSide: BorderSide(width: 2, color: Colors.grey),
@@ -52,5 +119,38 @@ class CustomTextField extends StatelessWidget {
 
   String getValue() {
     return valueController.text;
+  }
+}
+
+extension extString on String {
+  bool get isValidEmail {
+    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    return emailRegExp.hasMatch(this);
+  }
+
+  bool get isValidName {
+    final nameRegExp =
+        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    return nameRegExp.hasMatch(this);
+  }
+
+  bool get isValidPassword {
+    final passwordRegExp =
+        new RegExp(r'^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[!@#\$&*~]).{8,}$');
+    return passwordRegExp.hasMatch(this);
+  }
+
+  bool get isNotNull {
+    return this != null;
+  }
+
+  bool get isValidPhone {
+    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    return phoneRegExp.hasMatch(this);
+  }
+
+  bool get isValidDate {
+    final dateRegExp = RegExp(r'(\d{4}-?\d\d-?\d\d(\s|T)\d\d:?\d\d:?\d\d)');
+    return dateRegExp.hasMatch(this);
   }
 }
