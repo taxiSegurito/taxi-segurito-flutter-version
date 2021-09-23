@@ -2,21 +2,23 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class CustomButton extends StatelessWidget {
+class CustomButtonWithLinearBorder extends StatelessWidget {
   final VoidCallback onTap;
   final String buttonText;
   final Color buttonColor;
+  final Color buttonBorderColor;
   final Color buttonTextColor;
   double marginLeft;
   double marginRight;
   double marginBotton;
   double marginTop;
-  CustomButton(
+  CustomButtonWithLinearBorder(
       {Key? key,
       required this.onTap,
       required this.buttonText,
       required this.buttonColor,
       required this.buttonTextColor,
+      required this.buttonBorderColor,
       this.marginLeft = 50,
       this.marginRight = 50,
       this.marginTop = 10,
@@ -35,18 +37,20 @@ class CustomButton extends StatelessWidget {
           bottom: marginBotton,
           left: marginLeft,
           right: marginRight),
-      width: width,
+      //width: width,
       height: 40.0,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black26,
-                offset: Offset(2, 2),
-                blurRadius: 6,
-                spreadRadius: 0)
-          ],
-          color: Colors.white),
+        borderRadius: BorderRadius.all(
+          Radius.circular(8),
+        ),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black26,
+              offset: Offset(2, 2),
+              blurRadius: 6,
+              spreadRadius: 0)
+        ],
+      ),
       child: ElevatedButton(
         onPressed: () {
           onTap();
@@ -63,7 +67,12 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: buttonColor,
           fixedSize: Size(300, 100),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: BorderSide(
+              color: buttonBorderColor,
+            ),
+          ),
         ),
       ),
     );
