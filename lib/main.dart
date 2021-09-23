@@ -17,7 +17,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
     return MaterialApp(
       title: "Taxi Segurito",
       debugShowCheckedModeBanner: false,
-      initialRoute: 'registration',
+      initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
