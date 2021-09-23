@@ -1,0 +1,40 @@
+{
+    "project_info": {
+        "project_number": "170951587185",
+        "project_id": "taxiseguritoapp",
+        "storage_bucket": "taxiseguritoapp.appspot.com"
+    },
+    "client": [{
+        "client_info": {
+            "mobilesdk_app_id": "1:170951587185:android:8338f017e7eb05f657b2d0",
+            "android_client_info": {
+                "package_name": "com.example.taxi_segurito_app"
+            }
+        },
+        "oauth_client": [{
+                "client_id": "170951587185-h5l4nnekbr4udqnb4he6nds5k05gg1p1.apps.googleusercontent.com",
+                "client_type": 1,
+                "android_info": {
+                    "package_name": "com.example.taxi_segurito_app",
+                    "certificate_hash": "afc001b534471cae203fe70676dd66c31b5c3860"
+                }
+            },
+            {
+                "client_id": "170951587185-nuqb5t68lcf97vh860nvoottj4opaqar.apps.googleusercontent.com",
+                "client_type": 3
+            }
+        ],
+        "api_key": [{
+            "current_key": "AIzaSyDNIG1ZEAGVnyD5fQCtHUvrLFmahS4UE68"
+        }],
+        "services": {
+            "appinvite_service": {
+                "other_platform_oauth_client": [{
+                    "client_id": "170951587185-nuqb5t68lcf97vh860nvoottj4opaqar.apps.googleusercontent.com",
+                    "client_type": 3
+                }]
+            }
+        }
+    }],
+    "configuration_version": "1"
+}
