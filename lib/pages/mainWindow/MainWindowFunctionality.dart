@@ -1,11 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter_qr_bar_scanner/flutter_qr_bar_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
+import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
 import 'package:taxi_segurito_app/utils/login_google_utils.dart';
-
 import 'MainWindow.dart';
 import 'package:flutter/material.dart';
 
@@ -44,6 +43,11 @@ class MainWindowFunctionality {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.yellow);
+    LoginFacebookUtils().LoginWithFacebook().then((value) {
+      if (value == true) {
+        Navigator.pushNamed(context, 'loginUser');
+      }
+    });
   }
 
   //evento click del boton de inicio sin sesion o escanear QR
