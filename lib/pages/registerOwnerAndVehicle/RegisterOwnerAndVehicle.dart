@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicleFunctionality.dart';
 import 'package:taxi_segurito_app/providers/imageAccessProvider.dart';
@@ -17,7 +18,13 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
+    Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     RegisterOwnerAndVehicleFunctionality registerOwnerAndVehicleFunctionality;
+
+    closeNavigator(BuildContext context) {
+      Navigator.of(context).pop();
+    }
+
     Text title = new Text(
       "Registrar Vehiculo",
       style: const TextStyle(
@@ -56,6 +63,16 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     );
     CustomTextField txtCapacity = new CustomTextField(hint: "Capacidad");
 
+    CustomDialogShow customDialogShow = new CustomDialogShow(
+        buttonText: "Aceptar",
+        ontap: () {
+          closeNavigator(context);
+        },
+        context: context,
+        buttonColor: colorMain,
+        buttonColorText: Colors.white,
+        titleShowDialog: "Registro Exitoso!");
+
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {},
       buttonText: "Cancelar",
@@ -84,6 +101,7 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                   txtCapacity.getValue());
           registerOwnerAndVehicleFunctionality.onPressedbtnRegisterCar();
         }
+        customDialogShow.getShowDialog();
       },
       buttonText: "Registrar",
       buttonColor: Color.fromRGBO(255, 193, 7, 1),

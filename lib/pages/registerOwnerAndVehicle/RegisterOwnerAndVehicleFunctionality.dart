@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterOwnerAndVehicleFunctionality {
   BuildContext context;
@@ -26,6 +27,7 @@ class RegisterOwnerAndVehicleFunctionality {
       this.capacity);
 
   onPressedbtnRegisterCar() {
+    agregarUsuario();
     Fluttertoast.showToast(
         msg: dni,
         toastLength: Toast.LENGTH_SHORT,
@@ -35,4 +37,18 @@ class RegisterOwnerAndVehicleFunctionality {
   }
 
   onPressedbtnCancelRegisterCar() {}
+
+  void agregarUsuario() {
+    var url = "http://192.168.1.9/pruebas/agregardueño.php";
+    http.post(Uri.parse(url), body: {
+      "fullName": nameUser,
+      "carnet": dni,
+      "nacionality": ownerNationality,
+      "phoneNumber": phone,
+      "model": model,
+      "plaqueNumber": numberPlate,
+      "color": carColor,
+      "capacity": capacity
+    });
+  }
 }

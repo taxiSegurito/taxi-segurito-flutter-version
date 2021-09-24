@@ -21,8 +21,9 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'registerOwnerAndVehicle': (BuildContext contextFirstScreen) =>
-            RegisterOwnerAndVehicle(),
+        'registerOwnerAndVehicle':
+            (BuildContext contextRegisterOwnerAndVehicle) =>
+                RegisterOwnerAndVehicle(),
       },
     );
   }

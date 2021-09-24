@@ -38,7 +38,7 @@ class CustomButton extends StatelessWidget {
       width: width,
       height: 40.0,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
                 color: Colors.black26,
@@ -63,7 +63,8 @@ class CustomButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           primary: buttonColor,
           fixedSize: Size(300, 100),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       ),
     );

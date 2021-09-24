@@ -76,9 +76,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
             }
 
             if (widget.isValidPhone) {
-              if (!value.isValidPhone) {
-                changeHeightTextField(60);
-                return 'Ingrese número de celular';
+              if (value.isValidPhone) {
+                if (value.isValidName) {
+                  changeHeightTextField(60);
+
+                  return 'Ingrese numeros correctos del celular';
+                } else {
+                  return null;
+                }
+              } else {
+                return 'Ingrese contraseña con Mayuscula Numeros gestos';
               }
             }
 
@@ -90,11 +97,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
             }
 
             if (widget.isValidName) {
-              if (!value.isValidName) {
-                changeHeightTextField(60);
-                return 'Ingrese correctamente su Nombre';
+              if (value.isValidName) {
+                if (value.isValidPhone) {
+                  changeHeightTextField(60);
+
+                  return 'Ingrese numeros correctos del celular';
+                } else {
+                  return null;
+                }
+              } else {
+                return 'Ingrese nombdfsag';
               }
             }
+
+            changeHeightTextField(60);
 
             changeHeightTextField(60);
           },
@@ -129,8 +145,8 @@ extension extString on String {
   }
 
   bool get isValidName {
-    final nameRegExp =
-        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    final nameRegExp = new RegExp(r'[a-z]');
+
     return nameRegExp.hasMatch(this);
   }
 
@@ -145,7 +161,8 @@ extension extString on String {
   }
 
   bool get isValidPhone {
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    final phoneRegExp = RegExp(r'[0-9]');
+
     return phoneRegExp.hasMatch(this);
   }
 
