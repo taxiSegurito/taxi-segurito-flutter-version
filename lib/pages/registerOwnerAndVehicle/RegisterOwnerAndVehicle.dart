@@ -7,6 +7,7 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
+import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicleFunctionality.dart';
 import 'package:taxi_segurito_app/providers/imageAccessProvider.dart';
 
@@ -114,11 +115,11 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
-        _openGallery();
-        /*
+        //_openGallery();
+
         imageAccessProvider.openGalery().then((_) {
           updateImage();
-        });*/
+        });
       },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
@@ -160,6 +161,16 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: colorMain,
+
+          elevation: 0, //Cambie el color del appBar
+          title: Text(
+            'Registro de dueño',
+            textAlign: TextAlign.left,
+          ),
+        ),
+        drawer: SideMenu(),
         body: SingleChildScrollView(
             child: Form(
                 key: _formKey,
