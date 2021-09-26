@@ -84,8 +84,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 } else {
                   return null;
                 }
-              } else {
-                return 'Ingrese contraseña con Mayuscula Numeros gestos';
               }
             }
 
@@ -105,13 +103,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 } else {
                   return null;
                 }
-              } else {
-                return 'Ingrese nombdfsag';
               }
             }
-
-            changeHeightTextField(60);
-
             changeHeightTextField(60);
           },
           textAlignVertical: TextAlignVertical.center,

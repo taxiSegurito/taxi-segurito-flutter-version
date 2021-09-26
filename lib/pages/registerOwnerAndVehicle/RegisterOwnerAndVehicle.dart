@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
@@ -37,6 +41,25 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
       height: 150,
       width: 150,
     );
+    File? imageFile;
+
+    void _openGallery() async {
+      var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
+      setState(() {
+        imageFile = File(picture!.path);
+
+        //imageAuto = Image.file(imageFile!);
+      });
+      //Navigator.of(context).pop();
+    }
+
+    Widget _setImageView() {
+      if (imageFile != null) {
+        return Image.file(imageFile!, width: 400, height: 400);
+      } else {
+        return Text("No Image Selected");
+      }
+    }
 
     ImageAccessProvider imageAccessProvider =
         new ImageAccessProvider(context: context);
@@ -73,8 +96,30 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
         buttonColorText: Colors.white,
         titleShowDialog: "Registro Exitoso!");
 
+    updateImage() {
+      setState(() {
+        imageAuto = Image.file(
+          imageAccessProvider.getImage(),
+          width: 100,
+          height: 100,
+        );
+        Fluttertoast.showToast(
+            msg: "Funcioona",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.yellow);
+      });
+    }
+
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {},
+      onTap: () {
+        _openGallery();
+        /*
+        imageAccessProvider.openGalery().then((_) {
+          updateImage();
+        });*/
+      },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
       buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
@@ -122,6 +167,7 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    _setImageView(),
                     Container(
                         alignment: Alignment.centerLeft,
                         margin: new EdgeInsets.only(
@@ -139,20 +185,14 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                         child: Center(
                           child: FloatingActionButton(
                             backgroundColor: Colors.transparent,
-                            onPressed: () {
-                              imageAccessProvider.openGalery().then((_) {
-                                setState(() {
-                                  imageAuto = Image.file(
-                                      imageAccessProvider.getImage());
-                                });
-                              });
-                            },
+                            onPressed: () {},
                             child: Icon(
                               Icons.camera_alt,
                               color: Colors.black,
                             ),
                           ),
                         )),
+                    imageAuto,
                     txtNameOwner,
                     txtDni,
                     txtNacinonalityOwner,
