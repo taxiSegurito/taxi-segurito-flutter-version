@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImageAccessProvider {
-  File imagen = File("lib/components/assets/images/auto.png");
+  File? imagen;
   final picker = ImagePicker();
 
   ImageAccessProvider({
@@ -11,7 +11,7 @@ class ImageAccessProvider {
   });
 
   File getImage() {
-    return imagen;
+    return imagen!;
   }
 
   Future openGalery() async {

@@ -26,7 +26,10 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     RegisterOwnerAndVehicleFunctionality registerOwnerAndVehicleFunctionality;
-    ImagesFile imageCar = new ImagesFile();
+
+    ImagesFile imageCar = new ImagesFile(
+      imageUser: true,
+    );
 
     closeNavigator(BuildContext context) {
       Navigator.of(context).pop();
@@ -38,64 +41,6 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.right,
     );
-
-    Image imageAuto = new Image.asset(
-      "lib/components/assets/images/auto.png",
-      height: 150,
-      width: 150,
-    );
-    File? imagen;
-    final picker = ImagePicker();
-
-    /* void _openGallery() async {
-      var picture = await ImagePicker().pickImage(source: ImageSource.gallery);
-      setState(() {
-        imageFile = File(picture!.path);
-
-        //imageAuto = Image.file(imageFile!);
-      });
-      //Navigator.of(context).pop();
-    }*/
-
-    Future selImagen(int i) async {
-      var pickedFile;
-      if (i == 1) {
-        pickedFile = await picker.pickImage(source: ImageSource.camera);
-      } else {
-        pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      }
-
-      setState(() {
-        if (pickedFile != null) {
-          imagen = File(pickedFile.path);
-          Fluttertoast.showToast(
-              msg: "si hay foto",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.red,
-              textColor: Colors.yellow);
-          colorMain = Colors.red;
-        } else {
-          Fluttertoast.showToast(
-              msg: "no hay foto",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.red,
-              textColor: Colors.yellow);
-        }
-      });
-    }
-
-    /* Widget _setImageView() {
-      if (imageFile != null) {
-        return Image.file(imageFile!, width: 400, height: 400);
-      } else {
-        return Text("No Image Selected");
-      }
-    }*/
-
-    ImageAccessProvider imageAccessProvider =
-        new ImageAccessProvider(context: context);
 
     CustomTextField txtNameOwner = new CustomTextField(
       hint: "Nombres",
@@ -129,26 +74,8 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
         buttonColorText: Colors.white,
         titleShowDialog: "Registro Exitoso!");
 
-    /* updateImage() {
-      setState(() {
-        imageAuto = Image.file(
-          imageAccessProvider.getImage(),
-          width: 100,
-          height: 100,
-        );
-        Fluttertoast.showToast(
-            msg: "Funcioona",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-            textColor: Colors.yellow);
-      });
-    }*/
-
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {
-        // imageCar.openGalery();
-      },
+      onTap: () {},
       buttonText: "Cancelar",
       buttonColor: Colors.white,
       buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
@@ -185,14 +112,14 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
       marginRight: 0,
       marginTop: 0,
     );
+    FileImage s = imageCar as FileImage;
 
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: colorMain,
-
-          elevation: 0, //Cambie el color del appBar
+          elevation: 0,
           title: Text(
             'Registro de dueño',
             textAlign: TextAlign.left,
@@ -206,7 +133,6 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    //_setImageView(),
                     Container(
                         alignment: Alignment.centerLeft,
                         margin: new EdgeInsets.only(
@@ -215,17 +141,13 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                     Container(
                         width: 250,
                         height: 125,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageAuto.image,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                        decoration:
+                            BoxDecoration(image: DecorationImage(image: s)),
                         child: Center(
                           child: FloatingActionButton(
                             backgroundColor: Colors.transparent,
                             onPressed: () {
-                              // imageCar.openGalery();
+                              imageCar.openGalery();
                             },
                             child: Icon(
                               Icons.camera_alt,
@@ -233,11 +155,6 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                             ),
                           ),
                         )),
-                    imagen == null
-                        ? Center(
-                            child: Text("no hay nada"),
-                          )
-                        : Image.file(imagen!),
                     imageCar,
                     txtNameOwner,
                     txtDni,

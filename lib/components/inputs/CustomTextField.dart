@@ -46,12 +46,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       });
     }
 
-    changeHintTextField(String text) {
-      setState(() {
-        widget.hint = text;
-      });
-    }
-
     return new Container(
       margin: new EdgeInsets.only(
           top: widget.marginTop,
