@@ -7,7 +7,15 @@ class CustomTextField extends StatefulWidget {
   double marginRight;
   double marginBotton;
   double marginTop;
-  bool isValidEmail, isValidName, isValidPassword, isNotNull, isValidPhone;
+  bool isValidEmail,
+      isValidName,
+      isValidPassword,
+      isNotNull,
+      isValidPhone,
+      isValidLastName,
+      isValidSecondLastName,
+      isValidNationality,
+      isValidCI;
   double heightNum;
   _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
   CustomTextField(
@@ -22,7 +30,11 @@ class CustomTextField extends StatefulWidget {
       this.isValidName = false,
       this.isValidPassword = false,
       this.isNotNull = false,
-      this.isValidPhone = false})
+      this.isValidPhone = false,
+      this.isValidLastName = false,
+      this.isValidSecondLastName = false,
+      this.isValidNationality = false,
+      this.isValidCI = false})
       : super(key: key);
 
   @override
@@ -62,6 +74,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       height: widget.heightNum,
       alignment: Alignment.bottomCenter,
       child: new TextFormField(
+          textCapitalization: TextCapitalization.sentences,
           validator: (value) {
             if (value!.isEmpty) {
               changeHeightTextField(60);
@@ -76,9 +89,26 @@ class _CustomTextFieldState extends State<CustomTextField> {
             }
 
             if (widget.isValidPhone) {
-              if (!value.isValidPhone) {
-                changeHeightTextField(60);
-                return 'Ingrese número de celular';
+              if (value.isValidPhone) {
+                if (value.isValidName) {
+                  changeHeightTextField(60);
+
+                  return 'Ingrese numeros correctos del celular';
+                } else {
+                  return null;
+                }
+              }
+            }
+
+            if (widget.isValidCI) {
+              if (value.isValidCI) {
+                if (value.isValidName) {
+                  changeHeightTextField(60);
+
+                  return 'No se permiten letras en este campo';
+                } else {
+                  return null;
+                }
               }
             }
 
@@ -90,13 +120,46 @@ class _CustomTextFieldState extends State<CustomTextField> {
             }
 
             if (widget.isValidName) {
-              if (!value.isValidName) {
-                changeHeightTextField(60);
-                return 'Ingrese correctamente su Nombre';
+              if (value.isValidName) {
+                if (value.isValidPhone) {
+                  changeHeightTextField(60);
+                  return 'No puede ingresar numeros en su nombre';
+                } else {
+                  return null;
+                }
               }
             }
 
-            changeHeightTextField(60);
+            if (widget.isValidLastName) {
+              if (value.isValidLastName) {
+                if (value.isValidPhone) {
+                  changeHeightTextField(60);
+                  return 'No puede ingresar numeros en su primer apellido';
+                } else {
+                  return null;
+                }
+              }
+            }
+
+            if (widget.isValidNationality) {
+              if (value.isValidNationality) {
+                if (value.isValidPhone) {
+                  changeHeightTextField(60);
+                  return 'No puede ingresar numeros en su nacionalidad';
+                } else {
+                  return null;
+                }
+              }
+            }
+
+            if (widget.isValidSecondLastName) {
+              if (!value.isValidSecondLastName) {
+                changeHeightTextField(60);
+                return 'No puede ingresar numeros en su segundo apellido';
+              }
+            }
+
+            //changeHeightTextField(60);
           },
           textAlignVertical: TextAlignVertical.center,
           controller: valueController,
@@ -129,8 +192,7 @@ extension extString on String {
   }
 
   bool get isValidName {
-    final nameRegExp =
-        new RegExp(r"^\s*([A-Za-z]{1,}([\.,] |[-']| ))+[A-Za-z]+\.?\s*$");
+    final nameRegExp = new RegExp(r'[a-z]');
     return nameRegExp.hasMatch(this);
   }
 
@@ -145,12 +207,32 @@ extension extString on String {
   }
 
   bool get isValidPhone {
-    final phoneRegExp = RegExp(r"^\+?0[0-9]{10}$");
+    final phoneRegExp = RegExp((r'[0-9]'));
     return phoneRegExp.hasMatch(this);
   }
 
   bool get isValidDate {
     final dateRegExp = RegExp(r'(\d{4}-?\d\d-?\d\d(\s|T)\d\d:?\d\d:?\d\d)');
     return dateRegExp.hasMatch(this);
+  }
+
+  bool get isValidLastName {
+    final nameRegExp = new RegExp(r'[a-z]');
+    return nameRegExp.hasMatch(this);
+  }
+
+  bool get isValidSecondLastName {
+    final nameRegExp = new RegExp(r'[a-z]');
+    return nameRegExp.hasMatch(this);
+  }
+
+  bool get isValidNationality {
+    final nameRegExp = new RegExp(r'[a-z]');
+    return nameRegExp.hasMatch(this);
+  }
+
+  bool get isValidCI {
+    final phoneRegExp = RegExp((r'[0-9]'));
+    return phoneRegExp.hasMatch(this);
   }
 }

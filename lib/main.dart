@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() => runApp(AppTaxiSegurito());
 
@@ -15,15 +16,23 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Taxi Segurito",
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'firstScreen',
-      routes: {
-        'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'registration': (BuildContext contextRegistration) =>
-            DriverRegistration()
-      },
-    );
+        title: "Taxi Segurito",
+        debugShowCheckedModeBanner: false,
+        initialRoute: 'registration',
+        routes: {
+          'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
+          'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
+          'registration': (BuildContext contextRegistration) =>
+              DriverRegistration()
+        },
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en', 'US'),
+          Locale('es', 'ES'),
+        ]);
   }
 }
