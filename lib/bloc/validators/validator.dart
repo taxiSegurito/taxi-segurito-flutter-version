@@ -1,7 +1,7 @@
 import 'dart:async';
 
 class Validators {
-  final validateUsername =
+  final validateEmail =
       StreamTransformer<String, String>.fromHandlers(handleData: (email, sink) {
     if (email.length > 6) {
       sink.add(email);

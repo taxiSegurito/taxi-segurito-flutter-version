@@ -3,22 +3,22 @@ import 'package:rxdart/rxdart.dart';
 import 'package:taxi_segurito_app/bloc/validators/validator.dart';
 
 class Validator with Validators {
-  final usernameController = BehaviorSubject<String>();
+  final emailController = BehaviorSubject<String>();
   final passwordController = BehaviorSubject<String>();
 
   Stream<String> get username =>
-      usernameController.stream.transform(validateUsername);
+      emailController.stream.transform(validateEmail);
   Stream<String> get password =>
       passwordController.stream.transform(validatePassword);
 
   Stream<bool> get submitValid =>
       CombineLatestStream.combine2(username, password, (a, b) => true);
 
-  Function(String) get changeEmail => usernameController.sink.add;
+  Function(String) get changeEmail => emailController.sink.add;
   Function(String) get changePassword => passwordController.sink.add;
 
   disponse() {
-    usernameController.close();
+    emailController.close();
     passwordController.close();
   }
 }

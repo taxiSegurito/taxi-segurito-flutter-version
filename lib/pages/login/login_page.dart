@@ -78,7 +78,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                         stream: validator.username,
                         builder: (context, snapshot) {
                           return TextField(
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.emailAddress,
                             textAlign: TextAlign.center,
                             decoration: InputDecoration(
                                 hintText: "Ingrese su celular o e-mail",
@@ -129,12 +129,11 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                 return new CustomButton(
                                   onTap: snapshot.hasData
                                       ? () async {
-                                          User us = User(
-                                              validator
-                                                  .usernameController.value,
+                                          User user = User(
+                                              validator.emailController.value,
                                               validator
                                                   .passwordController.value);
-                                          final result = await login(us);
+                                          final result = await login(user);
                                           if (result) {
                                             GlobalToast.displayToast(
                                                 Text("Bienvenido"),
