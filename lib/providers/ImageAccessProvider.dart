@@ -4,14 +4,10 @@ import 'package:image_picker/image_picker.dart';
 
 class ImageAccessProvider {
   File imagen = File("lib/components/assets/images/auto.png");
-
   final picker = ImagePicker();
-
-  BuildContext context;
 
   ImageAccessProvider({
     Key? key,
-    required this.context,
   });
 
   File getImage() {
