@@ -73,7 +73,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               if (value.isValidPhone) {
                 if (value.isValidName) {
                   changeHeightTextField(60);
-
                   return 'Ingrese numeros correctos del celular';
                 } else {
                   return null;
@@ -89,22 +88,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
             }
 
             if (widget.isValidName) {
-              if (value.isValidName) {
-                if (value.isValidPhone) {
+              if (value.isValidPhone) {
+                if (!value.isValidName) {
                   changeHeightTextField(60);
-
-                  return 'Ingrese numeros correctos del celular';
-                } else {
-                  return null;
+                  return 'No se permiten numeros';
                 }
               }
             }
-            changeHeightTextField(60);
+            changeHeightTextField(35);
           },
           textAlignVertical: TextAlignVertical.center,
           controller: valueController,
           textAlign: TextAlign.start,
-          style: TextStyle(fontSize: 13),
+          style: TextStyle(fontSize: 13, color: Colors.black),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(10),
             hintText: widget.hint,

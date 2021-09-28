@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
+import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
 
@@ -10,26 +11,22 @@ import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicleFunctionality.dart';
 
-class RegisterOwnerAndVehicle extends StatefulWidget {
-  RegisterOwnerAndVehicle({Key? key}) : super(key: key);
+class RegisterVehicle extends StatefulWidget {
+  RegisterVehicle({Key? key}) : super(key: key);
 
   @override
-  _RegisterOwnerAndVehicleState createState() =>
-      _RegisterOwnerAndVehicleState();
+  _RegisterVehicleState createState() => _RegisterVehicleState();
 }
 
-class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
+class _RegisterVehicleState extends State<RegisterVehicle> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     RegisterOwnerAndVehicleFunctionality registerOwnerAndVehicleFunctionality;
-    //CustomDropDowMenu ddmEmpresa = new CustomDropDowMenu();
-    ImagesFile imageCar = new ImagesFile();
-    var listItem = ["item1", "item2"];
-    CustomDropdownButton customDropdownButton = new CustomDropdownButton(
-      listItem: listItem,
-      hint: "Nombre Empresa",
+
+    ImagesFile imageCar = new ImagesFile(
+      isImageCarDefault: true,
     );
 
     closeNavigator(BuildContext context) {
@@ -37,40 +34,23 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     }
 
     Text title = new Text(
-      "Registrar Vehiculo",
+      "Registro de Vehiculo",
       style: const TextStyle(
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
-      textAlign: TextAlign.right,
+      textAlign: TextAlign.center,
     );
-
-    CustomTextField txtNameOwner = new CustomTextField(
-      hint: "Nombres",
-      isValidName: true,
+    CustomTextFieldSearch txtSearch = new CustomTextFieldSearch(
+      hint: "Buscar",
     );
-
-    CustomTextField txtDni =
-        new CustomTextField(hint: "Documento de identidad");
-
-    CustomTextField txtNacinonalityOwner = new CustomTextField(
-      hint: "Nacionalidad del dueño",
-      isValidName: true,
-    );
-
-    CustomTextField txtPhone = new CustomTextField(
-      hint: "Telefono",
-      isValidPhone: true,
-    );
-
-    CustomTextField txtModelCar = new CustomTextField(hint: "Modelo");
-
-    CustomTextField txtNumberPlate = new CustomTextField(hint: "N° de Placa");
 
     CustomTextField txtCarColor = new CustomTextField(
       hint: "Color",
       isValidName: true,
     );
-
     CustomTextField txtCapacity = new CustomTextField(hint: "Capacidad");
+    CustomTextField txtModelCar = new CustomTextField(hint: "Modelo");
+
+    CustomTextField txtNumberPlate = new CustomTextField(hint: "N° de Placa");
 
     CustomDialogShow customDialogShow = new CustomDialogShow(
         buttonText: "Aceptar",
@@ -96,26 +76,13 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
 
     CustomButton btnRegister = new CustomButton(
       onTap: () {
-        bool j = customDropdownButton.getIsValid();
-        Fluttertoast.showToast(
-            msg: j.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-            textColor: Colors.yellow);
         if (_formKey.currentState!.validate()) {
-          registerOwnerAndVehicleFunctionality =
-              new RegisterOwnerAndVehicleFunctionality(
-                  context,
-                  txtNameOwner.getValue(),
-                  txtDni.getValue(),
-                  txtNacinonalityOwner.getValue(),
-                  txtPhone.getValue(),
-                  txtModelCar.getValue(),
-                  txtNumberPlate.getValue(),
-                  txtCarColor.getValue(),
-                  txtCapacity.getValue());
-          registerOwnerAndVehicleFunctionality.onPressedbtnRegisterCar();
+          Fluttertoast.showToast(
+              msg: "Funciona",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.red,
+              textColor: Colors.yellow);
         }
         // customDialogShow.getShowDialog();
       },
@@ -131,14 +98,10 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     AppBar appBar = new AppBar(
       backgroundColor: colorMain,
       elevation: 0,
-      title: Text(
-        'Registro de dueño',
-        textAlign: TextAlign.center,
-      ),
     );
 
     Container containerTitle = new Container(
-        alignment: Alignment.centerLeft,
+        alignment: Alignment.center,
         margin: new EdgeInsets.only(
             top: 20.0, bottom: 10.0, left: 35.0, right: 35.0),
         child: title);
@@ -167,17 +130,52 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     containerTitle,
+                    txtSearch,
                     imageCar,
-                    customDropdownButton,
-                    txtNameOwner,
-                    txtDni,
-                    txtNacinonalityOwner,
-                    txtPhone,
                     txtModelCar,
                     txtNumberPlate,
                     txtCarColor,
                     txtCapacity,
                     containerButtons,
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey.withOpacity(0.5),
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                      margin: EdgeInsets.all(12),
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: EdgeInsets.only(left: 8),
+                            child: Icon(
+                              Icons.search,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                          ),
+                          new Expanded(
+                            child: TextField(
+                              keyboardType: TextInputType.text,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Search by Name",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                contentPadding: EdgeInsets.symmetric(
+                                    vertical: 8, horizontal: 8),
+                                isDense: true,
+                              ),
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                color: Colors.black,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ))));
   }
