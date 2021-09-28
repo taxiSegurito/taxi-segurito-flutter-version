@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogMenu.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
@@ -62,8 +63,29 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
         buttonColorText: Colors.white,
         titleShowDialog: "Registro Exitoso!");
 
+    onPressedbtnTwo() {}
+    onPressedbtnOne() {}
+    onPressedbtnThree() {}
+
+    CustomShowDialogMenu showMenu = new CustomShowDialogMenu(
+        context: context,
+        titleShowDialog: "¿Que deseas registrar?",
+        ontapButtonOne: () {
+          onPressedbtnOne();
+          Navigator.of(context).pop();
+        },
+        buttonOneText: "Registrar Vehiculo",
+        ontapButtonTwo: onPressedbtnTwo,
+        buttonTwoText: "Registrar Empresa",
+        buttonTwoColor: Colors.white,
+        buttonTextTwoColor: Colors.black,
+        ontapButtonThree: onPressedbtnThree,
+        buttonThreeText: "Registrar Dueño");
+
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {},
+      onTap: () {
+        showMenu.showAlertDialog();
+      },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
       buttonTextColor: Color.fromRGBO(255, 193, 7, 1),

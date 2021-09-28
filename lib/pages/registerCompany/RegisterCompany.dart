@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
+import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyFunctionality.dart';
 
 class RegisterCompany extends StatefulWidget {
   RegisterCompany({Key? key}) : super(key: key);
@@ -14,7 +18,11 @@ class RegisterCompany extends StatefulWidget {
 class _RegisterCompanyState extends State<RegisterCompany> {
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
+    RegisterCompanyFunctionality registerCompanyFunctionality =
+        new RegisterCompanyFunctionality(context: context);
+
     Text title = new Text(
       "Registro de Empresa",
       style: const TextStyle(
@@ -24,27 +32,59 @@ class _RegisterCompanyState extends State<RegisterCompany> {
 
     CustomTextField txtNameCompany = new CustomTextField(
       hint: "Nombre Compania",
+      isValidName: true,
     );
 
     CustomTextField txtNit = new CustomTextField(
       hint: "Nit de la empresa",
+      isValidName: true,
     );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {},
+      onTap: () {
+        registerCompanyFunctionality.onPressedBtnCancel();
+      },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
-      buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
-      buttonBorderColor: Color.fromRGBO(255, 193, 7, 1),
+      buttonTextColor: colorMain,
+      buttonBorderColor: colorMain,
       marginBotton: 0,
       marginLeft: 0,
       marginRight: 5,
       marginTop: 0,
     );
 
+    CustomDialogShow dialogShowRegister = new CustomDialogShow(
+        ontap: () {
+          registerCompanyFunctionality.closeNavigator();
+        },
+        buttonText: "Aceptar",
+        buttonColor: colorMain,
+        buttonColorText: Colors.white,
+        titleShowDialog: "Registro Exitoso!",
+        context: context);
+
+    activeShowDialog() {
+      dialogShowRegister.getShowDialog();
+    }
+
+    bool registerDataCompany() {
+      if (_formKey.currentState!.validate()) {
+        registerCompanyFunctionality = new RegisterCompanyFunctionality(
+            nameCompany: txtNameCompany.getValue(),
+            nit: txtNit.getValue(),
+            context: context,
+            activeShowDialog: activeShowDialog);
+        return true;
+      }
+      return false;
+    }
+
     CustomButton btnRegister = new CustomButton(
       onTap: () {
-        // customDialogShow.getShowDialog();
+        if (registerDataCompany()) {
+          registerCompanyFunctionality.onPressedBtnRegister();
+        }
       },
       buttonText: "Registrar",
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
@@ -87,21 +127,28 @@ class _RegisterCompanyState extends State<RegisterCompany> {
       appBar: appBar,
       drawer: SideMenu(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
               flex: 2,
-              //color: Colors.red,
-              child: containerTitle),
-          Expanded(
-            flex: 2,
-            //color: Colors.green,
-            child: Column(
-              children: [txtNameCompany, txtNit, containerButtons],
-            ),
-          )
+              child: Container(
+                  alignment: Alignment.center,
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        containerTitle,
+                        txtNameCompany,
+                        txtNit,
+                        containerButtons
+                      ],
+                    ),
+                  )))
         ],
       ),
     );
