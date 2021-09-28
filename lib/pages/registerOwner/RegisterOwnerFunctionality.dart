@@ -5,43 +5,56 @@ import 'package:http/http.dart' as http;
 class RegisterOwnerFunctionality {
   BuildContext context;
 
-  //atributos de la clase registro
-  String nameUser;
-  String dni;
-  String ownerNationality;
-  String phone;
-  String model;
-  String numberPlate;
-  String carColor;
-  String capacity;
+  var listCompany = {"Taxi Ecoged", "Taxi segurito", "Sin Empresa"};
+  String? nameCompany;
+  String? names;
+  String? lastName;
+  String? lastNameSecond;
+  String? phone;
+  String? email;
+  String? password;
+  String? dni;
+  String? address;
+  VoidCallback? activeShowDialog;
 
   RegisterOwnerFunctionality(
-      this.context,
-      this.nameUser,
+      {required this.context,
+      this.nameCompany,
+      this.names,
+      this.lastName,
+      this.lastNameSecond,
+      this.email,
+      this.password,
+      this.address,
       this.dni,
-      this.ownerNationality,
       this.phone,
-      this.model,
-      this.numberPlate,
-      this.carColor,
-      this.capacity);
+      this.activeShowDialog});
+
+  List getListCompany() {
+    return listCompany.toList();
+  }
 
   onPressedbtnRegisterCar() {
     agregarUsuario();
     Fluttertoast.showToast(
-        msg: dni,
+        msg: nameCompany!,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.yellow);
+    activeShowDialog!();
+  }
+
+  closeNavigator() {
+    Navigator.of(context).pop();
   }
 
   onPressedbtnCancelRegisterCar() {}
 
   void agregarUsuario() {
-    var url = "http://192.168.1.9/pruebas/agregardueño.php";
+    /*var url = "http://192.168.1.9/pruebas/agregardueño.php";
     http.post(Uri.parse(url), body: {
-      "fullName": nameUser,
+      "fullName": names,
       "carnet": dni,
       "nacionality": ownerNationality,
       "phoneNumber": phone,
@@ -49,6 +62,6 @@ class RegisterOwnerFunctionality {
       "plaqueNumber": numberPlate,
       "color": carColor,
       "capacity": capacity
-    });
+    });*/
   }
 }

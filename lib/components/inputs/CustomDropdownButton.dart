@@ -28,6 +28,10 @@ class CustomDropdownButton extends StatefulWidget {
     return _customDropdownButtonState;
   }
 
+  String? getValue() {
+    return value;
+  }
+
   bool getIsValid() {
     return _customDropdownButtonState.validateDrown();
   }

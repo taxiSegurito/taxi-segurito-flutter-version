@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
+import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwnerFunctionality.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
 
@@ -22,8 +23,8 @@ class _RegisterOwnerState extends State<RegisterOwner> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
-    RegisterOwnerAndVehicleFunctionality registerOwnerAndVehicleFunctionality;
-    var listItem = ["item1", "item2"];
+    RegisterOwnerFunctionality registerOwnerFunctionality =
+        new RegisterOwnerFunctionality(context: context);
 
     closeNavigator(BuildContext context) {
       Navigator.of(context).pop();
@@ -37,7 +38,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomDropdownButton ddbNameCompany = new CustomDropdownButton(
-      listItem: listItem,
+      listItem: registerOwnerFunctionality.getListCompany(),
       hint: "Seleccione empresa",
     );
 
@@ -101,24 +102,44 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       marginTop: 0,
     );
 
+    CustomDialogShow dialogShowRegister = new CustomDialogShow(
+        ontap: () {
+          registerOwnerFunctionality.closeNavigator();
+        },
+        buttonText: "Aceptar",
+        buttonColor: colorMain,
+        buttonColorText: Colors.white,
+        titleShowDialog: "Registro Exitoso!",
+        context: context);
+    activeShowDialog() {
+      dialogShowRegister.getShowDialog();
+    }
+
+    bool registerDataOwner() {
+      bool isValidDdbNameCompany = ddbNameCompany.getIsValid();
+      if (_formKey.currentState!.validate() && isValidDdbNameCompany) {
+        registerOwnerFunctionality = new RegisterOwnerFunctionality(
+            nameCompany: ddbNameCompany.getValue(),
+            names: txtNameOwner.getValue(),
+            lastName: txtLastName.getValue(),
+            lastNameSecond: txtLastNameSecond.getValue(),
+            phone: txtPhone.getValue(),
+            email: txtEmail.getValue(),
+            password: txtPassword.getValue(),
+            dni: txtDni.getValue(),
+            address: txtAddress.getValue(),
+            context: context,
+            activeShowDialog: activeShowDialog);
+        return true;
+      }
+      return false;
+    }
+
     CustomButton btnRegister = new CustomButton(
       onTap: () {
-        //bool j = ddbNameCompany.getIsValid();
-        /*Fluttertoast.showToast(
-            msg: j.toString(),
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.red,
-            textColor: Colors.yellow);*/
-        if (_formKey.currentState!.validate()) {
-          Fluttertoast.showToast(
-              msg: "j.toString()",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.red,
-              textColor: Colors.yellow);
+        if (registerDataOwner()) {
+          registerOwnerFunctionality.onPressedbtnRegisterCar();
         }
-        // customDialogShow.getShowDialog();
       },
       buttonText: "Registrar",
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
