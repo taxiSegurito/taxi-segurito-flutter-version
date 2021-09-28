@@ -53,7 +53,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtLastNameSecond = new CustomTextField(
-      hint: "Apellido Paterno",
+      hint: "Apellido Materno",
       isValidName: true,
     );
 
@@ -79,16 +79,6 @@ class _RegisterOwnerState extends State<RegisterOwner> {
 
     CustomTextField txtDni =
         new CustomTextField(hint: "Documento de identidad");
-
-    CustomDialogShow customDialogShow = new CustomDialogShow(
-        buttonText: "Aceptar",
-        ontap: () {
-          closeNavigator(context);
-        },
-        context: context,
-        buttonColor: colorMain,
-        buttonColorText: Colors.white,
-        titleShowDialog: "Registro Exitoso!");
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {},

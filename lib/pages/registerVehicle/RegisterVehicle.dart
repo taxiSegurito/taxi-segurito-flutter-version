@@ -5,6 +5,7 @@ import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorde
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogMenu.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
+import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
 
@@ -24,7 +25,8 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
-    RegisterOwnerAndVehicleFunctionality registerOwnerAndVehicleFunctionality;
+    RegisterVehicleFunctionality registerVehicleFunctionality =
+        new RegisterVehicleFunctionality(context: context);
 
     ImagesFile imageCar = new ImagesFile(
       isImageCarDefault: true,
@@ -95,18 +97,42 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
       marginRight: 5,
       marginTop: 0,
     );
+    CustomDialogShow dialogShowRegister = new CustomDialogShow(
+        ontap: () {
+          registerVehicleFunctionality.closeNavigator();
+        },
+        buttonText: "Aceptar",
+        buttonColor: colorMain,
+        buttonColorText: Colors.white,
+        titleShowDialog: "Registro Exitoso!",
+        context: context);
+
+    activeShowDialog() {
+      dialogShowRegister.getShowDialog();
+    }
+
+    bool registerDataVehicle() {
+      if (_formKey.currentState!.validate()) {
+        registerVehicleFunctionality = new RegisterVehicleFunctionality(
+            model: txtModelCar.getValue(),
+            plate: txtNumberPlate.getValue(),
+            colorCar: txtCarColor.getValue(),
+            capacity: txtCapacity.getValue(),
+            idConductor: txtSearch.getValue(),
+            context: context,
+            activeShowDialog: activeShowDialog);
+        return true;
+      }
+      return false;
+    }
 
     CustomButton btnRegister = new CustomButton(
       onTap: () {
         if (_formKey.currentState!.validate()) {
-          Fluttertoast.showToast(
-              msg: "Funciona",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.red,
-              textColor: Colors.yellow);
+          if (registerDataVehicle()) {
+            registerVehicleFunctionality.onPressedbtnRegisterCar();
+          }
         }
-        // customDialogShow.getShowDialog();
       },
       buttonText: "Registrar",
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
