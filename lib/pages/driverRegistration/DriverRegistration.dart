@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
-import 'package:taxi_segurito_app/providers/imageAccessProvider.dart';
+import 'package:taxi_segurito_app/components/sidemenu/side_menu_owner.dart';
+import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistrationFuncionality.dart';
+import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 
 class DriverRegistration extends StatefulWidget {
   DriverRegistration({Key? key}) : super(key: key);
@@ -12,12 +15,11 @@ class DriverRegistration extends StatefulWidget {
 }
 
 class _DriverRegistrationState extends State<DriverRegistration> {
-  String _date = '';
-  TextEditingController _inputFieldDateControler = new TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     final _formKey = GlobalKey<FormState>();
+    DriverRegistrationFuncionality driverRegistrationFuncionality;
     Text title = Text(
       "Registrar Conductor",
       style: const TextStyle(
@@ -29,39 +31,53 @@ class _DriverRegistrationState extends State<DriverRegistration> {
       textAlign: TextAlign.justify,
     );
 
-    Image imageAuto = new Image.asset(
-      "lib/components/assets/images/user.png",
-      height: 150,
-      width: 150,
+    ImagesFile imageUser = new ImagesFile(
+      isShapeCircle: true,
+      isImageUserDefault: true,
     );
-
-    ImageAccessProvider imageAccessProvider =
-        new ImageAccessProvider(context: context);
 
     CustomTextField txtNameDriver = new CustomTextField(
       hint: "Nombres",
-      isValidName: true,
+      isValidString: true,
+      msgValidString: "No puede ingresar números en su nombre",
     );
     CustomTextField txtLastName = new CustomTextField(
       hint: "Primer apellido",
-      isValidLastName: true,
+      isValidString: true,
+      msgValidString: "No puede ingresar números en su primer apellido",
     );
-    CustomTextField txtSecondSurname = new CustomTextField(
+    CustomTextField txtSecondLastName = new CustomTextField(
       hint: "Segundo apellido",
-      isValidSecondLastName: true,
+      isValidString: true,
+      msgValidString: "No puede ingresar números",
     );
-    CustomTextField txtDriverIdentityDocument = new CustomTextField(
-      hint: "Documento de identidad",
-      isValidCI: true,
+    CustomTextField txtDriverCI = new CustomTextField(
+      hint: "Número de carnet",
     );
-    CustomTextField txtNationality = new CustomTextField(
-      hint: "Nacionalidad",
-      isValidNationality: true,
+    CustomTextField txtDriverLicense = new CustomTextField(
+      hint: "Número de licencia de conducir",
+      isValidNumber: true,
+      msgValidNumber: "No puede ingresar letras en su número de licencia",
     );
     CustomTextField txtPhoneNumber = new CustomTextField(
-      hint: "Teléfono",
-      isValidPhone: true,
+      hint: "Número de celular",
+      isValidNumber: true,
+      msgValidNumber: "No puede ingresar letras en su número de celular",
     );
+
+    closeNavigator(BuildContext context) {
+      Navigator.of(context).pop();
+    }
+
+    CustomDialogShow customDialogShow = new CustomDialogShow(
+        buttonText: "Aceptar",
+        ontap: () {
+          closeNavigator(context);
+        },
+        context: context,
+        buttonColor: colorMain,
+        buttonColorText: Colors.white,
+        titleShowDialog: "Registro Exitoso!");
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {},
@@ -78,7 +94,15 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     CustomButton btnRegister = new CustomButton(
       onTap: () {
         if (_formKey.currentState!.validate()) {
-          () => _showAlert(context);
+          driverRegistrationFuncionality = new DriverRegistrationFuncionality(
+              txtNameDriver.getValue(),
+              txtLastName.getValue(),
+              txtSecondLastName.getValue(),
+              txtDriverCI.getValue(),
+              txtDriverLicense.getValue(),
+              txtPhoneNumber.getValue());
+          driverRegistrationFuncionality.onPressedbtnRegisterDriver();
+          customDialogShow.getShowDialog();
         }
       },
       buttonText: "Registrar",
@@ -91,20 +115,8 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     );
 
     return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: Builder(
-            builder: (BuildContext context) {
-              return IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ));
-            },
-          ),
-        ),
+        appBar: AppBar(),
+        drawer: SideMenuOwner(),
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -119,38 +131,12 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                         margin: new EdgeInsets.only(
                             top: 20.0, bottom: 20.0, left: 50.0, right: 35.0),
                         child: title),
-                    Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: imageAuto.image,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: Center(
-                          child: FloatingActionButton(
-                            backgroundColor: Colors.transparent,
-                            onPressed: () {
-                              imageAccessProvider.openGalery().then((_) {
-                                setState(() {
-                                  imageAuto = Image.file(
-                                      imageAccessProvider.getImage());
-                                });
-                              });
-                            },
-                            child: Icon(
-                              Icons.camera_alt,
-                              color: Colors.black,
-                            ),
-                          ),
-                        )),
+                    imageUser,
                     txtNameDriver,
                     txtLastName,
-                    txtSecondSurname,
-                    txtDriverIdentityDocument,
-                    _createDate(context),
-                    txtNationality,
+                    txtSecondLastName,
+                    txtDriverCI,
+                    txtDriverLicense,
                     txtPhoneNumber,
                     Container(
                         alignment: Alignment.centerLeft,
@@ -165,53 +151,5 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                         )),
                   ],
                 ))));
-  }
-
-  Widget _createDate(BuildContext context) {
-    return new Container(
-      margin: new EdgeInsets.all(5),
-      width: 290,
-      height: 36,
-      child: new TextField(
-        style: new TextStyle(fontSize: 13.0),
-        enableInteractiveSelection: false,
-        controller: _inputFieldDateControler,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-            hintText: 'Fecha de nacimiento',
-            suffixIcon: Icon(Icons.calendar_today)),
-        onTap: () {
-          FocusScope.of(context).requestFocus(new FocusNode());
-          _selectDate(context);
-        },
-      ),
-    );
-  }
-
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: new DateTime.now(),
-        firstDate: new DateTime(1930),
-        lastDate: new DateTime(2025),
-        locale: Locale('es', 'ES'));
-    if (picked != null) {
-      setState(() {
-        _date = picked.toString();
-        _inputFieldDateControler.text = _date;
-      });
-    }
-  }
-
-  void _showAlert(BuildContext context) {
-    showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Titulo'),
-            content: Text('Contenido'),
-          );
-        });
   }
 }

@@ -17,6 +17,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   Widget build(BuildContext context) {
     return MaterialApp(
         title: "Taxi Segurito",
+        theme: ThemeData(primarySwatch: Colors.amber),
         debugShowCheckedModeBanner: false,
         initialRoute: 'registration',
         routes: {
