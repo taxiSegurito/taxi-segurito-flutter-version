@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomTextFieldSearch extends StatefulWidget {
   String hint;
+  VoidCallback ontap;
   String? value;
   double marginLeft;
   double marginRight;
@@ -13,6 +15,7 @@ class CustomTextFieldSearch extends StatefulWidget {
       new _CustomTextFieldSearchState();
   CustomTextFieldSearch(
       {Key? key,
+      required this.ontap,
       this.hint = "Campo de text",
       this.marginLeft = 50,
       this.marginRight = 50,
@@ -53,78 +56,53 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
             bottom: widget.marginBotton,
             left: widget.marginLeft,
             right: widget.marginRight),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
         child: Row(children: [
+          Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Icon(
+              Icons.search,
+              color: Colors.grey,
+              size: 20,
+            ),
+          ),
           Expanded(
               child: new Container(
             width: width,
             height: widget.heightNum,
             alignment: Alignment.bottomCenter,
             child: new TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    changeHeightTextField(60);
-                    return 'Campo vacio';
-                  }
-
-                  if (widget.isValidPassword) {
-                    if (!value.isValidPassword) {
-                      changeHeightTextField(60);
-                      return 'Ingrese contraseña con Mayuscula Números gestos';
-                    }
-                  }
-
-                  if (widget.isValidPhone) {
-                    if (value.isValidPhone) {
-                      if (value.isValidName) {
-                        changeHeightTextField(60);
-                        return 'Ingrese numeros correctos del celular';
-                      } else {
-                        return null;
-                      }
-                    }
-                  }
-
-                  if (widget.isValidEmail) {
-                    if (!value.isValidEmail) {
-                      changeHeightTextField(60);
-                      return 'Ingrese correctamente su Email';
-                    }
-                  }
-
-                  if (widget.isValidName) {
-                    if (value.isValidPhone) {
-                      if (!value.isValidName) {
-                        changeHeightTextField(60);
-                        return 'No se permiten numeros';
-                      }
-                    }
-                  }
-                  changeHeightTextField(35);
-                },
-                textAlignVertical: TextAlignVertical.center,
-                controller: valueController,
-                textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 13, color: Colors.black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(10),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  changeHeightTextField(60);
+                  return 'Campo vacio';
+                }
+                changeHeightTextField(35);
+              },
+              textAlignVertical: TextAlignVertical.center,
+              controller: valueController,
+              textAlign: TextAlign.start,
+              style: TextStyle(fontSize: 13, color: Colors.black),
+              decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  isDense: true,
                   hintText: widget.hint,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: BorderSide(width: 2, color: Colors.grey),
+                    borderSide:
+                        BorderSide(width: 0, color: Colors.grey.withOpacity(0)),
                   ),
                   fillColor: Colors.yellow,
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red, width: 0.0),
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                )),
-          )),
-          Container(
-            //color: Colors.red,
-            child: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {},
+                  border: InputBorder.none),
             ),
-          )
+          )),
         ]));
   }
 

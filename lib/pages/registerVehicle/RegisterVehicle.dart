@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/components/cards/CustomCardSimple.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogMenu.dart';
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogSearh.dart';
+import 'package:taxi_segurito_app/components/dialogs/pruebaDialogo.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
+import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
@@ -27,7 +31,8 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     RegisterVehicleFunctionality registerVehicleFunctionality =
         new RegisterVehicleFunctionality(context: context);
-
+    String titleString = "Registro de Vehiculo";
+    CustomCardSimple? cardInformationDriver;
     ImagesFile imageCar = new ImagesFile(
       isImageCarDefault: true,
     );
@@ -37,12 +42,44 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     }
 
     Text title = new Text(
-      "Registro de Vehiculo",
+      titleString,
       style: const TextStyle(
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.center,
     );
+
+    void doSomething(Driver driver) {
+      Fluttertoast.showToast(
+          msg: driver.name,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.yellow);
+    }
+
+    callbackprueba(Driver i) {
+      cardInformationDriver!.updateParamaters(i);
+      Fluttertoast.showToast(
+          msg: i.name,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          backgroundColor: Colors.red,
+          textColor: Colors.yellow);
+    }
+
+    CustomShowDialogSearch showDialogSearch = new CustomShowDialogSearch(
+        context: context,
+        ontapButtonCancel: () {
+          closeNavigator(context);
+        },
+        callback: callbackprueba,
+        titleShowDialog: "Buscar conductor",
+        buttonCancelText: "Cancelar");
+
     CustomTextFieldSearch txtSearch = new CustomTextFieldSearch(
+      ontap: () {
+        showDialogSearch.showAlertDialog();
+      },
       hint: "Buscar",
     );
 
@@ -55,18 +92,11 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
 
     CustomTextField txtNumberPlate = new CustomTextField(hint: "N° de Placa");
 
-    CustomDialogShow customDialogShow = new CustomDialogShow(
-        buttonText: "Aceptar",
-        ontap: () {
-          closeNavigator(context);
-        },
-        context: context,
-        buttonColor: colorMain,
-        buttonColorText: Colors.white,
-        titleShowDialog: "Registro Exitoso!");
-
     onPressedbtnTwo() {}
-    onPressedbtnOne() {}
+    onPressedbtnOne() {
+      Navigator.of(context).pop();
+    }
+
     onPressedbtnThree() {}
 
     CustomShowDialogMenu showMenu = new CustomShowDialogMenu(
@@ -74,7 +104,6 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
         titleShowDialog: "¿Que deseas registrar?",
         ontapButtonOne: () {
           onPressedbtnOne();
-          Navigator.of(context).pop();
         },
         buttonOneText: "Registrar Vehiculo",
         ontapButtonTwo: onPressedbtnTwo,
@@ -165,6 +194,15 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
           ],
         ));
 
+    cardInformationDriver = new CustomCardSimple(
+      ontap: () {
+        showDialogSearch.showAlertDialog();
+      },
+      ontapCloseDialog: () {
+        showDialogSearch.closeDialog();
+      },
+    );
+
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
@@ -178,52 +216,16 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     containerTitle,
-                    txtSearch,
+                    Container(
+                        margin: new EdgeInsets.only(
+                            top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
+                        child: cardInformationDriver),
                     imageCar,
                     txtModelCar,
                     txtNumberPlate,
                     txtCarColor,
                     txtCapacity,
                     containerButtons,
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey.withOpacity(0.5),
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(4.0),
-                      ),
-                      margin: EdgeInsets.all(12),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.only(left: 8),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.grey,
-                              size: 20,
-                            ),
-                          ),
-                          new Expanded(
-                            child: TextField(
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Search by Name",
-                                hintStyle: TextStyle(color: Colors.grey),
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 8, horizontal: 8),
-                                isDense: true,
-                              ),
-                              style: TextStyle(
-                                fontSize: 14.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
                   ],
                 ))));
   }

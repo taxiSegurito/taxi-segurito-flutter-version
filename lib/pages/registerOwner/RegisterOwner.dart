@@ -69,7 +69,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
 
     CustomTextField txtPassword = new CustomTextField(
       hint: "Contraseña",
-      isValidEmail: true,
+      isValidPassword: true,
     );
 
     CustomTextField txtAddress = new CustomTextField(
