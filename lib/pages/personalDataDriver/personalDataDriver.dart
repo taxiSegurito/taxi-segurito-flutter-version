@@ -1,7 +1,11 @@
 import 'dart:ffi';
-
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'DataDriverSelect.dart';
+import 'package:taxi_segurito_app/bloc/services/env.dart';
 
 class PersonalDataDriver extends StatefulWidget {
   PersonalDataDriver({Key? key}) : super(key: key);
@@ -10,7 +14,36 @@ class PersonalDataDriver extends StatefulWidget {
   _PersonalDataDriverState createState() => _PersonalDataDriverState();
 }
 
+String id = "1";
+
 class _PersonalDataDriverState extends State<PersonalDataDriver> {
+  List<DataDriverSelect> data = List<DataDriverSelect>.empty(growable: true);
+  Future<List<DataDriverSelect>> get_data() async {
+    String path = Service.url + "selectDataDriver.php";
+    var response = await http.post(Uri.parse(path), body: {
+      'idDriver': id,
+    }).timeout(Duration(seconds: 90));
+    var datos = jsonDecode(response.body);
+
+    var registros = new List<DataDriverSelect>.empty(growable: true);
+
+    for (datos in datos) {
+      registros.add(DataDriverSelect.fromJson(datos));
+    }
+    return registros;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    get_data().then((value) {
+      setState(() {
+        data.addAll(value);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,8 +120,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                   alignment: Alignment.topCenter,
                   margin: EdgeInsets.only(top: 15),
                   child: CircleAvatar(
-                    backgroundImage: AssetImage(
-                        "lib/components/assets/images/logoPrincipal.png"),
+                    backgroundImage: NetworkImage(data[0].photo),
                     radius: 75,
                   ),
                 ),
@@ -116,7 +148,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                     children: [
                       Container(
                         child: Text(
-                          'Juan Perez',
+                          data[0].fullName,
                           style: TextStyle(
                               fontFamily: 'Raleway',
                               fontSize: 26,
@@ -152,7 +184,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                             margin:
                                 EdgeInsets.only(top: 15, bottom: 15, right: 15),
                             child: Text(
-                              '124354 CBBA',
+                              data[0].ci,
                               style: TextStyle(
                                   fontFamily: 'Raleway',
                                   fontSize: 18,
@@ -181,7 +213,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                             margin:
                                 EdgeInsets.only(top: 15, bottom: 15, right: 15),
                             child: Text(
-                              '60312547',
+                              data[0].cellphone,
                               style: TextStyle(
                                   fontFamily: 'Raleway',
                                   fontSize: 18,
@@ -211,7 +243,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                             margin:
                                 EdgeInsets.only(top: 15, bottom: 15, right: 15),
                             child: Text(
-                              'juan123@gmail.com',
+                              data[0].email,
                               style: TextStyle(
                                   fontFamily: 'Raleway',
                                   fontSize: 18,
@@ -240,7 +272,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                             margin:
                                 EdgeInsets.only(top: 15, bottom: 15, right: 15),
                             child: Text(
-                              'Boliviana/o',
+                              data[0].nacionalidad,
                               style: TextStyle(
                                   fontFamily: 'Raleway',
                                   fontSize: 18,
