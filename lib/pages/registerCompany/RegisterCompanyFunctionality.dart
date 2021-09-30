@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
+import 'package:taxi_segurito_app/services/InsertCompany.dart';
 
 class RegisterCompanyFunctionality {
   Company? company;
@@ -17,14 +18,17 @@ class RegisterCompanyFunctionality {
 
   onPressedBtnRegister() {
     company = new Company(nameCopany: nameCompany!, nit: nit!);
-    Fluttertoast.showToast(
+    insert(company!);
+    //bool keyInsert = insert(company!) as bool;
+    /* Fluttertoast.showToast(
         msg: "Datos: " + company!.nameCopany + company!.nit,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-
-    activeShowDialog!();
+        textColor: Colors.yellow);*/
+    /*if (keyInsert) {
+      activeShowDialog!();
+    }*/
   }
 
   onPressedBtnCancel() {

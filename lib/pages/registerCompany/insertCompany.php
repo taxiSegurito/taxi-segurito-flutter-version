@@ -1,7 +1,7 @@
 <?php
 
 
-include "conn.php";
+include "../lib/pages/registerCompany/conn.php";
 
 $pdo = $db;
 

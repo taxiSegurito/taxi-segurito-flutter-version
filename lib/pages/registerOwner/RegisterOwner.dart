@@ -74,6 +74,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     CustomTextField txtAddress = new CustomTextField(
       hint: "Direccion",
       isValidEmail: true,
+      msgValidEmail: "Escriba correctamente su Correo",
     );
 
     CustomTextField txtDni =
@@ -110,14 +111,14 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       bool isValidDdbNameCompany = ddbNameCompany.getIsValid();
       if (_formKey.currentState!.validate() && isValidDdbNameCompany) {
         registerOwnerFunctionality = new RegisterOwnerFunctionality(
-            nameCompany: ddbNameCompany.getValue()!.nameCopany,
+            company: ddbNameCompany.getValue(),
             names: txtNameOwner.getValue(),
             lastName: txtLastName.getValue(),
             lastNameSecond: txtLastNameSecond.getValue(),
-            phone: txtPhone.getValue(),
+            cellphone: txtPhone.getValue(),
             email: txtEmail.getValue(),
             password: txtPassword.getValue(),
-            dni: txtDni.getValue(),
+            ci: txtDni.getValue(),
             address: txtAddress.getValue(),
             context: context,
             activeShowDialog: activeShowDialog);
