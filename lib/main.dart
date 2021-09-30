@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/menuButtonsRegister/MenuButtonsRegister.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicle.dart';
@@ -20,7 +21,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
     return MaterialApp(
       title: "Taxi Segurito",
       debugShowCheckedModeBanner: false,
-      initialRoute: 'registerVehicle',
+      initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
@@ -31,7 +32,9 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             RegisterCompany(),
         'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
-            RegisterVehicle()
+            RegisterVehicle(),
+        'menuButtonsRegister': (BuildContext contextMenuButtonRegister) =>
+            MenuButtonsRegister()
       },
     );
   }

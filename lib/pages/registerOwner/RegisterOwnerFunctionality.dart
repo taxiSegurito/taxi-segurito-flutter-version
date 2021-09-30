@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:taxi_segurito_app/models/Company.dart';
 
 class RegisterOwnerFunctionality {
   BuildContext context;
@@ -30,8 +31,17 @@ class RegisterOwnerFunctionality {
       this.phone,
       this.activeShowDialog});
 
-  List getListCompany() {
-    return listCompany.toList();
+  List<Company> listDriver = [
+    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 1),
+    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 2),
+    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 3),
+    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 4),
+    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 5),
+    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 6),
+  ];
+
+  List<Company> getListCompany() {
+    return listDriver.toList();
   }
 
   onPressedbtnRegisterCar() {
@@ -49,7 +59,9 @@ class RegisterOwnerFunctionality {
     Navigator.of(context).pop();
   }
 
-  onPressedbtnCancelRegisterCar() {}
+  onPressedbtnCancelRegisterCar() {
+    closeNavigator();
+  }
 
   void agregarUsuario() {
     /*var url = "http://192.168.1.9/pruebas/agregardueño.php";

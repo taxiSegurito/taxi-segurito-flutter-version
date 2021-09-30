@@ -7,6 +7,7 @@ import 'package:taxi_segurito_app/models/Driver.dart';
 
 class CustomShowDialogSearch {
   final void Function(Driver) callback;
+  final void Function(String) callbackValueSearch;
   CustomButtonWithLinearBorder? btnCancel;
   BuildContext context;
   String titleShowDialog;
@@ -25,6 +26,7 @@ class CustomShowDialogSearch {
       required this.ontapButtonCancel,
       required this.buttonCancelText,
       required this.callback,
+      required this.callbackValueSearch,
       this.buttonCancelColor = colorMainText,
       this.buttonCancelColotText = colorMain,
       this.buttonCancelColorBorder = colorMain});
@@ -34,6 +36,13 @@ class CustomShowDialogSearch {
   }
 
   showAlertDialog() {
+    CustomListViewCardSimple listView = new CustomListViewCardSimple(
+      ontap: () {},
+      callback: (Driver driver) {
+        callback(driver);
+      },
+    );
+
     btnCancel = new CustomButtonWithLinearBorder(
       onTap: ontapButtonCancel,
       buttonText: buttonCancelText,
@@ -46,6 +55,10 @@ class CustomShowDialogSearch {
       marginRight: 50,
       hint: "Buscar",
       ontap: () {},
+      callbackValueSearch: (String value) {
+        callbackValueSearch(value);
+        listView.updateListView();
+      },
     );
 
     showDialog(
@@ -72,14 +85,7 @@ class CustomShowDialogSearch {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         txtSearch,
-                        Container(
-                          child: CustomListViewCardSimple(
-                            ontap: () {},
-                            callback: (Driver driver) {
-                              callback(driver);
-                            },
-                          ),
-                        ),
+                        Container(child: listView),
                         btnCancel!,
                       ],
                     ),

@@ -4,18 +4,12 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/cards/CustomCardSimple.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
-import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogMenu.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogSearh.dart';
-import 'package:taxi_segurito_app/components/dialogs/pruebaDialogo.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
-
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
-import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicleFunctionality.dart';
 
 class RegisterVehicle extends StatefulWidget {
   RegisterVehicle({Key? key}) : super(key: key);
@@ -31,9 +25,12 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     RegisterVehicleFunctionality registerVehicleFunctionality =
         new RegisterVehicleFunctionality(context: context);
-    String titleString = "Registro de Vehiculo";
+
     CustomCardSimple? cardInformationDriver;
     ImagesFile imageCar = new ImagesFile(
+      isImageCarDefault: true,
+    );
+    ImagesFile imageCarTop = new ImagesFile(
       isImageCarDefault: true,
     );
 
@@ -42,25 +39,16 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     }
 
     Text title = new Text(
-      titleString,
+      "Registro de Vehiculo",
       style: const TextStyle(
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.center,
     );
 
-    void doSomething(Driver driver) {
+    callBackSendData(Driver driver) {
+      cardInformationDriver!.updateParamaters(driver);
       Fluttertoast.showToast(
           msg: driver.name,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.yellow);
-    }
-
-    callbackprueba(Driver i) {
-      cardInformationDriver!.updateParamaters(i);
-      Fluttertoast.showToast(
-          msg: i.name,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
@@ -72,50 +60,26 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
         ontapButtonCancel: () {
           closeNavigator(context);
         },
-        callback: callbackprueba,
+        callback: callBackSendData,
         titleShowDialog: "Buscar conductor",
-        buttonCancelText: "Cancelar");
-
-    CustomTextFieldSearch txtSearch = new CustomTextFieldSearch(
-      ontap: () {
-        showDialogSearch.showAlertDialog();
-      },
-      hint: "Buscar",
-    );
+        buttonCancelText: "Cancelar",
+        callbackValueSearch: (String value) {
+          registerVehicleFunctionality.onPressedSearhDriver(value);
+        });
 
     CustomTextField txtCarColor = new CustomTextField(
       hint: "Color",
-      isValidName: true,
+      isValidString: true,
+      msgValidString: "Solo se permite letras",
     );
     CustomTextField txtCapacity = new CustomTextField(hint: "Capacidad");
     CustomTextField txtModelCar = new CustomTextField(hint: "Modelo");
 
     CustomTextField txtNumberPlate = new CustomTextField(hint: "N° de Placa");
 
-    onPressedbtnTwo() {}
-    onPressedbtnOne() {
-      Navigator.of(context).pop();
-    }
-
-    onPressedbtnThree() {}
-
-    CustomShowDialogMenu showMenu = new CustomShowDialogMenu(
-        context: context,
-        titleShowDialog: "¿Que deseas registrar?",
-        ontapButtonOne: () {
-          onPressedbtnOne();
-        },
-        buttonOneText: "Registrar Vehiculo",
-        ontapButtonTwo: onPressedbtnTwo,
-        buttonTwoText: "Registrar Empresa",
-        buttonTwoColor: Colors.white,
-        buttonTextTwoColor: Colors.black,
-        ontapButtonThree: onPressedbtnThree,
-        buttonThreeText: "Registrar Dueño");
-
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
-        showMenu.showAlertDialog();
+        registerVehicleFunctionality.onPressedbtnCancelRegisterCar();
       },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
@@ -140,14 +104,34 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
       dialogShowRegister.getShowDialog();
     }
 
-    bool registerDataVehicle() {
-      if (_formKey.currentState!.validate()) {
+    cardInformationDriver = new CustomCardSimple(
+      ontap: () {
+        showDialogSearch.showAlertDialog();
+      },
+      ontapCloseDialog: () {
+        showDialogSearch.closeDialog();
+      },
+    );
+
+    bool isRegisterDataVehicle() {
+      bool isValidCardData = cardInformationDriver!.getIsValid();
+      bool isValidImageCar = imageCar.getIsValid();
+      bool isValidImageCarTop = imageCarTop.getIsValid();
+
+      if (_formKey.currentState!.validate() &&
+          isValidCardData &&
+          isValidImageCar &&
+          isValidImageCarTop) {
+        Image imageOne = imageCar.getImage();
+        Image imageTwo = imageCarTop.getImage();
+        var listImage = {imageOne, imageTwo};
         registerVehicleFunctionality = new RegisterVehicleFunctionality(
             model: txtModelCar.getValue(),
             plate: txtNumberPlate.getValue(),
             colorCar: txtCarColor.getValue(),
             capacity: txtCapacity.getValue(),
-            idConductor: txtSearch.getValue(),
+            driver: cardInformationDriver.getDriver(),
+            listImage: listImage.toList(),
             context: context,
             activeShowDialog: activeShowDialog);
         return true;
@@ -157,10 +141,8 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
 
     CustomButton btnRegister = new CustomButton(
       onTap: () {
-        if (_formKey.currentState!.validate()) {
-          if (registerDataVehicle()) {
-            registerVehicleFunctionality.onPressedbtnRegisterCar();
-          }
+        if (isRegisterDataVehicle()) {
+          registerVehicleFunctionality.onPressedbtnRegisterCar();
         }
       },
       buttonText: "Registrar",
@@ -194,15 +176,6 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
           ],
         ));
 
-    cardInformationDriver = new CustomCardSimple(
-      ontap: () {
-        showDialogSearch.showAlertDialog();
-      },
-      ontapCloseDialog: () {
-        showDialogSearch.closeDialog();
-      },
-    );
-
     return Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
@@ -220,7 +193,16 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
                         margin: new EdgeInsets.only(
                             top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
                         child: cardInformationDriver),
-                    imageCar,
+                    Container(
+                      margin: new EdgeInsets.only(
+                          top: 10.0, bottom: 10.0, left: 50.0, right: 50.0),
+                      child: Row(
+                        children: [
+                          Expanded(child: imageCar),
+                          Expanded(child: imageCarTop)
+                        ],
+                      ),
+                    ),
                     txtModelCar,
                     txtNumberPlate,
                     txtCarColor,

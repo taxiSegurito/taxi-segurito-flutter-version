@@ -7,7 +7,8 @@ class CustomTextField extends StatefulWidget {
   double marginRight;
   double marginBotton;
   double marginTop;
-  bool isValidEmail, isValidName, isValidPassword, isNotNull, isValidPhone;
+  bool isValidEmail, isValidString, isValidPassword, isValidNumber;
+  String msgValidEmail, msgValidString, msgValidPassword, msgValidNumber;
   double heightNum;
   _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
   CustomTextField(
@@ -19,10 +20,13 @@ class CustomTextField extends StatefulWidget {
       this.marginBotton = 5,
       this.heightNum = 35,
       this.isValidEmail = false,
-      this.isValidName = false,
+      this.isValidString = false,
       this.isValidPassword = false,
-      this.isNotNull = false,
-      this.isValidPhone = false})
+      this.isValidNumber = false,
+      this.msgValidEmail = '',
+      this.msgValidNumber = '',
+      this.msgValidPassword = '',
+      this.msgValidString = ''})
       : super(key: key);
 
   @override
@@ -40,6 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     changeHeightTextField(double num) {
       setState(() {
         widget.heightNum = num;
@@ -56,6 +61,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       height: widget.heightNum,
       alignment: Alignment.bottomCenter,
       child: new TextFormField(
+          textCapitalization: TextCapitalization.sentences,
           validator: (value) {
             if (value!.isEmpty) {
               changeHeightTextField(60);
@@ -65,42 +71,37 @@ class _CustomTextFieldState extends State<CustomTextField> {
             if (widget.isValidPassword) {
               if (!value.isValidPassword) {
                 changeHeightTextField(60);
-                return 'Ingrese contraseña con Mayuscula Números gestos';
+                return widget.msgValidPassword;
               }
             }
 
-            if (widget.isValidPhone) {
-              if (value.isValidPhone) {
-                if (value.isValidName) {
-                  changeHeightTextField(60);
-                  return 'Ingrese numeros correctos del celular';
-                } else {
-                  return null;
-                }
+            if (widget.isValidNumber) {
+              if (value.isValidString) {
+                changeHeightTextField(60);
+                return widget.msgValidNumber;
               }
             }
 
             if (widget.isValidEmail) {
               if (!value.isValidEmail) {
                 changeHeightTextField(60);
-                return 'Ingrese correctamente su Email';
+                return widget.msgValidEmail;
               }
             }
 
-            if (widget.isValidName) {
-              if (value.isValidPhone) {
-                if (!value.isValidName) {
-                  changeHeightTextField(60);
-                  return 'No se permiten numeros';
-                }
+            if (widget.isValidString) {
+              if (value.isValidNumber) {
+                changeHeightTextField(60);
+                return widget.msgValidString;
               }
             }
-            changeHeightTextField(35);
+
+            changeHeightTextField(40);
           },
           textAlignVertical: TextAlignVertical.center,
           controller: valueController,
           textAlign: TextAlign.start,
-          style: TextStyle(fontSize: 13, color: Colors.black),
+          style: TextStyle(fontSize: 13),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(10),
             hintText: widget.hint,
@@ -127,9 +128,8 @@ extension extString on String {
     return emailRegExp.hasMatch(this);
   }
 
-  bool get isValidName {
-    final nameRegExp = new RegExp(r'[a-z]');
-
+  bool get isValidString {
+    final nameRegExp = new RegExp(r'[a-zA-Z]');
     return nameRegExp.hasMatch(this);
   }
 
@@ -139,18 +139,8 @@ extension extString on String {
     return passwordRegExp.hasMatch(this);
   }
 
-  bool get isNotNull {
-    return this != null;
-  }
-
-  bool get isValidPhone {
-    final phoneRegExp = RegExp(r'[0-9]');
-
+  bool get isValidNumber {
+    final phoneRegExp = RegExp((r'[0-9]'));
     return phoneRegExp.hasMatch(this);
-  }
-
-  bool get isValidDate {
-    final dateRegExp = RegExp(r'(\d{4}-?\d\d-?\d\d(\s|T)\d\d:?\d\d:?\d\d)');
-    return dateRegExp.hasMatch(this);
   }
 }

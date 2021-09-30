@@ -27,10 +27,10 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
     //CustomDropDowMenu ddmEmpresa = new CustomDropDowMenu();
     ImagesFile imageCar = new ImagesFile();
     var listItem = ["item1", "item2"];
-    CustomDropdownButton customDropdownButton = new CustomDropdownButton(
+    /*CustomDropdownButton customDropdownButton = new CustomDropdownButton(
       listItem: listItem,
       hint: "Nombre Empresa",
-    );
+    );*/
 
     closeNavigator(BuildContext context) {
       Navigator.of(context).pop();
@@ -45,7 +45,6 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
 
     CustomTextField txtNameOwner = new CustomTextField(
       hint: "Nombres",
-      isValidName: true,
     );
 
     CustomTextField txtDni =
@@ -53,12 +52,10 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
 
     CustomTextField txtNacinonalityOwner = new CustomTextField(
       hint: "Nacionalidad del dueño",
-      isValidName: true,
     );
 
     CustomTextField txtPhone = new CustomTextField(
       hint: "Telefono",
-      isValidPhone: true,
     );
 
     CustomTextField txtModelCar = new CustomTextField(hint: "Modelo");
@@ -67,7 +64,6 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
 
     CustomTextField txtCarColor = new CustomTextField(
       hint: "Color",
-      isValidName: true,
     );
 
     CustomTextField txtCapacity = new CustomTextField(hint: "Capacidad");
@@ -96,13 +92,13 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
 
     CustomButton btnRegister = new CustomButton(
       onTap: () {
-        bool j = customDropdownButton.getIsValid();
-        Fluttertoast.showToast(
-            msg: j.toString(),
+        //bool j = customDropdownButton.getIsValid();
+        /*Fluttertoast.showToast(
+           // msg: j.toString(),
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
             backgroundColor: Colors.red,
-            textColor: Colors.yellow);
+            textColor: Colors.yellow);*/
         if (_formKey.currentState!.validate()) {
           registerOwnerAndVehicleFunctionality =
               new RegisterOwnerAndVehicleFunctionality(
@@ -168,7 +164,7 @@ class _RegisterOwnerAndVehicleState extends State<RegisterOwnerAndVehicle> {
                   children: [
                     containerTitle,
                     imageCar,
-                    customDropdownButton,
+                    //customDropdownButton,
                     txtNameOwner,
                     txtDni,
                     txtNacinonalityOwner,

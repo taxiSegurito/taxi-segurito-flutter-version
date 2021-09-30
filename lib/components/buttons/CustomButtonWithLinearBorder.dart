@@ -37,11 +37,11 @@ class CustomButtonWithLinearBorder extends StatelessWidget {
           bottom: marginBotton,
           left: marginLeft,
           right: marginRight),
-      //width: width,
+      width: width,
       height: 40.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
-          Radius.circular(8),
+          Radius.circular(10),
         ),
         boxShadow: [
           BoxShadow(
@@ -68,7 +68,7 @@ class CustomButtonWithLinearBorder extends StatelessWidget {
           primary: buttonColor,
           fixedSize: Size(300, 100),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(10),
             side: BorderSide(
               color: buttonBorderColor,
             ),

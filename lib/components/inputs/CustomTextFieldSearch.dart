@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomTextFieldSearch extends StatefulWidget {
   String hint;
+  final void Function(String) callbackValueSearch;
   VoidCallback ontap;
   String? value;
   double marginLeft;
@@ -16,6 +17,7 @@ class CustomTextFieldSearch extends StatefulWidget {
   CustomTextFieldSearch(
       {Key? key,
       required this.ontap,
+      required this.callbackValueSearch,
       this.hint = "Campo de text",
       this.marginLeft = 50,
       this.marginRight = 50,
@@ -85,6 +87,7 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
                 }
                 changeHeightTextField(35);
               },
+              textInputAction: TextInputAction.search,
               textAlignVertical: TextAlignVertical.center,
               controller: valueController,
               textAlign: TextAlign.start,
@@ -101,6 +104,9 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
                   ),
                   fillColor: Colors.yellow,
                   border: InputBorder.none),
+              onFieldSubmitted: (value) {
+                widget.callbackValueSearch(value);
+              },
             ),
           )),
         ]));

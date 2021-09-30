@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 
 class CustomDropdownButton extends StatefulWidget {
   _CustomDropdownButtonState _customDropdownButtonState =
       new _CustomDropdownButtonState();
   String hint;
-  String? value;
+  Company? value;
   double marginLeft;
   double marginRight;
   double marginBotton;
   double marginTop;
   double heightNum;
-  List listItem;
+  List<Company> listItem;
 
   CustomDropdownButton({
     Key? key,
@@ -28,7 +29,7 @@ class CustomDropdownButton extends StatefulWidget {
     return _customDropdownButtonState;
   }
 
-  String? getValue() {
+  Company? getValue() {
     return value;
   }
 
@@ -74,21 +75,21 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         decoration: BoxDecoration(
             border: Border.all(color: colorBorder, width: 1),
             borderRadius: BorderRadius.circular(10)),
-        child: DropdownButton(
+        child: DropdownButton<Company>(
           hint: Text(widget.hint),
           value: widget.value,
           isExpanded: true,
           underline: SizedBox(),
           style: TextStyle(fontSize: 13, color: Colors.black),
-          onChanged: (String? newValue) {
+          onChanged: (Company? newValue) {
             setState(() {
               widget.value = newValue;
             });
           },
-          items: widget.listItem.map((valueItem) {
-            return DropdownMenuItem<String>(
+          items: widget.listItem.map((Company? valueItem) {
+            return DropdownMenuItem<Company>(
               value: valueItem,
-              child: Text(valueItem),
+              child: Text(valueItem!.nameCopany),
             );
           }).toList(),
         ),

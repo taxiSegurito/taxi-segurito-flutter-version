@@ -28,12 +28,6 @@ class RegisterCompanyFunctionality {
   }
 
   onPressedBtnCancel() {
-    Fluttertoast.showToast(
-        msg: "Cancelando",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
     closeNavigator();
   }
 

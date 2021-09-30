@@ -26,10 +26,6 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     RegisterOwnerFunctionality registerOwnerFunctionality =
         new RegisterOwnerFunctionality(context: context);
 
-    closeNavigator(BuildContext context) {
-      Navigator.of(context).pop();
-    }
-
     Text title = new Text(
       "Registro de Dueño",
       style: const TextStyle(
@@ -44,22 +40,25 @@ class _RegisterOwnerState extends State<RegisterOwner> {
 
     CustomTextField txtNameOwner = new CustomTextField(
       hint: "Nombres",
-      isValidName: true,
+      isValidString: true,
+      msgValidString: "Solo se permite letras en nombre",
     );
 
     CustomTextField txtLastName = new CustomTextField(
       hint: "Apellido Paterno",
-      isValidName: true,
+      isValidString: true,
+      msgValidString: "Solo se permite letras en apellido",
     );
 
     CustomTextField txtLastNameSecond = new CustomTextField(
-      hint: "Apellido Materno",
-      isValidName: true,
-    );
+        hint: "Apellido Materno",
+        isValidString: true,
+        msgValidString: "Solo se permite letras en apellido");
 
     CustomTextField txtPhone = new CustomTextField(
       hint: "Telefono",
-      isValidPhone: true,
+      isValidNumber: true,
+      msgValidNumber: "Solo se permite numeros",
     );
 
     CustomTextField txtEmail = new CustomTextField(
@@ -81,7 +80,9 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         new CustomTextField(hint: "Documento de identidad");
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {},
+      onTap: () {
+        registerOwnerFunctionality.onPressedbtnCancelRegisterCar();
+      },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
       buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
@@ -109,7 +110,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       bool isValidDdbNameCompany = ddbNameCompany.getIsValid();
       if (_formKey.currentState!.validate() && isValidDdbNameCompany) {
         registerOwnerFunctionality = new RegisterOwnerFunctionality(
-            nameCompany: ddbNameCompany.getValue(),
+            nameCompany: ddbNameCompany.getValue()!.nameCopany,
             names: txtNameOwner.getValue(),
             lastName: txtLastName.getValue(),
             lastNameSecond: txtLastNameSecond.getValue(),

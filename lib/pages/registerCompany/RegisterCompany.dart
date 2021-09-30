@@ -32,12 +32,10 @@ class _RegisterCompanyState extends State<RegisterCompany> {
 
     CustomTextField txtNameCompany = new CustomTextField(
       hint: "Nombre Compania",
-      isValidName: true,
     );
 
     CustomTextField txtNit = new CustomTextField(
       hint: "Nit de la empresa",
-      isValidName: true,
     );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
@@ -107,7 +105,7 @@ class _RegisterCompanyState extends State<RegisterCompany> {
     Container containerTitle = new Container(
         alignment: Alignment.center,
         margin: new EdgeInsets.only(
-            top: 20.0, bottom: 10.0, left: 35.0, right: 35.0),
+            top: 40.0, bottom: 30.0, left: 35.0, right: 35.0),
         child: title);
 
     Container containerButtons = new Container(

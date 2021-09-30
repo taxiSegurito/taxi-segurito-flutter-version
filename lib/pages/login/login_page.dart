@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogMenu.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -10,6 +11,24 @@ class _UserLoginPageState extends State<UserLoginPage> {
   final _keyForm = GlobalKey<FormState>(); //De validacion
   @override
   Widget build(BuildContext context) {
+    CustomShowDialogMenu showMenu = new CustomShowDialogMenu(
+        context: context,
+        titleShowDialog: "¿Que deseas registrar?",
+        ontapButtonOne: () {
+          Navigator.pushNamed(context, 'registerVehicle');
+        },
+        buttonOneText: "Registrar Vehiculo",
+        ontapButtonTwo: () {
+          Navigator.pushNamed(context, 'registerCompany');
+        },
+        buttonTwoText: "Registrar Empresa",
+        buttonTwoColor: Colors.white,
+        buttonTextTwoColor: Colors.black,
+        ontapButtonThree: () {
+          Navigator.pushNamed(context, 'registerOwner');
+        },
+        buttonThreeText: "Registrar Dueño");
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -127,11 +146,14 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                               Colors.yellow.shade600),
                                     ),
                                     onPressed: () {
-                                      if (_keyForm.currentState!.validate()) {
+                                      //showMenu.showAlertDialog();
+                                      Navigator.pushNamed(
+                                          context, "menuButtonsRegister");
+                                      /*if (_keyForm.currentState!.validate()) {
                                         print("-- validacion Exitosa");
                                       } else {
                                         print("-- Ha ocurrido un error");
-                                      }
+                                      }*/
                                     },
                                     child: Text(
                                         "             Ingresar            "))
