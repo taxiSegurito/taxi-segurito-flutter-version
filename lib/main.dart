@@ -1,8 +1,14 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
+import 'models/HttpProvider.dart';
 
-void main() => runApp(AppTaxiSegurito());
+void main() {
+  HttpOverrides.global = new HttpProvider();
+  runApp(AppTaxiSegurito());
+}
 
 class AppTaxiSegurito extends StatefulWidget {
   const AppTaxiSegurito({Key? key}) : super(key: key);
@@ -19,7 +25,8 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'firstScreen': (BuildContext contextFirstScreen) => MainWindow()
+        'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
+        'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
       },
     );
   }
