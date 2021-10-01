@@ -1,13 +1,13 @@
 class Owner {
-  int? idOwner;
+  String? idOwner;
   String fullname;
   String cellphone;
   String email;
   String password;
   String address;
   String ci;
-  int idCompany;
-  int? state;
+  String idCompany;
+  String? state;
 
   Owner(
       {this.idOwner,

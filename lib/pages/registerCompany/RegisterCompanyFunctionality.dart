@@ -18,17 +18,9 @@ class RegisterCompanyFunctionality {
 
   onPressedBtnRegister() {
     company = new Company(nameCopany: nameCompany!, nit: nit!);
-    insert(company!);
-    //bool keyInsert = insert(company!) as bool;
-    /* Fluttertoast.showToast(
-        msg: "Datos: " + company!.nameCopany + company!.nit,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);*/
-    /*if (keyInsert) {
+    insert(company!).then((_) {
       activeShowDialog!();
-    }*/
+    });
   }
 
   onPressedBtnCancel() {

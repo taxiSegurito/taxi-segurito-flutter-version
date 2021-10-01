@@ -12,7 +12,13 @@ class MainWindowFunctionality {
   MainWindowFunctionality(this.context);
 
   onPressedbtnIniciarSesionCorreoCelular() {
-    Navigator.pushNamed(context, 'loginUser');
+    _navigateAndDisplaySelection(context);
+  }
+
+  _navigateAndDisplaySelection(BuildContext context) async {
+    // Navigator.push devuelve un Future que se completará después de que llamemos
+    // Navigator.pop en la pantalla de selección!
+    final result = await Navigator.pushNamed(context, 'loginUser');
   }
 
   //evento click del boton de inicio sesion con google
