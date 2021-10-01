@@ -41,7 +41,7 @@ class LoginFacebookUtils {
           "fullName": fullName,
           "cellphone": "12345678",
           "typeRegister": "Facebook",
-          "idrole": 1,
+          "idrole": 2, //Cliente
         }));
     log(response.body);
   }

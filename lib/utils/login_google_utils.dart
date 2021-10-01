@@ -81,7 +81,7 @@ class LoginGoogleUtils {
           "fullName": fullName,
           "cellphone": cellphone,
           "typeRegister": "Google",
-          "idrole": 1,
+          "idrole": 2,
         }));
     log(response.body);
   }
