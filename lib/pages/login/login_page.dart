@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:taxi_segurito_app/pages/login/recoveryPass_page.dart';
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
 
@@ -117,7 +117,9 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           children: [
                             Container(
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecoveryPass()),);
+                                },
                                 child: Text("Olvidaste tu contraseña?",
                                     style: TextStyle(color: Colors.blueAccent)),
                               ),
