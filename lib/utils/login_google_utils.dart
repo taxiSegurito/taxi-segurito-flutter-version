@@ -47,7 +47,7 @@ class LoginGoogleUtils {
     String cellphone = user!.phoneNumber.toString();
     String urlImage = user!.photoURL.toString();
     if (cellphone == "null") {
-      cellphone = "12313241";
+      cellphone = "No Tiene";
     }
     AddDataGoogle(fullName, email, cellphone);
 
