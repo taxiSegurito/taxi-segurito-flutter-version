@@ -19,7 +19,7 @@ class _MainWindowState extends State<MainWindow> {
         new MainWindowFunctionality(context);
 
     Image logo = new Image.asset(
-      "lib/components/assets/images/logoPrincipal.png",
+      "assets/images/logoPrincipal.png",
       height: 150,
       width: 150,
     );
@@ -32,7 +32,7 @@ class _MainWindowState extends State<MainWindow> {
             fontWeight: FontWeight.w600,
             fontFamily: "Raleway",
             fontStyle: FontStyle.normal,
-            fontSize: 24.0),
+            fontSize: 19.0),
         textAlign: TextAlign.center);
 
     //Este boton sirve para llamar al metodo Iniciar sesion con el correo o tu numero de celular
