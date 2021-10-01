@@ -12,17 +12,7 @@ class MainWindowFunctionality {
   MainWindowFunctionality(this.context);
 
   onPressedbtnIniciarSesionCorreoCelular() {
-    _navigateAndDisplaySelection(context);
-  }
-
-  _navigateAndDisplaySelection(BuildContext context) async {
-    final result = await Navigator.pushNamed(context, 'loginUser');
-    Fluttertoast.showToast(
-        msg: result.toString(),
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
+    Navigator.pushNamed(context, 'loginUser');
   }
 
   //evento click del boton de inicio sesion con google

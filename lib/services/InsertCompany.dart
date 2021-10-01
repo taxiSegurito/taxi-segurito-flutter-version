@@ -6,7 +6,7 @@ import 'package:taxi_segurito_app/services/env.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 
 Future<bool> insert(Company company) async {
-  var path = "http://10.0.2.2:8070/insertCompany.php";
+  var path = Service.url + "insertcompany.php";
   final response = await http.post(Uri.parse(path), body: {
     'name': company.nameCopany,
     'nit': company.nit,
