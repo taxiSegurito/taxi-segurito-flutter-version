@@ -16,9 +16,13 @@ class MainWindowFunctionality {
   }
 
   _navigateAndDisplaySelection(BuildContext context) async {
-    // Navigator.push devuelve un Future que se completará después de que llamemos
-    // Navigator.pop en la pantalla de selección!
     final result = await Navigator.pushNamed(context, 'loginUser');
+    Fluttertoast.showToast(
+        msg: result.toString(),
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.yellow);
   }
 
   //evento click del boton de inicio sesion con google
