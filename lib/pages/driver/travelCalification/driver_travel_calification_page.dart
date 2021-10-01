@@ -22,15 +22,16 @@ class _DriverTravelCalificationPageState
         title: Text('Agregar reseña'),
       ),
       drawer: SideMenu(),
-      body: Column(
+      body: ListView(
         children: [
+          SizedBox(height: 10),
           _bannerPriceInfo('Auto - Toyota', 'Color - Plomo'),
           SizedBox(height: 10),
           _textCalificateYourDriver(),
           SizedBox(height: 5),
           _ratingBar(),
-          SizedBox(height: 5),
-          _textInputCalificateYourDriver()
+          SizedBox(height: 10),
+          _textInputCalificateYourDriver(),
         ],
       ),
     );
@@ -55,9 +56,8 @@ Widget _textInputCalificateYourDriver() {
   return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
       child: TextField(
-        textInputAction: TextInputAction.done,
-        maxLines: 8,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+        maxLines: 5,
+        style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
         decoration: InputDecoration(
             border: OutlineInputBorder(), hintText: 'Deja un comentario'),
       ));
@@ -83,11 +83,14 @@ Widget _ratingBar() {
 }
 
 Widget _textCalificateYourDriver() {
-  return Text(
-    'CALIFICA A TU CONDUCTOR',
-    style: TextStyle(
-        color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 13),
-  );
+  return Container(
+      height: 17,
+      width: double.infinity,
+      child: Column(children: [
+        Text('CALIFICA A TU CONDUCTOR',
+            style: TextStyle(
+                color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 14))
+      ]));
 }
 
 Widget _bannerPriceInfo(
@@ -108,12 +111,12 @@ Widget _bannerPriceInfo(
         SizedBox(height: 20),
         Text(
           title,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 5),
         Text(
           value,
-          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ],
     ),
