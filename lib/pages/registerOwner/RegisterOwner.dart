@@ -64,17 +64,17 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     CustomTextField txtEmail = new CustomTextField(
       hint: "Correo Electronico",
       isValidEmail: true,
+      msgValidEmail: 'Ingrese un correo electronico correcto',
     );
 
     CustomTextField txtPassword = new CustomTextField(
       hint: "Contraseña",
-      isValidPassword: true,
+      isValidPassword: false,
+      msgValidPassword: 'Ingrese una contraseña correcta',
     );
 
     CustomTextField txtAddress = new CustomTextField(
       hint: "Direccion",
-      isValidEmail: true,
-      msgValidEmail: "Escriba correctamente su Correo",
     );
 
     CustomTextField txtDni =

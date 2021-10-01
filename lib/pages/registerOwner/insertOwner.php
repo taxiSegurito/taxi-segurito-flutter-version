@@ -1,62 +1,53 @@
 <?php
-
-
 include "conn.php";
-
 $pdo = $db;
-
-
 $fullname = $_POST['fullname'];
 $cellphone = $_POST['cellphone'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 $address = $_POST['address'];
-
-
+$ci = $_POST['ci'];
 try {
-
-    $pdo->beginTransaction();
-    $insertSql = "
+  $pdo->beginTransaction();
+  $insertSql = "
       INSERT INTO `person`
-        (`fullname`,`cellphone`)
+        (`fullname`,`cellphone`, `updateDate`)
       VALUES
-        (:fullname, :cellphone)
+        (:fullname, :cellphone, current_timestamp)
   ";
-    $insertSql2 = "
+  $insertSql2 = "
       INSERT INTO `user`
-        (`idUser`, `email`,`password`)
+        (`idUser`, `email`,`password`, `idrolUser`)
       VALUES
-        (:idUser, :email ,:password)
+        (:idUser, :email ,:password , 1)
   ";
-    $insertSql3 = "
+  $insertSql3 = "
       INSERT INTO `owner`
-        (`idowner`, `address`)
+        (`idowner`, `address`, `ci`, `company_idcompany`)
       VALUES
-        (:idowner, :address)";
-
-    $statement = $pdo->prepare($insertSql);
-    $statement->execute(array(
-        "fullname" => $fullname,
-        "cellphone" => $cellphone,
-    ));
-    $idPerson = $pdo->lastInsertId();
-    $idowner = $idPerson;
-    $statement2 = $pdo->prepare($insertSql2);
-    $statement2->execute(array(
-        "idUser" => $idPerson,
-        "email" => $email,
-        "password" => $password,
-    ));
-    $statement3 = $pdo->prepare($insertSql3);
-    $statement3->execute(array(
-        "idowner" => $idowner,
-        "address" => $address,
-    ));
-
-    $pdo->commit();
-
-    echo json_encode("Success");
+        (:idowner, :address, :ci, 1)";
+  $statement = $pdo->prepare($insertSql);
+  $statement->execute(array(
+    "fullname" => $fullname,
+    "cellphone" => $cellphone,
+  ));
+  $idPerson = $pdo->lastInsertId();
+  $idowner = $idPerson;
+  $statement2 = $pdo->prepare($insertSql2);
+  $statement2->execute(array(
+    "idUser" => $idPerson,
+    "email" => $email,
+    "password" => $password,
+  ));
+  $statement3 = $pdo->prepare($insertSql3);
+  $statement3->execute(array(
+    "idowner" => $idowner,
+    "address" => $address,
+    "ci" => $ci,
+  ));
+  $pdo->commit();
+  echo json_encode("Success");
 } catch (\Exception $e) {
-    $pdo->rollback();
-    echo json_encode($e);
+  $pdo->rollback();
+  echo json_encode($e);
 }

@@ -8,7 +8,6 @@ import 'package:taxi_segurito_app/models/Company.dart';
 class RegisterOwnerFunctionality {
   BuildContext context;
 
-  var listCompany = {"Taxi Ecoged", "Taxi segurito", "Sin Empresa"};
   Company? company;
   String? names;
   String? lastName;
@@ -36,11 +35,6 @@ class RegisterOwnerFunctionality {
 
   List<Company> listDriver = [
     Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 1),
-    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 2),
-    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 3),
-    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 4),
-    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 5),
-    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 6),
   ];
 
   List<Company> getListCompany() {
@@ -50,21 +44,14 @@ class RegisterOwnerFunctionality {
   onPressedbtnRegisterCar() {
     fullName = names! + " " + lastName! + " " + lastNameSecond!;
     insert(Owner(
-        fullname: fullName!,
-        cellphone: cellphone!,
-        email: email!,
-        password: password!,
-        address: address!,
-        ci: ci!,
-        idCompany: company!.idCompani!));
-    Fluttertoast.showToast(
-        msg: company!.nameCopany,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-
-    activeShowDialog!();
+            fullname: fullName!,
+            cellphone: cellphone!,
+            email: email!,
+            password: password!,
+            address: address!,
+            ci: ci!,
+            idCompany: company!.idCompani!.toString()))
+        .then((_) => activeShowDialog!());
   }
 
   closeNavigator() {
