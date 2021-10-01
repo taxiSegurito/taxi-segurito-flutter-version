@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/models/client.dart';
+import 'package:taxi_segurito_app/models/sesion.dart';
 
 class LoginGoogleUtils {
   static const String TAG = "LoginGoogleUtils";
@@ -30,9 +32,16 @@ class LoginGoogleUtils {
       user = userCredential.user;
       String fullName = user!.displayName.toString();
       String email = user!.email.toString();
-      String cellphone = user!.phoneNumber.toString() + "ss22";
+      String cellphone = user!.phoneNumber.toString();
       Client client = Client(fullName, email, cellphone);
       bool controlBD;
+      String exits = await CheckExits(email);
+      //Ya existe
+      if (exits != "Error") {
+        Client clientExits = Client(fullName, email, cellphone = exits);
+        AddSession(clientExits);
+        return clientExits;
+      }
       //En caso de que haya un numero
       if (client.cellphone != "null") {
         controlBD = await AddDataGoogle(client);
@@ -65,9 +74,11 @@ class LoginGoogleUtils {
             "typeRegister": "Google",
             "idrole": 2,
           }));
-      if (response.body != '{"result":0}') {
+      var res = jsonDecode(response.body);
+      if (res == "Registro Nuevo") {
         //The procedure was carried out successfully
         control = true;
+        AddSession(client);
       } else {
         //failure
         control = false;
@@ -75,7 +86,32 @@ class LoginGoogleUtils {
       return control;
     } catch (e) {
       //if there is any uncontrolled error
+      log(e.toString());
       return false;
+    }
+  }
+
+  void AddSession(Client client) async {
+    Sessions sessions = new Sessions();
+    await sessions.addSessionValue("emailGoogle", client.email);
+  }
+
+  //Verifica que exista en la base de datos
+  //return cellphone si existe
+  //return Error si no
+  Future<String> CheckExits(String email) async {
+    try {
+      var url = Service.url + "UserAdd/UserController.php";
+      var response = await http.post(Uri.parse(url),
+          body: jsonEncode({
+            "email": email,
+          }));
+      var res = jsonDecode(response.body);
+      log(res['result'].toString());
+      return res['result'].toString();
+    } catch (e) {
+      log(e.toString());
+      return "Error";
     }
   }
 }

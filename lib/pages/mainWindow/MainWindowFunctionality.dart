@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_qr_bar_scanner/flutter_qr_bar_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
@@ -37,6 +39,7 @@ class MainWindowFunctionality {
             Navigator.pushNamed(context, 'loginUser'); //Ruta a Cambiar
           } else {
             //Se deberia llamar a la ventana de registro telefono
+            //para llenar el dato y llamar al metodo AddDataGoogle(client)
           }
         } else {
           showToast;
@@ -62,6 +65,8 @@ class MainWindowFunctionality {
             Navigator.pushNamed(context, 'loginUser'); //Ruta a Cambiar
           } else {
             //Se deberia llamar a la ventana de registro telefono
+            //para llenar el dato y llamar al metodo AddDataFacebook(client)
+            log("message");
           }
         } else {
           showToast;

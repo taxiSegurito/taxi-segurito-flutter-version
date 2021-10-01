@@ -11,6 +11,8 @@ void main() async {
   Sessions sessions = Sessions();
   bool idsession = await sessions.verificationSession("iduser");
   bool rolsession = await sessions.verificationSession("rol");
+  bool googleSession = await sessions.verificationSession("emailGoogle");
+  bool facebookSession = await sessions.verificationSession("emailFacebook");
   Widget app = MaterialApp();
   if (!idsession && !rolsession) {
     app = MaterialApp(
@@ -21,6 +23,24 @@ void main() async {
       },
     );
   } else {
+    app = MaterialApp(
+      initialRoute: 'loginUser',
+      routes: {
+        'loginUser': (BuildContext contextFirstScreen) => UserLoginPage()
+      },
+    );
+  }
+  //Si existe una sesion Google
+  if (googleSession) {
+    app = MaterialApp(
+      initialRoute: 'loginUser',
+      routes: {
+        'loginUser': (BuildContext contextFirstScreen) => UserLoginPage()
+      },
+    );
+  }
+  //Si Existe una sesion Facebook
+  else if (facebookSession) {
     app = MaterialApp(
       initialRoute: 'loginUser',
       routes: {
