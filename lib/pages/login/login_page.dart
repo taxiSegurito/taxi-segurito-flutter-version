@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogMenu.dart';
+import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/user.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -8,27 +13,16 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
-  final _keyForm = GlobalKey<FormState>(); //De validacion
+  LoginFuctionality loginFuctionality = new LoginFuctionality();
+  FToast fToast = FToast();
   @override
-  Widget build(BuildContext context) {
-    CustomShowDialogMenu showMenu = new CustomShowDialogMenu(
-        context: context,
-        titleShowDialog: "¿Que deseas registrar?",
-        ontapButtonOne: () {
-          Navigator.pushNamed(context, 'registerVehicle');
-        },
-        buttonOneText: "Registrar Vehiculo",
-        ontapButtonTwo: () {
-          Navigator.pushNamed(context, 'registerCompany');
-        },
-        buttonTwoText: "Registrar Empresa",
-        buttonTwoColor: Colors.white,
-        buttonTextTwoColor: Colors.black,
-        ontapButtonThree: () {
-          Navigator.pushNamed(context, 'registerOwner');
-        },
-        buttonThreeText: "Registrar Dueño");
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
 
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -70,116 +64,112 @@ class _UserLoginPageState extends State<UserLoginPage> {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 30),
-                  child: Form(
-                    key: _keyForm, //Haciendo validaciones
-                    child: Column(
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          height: 38,
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: Colors.black, blurRadius: 1)
-                              ]),
-                          child: TextFormField(
-                            validator: (valor) {
-                              if (valor!.isEmpty) {
-                                //Vacio
-                                return 'Numero de documento vacio';
-                              }
-                              if (valor.isValidEmail) {
-                                return null;
-                              } else {
-                                return 'Los datos son incorrectos';
-                              }
-                            },
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                                //icon: Icon(Icons.account_box_outlined),
-                                hintText: "Ingrese su celular o e-mail"),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        height: 38,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black, blurRadius: 1)
+                            ]),
+                        child: StreamBuilder(
+                          stream: validator.username,
+                          builder: (context, snapshot) {
+                            return TextField(
+                              keyboardType: TextInputType.emailAddress,
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  hintText: "Ingrese su celular o e-mail",
+                                  errorText: snapshot.error?.toString()),
+                              onChanged: validator.changeEmail,
+                            );
+                          },
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        height: 38,
+                        margin: EdgeInsets.only(top: 25),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(color: Colors.black, blurRadius: 1)
+                            ]),
+                        child: StreamBuilder(
+                          stream: validator.password,
+                          builder: (context, snapshot) {
+                            return TextField(
+                              textAlign: TextAlign.center,
+                              decoration: InputDecoration(
+                                  // icon: Icon(Icons.lock),
+                                  hintText: "Ingrese su Contaseña",
+                                  errorText: snapshot.error?.toString()),
+                              onChanged: validator.changePassword,
+                            );
+                          },
+                        ),
+                      ),
+                      // btn Ingresar
+                      Container(
+                        padding: EdgeInsets.only(top: 50),
+                        child: Container(
+                          child: Column(
+                            //mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              StreamBuilder(
+                                stream: validator.submitValid,
+                                builder: (context, snapshot) {
+                                  // funcionalidad de que el boton se deshabilite cuando hayan datos incorrectos no funciona
+                                  return new CustomButton(
+                                    onTap: snapshot.hasData
+                                        ? () async {
+                                            User user = User(
+                                                validator.emailController.value,
+                                                validator
+                                                    .passwordController.value);
+                                            loginFuctionality
+                                                .loginValidate(user);
+                                          }
+                                        : () {
+                                            return null;
+                                          },
+                                    buttonText: "Ingresar",
+                                    buttonColor: Colors.yellow.shade600,
+                                    buttonTextColor: Colors.black,
+                                  );
+                                },
+                              )
+                            ],
                           ),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          height: 38,
-                          margin: EdgeInsets.only(top: 25),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(color: Colors.black, blurRadius: 1)
-                              ]),
-                          child: TextFormField(
-                            validator: (valor) {
-                              if (valor!.isEmpty) {
-                                //Vacio
-                                return 'Numero de documento vacio';
-                              }
-                              if (valor.isValidPassword) {
-                                return null;
-                              } else {
-                                return 'Ingrese contraseña con Mayuscula Numeros gestos';
-                              }
-                            },
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              // icon: Icon(Icons.lock),
-                              hintText: "Ingrese su Contaseña",
-                            ),
+                      ),
+                      Align(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: Column(
+                            children: [
+                              Container(
+                                child: TextButton(
+                                  onPressed: () async {
+                                    Sessions sessions = new Sessions();
+                                    await sessions
+                                        .removeValuesSession("iduser");
+                                    await sessions.removeValuesSession("rol");
+                                  },
+                                  child: Text("Olvidaste tu contraseña?",
+                                      style:
+                                          TextStyle(color: Colors.blueAccent)),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                        // btn Ingresar
-                        Container(
-                          padding: EdgeInsets.only(top: 50),
-                          child: Container(
-                            child: Column(
-                              //mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.yellow.shade600),
-                                    ),
-                                    onPressed: () {
-                                      //showMenu.showAlertDialog();
-                                      Navigator.pushNamed(
-                                          context, "menuButtonsRegister");
-                                      /*if (_keyForm.currentState!.validate()) {
-                                        print("-- validacion Exitosa");
-                                      } else {
-                                        print("-- Ha ocurrido un error");
-                                      }*/
-                                    },
-                                    child: Text(
-                                        "             Ingresar            "))
-                              ],
-                            ),
-                          ),
-                        ),
-                        Align(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 40),
-                            child: Column(
-                              children: [
-                                Container(
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: Text("Olvidaste tu contraseña?",
-                                        style: TextStyle(
-                                            color: Colors.blueAccent)),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 ),
               ],

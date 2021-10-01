@@ -2,7 +2,6 @@ import 'package:flutter_qr_bar_scanner/flutter_qr_bar_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
-
 import 'MainWindow.dart';
 import 'package:flutter/material.dart';
 
