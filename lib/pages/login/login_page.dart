@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
-import 'package:taxi_segurito_app/bloc/services/authService.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
-import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
+import 'package:taxi_segurito_app/models/sesion.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -14,6 +14,7 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
+  LoginFuctionality loginFuctionality = new LoginFuctionality();
   FToast fToast = FToast();
   @override
   void initState() {
@@ -112,9 +113,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
                         },
                       ),
                     ),
-
-                    //
-
                     // btn Ingresar
                     Container(
                       padding: EdgeInsets.only(top: 50),
@@ -133,20 +131,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                               validator.emailController.value,
                                               validator
                                                   .passwordController.value);
-                                          final result = await login(user);
-                                          if (result) {
-                                            GlobalToast.displayToast(
-                                                Text("Bienvenido"),
-                                                Colors.greenAccent,
-                                                Icon(Icons.check),
-                                                2);
-                                          } else {
-                                            GlobalToast.displayToast(
-                                                Text("Datos Incorrectos"),
-                                                Colors.redAccent,
-                                                Icon(Icons.error),
-                                                2);
-                                          }
+                                          loginFuctionality.loginValidate(user);
                                         }
                                       : () {
                                           return null;
@@ -161,7 +146,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
                         ),
                       ),
                     ),
-
                     Align(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 40),
@@ -169,7 +153,11 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           children: [
                             Container(
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  Sessions sessions = new Sessions();
+                                  await sessions.removeValuesSession("iduser");
+                                  await sessions.removeValuesSession("rol");
+                                },
                                 child: Text("Olvidaste tu contraseña?",
                                     style: TextStyle(color: Colors.blueAccent)),
                               ),
