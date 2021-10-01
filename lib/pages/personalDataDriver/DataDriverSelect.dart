@@ -1,3 +1,4 @@
+//Clase con un constructor para leer el archivo json desde php
 class DataDriverSelect {
   String fullName = "";
   String cellphone = "";

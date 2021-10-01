@@ -14,14 +14,15 @@ class PersonalDataDriver extends StatefulWidget {
   _PersonalDataDriverState createState() => _PersonalDataDriverState();
 }
 
-String id = "1";
+String idDriver = "1";
 
 class _PersonalDataDriverState extends State<PersonalDataDriver> {
   List<DataDriverSelect> data = List<DataDriverSelect>.empty(growable: true);
   Future<List<DataDriverSelect>> get_data() async {
     String path = Service.url + "selectDataDriver.php";
+    //cadena de coneccion para php
     var response = await http.post(Uri.parse(path), body: {
-      'idDriver': id,
+      'idDriver': idDriver,
     }).timeout(Duration(seconds: 90));
     var datos = jsonDecode(response.body);
 
@@ -314,8 +315,8 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                 ),
                 //Container que almacenara los cards de vehiculos asignados
                 Container(
-                  width: 300,
-                  height: 100,
+                  width: 350,
+                  height: 150,
                   alignment: Alignment.center,
                   child: CardForVehicule(),
                 )
