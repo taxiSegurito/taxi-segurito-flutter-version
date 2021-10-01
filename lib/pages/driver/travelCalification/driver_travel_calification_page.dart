@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taxi_segurito_app/components/buttons/button_app.dart';
+import 'package:taxi_segurito_app/components/utils/colors.dart' as utils;
+import '../../../components/sidemenu/side_menu.dart';
 
 class DriverTravelCalificationPage extends StatefulWidget {
   @override
@@ -15,22 +16,28 @@ class _DriverTravelCalificationPageState
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: _buttonCalificate(),
+      appBar: AppBar(
+        backgroundColor: utils.Colores.bar,
+        elevation: 0, //Cambie el color del appBar
+        title: Text('Agregar reseña'),
+      ),
+      drawer: SideMenu(),
       body: Column(
         children: [
-          _bannerPriceInfo(),
-          _listTitleTravelInfo(
-              'Desde', 'Cr falssa con calle falsa', Icons.location_on),
-          _listTitleTravelInfo(
-              'Hasta', 'Cr falssa con calle falsa', Icons.directions_run),
-          SizedBox(height: 20),
-          _textCalificateYourDriver(),
+          _bannerPriceInfo('Auto - Toyota', 'Color - Plomo'),
           SizedBox(height: 10),
-          _ratingBar()
+          _textCalificateYourDriver(),
+          SizedBox(height: 5),
+          _ratingBar(),
+          SizedBox(height: 5),
+          _textInputCalificateYourDriver()
         ],
       ),
     );
   }
 }
+
+void saveTravelCalification() async {}
 
 Widget _buttonCalificate() {
   return Container(
@@ -42,6 +49,18 @@ Widget _buttonCalificate() {
       color: Colors.amber,
     ),
   );
+}
+
+Widget _textInputCalificateYourDriver() {
+  return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+      child: TextField(
+        textInputAction: TextInputAction.done,
+        maxLines: 8,
+        style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+        decoration: InputDecoration(
+            border: OutlineInputBorder(), hintText: 'Deja un comentario'),
+      ));
 }
 
 Widget _ratingBar() {
@@ -67,65 +86,36 @@ Widget _textCalificateYourDriver() {
   return Text(
     'CALIFICA A TU CONDUCTOR',
     style: TextStyle(
-        color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 18),
+        color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 13),
   );
 }
 
-Widget _listTitleTravelInfo(String title, String value, IconData icon) {
+Widget _bannerPriceInfo(
+  String title,
+  String value,
+) {
   return Container(
+    height: 140,
     width: double.infinity,
-    alignment: Alignment.center,
-    margin: EdgeInsets.symmetric(horizontal: 30),
-    child: ListTile(
-      title: Text(
-        title,
-        style: TextStyle(
-            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14),
-        maxLines: 1,
-      ),
-      subtitle: Text(
-        value,
-        style: TextStyle(
-            color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 14),
-        maxLines: 2,
-      ),
-      leading: Icon(
-        icon,
-        color: Colors.grey,
-      ),
-    ),
-  );
-}
-
-Widget _bannerPriceInfo() {
-  return ClipPath(
-    clipper: OvalBottomBorderClipper(),
-    child: Container(
-      height: 250,
-      width: double.infinity,
-      color: Colors.amber,
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          Icon(Icons.check_circle, color: Colors.grey[800], size: 100),
-          SizedBox(height: 20),
-          Text(
-            'TU VIAJE A FINALIZADO',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Costo del viaje',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 5),
-          Text(
-            '0\Bs',
-            style: TextStyle(
-                fontSize: 25, color: Colors.green, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
+    child: Column(
+      children: [
+        Icon(Icons.check_circle, color: Colors.grey[800], size: 50),
+        SizedBox(height: 5),
+        Text(
+          'TU VIAJE A FINALIZADO',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 20),
+        Text(
+          title,
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 5),
+        Text(
+          value,
+          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+        ),
+      ],
     ),
   );
 }

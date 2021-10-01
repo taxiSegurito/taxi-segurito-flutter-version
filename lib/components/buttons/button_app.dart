@@ -43,7 +43,7 @@ class ButtonApp extends StatelessWidget {
                 radius: 15,
                 child: Icon(
                   icon,
-                  color: utils.Colors.uberCloneColor,
+                  color: utils.Colores.taxi,
                 ),
                 backgroundColor: Colors.white,
               ),
