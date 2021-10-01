@@ -5,7 +5,6 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
 import 'package:taxi_segurito_app/utils/login_google_utils.dart';
-import 'MainWindow.dart';
 import 'package:flutter/material.dart';
 
 class MainWindowFunctionality {
