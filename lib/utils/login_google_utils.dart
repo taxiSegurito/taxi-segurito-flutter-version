@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:taxi_segurito_app/bloc/services/env.dart';
+import 'package:taxi_segurito_app/models/client.dart';
 
 class LoginGoogleUtils {
   static const String TAG = "LoginGoogleUtils";
@@ -12,15 +13,11 @@ class LoginGoogleUtils {
   User? user;
   //GOOGLE Methods
   //SignInWithGoogle
-
-  Future<User?> signInWithGoogle() async {
-    log(TAG + ", SignInWithGoogle() init...");
+  Future<Client?> signUpWithGoogle() async {
+    //Log in Start
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
-    log(TAG +
-        ", SignInWithGoogle() googleuser email -> ${googleSignInAccount!.email}");
-    log(TAG +
-        ", SignInWithGoogle() googleuser email -> ${googleSignInAccount.displayName}");
+    //If the login was correct it will be different from null
     if (googleSignInAccount != null) {
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
@@ -28,61 +25,57 @@ class LoginGoogleUtils {
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken);
 
-      try {
-        UserCredential userCredential =
-            await auth.signInWithCredential(credential);
-        user = userCredential.user;
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'account-exists-with-different-credential') {
-          // handle the error here
-        } else if (e.code == 'invalid-credential') {
-          // handle the error here
+      UserCredential userCredential =
+          await auth.signInWithCredential(credential);
+      user = userCredential.user;
+      String fullName = user!.displayName.toString();
+      String email = user!.email.toString();
+      String cellphone = user!.phoneNumber.toString() + "ss22";
+      Client client = Client(fullName, email, cellphone);
+      bool controlBD;
+      //En caso de que haya un numero
+      if (client.cellphone != "null") {
+        controlBD = await AddDataGoogle(client);
+        if (controlBD == true) {
+          return client;
+        } else if (controlBD == false) {
+          return null;
         }
-      } catch (e) {
-        log("Error en autentificar");
       }
+      //In case there is no number, the backend will not be called yet
+      else {
+        return client;
+      }
+    } else {
+      return null;
     }
-    String fullName = user!.displayName.toString();
-    String email = user!.email.toString();
-    String cellphone = user!.phoneNumber.toString();
-    String urlImage = user!.photoURL.toString();
-    if (cellphone == "null") {
-      cellphone = "No Tiene";
-    }
-    AddDataGoogle(fullName, email, cellphone);
-
-    return IsCurrentSignIn(user!);
   }
 
-  //IsCurrentSignIn
-  Future<User?> IsCurrentSignIn(User user) async {
-    if (user != null) {
-      assert(!user.isAnonymous);
-      assert(await user.getIdToken() != null);
-
-      final User? currentUser = auth.currentUser;
-      assert(user.uid == currentUser!.uid);
-      log(TAG + ", SigInWithGoogle succeeded: $user");
-      return user;
+  //Method that sends data to backend
+  Future<bool> AddDataGoogle(client) async {
+    try {
+      bool control = false;
+      var url = Service.url + "UserAdd/UserController.php";
+      var response = await http.put(Uri.parse(url),
+          body: jsonEncode({
+            "email": client.email,
+            "password": "Google", //por defecto
+            "fullName": client.fullName,
+            "cellphone": client.cellphone,
+            "typeRegister": "Google",
+            "idrole": 2,
+          }));
+      if (response.body != '{"result":0}') {
+        //The procedure was carried out successfully
+        control = true;
+      } else {
+        //failure
+        control = false;
+      }
+      return control;
+    } catch (e) {
+      //if there is any uncontrolled error
+      return false;
     }
-    //si algo salio mal devolveremos null
-    return null;
-  }
-
-  void AddDataGoogle(String fullName, String email, String cellphone) async {
-    var url =
-        await "https://taxi-segurito.000webhostapp.com/flutter_api/UserAdd/UserController.php";
-
-    log(fullName + "-  http");
-    var response = await http.put(Uri.parse(url),
-        body: jsonEncode({
-          "email": email,
-          "password": "Google", //por defecto
-          "fullName": fullName,
-          "cellphone": cellphone,
-          "typeRegister": "Google",
-          "idrole": 2,
-        }));
-    log(response.body);
   }
 }

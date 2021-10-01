@@ -1,48 +1,66 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
+import 'package:taxi_segurito_app/bloc/services/env.dart';
+import 'package:taxi_segurito_app/models/client.dart';
 
 class LoginFacebookUtils {
   FacebookAuth facebookAuth = FacebookAuth.i;
 
   //LoginWithFacebook
-  Future<bool> LoginWithFacebook() async {
+  Future<Client?> LoginWithFacebook() async {
+    // Authentication is executed request the required permissions
     final LoginResult result = await FacebookAuth.instance.login(
-      permissions: ['email', 'public_profile', 'user_gender'],
+      permissions: ['email', 'public_profile'],
     );
+    //The data is captured in userData
     var userData = await FacebookAuth.instance
-        .getUserData(fields: "name,email,picture.width(200),gender");
-    log(userData.entries.first.value);
-    log(userData.entries.last.value);
-    log(userData.toString());
-    log(userData["email"].toString());
-
-    log("Paso" + result.message.toString());
-    if (result.status == LoginStatus.success) {
-      final AccessToken accessToken = result.accessToken!;
-      log("Facebook" + accessToken.userId);
+        .getUserData(fields: "name,email,picture.width(200)");
+    if (userData != null) {
+      String fullName = userData.entries.first.value;
+      String email = userData["email"].toString();
+      String cellphone = "2";
+      bool controlBD = false;
+      Client client = Client(fullName, email, cellphone);
+      if (client.cellphone != "") {
+        controlBD = await AddDataFacebook(client);
+        if (controlBD == false) {
+          return null;
+        }
+        return client;
+      } else {
+        return client;
+      }
+    } else {
+      return null;
     }
-    log("Mensaje" + result.status.toString());
-    log(result.status.toString());
-    AddDataFacebook(userData.entries.first.value, userData["email"].toString());
-    return result.status == LoginStatus.success;
   }
 
-  void AddDataFacebook(String fullName, String email) async {
-    var url =
-        await "https://taxi-segurito.000webhostapp.com/flutter_api/UserAdd/UserController.php";
-
-    log(fullName + "-  http");
-    var response = await http.put(Uri.parse(url),
-        body: jsonEncode({
-          "email": email,
-          "password": "Facebook", //por defecto
-          "fullName": fullName,
-          "cellphone": "12345678",
-          "typeRegister": "Facebook",
-          "idrole": 2, //Cliente
-        }));
-    log(response.body);
+  //Method that sends data to backend
+  Future<bool> AddDataFacebook(Client client) async {
+    try {
+      var url = Service.url + "UserAdd/UserController.php";
+      bool control;
+      var response = await http.put(Uri.parse(url),
+          body: jsonEncode({
+            "email": client.email,
+            "password": "Facebook", //por defecto
+            "fullName": client.fullName,
+            "cellphone": client.cellphone,
+            "typeRegister": "Facebook",
+            "idrole": 2, //Cliente
+          }));
+      if (response.body != '{"result":0}') {
+        //Successful procedure
+        control = true;
+      } else {
+        //failure
+        control = false;
+      }
+      return control;
+    } catch (e) {
+      //if there is any uncontrolled error
+      return false;
+    }
   }
 }
