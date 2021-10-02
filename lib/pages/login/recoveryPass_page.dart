@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'dart:async';
+import 'package:http/http.dart' as http;
 import 'package:mailer/mailer.dart'; //Enviar correo
 import 'package:mailer/smtp_server.dart'; //Enviar correo
 import 'dart:math';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:email_validator/email_validator.dart'; //Verificar correo
+import 'package:email_validator/email_validator.dart';  //Verificar correo
+import 'package:taxi_segurito_app/pages/user/updatePassword.dart';
+import 'dart:convert';
 
 class RecoveryPass extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class _RecoveryPassState extends State<RecoveryPass> {
   var email_Controller = '';
   var codeInput_Controller = '';
   var codeVerify = '';
+
   //Disable button "confirmar" variables;
   bool _isEnabled = true;
 
@@ -138,7 +141,7 @@ class _RecoveryPassState extends State<RecoveryPass> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.yellow.shade600),
                                 ),
-                                onPressed: _isEnabled ? changePassword : null,
+                                onPressed: _isEnabled ? goUpdatePassword : null,
                                 child:
                                     Text("             Confirmar            "))
                           ],
@@ -155,12 +158,6 @@ class _RecoveryPassState extends State<RecoveryPass> {
   //Metodso para enviar email con codigo
   void DisableAndSend()
   {
-        Fluttertoast.showToast(
-        msg: "Enviando...",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.green,
-        textColor: Colors.white);
     if(email_Controller == "") //Si email no esta vacio
     {
         Fluttertoast.showToast(
@@ -172,12 +169,47 @@ class _RecoveryPassState extends State<RecoveryPass> {
     }
     else{
       final bool _isValid = EmailValidator.validate(email_Controller);
-      if(_isValid) //Si el email existe
+      if(_isValid) //Si el email es real, verificamos si est registrado
       {
-        SendEmail_Function(email_Controller);
-        enableElevatedButton();
+        var _checkEmail = checkEmailOnDatabase(email_Controller).toString();
+        print("_checkEmail: "+_checkEmail);
+        if(_checkEmail == "AlreadyExists") //Si ya esta registrado, enviamos correo
+        {
+          Fluttertoast.showToast(
+          msg: "Enviando...",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.green,
+          textColor: Colors.white);
+
+          SendEmail_Function(email_Controller);
+          enableElevatedButton();
+        }
+        else                        //Si no
+        {
+          print("3: "+_checkEmail.toString());
+           if(_checkEmail == "NoExist") //Avisamos que no exist o...
+           {
+              Fluttertoast.showToast(
+              msg: "Este correo no está registrado.",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.red,
+              textColor: Colors.white);
+           }
+           else                       //si no se pudo realizar la consulta
+           {
+              Fluttertoast.showToast(
+              msg: "Error en la base de datos.",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.red,
+              textColor: Colors.white);
+           }
+        }
+
       }
-      else //Si no existe
+      else //Si no es real
       {
         Fluttertoast.showToast(
         msg: "El correo no existe.",
@@ -247,8 +279,21 @@ SendEmail_Function(emailTo) async {
       print("confirmarButton: $_isEnabled");
     });
   }
-  //Metodo para confirmar el cambio de contraseña
-  changePassword()
+  //METODOS PRUEBA
+  Future checkEmailOnDatabase(email) async
+  {
+    var url ="https://taxi-segurito.000webhostapp.com/flutter_api/checkEmail.php";
+    var response = await http.post(Uri.parse(url),body:{
+      "email" : email,
+
+    });
+    print("2: "+response.body);
+
+    var data = json.decode(response.body);
+    return data;
+  }
+  //Metodo para confirmar el codigo de verificacion e ir a updatePassword.dart
+  goUpdatePassword()
   {
     if(codeInput_Controller == "")
     {
@@ -258,17 +303,13 @@ SendEmail_Function(emailTo) async {
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.yellow,
         textColor: Colors.white);
+        //Borrar despues
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePassword(email_Controller)),);
     }
     else{
       if(codeVerify == codeInput_Controller)
       {
-        // TEMPORAL REEMPLAZAR POR CONSULTA A LA BDD PARA MODIFICAR
-        Fluttertoast.showToast(
-        msg: "*Se va a otra ventana.",
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.red,
-        textColor: Colors.white);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePassword(email_Controller)),);
       }
       else
       {
