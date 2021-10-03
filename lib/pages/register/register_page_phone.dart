@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/models/sms/sms_twilio.dart';
+import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_info.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -11,16 +13,8 @@ class RegisterPage extends StatefulWidget {
   _RegisterPageState createState() => new _RegisterPageState();
 }
 
-String _generateCode() {
-  String code = "";
-  var rng = new Random();
-  for (var i = 0; i < 6; i++) {
-    code = code + rng.nextInt(9).toString();
-  }
-  return code;
-}
-
 class _RegisterPageState extends State<RegisterPage> {
+  RegisterFunctionality registerFunctionality = new RegisterFunctionality();
   bool visibilitycode = false;
   bool visibilityphone = true;
   TextEditingController number = TextEditingController();
@@ -67,7 +61,6 @@ class _RegisterPageState extends State<RegisterPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text("Registro de usuarios"),
         backgroundColor: Colors.white,
         leading: Builder(
           builder: (BuildContext context) {
@@ -128,10 +121,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                       new CustomButton(
                                           onTap: () {
                                             if (!visibilitycode) {
-                                              code = _generateCode();
+                                              Sms sms = new Sms();
+                                              code = registerFunctionality
+                                                  .generateCode();
                                               _changed(true, "code");
                                               startTimer();
                                               _changed(false, "phone");
+                                              // sms.sendSms(
+                                              //     "+591" + number.text,
+                                              //     "El codigo de verificacion es: " +
+                                              //         code);
                                             }
                                           },
                                           buttonText: "VERIFICAR",
@@ -164,6 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   onChanged: (value) {
                                     if (code != "") {
                                       if (value == code) {
+                                        _start = 0;
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(

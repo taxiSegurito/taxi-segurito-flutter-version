@@ -6,6 +6,7 @@ import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/person.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/models/userimpl.dart';
+import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 
 class RegisterData extends StatefulWidget {
   final String number;
@@ -20,6 +21,7 @@ class _RegisterDataState extends State<RegisterData> {
   TextEditingController apellidos = TextEditingController();
   TextEditingController correo = TextEditingController();
   TextEditingController password = TextEditingController();
+  RegisterFunctionality registerFunctionality = new RegisterFunctionality();
   _RegisterDataState(this.number);
 
   void modalRegister(BuildContext context) {
@@ -63,13 +65,8 @@ class _RegisterDataState extends State<RegisterData> {
                         nombres.text + " " + apellidos.text, number);
                     User user = User.insert(correo.text, password.text);
                     Clientuser clientuser = Clientuser.insert("normal");
-
-                    final result = await insertClient(person, user, clientuser);
-                    if (result) {
-                      print("insertado");
-                    } else {
-                      print("no insertado");
-                    }
+                    registerFunctionality.registerClient(
+                        person, user, clientuser);
                   },
                   buttonText: "REGISTRARSE",
                   buttonColor: Colors.amber,
