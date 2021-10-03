@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/user.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -8,7 +14,15 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
+  LoginFuctionality loginFuctionality = new LoginFuctionality();
+  FToast fToast = FToast();
   @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -61,11 +75,18 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           boxShadow: [
                             BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            //icon: Icon(Icons.account_box_outlined),
-                            hintText: "Ingrese su celular o e-mail"),
+                      child: StreamBuilder(
+                        stream: validator.username,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            keyboardType: TextInputType.emailAddress,
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                                hintText: "Ingrese su celular o e-mail",
+                                errorText: snapshot.error?.toString()),
+                            onChanged: validator.changeEmail,
+                          );
+                        },
                       ),
                     ),
                     Container(
@@ -78,17 +99,20 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           boxShadow: [
                             BoxShadow(color: Colors.black, blurRadius: 1)
                           ]),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                          // icon: Icon(Icons.lock),
-                          hintText: "Ingrese su Contaseña",
-                        ),
+                      child: StreamBuilder(
+                        stream: validator.password,
+                        builder: (context, snapshot) {
+                          return TextField(
+                            textAlign: TextAlign.center,
+                            decoration: InputDecoration(
+                                // icon: Icon(Icons.lock),
+                                hintText: "Ingrese su Contaseña",
+                                errorText: snapshot.error?.toString()),
+                            onChanged: validator.changePassword,
+                          );
+                        },
                       ),
                     ),
-
-                    //
-
                     // btn Ingresar
                     Container(
                       padding: EdgeInsets.only(top: 50),
@@ -96,20 +120,32 @@ class _UserLoginPageState extends State<UserLoginPage> {
                         child: Column(
                           //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.yellow.shade600),
-                                ),
-                                onPressed: () {},
-                                child:
-                                    Text("             Ingresar            "))
+                            StreamBuilder(
+                              stream: validator.submitValid,
+                              builder: (context, snapshot) {
+                                // funcionalidad de que el boton se deshabilite cuando hayan datos incorrectos no funciona
+                                return new CustomButton(
+                                  onTap: snapshot.hasData
+                                      ? () async {
+                                          User user = User.login(
+                                              validator.emailController.value,
+                                              validator
+                                                  .passwordController.value);
+                                          loginFuctionality.loginValidate(user);
+                                        }
+                                      : () {
+                                          return null;
+                                        },
+                                  buttonText: "    Ingresar    ",
+                                  buttonColor: Colors.yellow.shade600,
+                                  buttonTextColor: Colors.black,
+                                );
+                              },
+                            )
                           ],
                         ),
                       ),
                     ),
-
                     Align(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 40),
@@ -117,7 +153,11 @@ class _UserLoginPageState extends State<UserLoginPage> {
                           children: [
                             Container(
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () async {
+                                  Sessions sessions = new Sessions();
+                                  await sessions.removeValuesSession("iduser");
+                                  await sessions.removeValuesSession("rol");
+                                },
                                 child: Text("Olvidaste tu contraseña?",
                                     style: TextStyle(color: Colors.blueAccent)),
                               ),

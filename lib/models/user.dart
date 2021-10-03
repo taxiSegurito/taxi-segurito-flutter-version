@@ -10,4 +10,6 @@ class User {
       this.updateDate, this.status);
 
   User.insert(this.email, this.password);
+
+  User.login(this.email, this.password);
 }
