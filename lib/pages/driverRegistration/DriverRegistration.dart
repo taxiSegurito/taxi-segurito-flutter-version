@@ -3,8 +3,8 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
-import 'package:taxi_segurito_app/components/sidemenu/side_menu_owner.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistrationFuncionality.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
 
 class DriverRegistration extends StatefulWidget {
@@ -17,9 +17,11 @@ class DriverRegistration extends StatefulWidget {
 class _DriverRegistrationState extends State<DriverRegistration> {
   @override
   Widget build(BuildContext context) {
-    Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     final _formKey = GlobalKey<FormState>();
+    Color colorMain = Color.fromRGBO(255, 193, 7, 1);
+
     DriverRegistrationFuncionality driverRegistrationFuncionality;
+
     Text title = Text(
       "Registrar Conductor",
       style: const TextStyle(
@@ -41,24 +43,29 @@ class _DriverRegistrationState extends State<DriverRegistration> {
       isValidString: true,
       msgValidString: "No puede ingresar números en su nombre",
     );
+
     CustomTextField txtLastName = new CustomTextField(
       hint: "Primer apellido",
       isValidString: true,
       msgValidString: "No puede ingresar números en su primer apellido",
     );
+
     CustomTextField txtSecondLastName = new CustomTextField(
       hint: "Segundo apellido",
       isValidString: true,
       msgValidString: "No puede ingresar números",
     );
+
     CustomTextField txtDriverCI = new CustomTextField(
       hint: "Número de carnet",
     );
+
     CustomTextField txtDriverLicense = new CustomTextField(
       hint: "Número de licencia de conducir",
       isValidNumber: true,
       msgValidNumber: "No puede ingresar letras en su número de licencia",
     );
+
     CustomTextField txtPhoneNumber = new CustomTextField(
       hint: "Número de celular",
       isValidNumber: true,
@@ -73,6 +80,9 @@ class _DriverRegistrationState extends State<DriverRegistration> {
         buttonText: "Aceptar",
         ontap: () {
           closeNavigator(context);
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => DriversList()));
+          ;
         },
         context: context,
         buttonColor: colorMain,
@@ -80,7 +90,10 @@ class _DriverRegistrationState extends State<DriverRegistration> {
         titleShowDialog: "Registro Exitoso!");
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {},
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => DriversList()));
+      },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
       buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
@@ -115,8 +128,10 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     );
 
     return Scaffold(
-        appBar: AppBar(),
-        drawer: SideMenuOwner(),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+        ),
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         body: SingleChildScrollView(

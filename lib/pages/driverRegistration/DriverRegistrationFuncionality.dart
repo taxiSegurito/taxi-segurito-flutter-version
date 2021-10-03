@@ -12,7 +12,6 @@ class DriverRegistrationFuncionality {
   DriverRegistrationFuncionality(this.names, this.lastName, this.secondLastName,
       this.driverCI, this.driverLicense, this.phone);
 
-  // Register button test
   onPressedbtnRegisterDriver() {
     Fluttertoast.showToast(
         msg: names,
