@@ -61,7 +61,7 @@ class LoginGoogleUtils {
   }
 
   //Method that sends data to backend
-  Future<bool> AddDataGoogle(client) async {
+  Future<bool> AddDataGoogle(Client client) async {
     try {
       bool control = false;
       var url = Service.url + "UserAdd/UserController.php";
