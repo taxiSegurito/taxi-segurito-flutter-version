@@ -16,10 +16,12 @@ class RegisterCompanyFunctionality {
       this.nit,
       required this.context});
 
-  onPressedBtnRegister() {
-    company = new Company(nameCopany: nameCompany!, nit: nit!);
-    insert(company!).then((_) {
-      activeShowDialog!();
+  onPressedBtnRegister() async {
+    company = new Company(companyName: nameCompany!, nit: nit!);
+    insert(company!).then((value) {
+      if (value) {
+        activeShowDialog!();
+      }
     });
   }
 

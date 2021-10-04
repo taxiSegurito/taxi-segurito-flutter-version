@@ -4,29 +4,38 @@ import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/models/sesion.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
-import 'package:taxi_segurito_app/pages/menuButtonsRegister/MenuButtonsRegister.dart';
+
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
-import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicle.dart';
+
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
   Sessions sessions = Sessions();
+
   bool idsession = await sessions.verificationSession("iduser");
   bool rolsession = await sessions.verificationSession("rol");
-  Widget app = MaterialApp();
+  Widget app = MaterialApp(
+    debugShowCheckedModeBanner: false,
+  );
   if (!idsession && !rolsession) {
     app = MaterialApp(
-      initialRoute: 'firstScreen',
+      debugShowCheckedModeBanner: false,
+      initialRoute: 'registerVehicle',
       routes: {
+        'registerVehicle': (BuildContext contextRegisterVehicle) =>
+            RegisterVehicle(),
+        'registerCompany': (BuildContext contextRegisterCompany) =>
+            RegisterCompany(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage()
       },
     );
   } else {
     app = MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: 'loginUser',
       routes: {
         'loginUser': (BuildContext contextFirstScreen) => UserLoginPage()
@@ -47,20 +56,15 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
     return MaterialApp(
       title: "Taxi Segurito",
       debugShowCheckedModeBanner: false,
-      initialRoute: 'firstScreen',
+      initialRoute: 'registerCompany',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'registerOwnerAndVehicle':
-            (BuildContext contextRegisterOwnerAndVehicle) =>
-                RegisterOwnerAndVehicle(),
         'registerCompany': (BuildContext contextRegisterCompany) =>
             RegisterCompany(),
         'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
-        'menuButtonsRegister': (BuildContext contextMenuButtonRegister) =>
-            MenuButtonsRegister()
       },
     );
   }

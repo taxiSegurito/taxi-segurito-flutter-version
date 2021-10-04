@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
@@ -31,11 +32,20 @@ class _RegisterCompanyState extends State<RegisterCompany> {
     );
 
     CustomTextField txtNameCompany = new CustomTextField(
-      hint: "Nombre Compania",
+      hint: 'Nombre Compañia',
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          StringValidator(errorText: "No se permiten numeros")
+        ],
+      ),
     );
 
     CustomTextField txtNit = new CustomTextField(
       hint: "Nit de la empresa",
+      multiValidator: MultiValidator(
+        [RequiredValidator(errorText: "Campo vacio")],
+      ),
     );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
@@ -120,35 +130,36 @@ class _RegisterCompanyState extends State<RegisterCompany> {
         ));
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
-      appBar: appBar,
-      drawer: SideMenu(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-              flex: 2,
-              child: Container(
-                  alignment: Alignment.center,
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        containerTitle,
-                        txtNameCompany,
-                        txtNit,
-                        containerButtons
-                      ],
-                    ),
-                  )))
-        ],
-      ),
-    );
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        drawer: SideMenu(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Form(
+                        autovalidateMode: AutovalidateMode.always,
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            containerTitle,
+                            txtNameCompany,
+                            txtNit,
+                            containerButtons
+                          ],
+                        ),
+                      )))
+            ],
+          ),
+        ));
   }
 }

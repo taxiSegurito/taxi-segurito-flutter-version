@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomTextFieldSearch extends StatefulWidget {
   String hint;
@@ -10,26 +9,20 @@ class CustomTextFieldSearch extends StatefulWidget {
   double marginRight;
   double marginBotton;
   double marginTop;
-  bool isValidEmail, isValidName, isValidPassword, isNotNull, isValidPhone;
   double heightNum;
   _CustomTextFieldSearchState _customTextFieldState =
       new _CustomTextFieldSearchState();
-  CustomTextFieldSearch(
-      {Key? key,
-      required this.ontap,
-      required this.callbackValueSearch,
-      this.hint = "Campo de text",
-      this.marginLeft = 50,
-      this.marginRight = 50,
-      this.marginTop = 5,
-      this.marginBotton = 5,
-      this.heightNum = 35,
-      this.isValidEmail = false,
-      this.isValidName = false,
-      this.isValidPassword = false,
-      this.isNotNull = false,
-      this.isValidPhone = false})
-      : super(key: key);
+  CustomTextFieldSearch({
+    Key? key,
+    required this.ontap,
+    required this.callbackValueSearch,
+    this.hint = "Campo de texto",
+    this.marginLeft = 50,
+    this.marginRight = 50,
+    this.marginTop = 5,
+    this.marginBotton = 5,
+    this.heightNum = 35,
+  }) : super(key: key);
 
   @override
   State<CustomTextFieldSearch> createState() {
@@ -46,12 +39,6 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
 
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    changeHeightTextField(double num) {
-      setState(() {
-        widget.heightNum = num;
-      });
-    }
-
     return Container(
         margin: new EdgeInsets.only(
             top: widget.marginTop,
@@ -80,13 +67,6 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
             height: widget.heightNum,
             alignment: Alignment.bottomCenter,
             child: new TextFormField(
-              validator: (value) {
-                if (value!.isEmpty) {
-                  changeHeightTextField(60);
-                  return 'Campo vacio';
-                }
-                changeHeightTextField(35);
-              },
               textInputAction: TextInputAction.search,
               textAlignVertical: TextAlignVertical.center,
               controller: valueController,
@@ -114,39 +94,5 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
 
   String getValue() {
     return valueController.text;
-  }
-}
-
-extension extString on String {
-  bool get isValidEmail {
-    final emailRegExp = RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
-    return emailRegExp.hasMatch(this);
-  }
-
-  bool get isValidName {
-    final nameRegExp = new RegExp(r'[a-z]');
-
-    return nameRegExp.hasMatch(this);
-  }
-
-  bool get isValidPassword {
-    final passwordRegExp =
-        new RegExp(r'^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[!@#\$&*~]).{8,}$');
-    return passwordRegExp.hasMatch(this);
-  }
-
-  bool get isNotNull {
-    return this != null;
-  }
-
-  bool get isValidPhone {
-    final phoneRegExp = RegExp(r'[0-9]');
-
-    return phoneRegExp.hasMatch(this);
-  }
-
-  bool get isValidDate {
-    final dateRegExp = RegExp(r'(\d{4}-?\d\d-?\d\d(\s|T)\d\d:?\d\d:?\d\d)');
-    return dateRegExp.hasMatch(this);
   }
 }

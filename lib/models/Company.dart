@@ -1,16 +1,16 @@
 class Company {
-  int? idCompani;
-  String nameCopany;
+  int? idCompany;
+  String companyName;
   String nit;
-  int? state;
+  int? status;
   DateTime? registerDate;
   DateTime? updateDate;
 
   Company(
-      {this.idCompani,
-      required this.nameCopany,
+      {this.idCompany,
+      required this.companyName,
       required this.nit,
-      this.state,
+      this.status,
       this.registerDate,
       this.updateDate});
 }

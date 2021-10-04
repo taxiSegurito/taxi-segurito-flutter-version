@@ -6,21 +6,14 @@ import 'package:taxi_segurito_app/services/env.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 
 Future<bool> insert(Company company) async {
-  var path = Service.url + "insertcompany.php";
+  var path = Service.url + "insertCompany.php";
   final response = await http.post(Uri.parse(path), body: {
-    'name': company.nameCopany,
+    'name': company.companyName,
     'nit': company.nit,
   });
   String result = json.decode(response.body);
-  //String result = response.body;
-  Fluttertoast.showToast(
-      msg: result,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.red,
-      textColor: Colors.yellow);
 
-  if (result == "success") {
+  if (result == "Success") {
     return Future<bool>.value(true);
   } else {
     return Future<bool>.value(false);

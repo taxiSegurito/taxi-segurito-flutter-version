@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/Driver.dart';
+import 'package:taxi_segurito_app/models/Vehicle.dart';
 
 List<Driver> listDriver = [
   Driver("Juan", "1232348", "12234234678"),
@@ -29,6 +30,7 @@ class RegisterVehicleFunctionality {
   Driver? driver;
   List<Image>? listImage;
   VoidCallback? activeShowDialog;
+  Vehicle? vehicle;
 
   RegisterVehicleFunctionality(
       {required this.context,
@@ -49,14 +51,7 @@ class RegisterVehicleFunctionality {
   }
 
   onPressedbtnRegisterCar() {
-    agregarUsuario();
-    Fluttertoast.showToast(
-        msg: driver!.name,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
-    activeShowDialog!();
+    //TODO: implementar el onPressed del boton registrar
   }
 
   onPressedbtnCancelRegisterCar() {
@@ -64,28 +59,10 @@ class RegisterVehicleFunctionality {
   }
 
   onPressedSearhDriver(String value) {
-    Fluttertoast.showToast(
-        msg: value,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
+    //TODO: implementar el buscador con la base de datos y el resultado añadirlo a la lista que esta acontinuacion.
+
     listDriver = [
       Driver("Juan", "1232348", "12234234678"),
     ];
-  }
-
-  void agregarUsuario() {
-    /*var url = "http://192.168.1.9/pruebas/agregardueño.php";
-    http.post(Uri.parse(url), body: {
-      "fullName": nameUser,
-      "carnet": dni,
-      "nacionality": ownerNationality,
-      "phoneNumber": phone,
-      "model": model,
-      "plaqueNumber": numberPlate,
-      "color": carColor,
-      "capacity": capacity
-    });*/
   }
 }

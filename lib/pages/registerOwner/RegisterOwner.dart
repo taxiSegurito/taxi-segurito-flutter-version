@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwnerFunctionality.dart';
-import 'package:taxi_segurito_app/providers/ImagesFile.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomDropdownButton.dart';
+import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
+import 'package:taxi_segurito_app/pages/registerOwner/widgets/DropDownCompany.dart';
 
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
-import 'package:taxi_segurito_app/pages/registerOwnerAndVehicle/RegisterOwnerAndVehicleFunctionality.dart';
 
 class RegisterOwner extends StatefulWidget {
   RegisterOwner({Key? key}) : super(key: key);
@@ -33,52 +33,72 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       textAlign: TextAlign.center,
     );
 
-    CustomDropdownButton ddbNameCompany = new CustomDropdownButton(
+    DropDownCompany ddbNameCompany = new DropDownCompany(
       listItem: registerOwnerFunctionality.getListCompany(),
       hint: "Seleccione empresa",
     );
 
     CustomTextField txtNameOwner = new CustomTextField(
-      hint: "Nombres",
-      isValidString: true,
-      msgValidString: "Solo se permite letras en nombre",
+      hint: 'Nombres',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        StringValidator(errorText: "No se permite numeros")
+      ]),
     );
 
     CustomTextField txtLastName = new CustomTextField(
-      hint: "Apellido Paterno",
-      isValidString: true,
-      msgValidString: "Solo se permite letras en apellido",
+      hint: 'Apellido Paterno',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        StringValidator(errorText: "No se permite numeros")
+      ]),
     );
 
     CustomTextField txtLastNameSecond = new CustomTextField(
-        hint: "Apellido Materno",
-        isValidString: true,
-        msgValidString: "Solo se permite letras en apellido");
+      hint: 'Apellido Materno',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        StringValidator(errorText: "No se permite numeros")
+      ]),
+    );
 
     CustomTextField txtPhone = new CustomTextField(
-      hint: "Telefono",
-      isValidNumber: true,
-      msgValidNumber: "Solo se permite numeros",
+      hint: 'Telefono',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        NumberValidator(errorText: "No se permite letras")
+      ]),
     );
 
     CustomTextField txtEmail = new CustomTextField(
-      hint: "Correo Electronico",
-      isValidEmail: true,
-      msgValidEmail: 'Ingrese un correo electronico correcto',
+      hint: 'Correo electronico',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        EmailValidator(errorText: "Ingrese los parametros correctos")
+      ]),
     );
 
     CustomTextField txtPassword = new CustomTextField(
-      hint: "Contraseña",
-      isValidPassword: false,
-      msgValidPassword: 'Ingrese una contraseña correcta',
+      hint: 'Contraseña',
+      obscureText: true,
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        PasswordValidator(errorText: "Ingrese parametros correctos")
+      ]),
     );
-
     CustomTextField txtAddress = new CustomTextField(
-      hint: "Direccion",
+      hint: 'Direccion',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+      ]),
     );
 
-    CustomTextField txtDni =
-        new CustomTextField(hint: "Documento de identidad");
+    CustomTextField txtDni = new CustomTextField(
+      hint: 'Cedula de identidad',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+      ]),
+    );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {

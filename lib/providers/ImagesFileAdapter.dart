@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/providers/ImageAccessProvider.dart';
 
-class ImagesFile extends StatefulWidget {
-  _ImagesFileState _imagesFileState = new _ImagesFileState();
-  final bool isImageUserDefault, isImageCarDefault, isShapeCircle;
+class ImagesFileAdapter extends StatefulWidget {
+  _ImagesFileAdapterState _imagesFileState = new _ImagesFileAdapterState();
+  final bool isShapeCircle;
   late Image imageCar;
+  String? imagePath;
+
   bool isActiveImageDefault = true;
-  ImagesFile({
+  ImagesFileAdapter({
     Key? key,
-    this.isImageUserDefault = false,
-    this.isImageCarDefault = false,
+    this.imagePath,
     this.isShapeCircle = false,
   }) : super(key: key);
 
   @override
-  _ImagesFileState createState() {
+  _ImagesFileAdapterState createState() {
     return _imagesFileState;
   }
 
@@ -27,7 +28,7 @@ class ImagesFile extends StatefulWidget {
   }
 }
 
-class _ImagesFileState extends State<ImagesFile> {
+class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
   String? dropdownError;
   Color colorBorder = Colors.grey;
   bool validateDrown() {
@@ -42,16 +43,16 @@ class _ImagesFileState extends State<ImagesFile> {
       colorBorder = Colors.grey;
       isValid = true;
     }
-    //widget.heightNum = 38;
     return isValid;
   }
 
   ImageAccessProvider imageAccessProvider = new ImageAccessProvider();
 
   openGalery() {
-    imageAccessProvider.openGalery().then((_) {
+    imageAccessProvider.openGallery().then((_) {
       setState(() {
         widget.isActiveImageDefault = false;
+        widget.imagePath = null;
         widget.imageCar = Image.file(imageAccessProvider.getImage());
       });
     });
@@ -68,16 +69,8 @@ class _ImagesFileState extends State<ImagesFile> {
       widget.imageCar = imagedefault;
     }
 
-    if (widget.isImageCarDefault && widget.isActiveImageDefault) {
-      imagedefault = new Image.asset(
-        "lib/components/assets/images/carDefault.png",
-      );
-      widget.imageCar = imagedefault;
-    }
-    if (widget.isImageUserDefault && widget.isActiveImageDefault) {
-      imagedefault = new Image.asset(
-        "lib/components/assets/images/userDefault.png",
-      );
+    if (widget.imagePath != null) {
+      imagedefault = new Image.asset(widget.imagePath!);
       widget.imageCar = imagedefault;
     }
 

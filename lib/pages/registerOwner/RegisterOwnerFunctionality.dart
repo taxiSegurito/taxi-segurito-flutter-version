@@ -33,12 +33,12 @@ class RegisterOwnerFunctionality {
       this.cellphone,
       this.activeShowDialog});
 
-  List<Company> listDriver = [
-    Company(nameCopany: "6 de Agosto", nit: "12345678", idCompani: 1),
+  List<Company> companyList = [
+    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: 1),
   ];
 
   List<Company> getListCompany() {
-    return listDriver.toList();
+    return companyList.toList();
   }
 
   onPressedbtnRegisterCar() {
@@ -50,7 +50,7 @@ class RegisterOwnerFunctionality {
             password: password!,
             address: address!,
             ci: ci!,
-            idCompany: company!.idCompani!.toString()))
+            idCompany: company!.idCompany!.toString()))
         .then((_) => activeShowDialog!());
   }
 

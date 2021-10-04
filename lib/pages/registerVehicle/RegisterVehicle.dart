@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
-import 'package:taxi_segurito_app/components/cards/CustomCardSimple.dart';
+import 'package:taxi_segurito_app/pages/registerVehicle/widgets/SelectDriverCard.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
-import 'package:taxi_segurito_app/components/dialogs/CustomShowDialogSearh.dart';
+import 'package:taxi_segurito_app/pages/registerVehicle/widgets/SearchDialogDriver.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
-import 'package:taxi_segurito_app/providers/ImagesFile.dart';
+import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 
@@ -26,12 +27,12 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     RegisterVehicleFunctionality registerVehicleFunctionality =
         new RegisterVehicleFunctionality(context: context);
 
-    CustomCardSimple? cardInformationDriver;
-    ImagesFile imageCar = new ImagesFile(
-      isImageCarDefault: true,
+    SelectDriverCard? cardInformationDriver;
+    ImagesFileAdapter imageCar = new ImagesFileAdapter(
+      imagePath: "lib/components/assets/images/carDefault.png",
     );
-    ImagesFile imageCarTop = new ImagesFile(
-      isImageCarDefault: true,
+    ImagesFileAdapter imageCarTop = new ImagesFileAdapter(
+      imagePath: "lib/components/assets/images/carDefault.png",
     );
 
     closeNavigator(BuildContext context) {
@@ -55,7 +56,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
           textColor: Colors.yellow);
     }
 
-    CustomShowDialogSearch showDialogSearch = new CustomShowDialogSearch(
+    SearchDialogDriver showDialogSearch = new SearchDialogDriver(
         context: context,
         ontapButtonCancel: () {
           closeNavigator(context);
@@ -68,15 +69,37 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
         });
 
     CustomTextField txtCarColor = new CustomTextField(
-      hint: "Color",
-      isValidString: true,
-      msgValidString: "Solo se permite letras",
+      hint: 'Color del vehiculo',
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          StringValidator(
+              errorText:
+                  "Ingrese el nombre del color Correctamente sin numeros"),
+        ],
+      ),
     );
-    CustomTextField txtCapacity = new CustomTextField(hint: "Capacidad");
-    CustomTextField txtModelCar = new CustomTextField(hint: "Modelo");
 
-    CustomTextField txtNumberPlate = new CustomTextField(hint: "N° de Placa");
+    CustomTextField txtCapacity = new CustomTextField(
+      hint: 'Capacidad',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        StringValidator(errorText: "Ingrese la capacidad en formato texto"),
+      ]),
+    );
+    CustomTextField txtModelCar = new CustomTextField(
+      hint: 'Modelo',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        RequiredValidator(errorText: "Campo vacio")
+      ]),
+    );
 
+    CustomTextField txtNumberPlate = new CustomTextField(
+      hint: 'Placa',
+      multiValidator:
+          MultiValidator([RequiredValidator(errorText: "Campo Vacio")]),
+    );
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
         registerVehicleFunctionality.onPressedbtnCancelRegisterCar();
@@ -104,7 +127,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
       dialogShowRegister.getShowDialog();
     }
 
-    cardInformationDriver = new CustomCardSimple(
+    cardInformationDriver = new SelectDriverCard(
       ontap: () {
         showDialogSearch.showAlertDialog();
       },
