@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
@@ -20,7 +21,12 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
 
-    DriverRegistrationFuncionality driverRegistrationFuncionality;
+    DriverRegistrationFuncionality? driverRegistrationFuncionality =
+        new DriverRegistrationFuncionality(context: context);
+
+    closeNavigator(BuildContext context) {
+      Navigator.of(context).pop();
+    }
 
     Text title = Text(
       "Registrar Conductor",
@@ -40,20 +46,14 @@ class _DriverRegistrationState extends State<DriverRegistration> {
 
     CustomTextField txtNameDriver = new CustomTextField(
       hint: "Nombres",
-      isValidString: true,
-      msgValidString: "No puede ingresar números en su nombre",
     );
 
     CustomTextField txtLastName = new CustomTextField(
       hint: "Primer apellido",
-      isValidString: true,
-      msgValidString: "No puede ingresar números en su primer apellido",
     );
 
     CustomTextField txtSecondLastName = new CustomTextField(
       hint: "Segundo apellido",
-      isValidString: true,
-      msgValidString: "No puede ingresar números",
     );
 
     CustomTextField txtDriverCI = new CustomTextField(
@@ -62,19 +62,11 @@ class _DriverRegistrationState extends State<DriverRegistration> {
 
     CustomTextField txtDriverLicense = new CustomTextField(
       hint: "Número de licencia de conducir",
-      isValidNumber: true,
-      msgValidNumber: "No puede ingresar letras en su número de licencia",
     );
 
     CustomTextField txtPhoneNumber = new CustomTextField(
       hint: "Número de celular",
-      isValidNumber: true,
-      msgValidNumber: "No puede ingresar letras en su número de celular",
     );
-
-    closeNavigator(BuildContext context) {
-      Navigator.of(context).pop();
-    }
 
     CustomDialogShow customDialogShow = new CustomDialogShow(
         buttonText: "Aceptar",
@@ -89,32 +81,27 @@ class _DriverRegistrationState extends State<DriverRegistration> {
         buttonColorText: Colors.white,
         titleShowDialog: "Registro Exitoso!");
 
-    CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
-      onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => DriversList()));
-      },
-      buttonText: "Cancelar",
-      buttonColor: Colors.white,
-      buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
-      buttonBorderColor: Color.fromRGBO(255, 193, 7, 1),
-      marginBotton: 0,
-      marginLeft: 0,
-      marginRight: 5,
-      marginTop: 0,
-    );
+    bool registerDataDriver() {
+      if (_formKey.currentState!.validate()) {
+        driverRegistrationFuncionality = new DriverRegistrationFuncionality(
+            context: context,
+            names: txtNameDriver.getValue(),
+            lastName: txtLastName.getValue(),
+            secondLastName: txtSecondLastName.getValue(),
+            driverCI: txtDriverCI.getValue(),
+            driverLicense: txtDriverLicense.getValue(),
+            phone: txtPhoneNumber.getValue());
+
+        return true;
+      }
+
+      return false;
+    }
 
     CustomButton btnRegister = new CustomButton(
       onTap: () {
-        if (_formKey.currentState!.validate()) {
-          driverRegistrationFuncionality = new DriverRegistrationFuncionality(
-              txtNameDriver.getValue(),
-              txtLastName.getValue(),
-              txtSecondLastName.getValue(),
-              txtDriverCI.getValue(),
-              txtDriverLicense.getValue(),
-              txtPhoneNumber.getValue());
-          driverRegistrationFuncionality.onPressedbtnRegisterDriver();
+        if (registerDataDriver()) {
+          driverRegistrationFuncionality!.onPressedbtnRegisterDriver();
           customDialogShow.getShowDialog();
         }
       },
@@ -127,44 +114,62 @@ class _DriverRegistrationState extends State<DriverRegistration> {
       marginTop: 0,
     );
 
+    CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
+      onTap: () {
+        driverRegistrationFuncionality!.onPressedbtnCancelRegisterDriver();
+      },
+      buttonText: "Cancelar",
+      buttonColor: Colors.white,
+      buttonTextColor: Color.fromRGBO(255, 193, 7, 1),
+      buttonBorderColor: Color.fromRGBO(255, 193, 7, 1),
+      marginBotton: 0,
+      marginLeft: 0,
+      marginRight: 5,
+      marginTop: 0,
+    );
+
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-        ),
-        resizeToAvoidBottomInset: true,
+      appBar: AppBar(
         backgroundColor: Colors.white,
-        body: SingleChildScrollView(
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
+        elevation: 0,
+      ),
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                  alignment: Alignment.centerLeft,
+                  margin: new EdgeInsets.only(
+                      top: 20.0, bottom: 20.0, left: 50.0, right: 35.0),
+                  child: title),
+              imageUser,
+              txtNameDriver,
+              txtLastName,
+              txtSecondLastName,
+              txtDriverCI,
+              txtDriverLicense,
+              txtPhoneNumber,
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: new EdgeInsets.only(
+                    top: 38.0, bottom: 10.0, left: 50.0, right: 50.0),
+                child: Row(
                   children: [
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        margin: new EdgeInsets.only(
-                            top: 20.0, bottom: 20.0, left: 50.0, right: 35.0),
-                        child: title),
-                    imageUser,
-                    txtNameDriver,
-                    txtLastName,
-                    txtSecondLastName,
-                    txtDriverCI,
-                    txtDriverLicense,
-                    txtPhoneNumber,
-                    Container(
-                        alignment: Alignment.centerLeft,
-                        margin: new EdgeInsets.only(
-                            top: 38.0, bottom: 10.0, left: 50.0, right: 50.0),
-                        child: Row(
-                          children: [
-                            Expanded(flex: 1, child: btnCancel),
-                            Divider(),
-                            Expanded(flex: 1, child: btnRegister)
-                          ],
-                        )),
+                    Expanded(flex: 1, child: btnCancel),
+                    Divider(),
+                    Expanded(flex: 1, child: btnRegister)
                   ],
-                ))));
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
