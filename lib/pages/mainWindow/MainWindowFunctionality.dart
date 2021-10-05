@@ -66,7 +66,6 @@ class MainWindowFunctionality {
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataFacebook(client)
-            log("message");
           }
         } else {
           showToast;
