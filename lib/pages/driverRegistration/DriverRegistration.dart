@@ -8,6 +8,7 @@ import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistrationFuncionality.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 import 'package:taxi_segurito_app/providers/ImagesFile.dart';
+import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class DriverRegistration extends StatefulWidget {
   DriverRegistration({Key? key}) : super(key: key);
