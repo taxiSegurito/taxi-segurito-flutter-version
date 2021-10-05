@@ -10,6 +10,7 @@ class CustomTextFieldSearch extends StatefulWidget {
   double marginBotton;
   double marginTop;
   double heightNum;
+  double radius;
   _CustomTextFieldSearchState _customTextFieldState =
       new _CustomTextFieldSearchState();
   CustomTextFieldSearch({
@@ -22,6 +23,7 @@ class CustomTextFieldSearch extends StatefulWidget {
     this.marginTop = 5,
     this.marginBotton = 5,
     this.heightNum = 35,
+    this.radius = 10,
   }) : super(key: key);
 
   @override
@@ -50,7 +52,7 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
             color: Colors.grey,
             width: 1,
           ),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(widget.radius),
         ),
         child: Row(children: [
           Padding(
@@ -78,7 +80,8 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
                   isDense: true,
                   hintText: widget.hint,
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(widget.radius)),
                     borderSide:
                         BorderSide(width: 0, color: Colors.grey.withOpacity(0)),
                   ),

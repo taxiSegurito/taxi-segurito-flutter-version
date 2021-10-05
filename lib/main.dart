@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/pages/listUsers/ListUser.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 
@@ -23,10 +24,11 @@ void main() async {
   if (!idsession && !rolsession) {
     app = MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'registerVehicle',
+      initialRoute: 'listUser',
       routes: {
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
+        'listUser': (BuildContext contextListUser) => ListUser(),
         'registerCompany': (BuildContext contextRegisterCompany) =>
             RegisterCompany(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
