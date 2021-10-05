@@ -10,6 +10,7 @@ import 'package:taxi_segurito_app/pages/registerOwner/widgets/DropDownCompany.da
 
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
+import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class RegisterOwner extends StatefulWidget {
   RegisterOwner({Key? key}) : super(key: key);
