@@ -22,7 +22,7 @@ class StringValidator extends TextFieldValidator {
     bool isValidString =
         hasMatch(_stringRegExp.toString(), value!, caseSensitive: false);
     bool isValidNumber =
-        hasMatch(_numberRegExp.toString(), value!, caseSensitive: false);
+        hasMatch(_numberRegExp.toString(), value, caseSensitive: false);
 
     if (isValidNumber) {
       return false;
@@ -45,7 +45,7 @@ class NumberValidator extends TextFieldValidator {
     bool isValidString =
         hasMatch(_stringRegExp.toString(), value!, caseSensitive: false);
     bool isValidNumber =
-        hasMatch(_numberRegExp.toString(), value!, caseSensitive: false);
+        hasMatch(_numberRegExp.toString(), value, caseSensitive: false);
 
     if (isValidString) {
       return false;
