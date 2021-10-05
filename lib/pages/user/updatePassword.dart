@@ -21,12 +21,8 @@ class _UpdatePasswordState extends State<UpdatePassword> {
 
   void updatePassword() async
   {
-    /* Falta
-     3. Que te redireccione al login cuando se cambia la contra
-     4. Cambiar paths por BDD en la nube
-     5. Quitar que pase de ventna cuando el campo codeVerify esta vaci
-     extra: Verificar que el codificador que usamos sea EL MISMO
-    */
+
+    //Que te redireccione al login cuando se cambia la contra
     var url ="https://taxi-segurito.000webhostapp.com/flutter_api/updatePassword.php";
     var response = await http.post(Uri.parse(url),body:{
       "email" : _email,
@@ -57,8 +53,10 @@ class _UpdatePasswordState extends State<UpdatePassword> {
         textColor: Colors.white
       );
     }
-
-
+    try{
+      Navigator.pushNamed(context, 'loginUser');
+    }catch(e){}
+    
   }
 
   @override
@@ -151,7 +149,6 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                       padding: EdgeInsets.only(top: 50),
                       child: Container(
                         child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                                 style: ButtonStyle(

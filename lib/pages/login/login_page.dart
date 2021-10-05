@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/login/recoveryPass_page.dart';
+import 'package:taxi_segurito_app/pages/user/recoveryPass_page.dart';
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
 

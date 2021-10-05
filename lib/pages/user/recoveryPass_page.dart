@@ -55,7 +55,7 @@ class _RecoveryPassState extends State<RecoveryPass> {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
+                        padding: const EdgeInsets.only(right: 25,bottom: 10,left: 25),
                         child: Text(
                           "Recupera tu contraseña usando tu correo electrónico",
                           style: TextStyle(color: Colors.black, fontSize: 20),
@@ -83,7 +83,6 @@ class _RecoveryPassState extends State<RecoveryPass> {
                         textAlign: TextAlign.center,
                         onChanged: (text) {email_Controller = text;},
                         decoration: InputDecoration(
-                            //icon: Icon(Icons.account_box_outlined),
                             hintText: "Ingrese su correo electrónico"),
                       ),
                     ),
@@ -93,7 +92,6 @@ class _RecoveryPassState extends State<RecoveryPass> {
                       padding: EdgeInsets.only(top: 30),
                       child: Container(
                         child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                                 style: ButtonStyle(
@@ -134,7 +132,6 @@ class _RecoveryPassState extends State<RecoveryPass> {
                       padding: EdgeInsets.only(top: 50),
                       child: Container(
                         child: Column(
-                          //mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                                 style: ButtonStyle(
