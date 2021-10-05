@@ -14,7 +14,7 @@ class ImageAccessProvider {
     return imagen!;
   }
 
-  Future openGalery() async {
+  Future openGallery() async {
     var pickedFile;
     pickedFile = await picker.pickImage(source: ImageSource.gallery);
     setStateImage(pickedFile);

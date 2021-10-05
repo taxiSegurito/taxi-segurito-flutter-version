@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 
 class DriverRegistrationFuncionality {
   BuildContext context;
@@ -11,6 +10,7 @@ class DriverRegistrationFuncionality {
   String? driverCI;
   String? driverLicense;
   String? phone;
+  VoidCallback? activeShowDialog;
 
   DriverRegistrationFuncionality(
       {required this.context,
@@ -19,19 +19,20 @@ class DriverRegistrationFuncionality {
       this.secondLastName,
       this.driverCI,
       this.driverLicense,
-      this.phone});
+      this.phone,
+      this.activeShowDialog});
 
-  onPressedbtnRegisterDriver() {
-    Fluttertoast.showToast(
-        msg: names!,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: Colors.red,
-        textColor: Colors.yellow);
+  onPressedbtnRegisterDriver() async {
+    /**
+     * todo: Implement driver data log
+     */
   }
 
   onPressedbtnCancelRegisterDriver() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => DriversList()));
+    closeNavigator();
+  }
+
+  closeNavigator() {
+    Navigator.of(context).pop();
   }
 }

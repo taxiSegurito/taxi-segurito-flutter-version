@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
@@ -21,12 +22,8 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
 
-    DriverRegistrationFuncionality? driverRegistrationFuncionality =
+    DriverRegistrationFuncionality driverRegistrationFuncionality =
         new DriverRegistrationFuncionality(context: context);
-
-    closeNavigator(BuildContext context) {
-      Navigator.of(context).pop();
-    }
 
     Text title = Text(
       "Registrar Conductor",
@@ -36,7 +33,6 @@ class _DriverRegistrationState extends State<DriverRegistration> {
           fontFamily: "Raleway",
           fontStyle: FontStyle.normal,
           fontWeight: FontWeight.w600),
-      textAlign: TextAlign.justify,
     );
 
     ImagesFile imageUser = new ImagesFile(
@@ -45,41 +41,67 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     );
 
     CustomTextField txtNameDriver = new CustomTextField(
-      hint: "Nombres",
+      hint: "Nombre",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'El nombre es requerido'),
+        StringValidator(errorText: 'No puede ingresar valores numéricos')
+      ]),
     );
 
     CustomTextField txtLastName = new CustomTextField(
       hint: "Primer apellido",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'El apellido es requerido'),
+        StringValidator(errorText: 'No puede ingresar valores numéricos')
+      ]),
     );
 
     CustomTextField txtSecondLastName = new CustomTextField(
       hint: "Segundo apellido",
+      multiValidator: MultiValidator([
+        StringValidator(errorText: 'No puede ingresar valores numéricos'),
+      ]),
     );
 
     CustomTextField txtDriverCI = new CustomTextField(
       hint: "Número de carnet",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Número de carnet requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
+      ]),
     );
 
     CustomTextField txtDriverLicense = new CustomTextField(
       hint: "Número de licencia de conducir",
+      multiValidator: MultiValidator([
+        RequiredValidator(
+            errorText: 'Número de licencia de conducir requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
+      ]),
     );
 
     CustomTextField txtPhoneNumber = new CustomTextField(
       hint: "Número de celular",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Número de celular requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
+      ]),
     );
 
-    CustomDialogShow customDialogShow = new CustomDialogShow(
-        buttonText: "Aceptar",
+    CustomDialogShow dialogShowRegister = new CustomDialogShow(
         ontap: () {
-          closeNavigator(context);
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => DriversList()));
-          ;
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => DriversList()));
         },
+        buttonText: "Aceptar",
         context: context,
         buttonColor: colorMain,
         buttonColorText: Colors.white,
         titleShowDialog: "Registro Exitoso!");
+
+    activeShowDialog() {
+      dialogShowRegister.getShowDialog();
+    }
 
     bool registerDataDriver() {
       if (_formKey.currentState!.validate()) {
@@ -90,19 +112,17 @@ class _DriverRegistrationState extends State<DriverRegistration> {
             secondLastName: txtSecondLastName.getValue(),
             driverCI: txtDriverCI.getValue(),
             driverLicense: txtDriverLicense.getValue(),
-            phone: txtPhoneNumber.getValue());
-
+            phone: txtPhoneNumber.getValue(),
+            activeShowDialog: activeShowDialog());
         return true;
       }
-
       return false;
     }
 
     CustomButton btnRegister = new CustomButton(
       onTap: () {
         if (registerDataDriver()) {
-          driverRegistrationFuncionality!.onPressedbtnRegisterDriver();
-          customDialogShow.getShowDialog();
+          driverRegistrationFuncionality.onPressedbtnRegisterDriver();
         }
       },
       buttonText: "Registrar",
@@ -116,7 +136,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
-        driverRegistrationFuncionality!.onPressedbtnCancelRegisterDriver();
+        driverRegistrationFuncionality.onPressedbtnCancelRegisterDriver();
       },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
@@ -131,6 +151,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
         elevation: 0,
       ),
       resizeToAvoidBottomInset: true,

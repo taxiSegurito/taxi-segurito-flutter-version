@@ -27,7 +27,7 @@ class _ImagesFileState extends State<ImagesFile> {
   ImageAccessProvider imageAccessProvider = new ImageAccessProvider();
 
   openGalery() {
-    imageAccessProvider.openGalery().then((_) {
+    imageAccessProvider.openGallery().then((_) {
       setState(() {
         widget.isActiveImageDefault = false;
         widget.imageCar = Image.file(imageAccessProvider.getImage());
