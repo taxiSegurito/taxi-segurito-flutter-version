@@ -39,8 +39,10 @@ void main() async {
   } else {
     app = MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'scannerQr',
-      routes: {'scannerQr': (BuildContext contextFirstScreen) => QRPAGE()},
+      initialRoute: 'loginUser',
+      routes: {
+        'loginUser': (BuildContext contextFirstScreen) => UserLoginPage()
+      },
     );
   }
   //Si existe una sesion Google
