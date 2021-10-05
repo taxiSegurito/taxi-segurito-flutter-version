@@ -7,7 +7,7 @@ import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistrationFuncionality.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
-import 'package:taxi_segurito_app/providers/ImagesFile.dart';
+import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class DriverRegistration extends StatefulWidget {
@@ -36,10 +36,9 @@ class _DriverRegistrationState extends State<DriverRegistration> {
           fontWeight: FontWeight.w600),
     );
 
-    ImagesFile imageUser = new ImagesFile(
-      isShapeCircle: true,
-      isImageUserDefault: true,
-    );
+    ImagesFileAdapter imageDriver = new ImagesFileAdapter(
+        imagePath: "lib/components/assets/images/userDefault.png",
+        isShapeCircle: true);
 
     CustomTextField txtNameDriver = new CustomTextField(
       hint: "Nombre",
@@ -105,7 +104,9 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     }
 
     bool registerDataDriver() {
-      if (_formKey.currentState!.validate()) {
+      bool isValidImageDriver = imageDriver.getIsValid();
+      if (_formKey.currentState!.validate() && isValidImageDriver) {
+        Image image = imageDriver.getImage();
         driverRegistrationFuncionality = new DriverRegistrationFuncionality(
             context: context,
             names: txtNameDriver.getValue(),
@@ -114,6 +115,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
             driverCI: txtDriverCI.getValue(),
             driverLicense: txtDriverLicense.getValue(),
             phone: txtPhoneNumber.getValue(),
+            imageDriver: image,
             activeShowDialog: activeShowDialog());
         return true;
       }
@@ -169,7 +171,16 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                   margin: new EdgeInsets.only(
                       top: 20.0, bottom: 20.0, left: 50.0, right: 35.0),
                   child: title),
-              imageUser,
+              Container(
+                margin: new EdgeInsets.only(
+                    top: 10.0, bottom: 10.0, left: 130.0, right: 130.0),
+                child: Row(
+                  children: [
+                    Expanded(child: imageDriver),
+                  ],
+                ),
+              ),
+              //imageUser,
               txtNameDriver,
               txtLastName,
               txtSecondLastName,

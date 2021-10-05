@@ -8,6 +8,7 @@ class DriverRegistrationFuncionality {
   String? driverCI;
   String? driverLicense;
   String? phone;
+  Image? imageDriver;
   VoidCallback? activeShowDialog;
 
   DriverRegistrationFuncionality(
@@ -18,6 +19,7 @@ class DriverRegistrationFuncionality {
       this.driverCI,
       this.driverLicense,
       this.phone,
+      this.imageDriver,
       this.activeShowDialog});
 
   onPressedbtnRegisterDriver() async {
