@@ -8,7 +8,6 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //variable utilizada para separar ListTile
     var divider = Divider(
       color: Colors.grey[350],
       height: 5,

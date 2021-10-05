@@ -12,6 +12,8 @@ import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 
+import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
+
 class RegisterVehicle extends StatefulWidget {
   RegisterVehicle({Key? key}) : super(key: key);
 

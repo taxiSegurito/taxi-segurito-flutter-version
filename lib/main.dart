@@ -5,6 +5,8 @@ import 'package:taxi_segurito_app/models/sesion.dart';
 import 'package:taxi_segurito_app/pages/listUsers/ListUser.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
@@ -24,7 +26,7 @@ void main() async {
   if (!idsession && !rolsession) {
     app = MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'listUser',
+      initialRoute: 'firstScreen',
       routes: {
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
@@ -32,7 +34,10 @@ void main() async {
         'registerCompany': (BuildContext contextRegisterCompany) =>
             RegisterCompany(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'loginUser': (BuildContext contexUserLogin) => UserLoginPage()
+        'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
+        'driverRegistration': (BuildContext contextRegistration) =>
+            DriverRegistration(),
+        'driverList': (BuildContext contextDriveList) => DriversList()
       },
     );
   } else {
@@ -57,8 +62,9 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Taxi Segurito",
+      theme: ThemeData(primarySwatch: Colors.amber),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'registerCompany',
+      initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
@@ -67,6 +73,9 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
+        'driverRegistration': (BuildContext contextRegistration) =>
+            DriverRegistration(),
+        'driverList': (BuildContext contextDriveList) => DriversList()
       },
     );
   }
