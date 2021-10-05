@@ -9,6 +9,8 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyFunctionality.dart';
 
+import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
+
 class RegisterCompany extends StatefulWidget {
   RegisterCompany({Key? key}) : super(key: key);
 
