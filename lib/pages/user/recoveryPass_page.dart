@@ -17,6 +17,7 @@ class RecoveryPass extends StatefulWidget {
 class _RecoveryPassState extends State<RecoveryPass> {
   //Email Variables
   var email_Controller = '';
+  var lastEmailAux = '';
   var codeInput_Controller = '';
   var codeVerify = '';
 
@@ -158,7 +159,8 @@ class _RecoveryPassState extends State<RecoveryPass> {
   //Metodso para enviar email con codigo
   void DisableAndSend()
   {
-    if(email_Controller == "") //Si email no esta vacio
+    lastEmailAux = email_Controller;
+    if(lastEmailAux == "") //Si email no esta vacio
     {
         Fluttertoast.showToast(
         msg: "Debe ingresar su correo.",
@@ -168,46 +170,10 @@ class _RecoveryPassState extends State<RecoveryPass> {
         textColor: Colors.white);
     }
     else{
-      final bool _isValid = EmailValidator.validate(email_Controller);
+      final bool _isValid = EmailValidator.validate(lastEmailAux);
       if(_isValid) //Si el email es real, verificamos si est registrado
       {
-        var _checkEmail = checkEmailOnDatabase(email_Controller).toString();
-        print("_checkEmail: "+_checkEmail);
-        if(_checkEmail == "AlreadyExists") //Si ya esta registrado, enviamos correo
-        {
-          Fluttertoast.showToast(
-          msg: "Enviando...",
-          toastLength: Toast.LENGTH_LONG,
-          gravity: ToastGravity.CENTER,
-          backgroundColor: Colors.green,
-          textColor: Colors.white);
-
-          SendEmail_Function(email_Controller);
-          enableElevatedButton();
-        }
-        else                        //Si no
-        {
-          print("3: "+_checkEmail.toString());
-           if(_checkEmail == "NoExist") //Avisamos que no exist o...
-           {
-              Fluttertoast.showToast(
-              msg: "Este correo no está registrado.",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              backgroundColor: Colors.red,
-              textColor: Colors.white);
-           }
-           else                       //si no se pudo realizar la consulta
-           {
-              Fluttertoast.showToast(
-              msg: "Error en la base de datos.",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              backgroundColor: Colors.red,
-              textColor: Colors.white);
-           }
-        }
-
+        checkEmailOnDatabase(lastEmailAux).toString();
       }
       else //Si no es real
       {
@@ -280,17 +246,17 @@ SendEmail_Function(emailTo) async {
     });
   }
   //METODOS PRUEBA
-  Future checkEmailOnDatabase(email) async
+  checkEmailOnDatabase(email) async
   {
     var url ="https://taxi-segurito.000webhostapp.com/flutter_api/checkEmail.php";
     var response = await http.post(Uri.parse(url),body:{
       "email" : email,
 
     });
-    print("2: "+response.body);
 
-    var data = json.decode(response.body);
-    return data;
+    String data =json.decode(response.body);
+    print("2 data: "+data);
+    ValidateOnDatabase(data);
   }
   //Metodo para confirmar el codigo de verificacion e ir a updatePassword.dart
   goUpdatePassword()
@@ -303,8 +269,6 @@ SendEmail_Function(emailTo) async {
         gravity: ToastGravity.CENTER,
         backgroundColor: Colors.yellow,
         textColor: Colors.white);
-        //Borrar despues
-        Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePassword(email_Controller)),);
     }
     else{
       if(codeVerify == codeInput_Controller)
@@ -321,6 +285,46 @@ SendEmail_Function(emailTo) async {
         textColor: Colors.white);
       }
     }
+  }
+  ValidateOnDatabase(String _checkEmail)
+  {
+        if(_checkEmail == "AlreadyExists") //Si ya esta registrado, enviamos correo
+        {
+          Fluttertoast.showToast(
+          msg: "Enviando...",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.green,
+          textColor: Colors.white);
+
+          SendEmail_Function(email_Controller);
+          enableElevatedButton();
+        }
+        else                        //Si no
+        {
+          print("333: "+_checkEmail.toString());
+           if(_checkEmail.toString() != "NoExist") //Avisamos que no exist o...
+           {
+              Fluttertoast.showToast(
+              msg: "Este correo no está registrado.",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.red,
+              textColor: Colors.white);
+           }
+           else                       //si no se pudo realizar la consulta
+           {
+             print("44: "+_checkEmail.toString());
+             print(_checkEmail);
+              Fluttertoast.showToast(
+              msg: "Error en la base de datos.",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.red,
+              textColor: Colors.white);
+           }
+        }
+
   }
 
 }
