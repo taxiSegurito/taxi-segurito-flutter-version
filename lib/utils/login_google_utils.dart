@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
-import 'package:taxi_segurito_app/models/client.dart';
+import 'package:taxi_segurito_app/models/ClientUser.dart';
 import 'package:taxi_segurito_app/models/sesion.dart';
 
 class LoginGoogleUtils {
@@ -15,7 +15,7 @@ class LoginGoogleUtils {
   User? user;
   //GOOGLE Methods
   //SignInWithGoogle
-  Future<Client?> signUpWithGoogle() async {
+  Future<ClientUser?> signUpWithGoogle() async {
     //Log in Start
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
@@ -33,14 +33,16 @@ class LoginGoogleUtils {
       String fullName = user!.displayName.toString();
       String email = user!.email.toString();
       String cellphone = user!.phoneNumber.toString();
-      Client client = Client(fullName, email, cellphone);
+      ClientUser client =
+          ClientUser.Insert("Google", email, "Google", fullName, cellphone);
       bool controlBD;
-      String exits = await CheckExits(email);
+      String exits = await GetCellphoneIfExists(email);
       //Ya existe
       if (exits != "Error") {
-        Client clientExits = Client(fullName, email, cellphone = exits);
-        AddSession(clientExits);
-        return clientExits;
+        ClientUser clientUser =
+            ClientUser.Insert("Google", email, "Google", fullName, cellphone);
+        AddSession(clientUser);
+        return clientUser;
       }
       //En caso de que haya un numero
       if (client.cellphone != "null") {
@@ -61,17 +63,17 @@ class LoginGoogleUtils {
   }
 
   //Method that sends data to backend
-  Future<bool> AddDataGoogle(Client client) async {
+  Future<bool> AddDataGoogle(ClientUser client) async {
     try {
       bool control = false;
       var url = Service.url + "UserAdd/UserController.php";
       var response = await http.put(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
-            "password": "Google", //por defecto
+            "password": client.password, //por defecto
             "fullName": client.fullName,
             "cellphone": client.cellphone,
-            "typeRegister": "Google",
+            "typeRegister": client.typeRegister,
             "idrole": 2,
           }));
       var res = jsonDecode(response.body);
@@ -91,7 +93,7 @@ class LoginGoogleUtils {
     }
   }
 
-  void AddSession(Client client) async {
+  void AddSession(ClientUser client) async {
     Sessions sessions = new Sessions();
     await sessions.addSessionValue("emailGoogle", client.email);
   }
@@ -99,7 +101,7 @@ class LoginGoogleUtils {
   //Verifica que exista en la base de datos
   //return cellphone si existe
   //return Error si no
-  Future<String> CheckExits(String email) async {
+  Future<String> GetCellphoneIfExists(String email) async {
     try {
       var url = Service.url + "UserAdd/UserController.php";
       var response = await http.post(Uri.parse(url),

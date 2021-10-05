@@ -127,7 +127,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                   return new CustomButton(
                                     onTap: snapshot.hasData
                                         ? () async {
-                                            User user = User(
+                                            User user = User.Login(
                                                 validator.emailController.value,
                                                 validator
                                                     .passwordController.value);

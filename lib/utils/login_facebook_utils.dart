@@ -4,14 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
-import 'package:taxi_segurito_app/models/client.dart';
+import 'package:taxi_segurito_app/models/ClientUser.dart';
 import 'package:taxi_segurito_app/models/sesion.dart';
 
 class LoginFacebookUtils {
   FacebookAuth facebookAuth = FacebookAuth.i;
 
   //LoginWithFacebook
-  Future<Client?> LoginWithFacebook() async {
+  Future<ClientUser?> LoginWithFacebook() async {
     // Authentication is executed request the required permissions
     final LoginResult result = await FacebookAuth.instance.login(
       permissions: ['email', 'public_profile'],
@@ -24,25 +24,19 @@ class LoginFacebookUtils {
         String fullName = userData.entries.first.value;
         String email = userData["email"].toString();
         String cellphone = "";
-        bool controlBD;
-        Client client = Client(fullName, email, cellphone);
+        ClientUser client = ClientUser.Insert(
+            "Facebook", email, "Facebook", fullName, cellphone);
         //CheckExits retorna numero si existe
         //retorna Error si no existe
-        String exits = await CheckExits(email);
+        String exits = await GetCellphoneIfExists(email);
         if (exits != "Error") {
-          Client clientExits = Client(fullName, email, cellphone = exits);
+          ClientUser clientExits = ClientUser.Insert(
+              "Facebook", email, "Facebook", fullName, cellphone);
           AddSession(clientExits);
           return clientExits;
         }
-        if (client.cellphone != "") {
-          controlBD = await AddDataFacebook(client);
-          if (controlBD == true) {
-            client = new Client(fullName, email, cellphone);
-            return client;
-          }
-        } else {
-          return client;
-        }
+        //Cuando No exista el usuario en la BD se le debera pedir el numero de telefono
+        return client;
       }
     } else {
       return null;
@@ -51,7 +45,7 @@ class LoginFacebookUtils {
 
   //Method that sends data to backend
   //Solo debe ser llamado cuando esten los datos completos
-  Future<bool> AddDataFacebook(Client client) async {
+  Future<bool> AddDataFacebook(ClientUser client) async {
     try {
       var url = Service.url + "UserAdd/UserController.php";
       bool control;
@@ -80,7 +74,7 @@ class LoginFacebookUtils {
     }
   }
 
-  void AddSession(Client client) async {
+  void AddSession(ClientUser client) async {
     Sessions sessions = new Sessions();
     await sessions.addSessionValue("emailFacebook", client.email);
   }
@@ -88,7 +82,7 @@ class LoginFacebookUtils {
   //Verifica que exista en la base de datos
   //return cellphone si existe
   //return Error si no
-  Future<String> CheckExits(String email) async {
+  Future<String> GetCellphoneIfExists(String email) async {
     try {
       var url = Service.url + "UserAdd/UserController.php";
       var response = await http.post(Uri.parse(url),
