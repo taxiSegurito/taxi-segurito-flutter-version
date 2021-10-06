@@ -5,15 +5,14 @@ import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/person.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 
-Future<bool> insertClient(
-    Person person, User user, Clientuser clientuser) async {
+Future<bool> insertClient(Clientuser clientuser) async {
   String path = Service.url + "createUser.php";
   var response = await http.post(Uri.parse(path), body: {
-    "fullname": person.fullName,
-    "cellphone": person.cellphone,
-    "email": user.email,
-    "password": user.password,
-    "register": clientuser.register
+    "fullname": clientuser.fullName,
+    "cellphone": clientuser.cellphone,
+    "email": clientuser.email,
+    "password": clientuser.password,
+    "register": clientuser.registerType
   });
   var result = json.decode(response.body);
 

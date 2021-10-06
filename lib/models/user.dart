@@ -1,4 +1,7 @@
-class User {
+import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/models/person.dart';
+
+class User extends Person {
   late int iduser;
   late String email;
   late String password;
@@ -6,10 +9,15 @@ class User {
   late DateTime updateDate;
   late int status;
 
-  User(this.iduser, this.email, this.password, this.registerDate,
+  User();
+  User.get(this.iduser, this.email, this.password, this.registerDate,
       this.updateDate, this.status);
-
-  User.insert(this.email, this.password);
+  User.insert(
+      {required String fullname,
+      required String cellphone,
+      required this.email,
+      required this.password})
+      : super.insert(fullname, cellphone);
 
   User.login(this.email, this.password);
 }

@@ -6,8 +6,8 @@ class Person {
   late DateTime updateDate;
   late int status;
 
-  Person(this.idPerson, this.fullName, this.cellphone, this.registerDate,
+  Person();
+  Person.get(this.idPerson, this.fullName, this.cellphone, this.registerDate,
       this.updateDate, this.status);
-
   Person.insert(this.fullName, this.cellphone);
 }

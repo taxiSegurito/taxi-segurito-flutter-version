@@ -1,8 +1,11 @@
 import 'dart:math';
+import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/bloc/implementation/userimpl.dart';
+import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/person.dart';
 import 'package:taxi_segurito_app/models/user.dart';
+import 'package:taxi_segurito_app/pages/login/login_page.dart';
 
 class RegisterFunctionality {
   String generateCode() {
@@ -14,12 +17,14 @@ class RegisterFunctionality {
     return code;
   }
 
-  registerClient(Person person, User user, Clientuser clientuser) async {
-    final result = await insertClient(person, user, clientuser);
+  registerClient(Clientuser clientuser) async {
+    final result = await insertClient(clientuser);
     if (result) {
-      print("insertado");
+      GlobalToast.displayToast(
+          Text("Registro Exitoso"), Colors.green, Icon(Icons.check), 2);
     } else {
-      print("no insertado");
+      GlobalToast.displayToast(
+          Text("Registro no completado"), Colors.red, Icon(Icons.error), 2);
     }
   }
 }

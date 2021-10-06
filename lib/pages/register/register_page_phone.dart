@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:taxi_segurito_app/bloc/services/sms/sms_twilio.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
-import 'package:taxi_segurito_app/models/sms/sms_twilio.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_info.dart';
 

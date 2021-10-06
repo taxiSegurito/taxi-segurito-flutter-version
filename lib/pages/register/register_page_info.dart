@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
-import 'package:taxi_segurito_app/models/person.dart';
-import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 
 class RegisterData extends StatefulWidget {
@@ -21,6 +20,7 @@ class _RegisterDataState extends State<RegisterData> {
   TextEditingController correo = TextEditingController();
   TextEditingController password = TextEditingController();
   RegisterFunctionality registerFunctionality = new RegisterFunctionality();
+  FToast fToast = FToast();
   _RegisterDataState(this.number);
 
   void modalRegister(BuildContext context) {
@@ -60,12 +60,13 @@ class _RegisterDataState extends State<RegisterData> {
               ),
               new CustomButton(
                   onTap: () async {
-                    Person person = Person.insert(
-                        nombres.text + " " + apellidos.text, number);
-                    User user = User.insert(correo.text, password.text);
-                    Clientuser clientuser = Clientuser.insert("normal");
-                    registerFunctionality.registerClient(
-                        person, user, clientuser);
+                    Clientuser clientuser = Clientuser.insert(
+                        fullname: nombres.text + " " + apellidos.text,
+                        cellphone: number,
+                        email: correo.text,
+                        password: password.text,
+                        registerType: "normal");
+                    registerFunctionality.registerClient(clientuser);
                   },
                   buttonText: "REGISTRARSE",
                   buttonColor: Colors.amber,
@@ -79,6 +80,12 @@ class _RegisterDataState extends State<RegisterData> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
