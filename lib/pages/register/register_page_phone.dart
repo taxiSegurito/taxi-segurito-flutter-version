@@ -76,7 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Image.asset(
-            "lib/components/assets/images/logoPrincipal.png",
+            "assets/images/logoPrincipal.png",
             height: 150,
             width: 150,
           ),

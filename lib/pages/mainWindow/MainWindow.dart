@@ -19,7 +19,7 @@ class _MainWindowState extends State<MainWindow> {
         new MainWindowFunctionality(context);
 
     Image logo = new Image.asset(
-      "lib/components/assets/images/logoPrincipal.png",
+      "assets/images/logoPrincipal.png",
       height: 150,
       width: 150,
     );

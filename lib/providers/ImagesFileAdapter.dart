@@ -64,7 +64,7 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
     Image imagedefault;
     if (widget.isActiveImageDefault) {
       imagedefault = new Image.asset(
-        "lib/components/assets/images/imageDefault.png",
+        "assets/images/imageDefault.png",
       );
       widget.imageCar = imagedefault;
     }

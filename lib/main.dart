@@ -10,7 +10,6 @@ import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
-import 'package:taxi_segurito_app/pages/menu/ownerMenu.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +24,7 @@ void main() async {
   if (!idsession && !rolsession) {
     app = MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ownerMenu',
+      initialRoute: 'firstScreen',
       routes: {
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
@@ -36,7 +35,6 @@ void main() async {
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversList(),
-        'ownerMenu': (_) => OwnerMenu()
       },
     );
   } else {
@@ -63,7 +61,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       title: "Taxi Segurito",
       theme: ThemeData(primarySwatch: Colors.amber),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'ownerMenu',
+      initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
@@ -76,7 +74,6 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversList(),
-        'ownerMenu': (_) => OwnerMenu()
       },
     );
   }
