@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
