@@ -2,7 +2,6 @@ import 'package:taxi_segurito_app/models/Person.dart';
 
 class User extends Person {
   // faltan definir algunos atributos
-  //idUser == idPerson es necesario colocar como otro atributo?
   late String email;
   late String password;
 
