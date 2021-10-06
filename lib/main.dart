@@ -26,7 +26,7 @@ void main() async {
   if (!idsession && !rolsession) {
     app = MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'firstScreen',
+      initialRoute: 'listUser',
       routes: {
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
