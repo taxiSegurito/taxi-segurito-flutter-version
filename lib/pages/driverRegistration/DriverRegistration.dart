@@ -37,8 +37,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
     );
 
     ImagesFileAdapter imageDriver = new ImagesFileAdapter(
-        imagePath: "lib/components/assets/images/userDefault.png",
-        isShapeCircle: true);
+        imagePath: "assets/images/userDefault.png", isShapeCircle: true);
 
     CustomTextField txtNameDriver = new CustomTextField(
       hint: "Nombre",

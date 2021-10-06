@@ -34,7 +34,7 @@ void main() async {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList()
+        'driverList': (BuildContext contextDriveList) => DriversList(),
       },
     );
   } else {
@@ -73,7 +73,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             RegisterVehicle(),
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList()
+        'driverList': (BuildContext contextDriveList) => DriversList(),
       },
     );
   }
