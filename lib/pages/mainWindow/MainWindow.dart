@@ -87,6 +87,16 @@ class _MainWindowState extends State<MainWindow> {
             recognizer: TapGestureRecognizer()..onTap = () {})
       ],
     ));
+
+    TextButton btnCreateAccount = new TextButton(
+        onPressed: () {
+          mainWindowFunctionality.onPressedrtCrearCuenta();
+        },
+        child: Text(
+          "Crear una cuenta nueva",
+          style: TextStyle(color: Colors.blue),
+        ));
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -152,7 +162,7 @@ class _MainWindowState extends State<MainWindow> {
                                 fontStyle: FontStyle.normal,
                                 fontSize: 15),
                             textAlign: TextAlign.center),
-                        rtCreateAccount,
+                        btnCreateAccount,
                       ]),
                 )),
           )

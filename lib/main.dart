@@ -1,15 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
-
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
-
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
 
 void main() async {
@@ -66,6 +65,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
+        'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
         'registerCompany': (BuildContext contextRegisterCompany) =>
             RegisterCompany(),
         'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),

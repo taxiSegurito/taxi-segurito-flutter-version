@@ -1,6 +1,6 @@
 import 'package:taxi_segurito_app/bloc/services/authService.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:flutter/material.dart';
 
