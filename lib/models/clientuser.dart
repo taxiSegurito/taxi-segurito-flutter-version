@@ -1,10 +1,9 @@
 import 'package:taxi_segurito_app/models/user.dart';
 
 class Clientuser extends User {
-  late int iduser;
   late String registerType;
 
-  Clientuser(this.iduser, this.registerType);
+  Clientuser(this.registerType);
   Clientuser.insert(
       {required String fullname,
       required String cellphone,
