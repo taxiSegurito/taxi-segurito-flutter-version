@@ -5,24 +5,41 @@ import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
+import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
+import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
+import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
+import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
   Sessions sessions = Sessions();
+
   bool idsession = await sessions.verificationSession("iduser");
   bool rolsession = await sessions.verificationSession("rol");
-  Widget app = MaterialApp();
+  Widget app = MaterialApp(
+    debugShowCheckedModeBanner: false,
+  );
   if (!idsession && !rolsession) {
     app = MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: 'firstScreen',
       routes: {
+        'registerVehicle': (BuildContext contextRegisterVehicle) =>
+            RegisterVehicle(),
+        'registerCompany': (BuildContext contextRegisterCompany) =>
+            RegisterCompany(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'loginUser': (BuildContext contexUserLogin) => UserLoginPage()
+        'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
+        'driverRegistration': (BuildContext contextRegistration) =>
+            DriverRegistration(),
+        'driverList': (BuildContext contextDriveList) => DriversList()
       },
     );
   } else {
     app = MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: 'loginUser',
       routes: {
         'loginUser': (BuildContext contextFirstScreen) => UserLoginPage()
@@ -42,12 +59,21 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Taxi Segurito",
+      theme: ThemeData(primarySwatch: Colors.amber),
       debugShowCheckedModeBanner: false,
       initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
         'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
+        'registerCompany': (BuildContext contextRegisterCompany) =>
+            RegisterCompany(),
+        'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
+        'registerVehicle': (BuildContext contextRegisterVehicle) =>
+            RegisterVehicle(),
+        'driverRegistration': (BuildContext contextRegistration) =>
+            DriverRegistration(),
+        'driverList': (BuildContext contextDriveList) => DriversList()
       },
     );
   }
