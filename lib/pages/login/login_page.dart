@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';

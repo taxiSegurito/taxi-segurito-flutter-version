@@ -5,7 +5,6 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/person.dart';
 import 'package:taxi_segurito_app/models/user.dart';
-import 'package:taxi_segurito_app/models/userimpl.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 
 class RegisterData extends StatefulWidget {

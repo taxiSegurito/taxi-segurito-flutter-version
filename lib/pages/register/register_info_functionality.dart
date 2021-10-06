@@ -1,8 +1,8 @@
 import 'dart:math';
+import 'package:taxi_segurito_app/bloc/implementation/userimpl.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/person.dart';
 import 'package:taxi_segurito_app/models/user.dart';
-import 'package:taxi_segurito_app/models/userimpl.dart';
 
 class RegisterFunctionality {
   String generateCode() {
