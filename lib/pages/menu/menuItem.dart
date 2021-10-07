@@ -28,7 +28,6 @@ class MenuItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Image(image: AssetImage(this.iconPath)),
               FractionallySizedBox(
                 widthFactor: 0.5,
                 child: Image.asset(this.iconPath),
