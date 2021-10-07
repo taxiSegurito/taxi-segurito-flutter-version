@@ -1,6 +1,7 @@
-class Driver {
-  String name;
+import 'package:taxi_segurito_app/models/person.dart';
+
+class Driver extends Person {
   String dni;
-  String phone;
-  Driver(this.name, this.dni, this.phone);
+  Driver(String fullName, this.dni, String cellphone)
+      : super.insert(fullName, cellphone);
 }
