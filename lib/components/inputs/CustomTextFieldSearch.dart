@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomTextFieldSearch extends StatefulWidget {
   String hint;
   final void Function(String) callbackValueSearch;
-  VoidCallback ontap;
+  VoidCallback? ontap;
   String? value;
   double marginLeft;
   double marginRight;
@@ -14,8 +14,8 @@ class CustomTextFieldSearch extends StatefulWidget {
       new _CustomTextFieldSearchState();
   CustomTextFieldSearch({
     Key? key,
-    required this.ontap,
     required this.callbackValueSearch,
+    this.ontap,
     this.hint = "Campo de texto",
     this.marginLeft = 50,
     this.marginRight = 50,

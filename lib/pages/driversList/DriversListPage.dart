@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 
 import 'DriversList.dart';
@@ -35,6 +36,13 @@ class _DriversListPageState extends State<DriversListPage> {
     });
   }
 
+  void _searchDriver(String value) {
+    this.setState(() {
+      drivers =
+          drivers.where((element) => element.fullName.contains(value)).toList();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +55,9 @@ class _DriversListPageState extends State<DriversListPage> {
       ),
       body: Column(
         children: [
+          CustomTextFieldSearch(
+              callbackValueSearch: _searchDriver,
+              hint: "Buscar por nombre, carnet de identidad..."),
           ElevatedButton(
             child: Text("Refresh"),
             onPressed: _refreshDrivers,
