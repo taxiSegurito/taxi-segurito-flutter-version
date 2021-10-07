@@ -18,12 +18,10 @@ class _DriversListPageState extends State<DriversListPage> {
   }
 
   void _loadDrivers() {
-    // this.setState(() {
     drivers = [
       Driver("Juan Quiroga Lopez", "14789632", "71714906"),
       Driver("Marco Iriarte Lanza", "36987412", "61944760"),
     ];
-    // });
   }
 
   void _refreshDrivers() {
