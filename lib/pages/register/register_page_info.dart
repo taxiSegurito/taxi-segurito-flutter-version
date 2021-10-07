@@ -24,6 +24,7 @@ class _RegisterDataState extends State<RegisterData> {
   _RegisterDataState(this.number);
 
   void modalRegister(BuildContext context) {
+    registerFunctionality = new RegisterFunctionality.cont(context);
     showMaterialModalBottomSheet(
         context: context,
         builder: (context) {
