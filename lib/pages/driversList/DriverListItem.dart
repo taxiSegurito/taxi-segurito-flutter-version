@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
+import 'package:taxi_segurito_app/pages/driverInfo/driverInfoPage.dart';
 
 class DriverListItem extends StatelessWidget {
   final Driver driver;
   DriverListItem(this.driver);
 
   final _infoStyle = TextStyle(color: Colors.black54);
+  void goToDriverInfo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => DriverInfoPage(driver)),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => goToDriverInfo(context),
       child: Padding(
         padding: EdgeInsets.only(bottom: 8),
         child: Container(
