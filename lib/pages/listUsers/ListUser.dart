@@ -8,6 +8,7 @@ import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerFilter.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerUser.dart';
+import 'package:taxi_segurito_app/services/SelectUser.dart';
 
 class ListUser extends StatefulWidget {
   ListUser({Key? key}) : super(key: key);
@@ -17,8 +18,19 @@ class ListUser extends StatefulWidget {
 }
 
 class _ListUserState extends State<ListUser> {
+  List<UserData> listUserData = [];
+  updateData() {
+    getDataUserInfo().then((value) {
+      setState(() {
+        listUserData = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
     AppBar appbar = new AppBar(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
@@ -51,7 +63,9 @@ class _ListUserState extends State<ListUser> {
         radius: 20,
         hint: '',
         ontap: () {},
-        callbackValueSearch: (value) {});
+        callbackValueSearch: (value) {
+          updateData();
+        });
 
     Container containerSearch = new Container(
       margin:
@@ -63,45 +77,9 @@ class _ListUserState extends State<ListUser> {
         ],
       ),
     );
-    /*String id;
-  String name;
-  String dni;
-  String phone;
-  String rol;
-  Image photo;*/
-    Image photo = Image.asset("lib/components/assets/images/driver.jpg");
-    //ImageProvider img = Image.asset(name)
-    List<UserData> listUserData = [
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData(
-          "1", "Juan Jimenes", "12345678", "12345678", "Dueño", photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-      UserData("1", "Juan Jimenes", "12345678", "12345678", "Conductor",
-          photo.image),
-    ];
 
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    Image photo = Image.asset("lib/components/assets/images/driver.jpg");
+
     Container containerListView = new Container(
       height: height,
       width: width,
@@ -116,7 +94,7 @@ class _ListUserState extends State<ListUser> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: appbar,
       body: Container(
         child: Column(

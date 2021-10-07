@@ -161,6 +161,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Form(
+          autovalidateMode: AutovalidateMode.always,
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
