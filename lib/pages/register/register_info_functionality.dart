@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/bloc/implementation/userimpl.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
-import 'package:taxi_segurito_app/models/person.dart';
-import 'package:taxi_segurito_app/models/user.dart';
-import 'package:taxi_segurito_app/pages/login/login_page.dart';
 
 class RegisterFunctionality {
+  late BuildContext context;
+
+  RegisterFunctionality();
+  RegisterFunctionality.cont(this.context);
+
   String generateCode() {
     String code = "";
     var rng = new Random();
@@ -22,6 +24,7 @@ class RegisterFunctionality {
     if (result) {
       GlobalToast.displayToast(
           Text("Registro Exitoso"), Colors.green, Icon(Icons.check), 2);
+      Navigator.pushNamed(context, 'loginUser');
     } else {
       GlobalToast.displayToast(
           Text("Registro no completado"), Colors.red, Icon(Icons.error), 2);
