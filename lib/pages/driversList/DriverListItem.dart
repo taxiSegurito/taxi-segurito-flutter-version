@@ -1,9 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/models/Driver.dart';
 
-class DrverListItem extends StatelessWidget {
+class DriverListItem extends StatelessWidget {
+  final Driver driver;
+  DriverListItem(this.driver);
+
+  final _infoStyle = TextStyle(color: Colors.black54);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return InkWell(
+      onTap: () {},
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 8),
+        child: Container(
+          padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
+          color: Color(0xFFF6F6F6),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4),
+                    child: Text(
+                      driver.fullName,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  Text("CI: ${driver.dni}", style: _infoStyle),
+                  Text(driver.cellphone, style: _infoStyle),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

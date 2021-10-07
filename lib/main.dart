@@ -6,7 +6,7 @@ import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
-import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversListPage.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
@@ -35,7 +35,7 @@ void main() async {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList(),
+        'driverList': (BuildContext contextDriveList) => DriversListPage(),
         'ownerMenu': (_) => OwnerMenu(),
       },
     );
@@ -75,7 +75,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             RegisterVehicle(),
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList(),
+        'driverList': (BuildContext contextDriveList) => DriversListPage(),
         'ownerMenu': (_) => OwnerMenu(),
       },
     );

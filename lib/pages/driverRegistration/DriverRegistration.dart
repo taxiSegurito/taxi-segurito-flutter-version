@@ -6,7 +6,7 @@ import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorde
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistrationFuncionality.dart';
-import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversListPage.dart';
 import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
@@ -89,8 +89,8 @@ class _DriverRegistrationState extends State<DriverRegistration> {
 
     CustomDialogShow dialogShowRegister = new CustomDialogShow(
         ontap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => DriversList()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => DriversListPage()));
         },
         buttonText: "Aceptar",
         context: context,
