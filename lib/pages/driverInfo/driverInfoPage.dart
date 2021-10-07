@@ -3,7 +3,7 @@ import 'package:taxi_segurito_app/models/Driver.dart';
 
 // ignore: must_be_immutable
 class DriverInfoPage extends StatefulWidget {
-  late Driver _driver;
+  Driver _driver;
   DriverInfoPage(this._driver, {Key? key}) : super(key: key);
 
   @override
