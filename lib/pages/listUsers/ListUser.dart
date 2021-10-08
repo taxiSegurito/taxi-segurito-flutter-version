@@ -2,13 +2,16 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/user.dart';
+import 'package:taxi_segurito_app/pages/listUsers/ListUserFunctionallity.dart';
 import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerFilter.dart';
+import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerListView.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerUser.dart';
-import 'package:taxi_segurito_app/services/SelectUser.dart';
+import 'package:taxi_segurito_app/services/UserDataService.dart';
 
 class ListUser extends StatefulWidget {
   ListUser({Key? key}) : super(key: key);
@@ -18,19 +21,23 @@ class ListUser extends StatefulWidget {
 }
 
 class _ListUserState extends State<ListUser> {
-  List<UserData> listUserData = [];
-  updateData() {
-    getDataUserInfo().then((value) {
-      setState(() {
-        listUserData = value;
-      });
-    });
+  ListUserFunctionallity listUserFunctionallity = new ListUserFunctionallity();
+  ContainerListView containerListView = new ContainerListView();
+
+  @override
+  initState() {
+    super.initState();
+    listUserFunctionallity = new ListUserFunctionallity();
+    containerListView = new ContainerListView();
+    listUserFunctionallity.loaded();
+    listUserFunctionallity.callUpdateListView = () {
+      containerListView.updateListView();
+    };
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    listUserFunctionallity.context = context;
     AppBar appbar = new AppBar(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
@@ -43,7 +50,9 @@ class _ListUserState extends State<ListUser> {
       leading: Builder(
         builder: (BuildContext context) {
           return IconButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              listUserFunctionallity.onPressedReturn();
+            },
             icon: Icon(
               Icons.arrow_back,
               color: Colors.black,
@@ -64,7 +73,7 @@ class _ListUserState extends State<ListUser> {
         hint: '',
         ontap: () {},
         callbackValueSearch: (value) {
-          updateData();
+          listUserFunctionallity.onPressedSearhUserData(value);
         });
 
     Container containerSearch = new Container(
@@ -75,20 +84,6 @@ class _ListUserState extends State<ListUser> {
           Expanded(flex: 2, child: txtSearch),
           Expanded(flex: 1, child: containerFilter)
         ],
-      ),
-    );
-
-    Image photo = Image.asset("lib/components/assets/images/driver.jpg");
-
-    Container containerListView = new Container(
-      height: height,
-      width: width,
-      child: ListView.builder(
-        itemCount: listUserData.length,
-        itemBuilder: (context, index) {
-          dynamic dinamycOb = listUserData[index];
-          return new ContainerUser(dynamicObject: dinamycOb);
-        },
       ),
     );
 

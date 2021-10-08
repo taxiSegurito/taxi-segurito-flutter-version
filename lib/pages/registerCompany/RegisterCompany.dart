@@ -131,37 +131,38 @@ class _RegisterCompanyState extends State<RegisterCompany> {
           ],
         ));
 
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
-        appBar: appBar,
-        drawer: SideMenu(),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  child: Container(
-                      alignment: Alignment.center,
-                      child: Form(
-                        autovalidateMode: AutovalidateMode.always,
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            containerTitle,
-                            txtNameCompany,
-                            txtNit,
-                            containerButtons
-                          ],
-                        ),
-                      )))
-            ],
-          ),
-        ));
+    return SingleChildScrollView(
+        child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Colors.white,
+            appBar: appBar,
+            drawer: SideMenu(),
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                      child: Container(
+                          alignment: Alignment.center,
+                          child: Form(
+                            autovalidateMode: AutovalidateMode.always,
+                            key: _formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                containerTitle,
+                                txtNameCompany,
+                                txtNit,
+                                containerButtons
+                              ],
+                            ),
+                          )))
+                ],
+              ),
+            )));
   }
 }

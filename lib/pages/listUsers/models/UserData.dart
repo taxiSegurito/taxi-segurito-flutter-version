@@ -26,10 +26,10 @@ class UserData {
     Image photo = Image.asset("lib/components/assets/images/driver.jpg");
     return UserData(
         id: json['id'].toString(),
-        name: json['firstName'].toString(),
-        dni: json['semester'].toString(),
-        phone: json['semester'].toString(),
-        rol: json['city'].toString(),
+        name: json['name'].toString(),
+        dni: json['dni'].toString(),
+        phone: json['phone'].toString(),
+        rol: json['rol'].toString(),
         photo: photo.image);
   }
 }

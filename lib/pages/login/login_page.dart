@@ -24,6 +24,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           centerTitle: true,
           title: Text("Taxi Segurito"),
