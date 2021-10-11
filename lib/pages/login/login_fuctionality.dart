@@ -1,10 +1,12 @@
 import 'package:taxi_segurito_app/bloc/services/authService.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:flutter/material.dart';
 
 class LoginFuctionality {
+  late BuildContext context;
+  LoginFuctionality(this.context);
   void loginValidate(User user) async {
     Sessions sessions = new Sessions();
     List<dynamic> result = await login(user);
@@ -18,6 +20,15 @@ class LoginFuctionality {
       var msg = await sessions.getSessionValue("iduser");
       var role = await sessions.getSessionValue("rol");
       print(msg.toString() + " " + role.toString());
+      if (role.toString() == "Administrador") {
+        Navigator.pushNamed(context, 'registerOwner');
+      }
+      if (role.toString() == "Cliente") {
+        Navigator.pushNamed(context, 'QRpage');
+      }
+      if (role.toString() == "Dueño") {
+        Navigator.pushNamed(context, 'driverList');
+      }
     } else {
       GlobalToast.displayToast(
           Text("Datos Incorrectos"), Colors.redAccent, Icon(Icons.error), 2);

@@ -31,10 +31,10 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
 
     SelectDriverCard? cardInformationDriver;
     ImagesFileAdapter imageCar = new ImagesFileAdapter(
-      imagePath: "lib/components/assets/images/carDefault.png",
+      imagePath: "assets/images/carDefault.png",
     );
     ImagesFileAdapter imageCarTop = new ImagesFileAdapter(
-      imagePath: "lib/components/assets/images/carDefault.png",
+      imagePath: "assets/images/carDefault.png",
     );
 
     closeNavigator(BuildContext context) {

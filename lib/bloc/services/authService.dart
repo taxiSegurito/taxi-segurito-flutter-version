@@ -6,7 +6,7 @@ import 'package:taxi_segurito_app/models/user.dart';
 Future<List<dynamic>> login(User user) async {
   String path = Service.url + "login.php";
   var response = await http.post(Uri.parse(path), body: {
-    "email": user.username,
+    "email": user.email,
     "password": user.password,
   });
   List<dynamic> result = [];
