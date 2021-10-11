@@ -8,7 +8,7 @@ import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/pages/listUsers/ListUserFunctionallity.dart';
 import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
-import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerFilter.dart';
+import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerReplayList.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerListView.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerUser.dart';
 import 'package:taxi_segurito_app/services/UserDataService.dart';
@@ -38,6 +38,11 @@ class _ListUserState extends State<ListUser> {
   @override
   Widget build(BuildContext context) {
     listUserFunctionallity.context = context;
+
+    containerListView.setCallbak = (value) {
+      listUserFunctionallity.onPressedItemListView(value);
+    };
+
     AppBar appbar = new AppBar(
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
@@ -61,7 +66,11 @@ class _ListUserState extends State<ListUser> {
         },
       ),
     );
-    ContainerFilter containerFilter = new ContainerFilter();
+    ContainerReplayList containerFilter = new ContainerReplayList(
+      onTap: () {
+        listUserFunctionallity.onPressedReloadListView();
+      },
+    );
 
     CustomTextFieldSearch txtSearch = new CustomTextFieldSearch(
         marginBotton: 0,
@@ -80,10 +89,7 @@ class _ListUserState extends State<ListUser> {
       margin:
           new EdgeInsets.only(top: 5.0, bottom: 10.0, left: 20.0, right: 20.0),
       child: Row(
-        children: [
-          Expanded(flex: 2, child: txtSearch),
-          Expanded(flex: 1, child: containerFilter)
-        ],
+        children: [Expanded(flex: 2, child: txtSearch), containerFilter],
       ),
     );
 

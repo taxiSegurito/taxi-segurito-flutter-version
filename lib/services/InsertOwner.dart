@@ -8,8 +8,8 @@ import 'package:taxi_segurito_app/models/Owner.dart';
 Future<bool> insert(Owner owner) async {
   String path = Service.url + "insertowner.php";
   var response = await http.post(Uri.parse(path), body: {
-    "fullname": owner.fullname,
-    "cellphone": owner.cellphone,
+    "fullname": owner.fullName,
+    "cellphone": owner.cellPhone,
     "email": owner.email,
     "password": owner.password,
     "address": owner.address,

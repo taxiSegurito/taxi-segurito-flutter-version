@@ -8,7 +8,6 @@ import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyFunctionality.dart';
-
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class RegisterCompany extends StatefulWidget {
@@ -131,38 +130,37 @@ class _RegisterCompanyState extends State<RegisterCompany> {
           ],
         ));
 
-    return SingleChildScrollView(
-        child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.white,
-            appBar: appBar,
-            drawer: SideMenu(),
-            body: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                      child: Container(
-                          alignment: Alignment.center,
-                          child: Form(
-                            autovalidateMode: AutovalidateMode.always,
-                            key: _formKey,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                containerTitle,
-                                txtNameCompany,
-                                txtNit,
-                                containerButtons
-                              ],
-                            ),
-                          )))
-                ],
-              ),
-            )));
+    return Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        drawer: SideMenu(),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  child: Container(
+                      alignment: Alignment.center,
+                      child: Form(
+                        autovalidateMode: AutovalidateMode.always,
+                        key: _formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            containerTitle,
+                            txtNameCompany,
+                            txtNit,
+                            containerButtons
+                          ],
+                        ),
+                      )))
+            ],
+          ),
+        ));
   }
 }

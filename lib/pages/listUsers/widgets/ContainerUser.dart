@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ContainerUser extends StatefulWidget {
+  final void Function(dynamic dynamicObject) callback;
   dynamic dynamicObject;
-  ContainerUser({Key? key, this.dynamicObject}) : super(key: key);
+  ContainerUser({Key? key, this.dynamicObject, required this.callback})
+      : super(key: key);
 
   @override
   _ContainerUserState createState() => _ContainerUserState();
@@ -11,6 +13,9 @@ class ContainerUser extends StatefulWidget {
 class _ContainerUserState extends State<ContainerUser> {
   @override
   Widget build(BuildContext context) {
+    Image imagedefault = new Image.asset(
+      "lib/components/assets/images/userDefault.png",
+    );
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     Container containerCredentialsColumnOne = new Container(
       child: Align(
@@ -21,7 +26,7 @@ class _ContainerUserState extends State<ContainerUser> {
             margin: EdgeInsets.all(0),
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: widget.dynamicObject.photo, fit: BoxFit.cover),
+                    image: imagedefault.image, fit: BoxFit.cover),
                 shape: BoxShape.circle),
           )),
     );
@@ -37,7 +42,7 @@ class _ContainerUserState extends State<ContainerUser> {
           children: [
             Align(
               child: Text(
-                widget.dynamicObject.name,
+                widget.dynamicObject.fullName,
                 style: TextStyle(
                     fontSize: 16,
                     fontFamily: "Raleway",
@@ -58,7 +63,7 @@ class _ContainerUserState extends State<ContainerUser> {
                     ),
                   ),
                   Text(
-                    widget.dynamicObject.dni,
+                    widget.dynamicObject.ci,
                     style: TextStyle(
                         fontSize: 14,
                         fontFamily: "Raleway",
@@ -80,7 +85,7 @@ class _ContainerUserState extends State<ContainerUser> {
                     ),
                   ),
                   Text(
-                    widget.dynamicObject.phone,
+                    widget.dynamicObject.cellPhone,
                     style: TextStyle(
                         fontSize: 14,
                         fontFamily: "Raleway",
@@ -102,7 +107,7 @@ class _ContainerUserState extends State<ContainerUser> {
           children: [
             Align(
               child: Text(
-                widget.dynamicObject.rol,
+                "Dueño",
                 style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 14,
@@ -122,7 +127,9 @@ class _ContainerUserState extends State<ContainerUser> {
         child: Material(
             child: InkWell(
                 splashColor: colorMain,
-                onTap: () {},
+                onTap: () {
+                  widget.callback(widget.dynamicObject);
+                },
                 child: Container(
                   margin: new EdgeInsets.only(
                       top: 10.0, bottom: 10.0, left: 20.0, right: 20.0),

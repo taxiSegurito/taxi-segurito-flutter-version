@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
+import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/services/UserDataService.dart';
 
 import 'models/UserData.dart';
 
-List<UserData> listUserData = [];
+List<Owner> listUserData = [];
 
 class ListUserFunctionallity {
   BuildContext? context;
@@ -44,7 +48,8 @@ class ListUserFunctionallity {
 
   selectLikeUserDataDataBase(String value) {
     try {
-      selectByLike().then((value) {
+      selectByLike(value).then((value) {
+        listUserData = value;
         callUpdateListView!();
       });
     } catch (exception) {
@@ -54,6 +59,19 @@ class ListUserFunctionallity {
 
   onPressedSearhUserData(String value) {
     selectLikeUserDataDataBase(value);
+  }
+
+  onPressedReloadListView() {
+    loadListView();
+  }
+
+  onPressedItemListView(Owner userData) {
+    Fluttertoast.showToast(
+        msg: userData.fullName,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Colors.red,
+        textColor: Colors.yellow);
   }
 
   onPressedReturn() {

@@ -44,8 +44,8 @@ class RegisterOwnerFunctionality {
   onPressedbtnRegisterCar() {
     fullName = names! + " " + lastName! + " " + lastNameSecond!;
     insert(Owner(
-            fullname: fullName!,
-            cellphone: cellphone!,
+            fullName: fullName!,
+            cellPhone: cellphone!,
             email: email!,
             password: password!,
             address: address!,

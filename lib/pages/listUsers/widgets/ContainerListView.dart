@@ -5,14 +5,19 @@ import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
 import 'ContainerUser.dart';
 
 class ContainerListView extends StatefulWidget {
-  List<UserData>? listDataUser = listUserData;
+  List<dynamic>? listDataUser = listUserData;
+  void Function(dynamic dynamicObject)? callback;
   _ContainerListViewState _containerListViewState =
       new _ContainerListViewState();
-  ContainerListView({Key? key}) : super(key: key);
+  ContainerListView({Key? key, this.callback}) : super(key: key);
 
   @override
   _ContainerListViewState createState() {
     return _containerListViewState;
+  }
+
+  set setCallbak(function) {
+    this.callback = function;
   }
 
   updateListView() {
@@ -39,7 +44,12 @@ class _ContainerListViewState extends State<ContainerListView> {
         itemCount: listUserData.length,
         itemBuilder: (context, index) {
           dynamic dinamycOb = listUserData[index];
-          return new ContainerUser(dynamicObject: dinamycOb);
+          return new ContainerUser(
+            dynamicObject: dinamycOb,
+            callback: (value) {
+              widget.callback!(value);
+            },
+          );
         },
       ),
     );

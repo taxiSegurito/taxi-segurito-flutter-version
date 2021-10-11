@@ -6,37 +6,38 @@ import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
 import 'package:taxi_segurito_app/services/env.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
 
-Future<List<UserData>> select() async {
+Future<List<Owner>> select() async {
   try {
-    String path = "http://192.168.3.6:8070/flutter/userData_controller.php";
+    String path = "http://192.168.3.6:8070/flutter/owner_controller.php";
     var response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
-      return Future<List<UserData>>.value(convertToList(response));
+      return Future<List<Owner>>.value(convertToList(response));
     } else {
-      return Future<List<UserData>>.value([]);
+      return Future<List<Owner>>.value([]);
     }
   } catch (exception) {
-    return Future<List<UserData>>.value([]);
+    return Future<List<Owner>>.value([]);
   }
 }
 
-List<UserData> convertToList(response) {
-  List<UserData> listUserData = [];
+List<Owner> convertToList(response) {
+  List<Owner> listUserData = [];
   for (var singleUser in json.decode(response.body)) {
-    listUserData.add(UserData.fromJson(singleUser));
+    listUserData.add(Owner.fromJson(singleUser));
   }
 
   return listUserData;
 }
 
-Future<List<UserData>> selectByLike() async {
-  String path = "http://10.0.2.2:8070/flutter/userData_controller.php";
-  var response = await http.get(Uri.parse(path));
+Future<List<Owner>> selectByLike(value) async {
+  String path = "http://10.0.2.2:8070/flutter/owner_controller.php";
+  var response = await http.post(Uri.parse(path),
+      body: jsonEncode({'valueSearch': value}));
 
   if (response.statusCode == 200) {
-    return Future<List<UserData>>.value(convertToList(response));
+    return Future<List<Owner>>.value(convertToList(response));
   } else {
-    return Future<List<UserData>>.value(null);
+    return Future<List<Owner>>.value([]);
   }
 }
