@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/pages/emergencyContact/listContact_page.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -53,6 +54,10 @@ class SideMenu extends StatelessWidget {
             ),
             divider,
             ListTile(
+              onTap: ()
+              {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => ListContact_Page()),);
+              },
               leading: Icon(Icons.contact_page_rounded),
               title: Text('Contactos de Emergencia'),
             ),
