@@ -3,6 +3,7 @@ import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/personalDataDriver/personalDataDriver.dart';
 import 'package:taxi_segurito_app/pages/personalDataUsers/personalDataUser.dart';
+import 'package:taxi_segurito_app/pages/scanDataDriver/scanDataDriver.dart';
 
 void main() => runApp(AppTaxiSegurito());
 
@@ -21,7 +22,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'firstScreen': (BuildContext contextFirstScreen) => personalDataUser(),
+        'firstScreen': (BuildContext contextFirstScreen) => scanDataDriver(),
       },
     );
   }
