@@ -6,15 +6,17 @@ class DataDriverSelect {
   String nacionalidad = "";
   String ci = "";
   String photo = "";
+  String license = "";
 
   DataDriverSelect(String fullName, String cellphone, String email,
-      String nacionalidad, String ci, String photo) {
+      String nacionalidad, String ci, String photo, String license) {
     this.fullName = fullName;
     this.cellphone = cellphone;
     this.email = email;
     this.nacionalidad = nacionalidad;
     this.ci = ci;
     this.photo = photo;
+    this.license = license;
   }
 
   DataDriverSelect.fromJson(Map<String, dynamic> json) {
@@ -24,5 +26,6 @@ class DataDriverSelect {
     nacionalidad = json['nacionalidad'];
     ci = json['ci'];
     photo = json['photo'];
+    license = json['license'];
   }
 }

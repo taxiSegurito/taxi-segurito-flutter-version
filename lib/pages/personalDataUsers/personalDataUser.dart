@@ -1,17 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriverSelect.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import '../clasesDataDriverUsers/DataDriverSelect.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataVehiculesDriver.dart';
+import 'package:taxi_segurito_app/pages/personalDataDriver/personalDataDriver.dart';
 
-class PersonalDataDriver extends StatefulWidget {
-  PersonalDataDriver({Key? key}) : super(key: key);
+void main() => runApp(personalDataUser());
+
+// ignore: camel_case_types
+class personalDataUser extends StatelessWidget {
+  const personalDataUser({Key? key}) : super(key: key);
 
   @override
-  _PersonalDataDriverState createState() => _PersonalDataDriverState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "Personal Data User",
+      home: Inicio(),
+    );
+  }
 }
 
 //id conductor para hacer la busqueda en base de datos y url de conexion
@@ -27,6 +36,7 @@ bool listview = true;
 var data1;
 var registros1;
 
+//obtener datos del usuario
 Future<List<DataDriverSelect>> getData() async {
   //cadena de coneccion para php
   data = List<DataDriverSelect>.empty(growable: true);
@@ -45,7 +55,7 @@ Future<List<DataDriverSelect>> getData() async {
   return registros;
 }
 
-//Cargar datos del vehiculo y el dueno o conductor asignado
+//obtener datos de los vehiculos del usuario
 Future<List<DataVehiculesDriver>> getDataVehicule() async {
   //cadena de coneccion para php
   data1 = List<DataVehiculesDriver>.empty(growable: true);
@@ -64,7 +74,14 @@ Future<List<DataVehiculesDriver>> getDataVehicule() async {
   return registros1;
 }
 
-class _PersonalDataDriverState extends State<PersonalDataDriver> {
+class Inicio extends StatefulWidget {
+  Inicio({Key? key}) : super(key: key);
+
+  @override
+  _InicioState createState() => _InicioState();
+}
+
+class _InicioState extends State<Inicio> {
   @override
   void initState() {
     super.initState();
@@ -87,7 +104,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
-            title: Text('Datos Conductor'),
+            title: Text('Vista Administrador'),
             actions: <Widget>[
               PopupMenuButton(itemBuilder: (BuildContext context) {
                 return [
@@ -166,7 +183,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 15),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(data?[0].photo),
+                          backgroundImage: NetworkImage(data[0].photo),
                           radius: 75,
                         ),
                       ),
@@ -232,6 +249,35 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
                                     data?[0].ci,
+                                    style: TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontSize: 18,
+                                        color: Color.fromRGBO(93, 93, 93, 1)),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TableRow(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: 15, bottom: 15, left: 15),
+                                  child: Text(
+                                    'Licencia:',
+                                    style: TextStyle(
+                                        fontFamily: 'Raleway',
+                                        fontSize: 18,
+                                        color: Color.fromRGBO(0, 0, 0, 1),
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      top: 15, bottom: 15, right: 15),
+                                  child: Text(
+                                    data?[0].license,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -333,7 +379,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(
-                                      top: 15, left: 15, bottom: 25),
+                                      top: 15, left: 15, bottom: 20),
                                   child: Text(
                                     'Vehiculo(s) Asignados:',
                                     style: TextStyle(
@@ -362,6 +408,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                       ),
                       //Container que almacenara los cards de vehiculos asignados
                       Container(
+                        margin: EdgeInsets.only(bottom: 20),
                         width: 300,
                         height: 150,
                         alignment: Alignment.center,
@@ -420,7 +467,8 @@ class AlertDialogDelete extends StatelessWidget {
   }
 }
 
-//Listview con cards para mostrar los vehiculos del conductor o propietario
+//ListView con los cardds para mostrar todos los vehiculos que tiene el conductor
+
 class ListViewVehicules extends StatefulWidget {
   ListViewVehicules({Key? key}) : super(key: key);
 
