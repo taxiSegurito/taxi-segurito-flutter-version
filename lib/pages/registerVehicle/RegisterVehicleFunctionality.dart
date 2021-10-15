@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 
@@ -21,7 +19,7 @@ List<Driver> listDriver = [
 ];
 
 class RegisterVehicleFunctionality {
-  BuildContext context;
+  BuildContext? context;
 
   String? model;
   String? plate;
@@ -30,10 +28,10 @@ class RegisterVehicleFunctionality {
   Driver? driver;
   List<Image>? listImage;
   VoidCallback? activeShowDialog;
-  Vehicle? vehicle;
+  Vehicle vehicle = new Vehicle();
 
   RegisterVehicleFunctionality(
-      {required this.context,
+      {this.context,
       this.model,
       this.plate,
       this.driver,
@@ -42,8 +40,12 @@ class RegisterVehicleFunctionality {
       this.activeShowDialog,
       this.listImage});
 
+  set setContext(context) {
+    this.context = context;
+  }
+
   closeNavigator() {
-    Navigator.of(context).pop();
+    Navigator.of(context!).pop();
   }
 
   List<Image> getListImage() {
@@ -52,6 +54,9 @@ class RegisterVehicleFunctionality {
 
   onPressedbtnRegisterCar() {
     //TODO: implementar el onPressed del boton registrar
+  }
+  onPressedbtnUpdateVehicle() {
+    //Implementar metodo para actualizar
   }
 
   onPressedbtnCancelRegisterCar() {

@@ -17,7 +17,11 @@ class CustomTextField extends StatefulWidget {
   double heightNum;
   bool obscureText;
   _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
-  TextEditingController valueController = TextEditingController();
+  TextEditingController _controller = TextEditingController();
+
+  TextEditingController get controller {
+    return _controller;
+  }
 
   CustomTextField({
     Key? key,
@@ -34,7 +38,7 @@ class CustomTextField extends StatefulWidget {
 
   @override
   State<CustomTextField> createState() {
-    valueController.text = value;
+    _controller.text = value;
     return _customTextFieldState;
   }
 
@@ -59,12 +63,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   String getValue() {
-    return widget.valueController.text;
+    return widget._controller.text;
   }
 
   setValue(String value) {
     setState(() {
-      widget.valueController.text = value;
+      widget._controller.text = value;
     });
   }
 
@@ -98,7 +102,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               }
             },
             textAlignVertical: TextAlignVertical.center,
-            controller: widget.valueController,
+            controller: widget._controller,
             textAlign: TextAlign.start,
             style: TextStyle(fontSize: 13),
             decoration: InputDecoration(

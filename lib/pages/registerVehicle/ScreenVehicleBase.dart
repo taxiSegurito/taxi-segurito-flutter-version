@@ -3,31 +3,78 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
+import 'package:taxi_segurito_app/models/Vehicle.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/widgets/SelectDriverCard.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/widgets/SearchDialogDriver.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
 import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
+import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
-class RegisterVehicle extends StatefulWidget {
-  RegisterVehicle({Key? key}) : super(key: key);
+//mandar titulo
+//titulo de el card de conductor
+//cambiar nombre y evento del boton registrar
 
+abstract class ScreamVehicleBase extends StatefulWidget {
+  _ScreamVehicleBaseState _screamVehicleBaseState =
+      new _ScreamVehicleBaseState();
   @override
-  _RegisterVehicleState createState() => _RegisterVehicleState();
+  State<ScreamVehicleBase> createState() {
+    return _screamVehicleBaseState;
+  }
+
+  _ScreamVehicleBaseState getView() {
+    return _screamVehicleBaseState;
+  }
+
+  Vehicle setDataVehicle() {
+    Vehicle? vehicle;
+    return vehicle!;
+  }
+
+  String titleScreen();
+
+  String titleCardDriverScreen();
+
+  String tittleDialog();
+
+  RegisterVehicleFunctionality functionality();
+
+  eventAction();
 }
 
-class _RegisterVehicleState extends State<RegisterVehicle> {
+class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
+  Vehicle? vehicle;
+
+  CustomTextField txtCarColor = new CustomTextField(
+    //value: vehicle != null ? vehicle!.color : '',
+    hint: 'Color del vehiculo',
+    multiValidator: MultiValidator(
+      [
+        RequiredValidator(errorText: "Campo vacio"),
+        StringValidator(
+            errorText: "Ingrese el nombre del color Correctamente sin numeros"),
+      ],
+    ),
+  );
+  @override
+  void initState() {
+    super.initState();
+    vehicle = widget.setDataVehicle();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
+
     RegisterVehicleFunctionality registerVehicleFunctionality =
-        new RegisterVehicleFunctionality(context: context);
+        widget.functionality();
+    registerVehicleFunctionality.setContext = context;
 
     SelectDriverCard? cardInformationDriver;
     ImagesFileAdapter imageCar = new ImagesFileAdapter(
@@ -36,13 +83,49 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     ImagesFileAdapter imageCarTop = new ImagesFileAdapter(
       imagePath: "assets/images/carDefault.png",
     );
+    CustomTextField txtCarColor = new CustomTextField(
+      value: vehicle != null ? vehicle!.color : '',
+      hint: 'Color del vehiculo',
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          StringValidator(
+              errorText:
+                  "Ingrese el nombre del color Correctamente sin numeros"),
+        ],
+      ),
+    );
+
+    CustomTextField txtCapacity = new CustomTextField(
+      value: '',
+      hint: 'Capacidad',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        StringValidator(errorText: "Ingrese la capacidad en formato texto"),
+      ]),
+    );
+    CustomTextField txtModelCar = new CustomTextField(
+      value: vehicle != null ? vehicle!.model : '',
+      hint: 'Modelo',
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: "Campo vacio"),
+        RequiredValidator(errorText: "Campo vacio")
+      ]),
+    );
+
+    CustomTextField txtNumberPlate = new CustomTextField(
+      value: vehicle != null ? vehicle!.pleik : '',
+      hint: 'Placa',
+      multiValidator:
+          MultiValidator([RequiredValidator(errorText: "Campo Vacio")]),
+    );
 
     closeNavigator(BuildContext context) {
       Navigator.of(context).pop();
     }
 
     Text title = new Text(
-      "Registro de Vehiculo",
+      widget.titleScreen(),
       style: const TextStyle(
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.center,
@@ -70,38 +153,6 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
           registerVehicleFunctionality.onPressedSearhDriver(value);
         });
 
-    CustomTextField txtCarColor = new CustomTextField(
-      hint: 'Color del vehiculo',
-      multiValidator: MultiValidator(
-        [
-          RequiredValidator(errorText: "Campo vacio"),
-          StringValidator(
-              errorText:
-                  "Ingrese el nombre del color Correctamente sin numeros"),
-        ],
-      ),
-    );
-
-    CustomTextField txtCapacity = new CustomTextField(
-      hint: 'Capacidad',
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: "Campo vacio"),
-        StringValidator(errorText: "Ingrese la capacidad en formato texto"),
-      ]),
-    );
-    CustomTextField txtModelCar = new CustomTextField(
-      hint: 'Modelo',
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: "Campo vacio"),
-        RequiredValidator(errorText: "Campo vacio")
-      ]),
-    );
-
-    CustomTextField txtNumberPlate = new CustomTextField(
-      hint: 'Placa',
-      multiValidator:
-          MultiValidator([RequiredValidator(errorText: "Campo Vacio")]),
-    );
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
         registerVehicleFunctionality.onPressedbtnCancelRegisterCar();
@@ -122,7 +173,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
         buttonText: "Aceptar",
         buttonColor: colorMain,
         buttonColorText: Colors.white,
-        titleShowDialog: "Registro Exitoso!",
+        titleShowDialog: widget.tittleDialog(),
         context: context);
 
     activeShowDialog() {
@@ -130,7 +181,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     }
 
     cardInformationDriver = new SelectDriverCard(
-      headerText: 'Seleccione un Vehiculo',
+      headerText: widget.titleCardDriverScreen(),
       ontap: () {
         showDialogSearch.showAlertDialog();
       },
@@ -168,7 +219,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     CustomButton btnRegister = new CustomButton(
       onTap: () {
         if (isRegisterDataVehicle()) {
-          registerVehicleFunctionality.onPressedbtnRegisterCar();
+          widget.eventAction();
         }
       },
       buttonText: "Registrar",
@@ -203,38 +254,46 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
         ));
 
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
-        appBar: appBar,
-        drawer: SideMenu(),
-        body: SingleChildScrollView(
-            child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      appBar: appBar,
+      drawer: SideMenu(),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              containerTitle,
+              Container(
+                margin: new EdgeInsets.only(
+                  top: 20.0,
+                  bottom: 10.0,
+                  left: 50.0,
+                  right: 50.0,
+                ),
+                child: cardInformationDriver,
+              ),
+              Container(
+                margin: new EdgeInsets.only(
+                    top: 10.0, bottom: 10.0, left: 50.0, right: 50.0),
+                child: Row(
                   children: [
-                    containerTitle,
-                    Container(
-                        margin: new EdgeInsets.only(
-                            top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
-                        child: cardInformationDriver),
-                    Container(
-                      margin: new EdgeInsets.only(
-                          top: 10.0, bottom: 10.0, left: 50.0, right: 50.0),
-                      child: Row(
-                        children: [
-                          Expanded(child: imageCar),
-                          Expanded(child: imageCarTop)
-                        ],
-                      ),
-                    ),
-                    txtModelCar,
-                    txtNumberPlate,
-                    txtCarColor,
-                    txtCapacity,
-                    containerButtons,
+                    Expanded(child: imageCar),
+                    Expanded(child: imageCarTop)
                   ],
-                ))));
+                ),
+              ),
+              txtModelCar,
+              txtNumberPlate,
+              txtCarColor,
+              txtCapacity,
+              containerButtons,
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

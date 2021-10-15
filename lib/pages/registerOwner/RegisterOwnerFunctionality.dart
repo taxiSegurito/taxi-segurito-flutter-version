@@ -7,7 +7,9 @@ import 'package:taxi_segurito_app/models/Company.dart';
 
 class RegisterOwnerFunctionality {
   BuildContext context;
-
+//person
+//user
+//owner
   Company? company;
   String? names;
   String? lastName;
@@ -53,6 +55,8 @@ class RegisterOwnerFunctionality {
             idCompany: company!.idCompany!.toString()))
         .then((_) => activeShowDialog!());
   }
+
+  onPressedUpdate(Owner owner) {}
 
   closeNavigator() {
     Navigator.of(context).pop();
