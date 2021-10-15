@@ -12,8 +12,8 @@ class ListContact_Functionality{
   var dataSet;
   //Link database
   //var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
-  var db ="https://192.168.0.11/flutter_api/";
-  
+  var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
+
   Future CheckID() async
   {
     bool idsession = await sessions.verificationSession("iduser");
@@ -41,7 +41,6 @@ class ListContact_Functionality{
       });
       print("_SelectContactData query_");
       print("1: "+response.body);
-      //User user = User.fromJson(json.decode(response.body)) ;
       data = jsonDecode(response.body) ; //response.body returns String
     }catch(e)
     {
