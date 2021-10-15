@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/emergencyContact/registerContact_page.dart';
+import 'package:flutter/widgets.dart';
+import 'package:taxi_segurito_app/pages/emergencyContact/formContact_page.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/listContact_functionality.dart';
 
 class ListContact_Page extends StatefulWidget
@@ -11,21 +13,29 @@ class ListContact_Page extends StatefulWidget
 class _ListContactState extends State<ListContact_Page> {
   ListContact_Functionality listContact_functionality = new ListContact_Functionality();
   List<dynamic> contacts = [];
-  var aux;
+  var aux; //Para esperar la respuesta del futureBuilder
+  var isSession;
 
   Future LoadData_Function() async
   {
-    List<dynamic> dataSet1 = await listContact_functionality.SelectContactData("1");
-    print("2: "+dataSet1.toString());
-    if(dataSet1.toString()=="NoResponse")
+    isSession = await listContact_functionality.CheckID(); //Revisa si hay sesion,
+    print("0.5: "+isSession.toString());
+    if(isSession)
     {
-      listContact_functionality.ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
-      return [];
+        List<dynamic> dataSet1 = await listContact_functionality.SelectContactData();
+        print("2: "+dataSet1.toString());
+        if(dataSet1.toString()=="NoResponse")
+        {
+          listContact_functionality.ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
+          return [];
+        }
+        else{
+          contacts = dataSet1;
+          return dataSet1;
+        }
+
     }
-    else{
-      contacts = dataSet1;
-      return dataSet1;
-    }
+
   }
   @override
   Widget build(BuildContext context) {
@@ -33,7 +43,7 @@ class _ListContactState extends State<ListContact_Page> {
     return FutureBuilder(future: aux = LoadData_Function(),builder: (_,AsyncSnapshot snapshot) { return _loadWidgets();});
   }
 
-  // UI Function 1: Load all
+  // UI Function 1: Carga la interfaz una vez obtengan los datos, si no hay datos, mostrará "No tiene contactos de emergencia"
   Widget _loadWidgets(){
   return Scaffold(
           appBar: AppBar(
@@ -51,20 +61,22 @@ class _ListContactState extends State<ListContact_Page> {
             },
           ),
         ),
+        //FloatingButton
+        floatingActionButton: (isSession == true) ? _insertFloatingButton():null,
+
         body: (contacts.toString() !="[]") ? ListView(
-          children: _insertItem()
+          children: _insertItem()  //Si hay contactos
         ):
+        //Si no hay contactos
         Center(
-          child: Text("No tiene contactos de emergencia registrados."),
+          child: Padding(padding : EdgeInsets.all(20),
+                         child: Text("No tiene contactos de emergencia registrados.",textAlign: TextAlign.center,
+                                style: TextStyle(fontFamily: "Raleway",fontSize: 25,color: Colors.grey,),)),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterContact_Page()),);
-            },
-          child: Icon(Icons.add),
-        ),
+        
     );
   }
+  // UI Function 2: Metodo para generar un widget por cada contacto con sus datos
   List<Widget> _insertItem(){
 
     List<Widget> temporal = [];
@@ -120,7 +132,15 @@ class _ListContactState extends State<ListContact_Page> {
     }
     return temporal;
   }
-
+// UI Function 3: Genera floatingButtom para agregar contactos, si no hay sesion, no se activa el metodo
+  Widget _insertFloatingButton(){
+    return FloatingActionButton(
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FormContact_Page()),);
+            },
+          child: Icon(Icons.add),
+        );
+  }
 
 
 }

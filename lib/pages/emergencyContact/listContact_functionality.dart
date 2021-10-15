@@ -8,23 +8,36 @@ import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 class ListContact_Functionality{
 
   Sessions sessions = Sessions(); 
-  String idUser = "1";
+  String idUser = "0";
   var dataSet;
   //Link database
+  //var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
   var db ="https://192.168.0.11/flutter_api/";
+  
+  Future CheckID() async
+  {
+    bool idsession = await sessions.verificationSession("iduser");
+    print("-1: "+idUser);
+    if (idsession)
+    {
+      idUser = sessions.getSessionValue("iduser").toString();
+      print("0: "+idUser);
+      return true;
+    }
+    else return false;
+  }
 
   //Querys
 
   // 1 SELECT query: Get all user's contacts  at init widget
-  
-  Future SelectContactData(String _id) async
+  Future SelectContactData() async
   {
     List<dynamic> data;
     var url = db+"selectEmergencyContact.php";
     try
     {
       var response = await http.post(Uri.parse(url),body:{
-        "id" : _id,
+        "id" : idUser,
       });
       print("_SelectContactData query_");
       print("1: "+response.body);
@@ -105,16 +118,7 @@ class ListContact_Functionality{
     else {ShowCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);}
   }
   */
-  void CheckID() async
-  {
-    bool idsession = await sessions.verificationSession("iduser");
-    if (idsession)
-    {
-      idUser = sessions.getSessionValue("iduser").toString();
-    }
-     print("0: "+idUser);
 
-  }
 
   void ShowCustomToast(String myText, Color myColor)
   {

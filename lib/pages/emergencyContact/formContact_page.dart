@@ -1,16 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/emergencyContact/registerContact_functionality.dart';
-class RegisterContact_Page extends StatefulWidget {
- // RegisterContact_Page(Key key) : super(key: key);
-
-  //static final nameP = "formulario";
-
-  _RegisterFormState createState() => _RegisterFormState();
+import 'package:taxi_segurito_app/pages/emergencyContact/formContact_functionality.dart';
+class FormContact_Page extends StatefulWidget {
+  _FormState createState() => _FormState();
 }
 
-class _RegisterFormState extends State<RegisterContact_Page> {
-  RegisterContact_Functionality registerContact_Functionality = new RegisterContact_Functionality();
-  //final id = GlobalKey<FormState>();
+class _FormState extends State<FormContact_Page> {
+  FormContact_Functionality formContact_Functionality = new FormContact_Functionality();
+  var aux; //Para esperar la respuesta del futureBuilder
+  var isSession;
+  @override
+  void initState()
+  {
+    LoadData_Function();
+  }
+
+  void LoadData_Function() async
+  {
+    isSession = await formContact_Functionality.CheckID(); //Revisa si hay sesion,
+    print("isSession: "+isSession.toString());
+    if(isSession)
+    { /*
+        List<dynamic> data = await formContact_Functionality.GetContactData();
+        print("2: "+data.toString());
+        if(data.toString()=="NoResponse")
+        {
+          formContact_Functionality.ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
+          return [];
+        }
+        else{
+          //contacts = dataSet1;
+          return data;
+        } */
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +59,7 @@ class _RegisterFormState extends State<RegisterContact_Page> {
             children: <Widget>[
               //Inputs
               TextField(
-                controller: registerContact_Functionality.contactName_Controller,
+                controller: formContact_Functionality.contactName_Controller,
                 decoration: InputDecoration(
                   hintText: "  Apodo del contacto",
                   icon: const Icon(
@@ -50,7 +72,7 @@ class _RegisterFormState extends State<RegisterContact_Page> {
                 margin: EdgeInsets.only(top: 20,bottom: 20),
                 child :
               TextField(
-                controller: registerContact_Functionality.contactNumber_Controller,
+                controller: formContact_Functionality.contactNumber_Controller,
                 decoration: InputDecoration(
                   hintText: "  Numero del contacto",
                   icon: const Icon(
@@ -66,7 +88,7 @@ class _RegisterFormState extends State<RegisterContact_Page> {
                   "Agregar contacto",
                   style: TextStyle(fontSize: 20)
                   ),
-                onPressed: (){registerContact_Functionality.InsertContact_Function(context);}
+                onPressed: (){formContact_Functionality.InsertContact_Function(context);}
               ),
 
             ],

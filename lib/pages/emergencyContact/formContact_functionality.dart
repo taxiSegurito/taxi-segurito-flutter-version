@@ -3,22 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 
-class RegisterContact_Functionality{
+class FormContact_Functionality{
 
   Sessions sessions = Sessions(); 
-  String idUser = "1";
+  String idUser = "0"; // Inicializa como 'invitado', con CheckID() se actualiza la sesion.
   var dataSet;
   //Link database
-  var db ="https://192.168.0.13/flutter_api/";
+  var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
   //UI data controllers
   TextEditingController contactName_Controller = TextEditingController();
   TextEditingController contactNumber_Controller = TextEditingController();
-  /*
-  String nombreCompleto = 'Invitado';
-  String cellphone = '-';
-  String email = '-';
-*/
 
+  Future CheckID() async
+  {
+    bool idsession = await sessions.verificationSession("iduser");
+    if (idsession)
+    {
+      idUser = sessions.getSessionValue("iduser").toString();
+      print("0: "+idUser);
+      return true;
+    }
+    else return false;
+  }
   //Querys
 
   // 1 GET query: Get data user at init widget
@@ -89,6 +95,7 @@ class RegisterContact_Functionality{
   }
   */
   // 4 SOFT DELETE: realize a UPDATE, status = 0
+  //no usado aun
   Future DeleteHardContact(String _id) async
   {
     var url = db+"deleteEmergencyContact.php";
@@ -106,28 +113,10 @@ class RegisterContact_Functionality{
 
 
   // UI FUNCTIONS
-  // Function init
-/*
-  void SelectData_Function() async
-  {
-    dataSet = await GetContactData(idUser);
-    print("3: "+dataSet.toString());
-    if(dataSet.toString()=="NoResponse")
-    {
-      ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
-    }
-    else{
-    //nombreCompleto_Controller.text = dataUser[0];
-    //cellphone_Controller.text = dataUser[1];
-    //email_Controller.text = dataUser[2];
-    
-    }
 
-  }
-*/
  void InsertContact_Function(BuildContext context) async
  {
-    String result =await InsertEmergencyContact(idUser, contactName_Controller.text, contactNumber_Controller.text);
+    String result = await InsertEmergencyContact(idUser, contactName_Controller.text, contactNumber_Controller.text);
 
     if(result=="Success") {ShowCustomToast("Se han guardado los cambios.", Colors.green);Navigator.pop(context);}
     else {ShowCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);}
@@ -153,16 +142,7 @@ class RegisterContact_Functionality{
     else {ShowCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);}
   }
   */
-  void CheckID() async
-  {
-    bool idsession = await sessions.verificationSession("iduser");
-    if (idsession)
-    {
-      idUser = sessions.getSessionValue("iduser").toString();
-    }
-     print("0: "+idUser);
-     //GetData_Function();
-  }
+
 
   void ShowCustomToast(String myText, Color myColor)
   {
