@@ -8,7 +8,7 @@ import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 
 class CustomTextField extends StatefulWidget {
   String hint;
-  String? value;
+  String value;
   double marginLeft;
   double marginRight;
   double marginBotton;
@@ -17,6 +17,8 @@ class CustomTextField extends StatefulWidget {
   double heightNum;
   bool obscureText;
   _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
+  TextEditingController valueController = TextEditingController();
+
   CustomTextField({
     Key? key,
     this.hint = "Campo de text",
@@ -26,16 +28,22 @@ class CustomTextField extends StatefulWidget {
     this.marginBotton = 5,
     this.heightNum = 35,
     this.obscureText = false,
+    this.value = '',
     required this.multiValidator,
   }) : super(key: key);
 
   @override
   State<CustomTextField> createState() {
+    valueController.text = value;
     return _customTextFieldState;
   }
 
   String getValue() {
     return value = _customTextFieldState.getValue();
+  }
+
+  setValue(String value) {
+    _customTextFieldState.setValue(value);
   }
 
   void changeHeightTextField(double num) {
@@ -44,10 +52,19 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  final TextEditingController valueController = TextEditingController();
   changeHeightTextField(double num) {
     setState(() {
       widget.heightNum = num;
+    });
+  }
+
+  String getValue() {
+    return widget.valueController.text;
+  }
+
+  setValue(String value) {
+    setState(() {
+      widget.valueController.text = value;
     });
   }
 
@@ -81,7 +98,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               }
             },
             textAlignVertical: TextAlignVertical.center,
-            controller: valueController,
+            controller: widget.valueController,
             textAlign: TextAlign.start,
             style: TextStyle(fontSize: 13),
             decoration: InputDecoration(
@@ -105,9 +122,5 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
       ],
     );
-  }
-
-  String getValue() {
-    return valueController.text;
   }
 }

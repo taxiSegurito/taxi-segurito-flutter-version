@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/listUsers/ListUserFunctionallity.dart';
-import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
-
-import 'ContainerUser.dart';
+import 'ContainerOwnerData.dart';
 
 class ContainerListView extends StatefulWidget {
   List<dynamic>? listDataUser = listUserData;

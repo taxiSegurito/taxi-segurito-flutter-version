@@ -1,8 +1,8 @@
 class Company {
-  int? idCompany;
+  String? idCompany;
   String companyName;
   String nit;
-  int? status;
+  String? status;
   DateTime? registerDate;
   DateTime? updateDate;
 

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/pages/listUsers/ListUser.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
@@ -11,6 +12,8 @@ import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
+
+import 'models/Company.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("firstScreen");
+    app = AppTaxiSegurito("userList");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -68,7 +71,10 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversList(),
-        'QRpage': (BuildContext contextDriveList) => QRPAGE()
+        'QRpage': (BuildContext contextDriveList) => QRPAGE(),
+        'userList': (BuildContext contextUserList) => ListUser(),
+        'updateCompany': (BuildContext contextUpdateCompany, {company}) =>
+            RegisterCompany.fromRegisterCompany(company: company)
       },
     );
   }

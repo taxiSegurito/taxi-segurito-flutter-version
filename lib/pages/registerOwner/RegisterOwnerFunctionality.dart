@@ -34,7 +34,7 @@ class RegisterOwnerFunctionality {
       this.activeShowDialog});
 
   List<Company> companyList = [
-    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: 1),
+    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: "1"),
   ];
 
   List<Company> getListCompany() {

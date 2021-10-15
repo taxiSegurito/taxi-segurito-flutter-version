@@ -2,16 +2,10 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
-import 'package:taxi_segurito_app/models/Driver.dart';
-import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/pages/listUsers/ListUserFunctionallity.dart';
-import 'package:taxi_segurito_app/pages/listUsers/models/UserData.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerReplayList.dart';
 import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerListView.dart';
-import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerUser.dart';
-import 'package:taxi_segurito_app/services/UserDataService.dart';
 
 class ListUser extends StatefulWidget {
   ListUser({Key? key}) : super(key: key);
@@ -48,7 +42,7 @@ class _ListUserState extends State<ListUser> {
       foregroundColor: Colors.black,
       elevation: 0,
       title: Text(
-        "Usuarios",
+        "Dueños",
         textAlign: TextAlign.right,
         style: TextStyle(),
       ),
@@ -66,6 +60,7 @@ class _ListUserState extends State<ListUser> {
         },
       ),
     );
+
     ContainerReplayList containerFilter = new ContainerReplayList(
       onTap: () {
         listUserFunctionallity.onPressedReloadListView();

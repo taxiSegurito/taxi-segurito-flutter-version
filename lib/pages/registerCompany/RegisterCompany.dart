@@ -11,26 +11,27 @@ import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyFunctiona
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class RegisterCompany extends StatefulWidget {
+  Company? company;
   RegisterCompany({Key? key}) : super(key: key);
-
+  RegisterCompany.fromRegisterCompany({Key? key, this.company})
+      : super(key: key);
   @override
   _RegisterCompanyState createState() => _RegisterCompanyState();
 }
 
 class _RegisterCompanyState extends State<RegisterCompany> {
   @override
+  initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     RegisterCompanyFunctionality registerCompanyFunctionality =
         new RegisterCompanyFunctionality(context: context);
-
-    Text title = new Text(
-      "Registro de Empresa",
-      style: const TextStyle(
-          fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
-      textAlign: TextAlign.right,
-    );
+    String textTitle = "Registro de Empresa";
 
     CustomTextField txtNameCompany = new CustomTextField(
       hint: 'Nombre Compañia',
@@ -89,6 +90,19 @@ class _RegisterCompanyState extends State<RegisterCompany> {
       return false;
     }
 
+    bool registerUpdateDataCompany() {
+      if (_formKey.currentState!.validate()) {
+        registerCompanyFunctionality = new RegisterCompanyFunctionality(
+            idCompany: widget.company!.idCompany,
+            nameCompany: txtNameCompany.getValue(),
+            nit: txtNit.getValue(),
+            context: context,
+            activeShowDialog: activeShowDialog);
+        return true;
+      }
+      return false;
+    }
+
     CustomButton btnRegister = new CustomButton(
       onTap: () {
         if (registerDataCompany()) {
@@ -104,6 +118,22 @@ class _RegisterCompanyState extends State<RegisterCompany> {
       marginTop: 0,
     );
 
+    updateData() {
+      if (widget.company != null) {
+        txtNameCompany.value = widget.company!.companyName;
+        txtNit.value = widget.company!.nit;
+        btnRegister.buttonText = "Actualizar";
+        btnRegister.onTap = () {
+          if (registerUpdateDataCompany()) {
+            registerCompanyFunctionality.onPressedBtnUpdate();
+          }
+        };
+        textTitle = "Actualizar Empresa";
+      }
+    }
+
+    updateData();
+
     AppBar appBar = new AppBar(
       backgroundColor: colorMain,
       elevation: 0,
@@ -111,6 +141,13 @@ class _RegisterCompanyState extends State<RegisterCompany> {
         'Registro de dueño',
         textAlign: TextAlign.center,
       ),
+    );
+
+    Text title = new Text(
+      textTitle,
+      style: const TextStyle(
+          fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
+      textAlign: TextAlign.right,
     );
 
     Container containerTitle = new Container(
@@ -155,7 +192,7 @@ class _RegisterCompanyState extends State<RegisterCompany> {
                             containerTitle,
                             txtNameCompany,
                             txtNit,
-                            containerButtons
+                            containerButtons,
                           ],
                         ),
                       )))

@@ -30,21 +30,7 @@ class _ContainerReplayListState extends State<ContainerReplayList> {
       child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           onTap: widget.onTap,
-          child:
-              icon /* Row(
-          children: [
-            Expanded(
-              child: new Container(
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [icon],
-                ),
-              ),
-            ),
-          ],
-        ),*/
-          ),
+          child: icon),
     );
   }
 }
