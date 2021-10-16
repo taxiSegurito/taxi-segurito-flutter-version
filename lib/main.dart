@@ -25,6 +25,7 @@ void main() async {
     app = MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: 'firstScreen',
+      // initialRoute: 'driverRegistration',
       routes: {
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
             RegisterVehicle(),
