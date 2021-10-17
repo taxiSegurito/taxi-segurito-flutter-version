@@ -14,7 +14,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  RegisterFunctionality registerFunctionality = new RegisterFunctionality();
   bool visibilitycode = false;
   bool visibilityphone = true;
   TextEditingController number = TextEditingController();
@@ -58,6 +57,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget build(BuildContext context) {
+    RegisterFunctionality registerFunctionality =
+        new RegisterFunctionality.cont(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

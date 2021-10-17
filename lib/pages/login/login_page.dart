@@ -14,7 +14,6 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
-  LoginFuctionality loginFuctionality = new LoginFuctionality();
   FToast fToast = FToast();
   @override
   void initState() {
@@ -24,6 +23,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
   }
 
   Widget build(BuildContext context) {
+    LoginFuctionality loginFuctionality = new LoginFuctionality(context);
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
