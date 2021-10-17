@@ -1,12 +1,18 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
+import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
+import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
+import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
@@ -24,29 +30,18 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'firstScreen',
-      routes: {
-        'registerVehicle': (BuildContext contextRegisterVehicle) =>
-            RegisterVehicle(),
-        'registerCompany': (BuildContext contextRegisterCompany) =>
-            RegisterCompany(),
-        'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'driverRegistration': (BuildContext contextRegistration) =>
-            DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList()
-      },
-    );
+    app = AppTaxiSegurito("firstScreen");
   } else {
-    app = MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: 'loginUser',
-      routes: {
-        'loginUser': (BuildContext contextFirstScreen) => UserLoginPage()
-      },
-    );
+    var rol = await sessions.getSessionValue("rol");
+    if (rol.toString() == "Administrador") {
+      app = AppTaxiSegurito("registerOwner");
+    }
+    if (rol.toString() == "Dueño") {
+      app = AppTaxiSegurito("driverList");
+    }
+    if (rol.toString() == "Cliente") {
+      app = AppTaxiSegurito("QRpage");
+    }
   }
   //Si existe una sesion Google
   if (googleSession == true) {
@@ -66,22 +61,27 @@ void main() async {
 }
 
 class AppTaxiSegurito extends StatefulWidget {
+  final String initialRoute;
+  AppTaxiSegurito(this.initialRoute);
   @override
-  _AppTaxiSeguritoState createState() => _AppTaxiSeguritoState();
+  _AppTaxiSeguritoState createState() => _AppTaxiSeguritoState(initialRoute);
 }
 
 class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
+  String routeInitial;
+  _AppTaxiSeguritoState(this.routeInitial);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Taxi Segurito",
       theme: ThemeData(primarySwatch: Colors.amber),
       debugShowCheckedModeBanner: false,
-      initialRoute: 'firstScreen',
+      initialRoute: routeInitial,
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
         'scannerQr': (BuildContext contexQRPage) => QRPAGE(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
+        'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
         'registerCompany': (BuildContext contextRegisterCompany) =>
             RegisterCompany(),
         'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
@@ -89,7 +89,8 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             RegisterVehicle(),
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList()
+        'driverList': (BuildContext contextDriveList) => DriversList(),
+        'QRpage': (BuildContext contextDriveList) => QRPAGE()
       },
     );
   }

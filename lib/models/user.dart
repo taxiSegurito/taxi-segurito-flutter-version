@@ -1,17 +1,21 @@
-import 'package:taxi_segurito_app/models/Person.dart';
+import 'package:taxi_segurito_app/models/person.dart';
 
 class User extends Person {
-  // faltan definir algunos atributos
   late String email;
   late String password;
+  late DateTime registerDate;
+  late DateTime updateDate;
+  late int status;
 
-// Se deberian ir aumentando los constructores nesesarios
-  User(this.email, this.password, idPerson, fullName, cellphone, registerDate,
-      updateDate, status)
-      : super(idPerson, fullName, cellphone, registerDate, updateDate, status);
-  User.Login(this.email, this.password) : super.Default();
-  User.Default() : super.Default();
+  User();
+  User.get(this.email, this.password, this.registerDate, this.updateDate,
+      this.status);
+  User.insert(
+      {required String fullname,
+      required String cellphone,
+      required this.email,
+      required this.password})
+      : super.insert(fullname, cellphone);
 
-  User.Insert(this.email, this.password, fullName, cellphone)
-      : super.InsertForGoogleAndFacebook(fullName, cellphone);
+  User.login(this.email, this.password);
 }

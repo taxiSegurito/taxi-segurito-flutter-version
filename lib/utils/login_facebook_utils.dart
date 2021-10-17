@@ -5,13 +5,13 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/models/ClientUser.dart';
-import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 
 class LoginFacebookUtils {
   FacebookAuth facebookAuth = FacebookAuth.i;
 
   //LoginWithFacebook
-  Future<ClientUser?> LoginWithFacebook() async {
+  Future<Clientuser?> LoginWithFacebook() async {
     // Authentication is executed request the required permissions
     final LoginResult result = await FacebookAuth.instance.login(
       permissions: ['email', 'public_profile'],
@@ -24,14 +24,14 @@ class LoginFacebookUtils {
         String fullName = userData.entries.first.value;
         String email = userData["email"].toString();
         String cellphone = "";
-        ClientUser client = ClientUser.Insert(
-            "Facebook", email, "Facebook", fullName, cellphone);
+        Clientuser client = Clientuser.InsertForGoogleAndFacebook(
+            "Facebook", fullName, cellphone, email, "Facebook");
         //CheckExits retorna numero si existe
         //retorna Error si no existe
         String exits = await GetCellphoneIfExists(email);
         if (exits != "Error") {
-          ClientUser clientExits = ClientUser.Insert(
-              "Facebook", email, "Facebook", fullName, cellphone);
+          Clientuser clientExits = Clientuser.InsertForGoogleAndFacebook(
+              "Facebook", fullName, cellphone = exits, email, "Facebook");
           AddSession(clientExits);
           return clientExits;
         }
@@ -45,17 +45,17 @@ class LoginFacebookUtils {
 
   //Method that sends data to backend
   //Solo debe ser llamado cuando esten los datos completos
-  Future<bool> AddDataFacebook(ClientUser client) async {
+  Future<bool> AddDataFacebook(Clientuser client) async {
     try {
       var url = Service.url + "UserAdd/UserController.php";
       bool control;
       var response = await http.put(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
-            "password": "Facebook", //por defecto
+            "password": client.password,
             "fullName": client.fullName,
             "cellphone": client.cellphone,
-            "typeRegister": "Facebook",
+            "typeRegister": client.registerType,
             "idrole": 2, //Cliente
           }));
       var res = jsonDecode(response.body);
@@ -74,7 +74,7 @@ class LoginFacebookUtils {
     }
   }
 
-  void AddSession(ClientUser client) async {
+  void AddSession(Clientuser client) async {
     Sessions sessions = new Sessions();
     await sessions.addSessionValue("emailFacebook", client.email);
   }
