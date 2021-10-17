@@ -1,12 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/models/ClientUser.dart';
 import 'package:taxi_segurito_app/models/sesion.dart';
+import 'package:taxi_segurito_app/utils/logOut.dart';
 
 class LoginGoogleUtils {
   static const String TAG = "LoginGoogleUtils";
@@ -34,13 +36,13 @@ class LoginGoogleUtils {
       String email = user!.email.toString();
       String cellphone = user!.phoneNumber.toString();
       ClientUser client =
-          ClientUser.Insert("Google", email, "Google", fullName, cellphone);
+          ClientUser.Insert("Google", email, "Google", fullName, "69685120");
       bool controlBD;
       String exits = await GetCellphoneIfExists(email);
       //Ya existe
       if (exits != "Error") {
-        ClientUser clientUser =
-            ClientUser.Insert("Google", email, "Google", fullName, cellphone);
+        ClientUser clientUser = ClientUser.Insert(
+            "Google", email, "Google", fullName, cellphone = exits);
         AddSession(clientUser);
         return clientUser;
       }
@@ -66,7 +68,9 @@ class LoginGoogleUtils {
   Future<bool> AddDataGoogle(ClientUser client) async {
     try {
       bool control = false;
-      var url = Service.url + "UserAdd/UserController.php";
+      //var url = Service.url + "UserAdd/UserController.php";
+      var url =
+          "http://192.168.56.1/backend-taxi-segurito-app/UserController.php";
       var response = await http.put(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
@@ -79,6 +83,7 @@ class LoginGoogleUtils {
       var res = jsonDecode(response.body);
       if (res == "Registro Nuevo") {
         //The procedure was carried out successfully
+        log("Entro?");
         control = true;
         AddSession(client);
       } else {
@@ -88,7 +93,7 @@ class LoginGoogleUtils {
       return control;
     } catch (e) {
       //if there is any uncontrolled error
-      log(e.toString());
+      log(e.toString() + " Aqui ?");
       return false;
     }
   }
@@ -103,7 +108,9 @@ class LoginGoogleUtils {
   //return Error si no
   Future<String> GetCellphoneIfExists(String email) async {
     try {
-      var url = Service.url + "UserAdd/UserController.php";
+      // var url = Service.url + "UserAdd/UserController.php";
+      var url =
+          "http://192.168.56.1/backend-taxi-segurito-app/UserController.php";
       var response = await http.post(Uri.parse(url),
           body: jsonEncode({
             "email": email,
@@ -115,5 +122,9 @@ class LoginGoogleUtils {
       log(e.toString());
       return "Error";
     }
+  }
+
+  Future<void> LogOutGoogle() async {
+    await googleSignIn.signOut();
   }
 }

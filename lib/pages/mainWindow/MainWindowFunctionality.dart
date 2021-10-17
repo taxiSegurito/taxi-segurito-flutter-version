@@ -36,10 +36,14 @@ class MainWindowFunctionality {
       LoginGoogleUtils().signUpWithGoogle().then((user) {
         if (user != null) {
           if (user.cellphone != "null") {
-            Navigator.pushNamed(context, 'loginUser'); //Ruta a Cambiar
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => QRPAGE()),
+            ); //Ruta a Cambiar
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataGoogle(client)
+            log("no hay numero");
           }
         } else {
           showToast;
@@ -62,7 +66,7 @@ class MainWindowFunctionality {
       LoginFacebookUtils().LoginWithFacebook().then((user) {
         if (user != null) {
           if (user.cellphone != "") {
-            Navigator.pushNamed(context, 'loginUser'); //Ruta a Cambiar
+            Navigator.pushNamed(context, 'scannerQr'); //Ruta a Cambiar
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataFacebook(client)
@@ -84,7 +88,7 @@ class MainWindowFunctionality {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.yellow);
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => QRPAGE()),
     );

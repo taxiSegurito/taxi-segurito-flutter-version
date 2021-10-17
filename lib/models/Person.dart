@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:taxi_segurito_app/models/AuditData.dart';
 
 class Person extends AuditData {

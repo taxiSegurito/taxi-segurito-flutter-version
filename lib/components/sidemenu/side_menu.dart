@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
+import 'package:taxi_segurito_app/utils/logOut.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({
@@ -8,7 +12,6 @@ class SideMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //variable utilizada para separar ListTile
     var divider = Divider(
       color: Colors.grey[350],
       height: 5,
@@ -70,6 +73,31 @@ class SideMenu extends StatelessWidget {
               ),
             ),
             divider,
+            ListTile(
+              tileColor: Colors.red.shade100,
+              leading: Icon(
+                Icons.logout,
+                color: Colors.red,
+              ),
+              title: Text(
+                'Cerrar Sesion',
+                style: TextStyle(color: Colors.red),
+              ),
+              onTap: () {
+                try {
+                  LogOut().LogOutSession().then((value) {
+                    if (value == true) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainWindow()),
+                      );
+                    }
+                  });
+                } catch (e) {
+                  log(e.toString());
+                }
+              },
+            ),
           ],
         ),
       ),
