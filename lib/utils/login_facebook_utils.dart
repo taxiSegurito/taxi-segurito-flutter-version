@@ -4,7 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
-import 'package:taxi_segurito_app/models/ClientUser.dart';
+import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 
 class LoginFacebookUtils {

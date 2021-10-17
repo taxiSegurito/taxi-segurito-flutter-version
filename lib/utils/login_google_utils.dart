@@ -6,7 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
-import 'package:taxi_segurito_app/models/ClientUser.dart';
+import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/utils/logOut.dart';
 
