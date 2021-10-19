@@ -5,7 +5,7 @@ class Sms {
   instantiateTwilio() {
     twilioFlutter = TwilioFlutter(
         accountSid: 'AC326ebcdec7c5f6a04851d7857e57d947',
-        authToken: '2b705c0364c9e6b0a5692fa61a4e2f15',
+        authToken: 'cd092725247aae4d367a798cb837d90d',
         twilioNumber: '+12183797509');
   }
 
