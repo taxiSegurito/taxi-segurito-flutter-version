@@ -40,7 +40,8 @@ class _UserLoginPageState extends State<UserLoginPage> {
             },
           ),
         ),
-        body: Container(
+        body: SingleChildScrollView(
+            child: Container(
           child: Column(
             children: [
               Container(
@@ -171,6 +172,6 @@ class _UserLoginPageState extends State<UserLoginPage> {
               ),
             ],
           ),
-        ));
+        )));
   }
 }

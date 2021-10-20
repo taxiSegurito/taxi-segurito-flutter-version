@@ -18,6 +18,12 @@ class DriverRegistration extends StatefulWidget {
 }
 
 class _DriverRegistrationState extends State<DriverRegistration> {
+  ImagesFileAdapter imageDriver = new ImagesFileAdapter(
+    imagePath: "assets/images/userDefault.png",
+    isShapeCircle: true,
+    isUsingCamera: true,
+  );
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -35,9 +41,6 @@ class _DriverRegistrationState extends State<DriverRegistration> {
           fontStyle: FontStyle.normal,
           fontWeight: FontWeight.w600),
     );
-
-    ImagesFileAdapter imageDriver = new ImagesFileAdapter(
-        imagePath: "assets/images/userDefault.png", isShapeCircle: true);
 
     CustomTextField txtNameDriver = new CustomTextField(
       hint: "Nombre",
@@ -99,13 +102,12 @@ class _DriverRegistrationState extends State<DriverRegistration> {
         titleShowDialog: "Registro Exitoso!");
 
     activeShowDialog() {
-      dialogShowRegister.getShowDialog();
+      //dialogShowRegister.getShowDialog();
     }
 
     bool registerDataDriver() {
       bool isValidImageDriver = imageDriver.getIsValid();
       if (_formKey.currentState!.validate() && isValidImageDriver) {
-        Image image = imageDriver.getImage();
         driverRegistrationFuncionality = new DriverRegistrationFuncionality(
             context: context,
             names: txtNameDriver.getValue(),
@@ -114,7 +116,7 @@ class _DriverRegistrationState extends State<DriverRegistration> {
             driverCI: txtDriverCI.getValue(),
             driverLicense: txtDriverLicense.getValue(),
             phone: txtPhoneNumber.getValue(),
-            imageDriver: image,
+            imageDriver: imageDriver.getImgBase64(),
             activeShowDialog: activeShowDialog());
         return true;
       }
@@ -179,7 +181,6 @@ class _DriverRegistrationState extends State<DriverRegistration> {
                   ],
                 ),
               ),
-              //imageUser,
               txtNameDriver,
               txtLastName,
               txtSecondLastName,

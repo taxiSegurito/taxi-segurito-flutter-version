@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/providers/ImageAccessProvider.dart';
 
@@ -5,11 +6,15 @@ class ImagesFileAdapter extends StatefulWidget {
   _ImagesFileAdapterState _imagesFileState = new _ImagesFileAdapterState();
   final bool isShapeCircle;
   late Image imageCar;
+  late Uint8List imageConvert64;
   String? imagePath;
-
+  late String base64Img;
+  bool isUsingCamera;
+  ImageAccessProvider imageAccessProvider = new ImageAccessProvider();
   bool isActiveImageDefault = true;
   ImagesFileAdapter({
     Key? key,
+    this.isUsingCamera = false,
     this.imagePath,
     this.isShapeCircle = false,
   }) : super(key: key);
@@ -25,6 +30,15 @@ class ImagesFileAdapter extends StatefulWidget {
 
   Image getImage() {
     return imageCar;
+  }
+
+  String getImgBase64() {
+    return base64Img;
+  }
+
+  //visualizar imagen de base 64
+  Image viewImg64(String imgbase64) {
+    return Image.memory(imageAccessProvider.viewImage64(imgbase64));
   }
 }
 
@@ -46,14 +60,24 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
     return isValid;
   }
 
-  ImageAccessProvider imageAccessProvider = new ImageAccessProvider();
-
   openGalery() {
-    imageAccessProvider.openGallery().then((_) {
+    widget.imageAccessProvider.openGallery().then((_) {
       setState(() {
         widget.isActiveImageDefault = false;
         widget.imagePath = null;
-        widget.imageCar = Image.file(imageAccessProvider.getImage());
+        widget.imageCar = Image.file(widget.imageAccessProvider.getImage());
+        widget.base64Img = widget.imageAccessProvider.stringImgBase64();
+      });
+    });
+  }
+
+  openCamera() {
+    widget.imageAccessProvider.openCamera().then((_) {
+      setState(() {
+        widget.isActiveImageDefault = false;
+        widget.imagePath = null;
+        widget.imageCar = Image.file(widget.imageAccessProvider.getImage());
+        widget.base64Img = widget.imageAccessProvider.stringImgBase64();
       });
     });
   }
@@ -77,7 +101,11 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
     return Column(children: [
       InkWell(
           onTap: () {
-            openGalery();
+            if (widget.isUsingCamera) {
+              openCamera();
+            } else {
+              openGalery();
+            }
           },
           child: Container(
               width: 115,
