@@ -37,13 +37,18 @@ class DriverRegistrationFuncionality {
     Sessions idsesion = new Sessions();
     var idowner = await idsesion.getSessionValue("iduser");
     Driver driverModel = Driver.insert(
-        names! + " " + lastName! + " " + secondLastName!,
-        phone!,
-        driverLicense!,
-        driverCI!,
-        imageDriver!,
-        int.parse(idowner.toString()));
-    insertDriver(driverModel);
+      names! + " " + lastName! + " " + secondLastName!,
+      phone!,
+      driverLicense!,
+      driverCI!,
+      imageDriver!,
+      int.parse(idowner.toString()),
+    );
+    insertDriver(driverModel).then((value) {
+      if (value) {
+        activeShowDialog!();
+      }
+    });
   }
 
   onPressedbtnCancelRegisterDriver() {
