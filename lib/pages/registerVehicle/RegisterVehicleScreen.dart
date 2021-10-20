@@ -30,4 +30,14 @@ class RegisterVehicleScreen extends ScreamVehicleBase {
   RegisterVehicleFunctionality functionality() {
     return registerVehicleFunctionality;
   }
+
+  @override
+  String textButton() {
+    return "Registrar";
+  }
+
+  @override
+  bool isRegister() {
+    return true;
+  }
 }

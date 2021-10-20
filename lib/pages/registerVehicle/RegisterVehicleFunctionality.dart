@@ -3,19 +3,14 @@ import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 
 List<Driver> listDriver = [
-  Driver("Juan", "1232348", "12234234678"),
-  Driver("Rodrigo", "1232342378", "14345678"),
-  Driver("Marcos", "142342378", "12342343678"),
-  Driver("Raul", "2235678", "123452348"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
-  Driver("Juan", "12345678", "12345678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
+  Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
 ];
 
 class RegisterVehicleFunctionality {
@@ -28,10 +23,11 @@ class RegisterVehicleFunctionality {
   Driver? driver;
   List<Image>? listImage;
   VoidCallback? activeShowDialog;
-  Vehicle vehicle = new Vehicle();
+  Vehicle? vehicle;
 
   RegisterVehicleFunctionality(
       {this.context,
+      this.vehicle,
       this.model,
       this.plate,
       this.driver,
@@ -55,9 +51,7 @@ class RegisterVehicleFunctionality {
   onPressedbtnRegisterCar() {
     //TODO: implementar el onPressed del boton registrar
   }
-  onPressedbtnUpdateVehicle() {
-    //Implementar metodo para actualizar
-  }
+  onPressedbtnUpdateVehicle() {}
 
   onPressedbtnCancelRegisterCar() {
     closeNavigator();
@@ -67,7 +61,7 @@ class RegisterVehicleFunctionality {
     //TODO: implementar el buscador con la base de datos y el resultado añadirlo a la lista que esta acontinuacion.
 
     listDriver = [
-      Driver("Juan", "1232348", "12234234678"),
+      Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
     ];
   }
 }

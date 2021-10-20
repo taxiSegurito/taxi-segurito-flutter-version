@@ -13,7 +13,7 @@ class CustomTextField extends StatefulWidget {
   double marginRight;
   double marginBotton;
   double marginTop;
-  MultiValidator multiValidator;
+  MultiValidator? multiValidator;
   double heightNum;
   bool obscureText;
   _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
@@ -33,7 +33,7 @@ class CustomTextField extends StatefulWidget {
     this.heightNum = 35,
     this.obscureText = false,
     this.value = '',
-    required this.multiValidator,
+    this.multiValidator,
   }) : super(key: key);
 
   @override
@@ -90,7 +90,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {
-              var validators = widget.multiValidator.validators;
+              var validators = widget.multiValidator!.validators;
               for (FieldValidator validator in validators) {
                 if (validator.call(value) != null) {
                   changeHeightTextField(60);

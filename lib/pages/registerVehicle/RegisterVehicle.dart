@@ -131,6 +131,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
 
     cardInformationDriver = new SelectDriverCard(
       headerText: 'Seleccione un Vehiculo',
+      driver: Driver(),
       ontap: () {
         showDialogSearch.showAlertDialog();
       },
