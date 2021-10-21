@@ -11,6 +11,7 @@ import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
 import 'package:taxi_segurito_app/pages/menu/ownerMenu.dart';
+import 'package:taxi_segurito_app/pages/vehiclesList/VehiclesListPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +38,7 @@ void main() async {
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversListPage(),
         'ownerMenu': (_) => OwnerMenu(),
+        'vehiclesList': (_) => VehiclesListPage(),
       },
     );
   } else {
@@ -77,6 +79,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversListPage(),
         'ownerMenu': (_) => OwnerMenu(),
+        'vehiclesList': (_) => VehiclesListPage(),
       },
     );
   }
