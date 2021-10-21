@@ -22,7 +22,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       initialRoute: 'firstScreen',
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'firstScreen': (BuildContext contextFirstScreen) => scanDataDriver(),
+        'firstScreen': (BuildContext contextFirstScreen) => scanDataDriver(""),
       },
     );
   }
