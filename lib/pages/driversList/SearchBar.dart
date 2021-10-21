@@ -10,9 +10,7 @@ class SearchBar extends StatelessWidget {
     this.hint,
   });
 
-  String get value {
-    return valueController.text;
-  }
+  String get value => valueController.text;
 
   Widget build(BuildContext context) {
     return Container(
@@ -25,9 +23,7 @@ class SearchBar extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(24)),
-            borderSide: BorderSide(
-              color: Colors.grey,
-            ),
+            borderSide: BorderSide(color: Colors.grey),
           ),
           prefixIcon: Icon(
             Icons.search,
