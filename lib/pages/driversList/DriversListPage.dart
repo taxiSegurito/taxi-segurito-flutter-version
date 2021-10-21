@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 
 import 'DriversList.dart';
-import 'RefreshButton.dart';
-import 'SearchBar.dart';
+import '../../components/buttons/RefreshButton.dart';
+import '../../components/inputs/SearchBar.dart';
 
 class DriversListPage extends StatefulWidget {
   DriversListPage({Key? key}) : super(key: key);

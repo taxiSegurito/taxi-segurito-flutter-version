@@ -14,7 +14,6 @@ class DriversList extends StatelessWidget {
       itemCount: drivers.length,
       itemBuilder: (_, index) {
         return DriverListItem(drivers[index]);
-        // Driver("Juan Perez Quiroga", "14789632", "71714906"));
       },
     );
   }
