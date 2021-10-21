@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 
 import 'DriversList.dart';
+import 'RefreshButton.dart';
+import 'SearchBar.dart';
 
 class DriversListPage extends StatefulWidget {
   DriversListPage({Key? key}) : super(key: key);
@@ -55,12 +56,22 @@ class _DriversListPageState extends State<DriversListPage> {
       ),
       body: Column(
         children: [
-          CustomTextFieldSearch(
-              callbackValueSearch: _searchDriver,
-              hint: "Buscar por nombre, carnet de identidad..."),
-          ElevatedButton(
-            child: Text("Refresh"),
-            onPressed: _refreshDrivers,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: SearchBar(
+                      onSearch: _searchDriver,
+                      hint: "Buscar por nombre, CI ...",
+                    ),
+                  ),
+                ),
+                RefreshButton(_refreshDrivers),
+              ],
+            ),
           ),
           Expanded(
             child: DriversList(drivers),
