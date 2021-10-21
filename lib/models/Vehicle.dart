@@ -5,13 +5,13 @@ class Vehicle {
   String color;
   String model;
   String pleik;
-  String capacity;
-  Image photo;
+  int capacity;
+  Image? photo;
   String? status;
   DateTime? registerDate;
   DateTime? updateDate;
-  String owner_idOwner;
-  String report_car_idReports;
+  String? idOwner;
+  String? idReports;
 
   //atributos con required son para insert
   Vehicle(
@@ -20,10 +20,10 @@ class Vehicle {
       required this.model,
       required this.pleik,
       required this.capacity,
-      required this.photo,
+      this.photo,
       this.status,
       this.registerDate,
       this.updateDate,
-      required this.owner_idOwner,
-      required this.report_car_idReports});
+      this.idOwner,
+      this.idReports});
 }

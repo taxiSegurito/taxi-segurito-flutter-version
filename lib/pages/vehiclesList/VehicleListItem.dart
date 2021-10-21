@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/models/Vehicle.dart';
 
 class VehicleListItem extends StatelessWidget {
+  final Vehicle vehicle;
+  VehicleListItem(this.vehicle);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -12,14 +16,13 @@ class VehicleListItem extends StatelessWidget {
           children: <Widget>[
             Image(
               image: NetworkImage(
-                  'https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg'),
+                  'https://upload.wikimedia.org/wikipedia/commons/f/fd/Taxi_en_Madrid.jpg'),
             ),
             Container(
               padding: EdgeInsets.only(top: 6),
               child: ListTile(
-                title: Text('Titulo'),
-                subtitle: Text(
-                    'Este es el subtitulo del card. Aqui podemos colocar descripción de este card.'),
+                title: Text(vehicle.pleik),
+                subtitle: Text("${vehicle.model}\n\nNombre conductor"),
               ),
             ),
           ],
