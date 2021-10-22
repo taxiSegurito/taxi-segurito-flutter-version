@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
+import 'package:taxi_segurito_app/utils/call_panic.dart';
 import 'package:taxi_segurito_app/utils/logOut.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/listContact_page.dart';
 
@@ -78,6 +79,13 @@ class SideMenu extends StatelessWidget {
                 'Boton de Panico',
                 style: TextStyle(color: Colors.red),
               ),
+              onTap: () {
+                try {
+                  CallPanic().SendSms();
+                } catch (e) {
+                  log(e.toString());
+                }
+              },
             ),
             divider,
             ListTile(

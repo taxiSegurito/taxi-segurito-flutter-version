@@ -20,8 +20,9 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> {
-  bool initialized = false; //
-  bool error = false; //
+  bool initialized = false;
+  bool error = false;
+
   void InitializeFlutterFire() async {
     try {
       // Wait for Firebase to initialize and set `_initialized` state to true

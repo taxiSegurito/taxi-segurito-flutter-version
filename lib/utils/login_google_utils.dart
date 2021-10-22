@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ffi';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -75,7 +74,7 @@ class LoginGoogleUtils {
       bool control = false;
       //var url = Service.url + "UserAdd/UserController.php";
       var url =
-          "http://192.168.56.1/backend-taxi-segurito-app/UserController.php";
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";
       var response = await http.put(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
@@ -115,7 +114,7 @@ class LoginGoogleUtils {
     try {
       // var url = Service.url + "UserAdd/UserController.php";
       var url =
-          "http://192.168.56.1/backend-taxi-segurito-app/UserController.php";
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";
       var response = await http.post(Uri.parse(url),
           body: jsonEncode({
             "email": email,
@@ -132,4 +131,6 @@ class LoginGoogleUtils {
   Future<void> LogOutGoogle() async {
     await googleSignIn.signOut();
   }
+
+  
 }

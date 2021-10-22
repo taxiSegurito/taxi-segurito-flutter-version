@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
 import '../../components/sidemenu/side_menu.dart';
 
+
 class QRPAGE extends StatefulWidget {
   @override
   _QrBarcodeState createState() => new _QrBarcodeState();
