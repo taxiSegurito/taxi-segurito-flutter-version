@@ -1,15 +1,19 @@
 import 'dart:developer';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:flutter_sms/flutter_sms.dart';
 import 'package:sms/sms.dart';
 
 class CallPanic {
-  void Call_Number() async {
-    String num = "71817190";
-    //FlutterPhoneDirectCaller.callNumber(num);
-    FlutterPhoneDirectCaller.directCall("67392338");
+  Future<bool> Call_Number() async {
+    try {
+      String num = GetListNumbers().first;
+      FlutterPhoneDirectCaller.directCall(num);
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
-
+/** 
   void SendSmsPanic() async {
     try {
       List<String> numbers = GetListNumbers();
@@ -19,19 +23,25 @@ class CallPanic {
     } catch (e) {
       log(e.toString());
     }
-  }
+  }*/
 
-  void SendSms() async {
+  Future<bool> SendSms() async {
     SmsSender sender = new SmsSender();
     List<String> address = GetListNumbers();
-    for (var x in address) {
-      await sender.sendSms(
-          new SmsMessage(x, "Este Telefono Envio Alerta Desde un Taxi"));
+    try {
+      for (var x in address) {
+        await sender.sendSms(new SmsMessage(
+            x, "Este Telefono Envio Alerta Desde un Taxi de Placa XXXX-XXXX"));
+      }
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
     }
   }
 
   List<String> GetListNumbers() {
-    List<String> numbers = ["69685120", "71817190"];
+    List<String> numbers = ["69685120", "69685120"];
     return numbers;
   }
 }
