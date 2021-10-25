@@ -20,20 +20,19 @@ class _DriversListPageState extends State<DriversListPage> {
   @override
   void initState() {
     super.initState();
-    drivers = driversService.GetByOwner();
+    drivers = driversService.getByOwner();
   }
 
   void _loadDrivers() {
     setState(() {
-      drivers = driversService.GetByOwner();
+      drivers = driversService.getByOwner();
     });
   }
 
   void _searchDriver(String value) {
-    // this.setState(() {
-    //   drivers =
-    //       drivers.where((element) => element.fullName.contains(value)).toList();
-    // });
+    setState(() {
+      drivers = driversService.getByCriteria(value);
+    });
   }
 
   @override
@@ -69,7 +68,7 @@ class _DriversListPageState extends State<DriversListPage> {
             child: FutureBuilder(
               future: drivers,
               builder: (_, AsyncSnapshot<List<Driver>> snapshot) {
-                if (snapshot.data != null) {
+                if (snapshot.hasData) {
                   return DriversList(snapshot.data!);
                 }
                 return Center(child: CircularProgressIndicator());
