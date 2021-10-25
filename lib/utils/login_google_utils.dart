@@ -4,11 +4,9 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:taxi_segurito_app/bloc/services/env.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
-import 'package:taxi_segurito_app/utils/logOut.dart';
+import 'package:taxi_segurito_app/bloc/services/env.dart';
 
 class LoginGoogleUtils {
   static const String TAG = "LoginGoogleUtils";
@@ -29,7 +27,6 @@ class LoginGoogleUtils {
         final AuthCredential credential = GoogleAuthProvider.credential(
             accessToken: googleSignInAuthentication.accessToken,
             idToken: googleSignInAuthentication.idToken);
-
         UserCredential userCredential =
             await auth.signInWithCredential(credential);
         user = userCredential.user;
@@ -72,10 +69,10 @@ class LoginGoogleUtils {
   Future<bool> AddDataGoogle(Clientuser client) async {
     try {
       bool control = false;
-      //var url = Service.url + "UserAdd/UserController.php";
-      var url =
-          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";
-      var response = await http.put(Uri.parse(url),
+      var url = Service.url + "UserAdd/UserController.php";
+      /*var url =
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
+      var response = await http.post(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
             "password": client.password, //por defecto
@@ -83,15 +80,17 @@ class LoginGoogleUtils {
             "cellphone": client.cellphone,
             "typeRegister": client.registerType,
             "idrole": 2,
+            "type": "Insert"
           }));
       var res = jsonDecode(response.body);
-      if (res == "Registro Nuevo") {
+      if (res['result'] == "Registro Nuevo") {
         //The procedure was carried out successfully
         log("Entro?");
         control = true;
         AddSession(client);
       } else {
         //failure
+        log(res['result']);
         control = false;
       }
       return control;
@@ -103,8 +102,11 @@ class LoginGoogleUtils {
   }
 
   void AddSession(Clientuser client) async {
+    String IdGoogle = await GetId(client.email);
     Sessions sessions = new Sessions();
     await sessions.addSessionValue("emailGoogle", client.email);
+    await sessions.addSessionValue("cellphoneGoogle", client.cellphone);
+    await sessions.addSessionValue("idGoogle", IdGoogle);
   }
 
   //Verifica que exista en la base de datos
@@ -112,13 +114,27 @@ class LoginGoogleUtils {
   //return Error si no
   Future<String> GetCellphoneIfExists(String email) async {
     try {
-      // var url = Service.url + "UserAdd/UserController.php";
-      var url =
-          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";
+      var url = Service.url + "UserAdd/UserController.php";
+      /* var url =
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
       var response = await http.post(Uri.parse(url),
-          body: jsonEncode({
-            "email": email,
-          }));
+          body: jsonEncode({"email": email, "type": "GetCellphone"}));
+      var res = jsonDecode(response.body);
+      log(res['result'].toString());
+      return res['result'].toString();
+    } catch (e) {
+      log(e.toString());
+      return "Error";
+    }
+  }
+
+  Future<String> GetId(String email) async {
+    try {
+      var url = Service.url + "UserAdd/UserController.php";
+      /*var url =
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
+      var response = await http.post(Uri.parse(url),
+          body: jsonEncode({"email": email, "type": "GetId"}));
       var res = jsonDecode(response.body);
       log(res['result'].toString());
       return res['result'].toString();
@@ -131,6 +147,4 @@ class LoginGoogleUtils {
   Future<void> LogOutGoogle() async {
     await googleSignIn.signOut();
   }
-
-  
 }

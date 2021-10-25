@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:sms/sms.dart';
+import 'package:sms_advanced/sms_advanced.dart';
 
 class CallPanic {
   Future<bool> Call_Number() async {
@@ -13,8 +13,8 @@ class CallPanic {
       return false;
     }
   }
-/** 
-  void SendSmsPanic() async {
+
+  /*void SendSmsPanic() async {
     try {
       List<String> numbers = GetListNumbers();
       String message = "Este Telefono Envio Alerta Desde un Taxi";

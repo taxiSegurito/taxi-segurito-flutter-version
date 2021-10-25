@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter_qr_bar_scanner/flutter_qr_bar_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
+import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
 import 'package:taxi_segurito_app/utils/login_google_utils.dart';
@@ -45,6 +46,10 @@ class MainWindowFunctionality {
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataGoogle(client)
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RegisterPage.GoogleOrFacebook(user)));
             log("no hay numero");
           }
         } else {
@@ -72,6 +77,11 @@ class MainWindowFunctionality {
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataFacebook(client)
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RegisterPage.GoogleOrFacebook(user)));
+            log("no hay numero");
           }
         } else {
           showToast;

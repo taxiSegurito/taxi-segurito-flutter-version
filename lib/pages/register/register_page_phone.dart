@@ -1,19 +1,32 @@
 import 'dart:async';
-import 'dart:math';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:taxi_segurito_app/bloc/services/sms/sms_twilio.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_info.dart';
+import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
+import 'package:taxi_segurito_app/utils/login_google_utils.dart';
 
 class RegisterPage extends StatefulWidget {
+  Clientuser user = new Clientuser("Default");
+  RegisterPage();
+  RegisterPage.GoogleOrFacebook(Clientuser clientuser) {
+    user = clientuser;
+  }
   @override
-  _RegisterPageState createState() => new _RegisterPageState();
+  _RegisterPageState createState() => new _RegisterPageState(user);
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  Clientuser user = new Clientuser("Default");
+  _RegisterPageState(Clientuser user) {
+    this.user = user;
+  }
   bool visibilitycode = false;
   bool visibilityphone = true;
   TextEditingController number = TextEditingController();
@@ -164,12 +177,55 @@ class _RegisterPageState extends State<RegisterPage> {
                                   onChanged: (value) {
                                     if (code != "") {
                                       if (value == code) {
-                                        _start = 0;
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    RegisterData(number.text)));
+                                        if (user.registerType != "Default") {
+                                          user.cellphone = number.text;
+                                          log("Es desde btn google o facebook");
+                                          log(user.email);
+                                          if (user.registerType == "Google") {
+                                            LoginGoogleUtils()
+                                                .AddDataGoogle(user)
+                                                .then((value) => {
+                                                      if (value == true)
+                                                        {
+                                                          Navigator
+                                                              .pushReplacement(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        QRPAGE()),
+                                                          )
+                                                        }
+                                                    });
+                                          } else {
+                                            LoginFacebookUtils()
+                                                .AddDataFacebook(user)
+                                                .then((value) => {
+                                                      if (value == true)
+                                                        {
+                                                          if (value == true)
+                                                            {
+                                                              Navigator
+                                                                  .pushReplacement(
+                                                                context,
+                                                                MaterialPageRoute(
+                                                                    builder:
+                                                                        (context) =>
+                                                                            QRPAGE()),
+                                                              )
+                                                            }
+                                                        }
+                                                    });
+                                          }
+                                        } else {
+                                          _start = 0;
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      RegisterData(
+                                                          number.text)));
+                                        }
                                       }
                                     }
                                   },

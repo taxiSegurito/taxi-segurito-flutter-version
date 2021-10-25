@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/bloc/services/env.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 
@@ -50,7 +48,7 @@ class LoginFacebookUtils {
     try {
       var url = Service.url + "UserAdd/UserController.php";
       bool control;
-      var response = await http.put(Uri.parse(url),
+      var response = await http.post(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
             "password": client.password,
@@ -58,9 +56,10 @@ class LoginFacebookUtils {
             "cellphone": client.cellphone,
             "typeRegister": client.registerType,
             "idrole": 2, //Cliente
+            "type": "Insert"
           }));
       var res = jsonDecode(response.body);
-      if (res == "Registro Nuevo") {
+      if (res['result'] == "Registro Nuevo") {
         control = true;
         AddSession(client);
       } else {
@@ -76,8 +75,11 @@ class LoginFacebookUtils {
   }
 
   void AddSession(Clientuser client) async {
+    String idFacebook = await GetId(client.email);
     Sessions sessions = new Sessions();
     await sessions.addSessionValue("emailFacebook", client.email);
+    await sessions.addSessionValue("cellphoneFacenook", client.cellphone);
+    await sessions.addSessionValue("idFacebook", idFacebook);
   }
 
   //Verifica que exista en la base de datos
@@ -87,9 +89,23 @@ class LoginFacebookUtils {
     try {
       var url = Service.url + "UserAdd/UserController.php";
       var response = await http.post(Uri.parse(url),
-          body: jsonEncode({
-            "email": email,
-          }));
+          body: jsonEncode({"email": email, "type": "GetCellphone"}));
+      var res = jsonDecode(response.body);
+      log(res['result'].toString());
+      return res['result'].toString();
+    } catch (e) {
+      log(e.toString());
+      return "Error";
+    }
+  }
+
+  Future<String> GetId(String email) async {
+    try {
+      var url = Service.url + "UserAdd/UserController.php";
+      /*var url =
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
+      var response = await http.post(Uri.parse(url),
+          body: jsonEncode({"email": email, "type": "GetId"}));
       var res = jsonDecode(response.body);
       log(res['result'].toString());
       return res['result'].toString();
