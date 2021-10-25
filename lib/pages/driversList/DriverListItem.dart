@@ -16,15 +16,34 @@ class DriverListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width / 5.5;
     return InkWell(
       onTap: () => goToDriverInfo(context),
       child: Padding(
         padding: EdgeInsets.only(bottom: 8),
         child: Container(
-          padding: EdgeInsets.fromLTRB(24, 16, 24, 16),
+          padding: EdgeInsets.fromLTRB(24, 14, 24, 14),
           color: Color(0xFFF6F6F6),
           child: Row(
             children: [
+              Padding(
+                padding: EdgeInsets.only(right: 14),
+                child: Container(
+                  width: width,
+                  height: width,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: MemoryImage(driver.picture),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                // child: Image.memory(
+                //   driver.picture,
+                //   fit: BoxFit.cover,
+                // ),
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -38,7 +57,7 @@ class DriverListItem extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Text("CI: ${driver.dni}", style: _infoStyle),
+                  Text("CI: ${driver.ci}", style: _infoStyle),
                   Text(driver.cellphone, style: _infoStyle),
                 ],
               ),

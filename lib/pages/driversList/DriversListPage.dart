@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
+import 'package:taxi_segurito_app/services/DriversService.dart';
 
 import 'DriversList.dart';
 import '../../components/buttons/RefreshButton.dart';
@@ -13,35 +14,26 @@ class DriversListPage extends StatefulWidget {
 }
 
 class _DriversListPageState extends State<DriversListPage> {
-  List<Driver> drivers = [];
+  DriversService driversService = new DriversService();
+  late Future<List<Driver>> drivers;
 
-  _DriversListPageState() {
-    _loadDrivers();
+  @override
+  void initState() {
+    super.initState();
+    drivers = driversService.GetByOwner();
   }
 
   void _loadDrivers() {
-    drivers = [
-      Driver("Juan Quiroga Lopez", "14789632", "71714906"),
-      Driver("Marco Iriarte Lanza", "36987412", "61944760"),
-    ];
-  }
-
-  void _refreshDrivers() {
-    this.setState(() {
-      drivers = [
-        Driver("Juan Quiroga Lopez", "14789632", "71714906"),
-        Driver("Marco Iriarte Lanza", "36987412", "61944760"),
-        Driver("Alberto Flores Ojeda", "47896321", "64782135"),
-        Driver("Roberto Linares Rodriguez", "89632147", "74539815"),
-      ];
+    setState(() {
+      drivers = driversService.GetByOwner();
     });
   }
 
   void _searchDriver(String value) {
-    this.setState(() {
-      drivers =
-          drivers.where((element) => element.fullName.contains(value)).toList();
-    });
+    // this.setState(() {
+    //   drivers =
+    //       drivers.where((element) => element.fullName.contains(value)).toList();
+    // });
   }
 
   @override
@@ -69,12 +61,20 @@ class _DriversListPageState extends State<DriversListPage> {
                     ),
                   ),
                 ),
-                RefreshButton(_refreshDrivers),
+                RefreshButton(_loadDrivers),
               ],
             ),
           ),
           Expanded(
-            child: DriversList(drivers),
+            child: FutureBuilder(
+              future: drivers,
+              builder: (_, AsyncSnapshot<List<Driver>> snapshot) {
+                if (snapshot.data != null) {
+                  return DriversList(snapshot.data!);
+                }
+                return Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
         ],
       ),
