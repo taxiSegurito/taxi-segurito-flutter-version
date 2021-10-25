@@ -68,8 +68,9 @@ class CallPanic {
           body: jsonEncode(
               {"idPerson": int.parse(idSession), "type": "GetListNumber"}));
       var res = jsonDecode(response.body);
+      numbers = res;
       log(res['result'].toString());
-      return res['result'];
+      return numbers;
     } catch (e) {
       log(e.toString());
       return List.empty();

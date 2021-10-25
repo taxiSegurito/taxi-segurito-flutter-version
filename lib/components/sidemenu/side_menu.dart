@@ -82,7 +82,7 @@ class SideMenu extends StatelessWidget {
                 timer = Timer(Duration(seconds: 5), () async {
                   // time duration
                   // your function here
-                  /*try {
+                  try {
                     bool controlSms = false, controlCall = false;
                     await CallPanic().SendSms().then((value) => {
                           if (value == true) {controlSms = value}
@@ -99,7 +99,7 @@ class SideMenu extends StatelessWidget {
                     }
                   } catch (e) {
                     log(e.toString());
-                  }*/
+                  }
                 })
               },
               child: ListTile(
