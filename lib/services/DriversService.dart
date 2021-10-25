@@ -10,25 +10,25 @@ class DriversService {
     Response response = await get(Uri.parse(endpoint));
 
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
-      List<Driver> drivers = body.map((d) => Driver.fromJson(d)).toList();
-      return drivers;
-    } else {
-      throw "Unable to fetch drivers data";
+      return _jsonToList(response);
     }
+    throw "Unable to fetch drivers data";
   }
 
   Future<List<Driver>> getByCriteria(String criteria) async {
     final queryParams = {'criteria': criteria};
-    final uri = Uri.http(host, '/driver_controller.php', queryParams);
-    Response response = await get(uri);
+    final endpoint = Uri.http(host, '/driver_controller.php', queryParams);
+    Response response = await get(endpoint);
 
     if (response.statusCode == 200) {
-      List<dynamic> body = jsonDecode(response.body);
-      List<Driver> drivers = body.map((d) => Driver.fromJson(d)).toList();
-      return drivers;
-    } else {
-      throw "Unable to fetch drivers data";
+      return _jsonToList(response);
     }
+    throw "Unable to fetch drivers data";
+  }
+
+  List<Driver> _jsonToList(Response response) {
+    List<dynamic> body = jsonDecode(response.body);
+    List<Driver> drivers = body.map((d) => Driver.fromJson(d)).toList();
+    return drivers;
   }
 }

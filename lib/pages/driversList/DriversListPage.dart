@@ -56,7 +56,7 @@ class _DriversListPageState extends State<DriversListPage> {
                     padding: EdgeInsets.only(right: 8),
                     child: SearchBar(
                       onSearch: _searchDriver,
-                      hint: "Buscar por nombre, CI ...",
+                      hint: "Buscar por nombre o C.I.",
                     ),
                   ),
                 ),
@@ -64,17 +64,7 @@ class _DriversListPageState extends State<DriversListPage> {
               ],
             ),
           ),
-          Expanded(
-            child: FutureBuilder(
-              future: drivers,
-              builder: (_, AsyncSnapshot<List<Driver>> snapshot) {
-                if (snapshot.hasData) {
-                  return DriversList(snapshot.data!);
-                }
-                return Center(child: CircularProgressIndicator());
-              },
-            ),
-          ),
+          Expanded(child: DriversList(drivers)),
         ],
       ),
     );

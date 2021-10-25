@@ -4,16 +4,25 @@ import 'package:taxi_segurito_app/models/Driver.dart';
 import 'DriverListItem.dart';
 
 class DriversList extends StatelessWidget {
-  final List<Driver> drivers;
+  final Future<List<Driver>> driversFuture;
 
-  DriversList(this.drivers);
+  DriversList(this.driversFuture);
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: drivers.length,
-      itemBuilder: (_, index) {
-        return DriverListItem(drivers[index]);
+    return FutureBuilder(
+      future: driversFuture,
+      builder: (_, AsyncSnapshot<List<Driver>> snapshot) {
+        if (snapshot.hasData) {
+          final drivers = snapshot.data!;
+          return ListView.builder(
+            itemCount: drivers.length,
+            itemBuilder: (_, index) {
+              return DriverListItem(drivers[index]);
+            },
+          );
+        }
+        return Center(child: CircularProgressIndicator());
       },
     );
   }
