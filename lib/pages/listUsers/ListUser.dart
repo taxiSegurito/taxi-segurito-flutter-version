@@ -68,17 +68,18 @@ class _ListUserState extends State<ListUser> {
     );
 
     CustomTextFieldSearch txtSearch = new CustomTextFieldSearch(
-        marginBotton: 0,
-        marginLeft: 0,
-        marginRight: 2,
-        marginTop: 0,
-        heightNum: 35,
-        radius: 20,
-        hint: '',
-        ontap: () {},
-        callbackValueSearch: (value) {
-          listUserFunctionallity.onPressedSearhUserData(value);
-        });
+      marginBotton: 0,
+      marginLeft: 0,
+      marginRight: 2,
+      marginTop: 0,
+      heightNum: 35,
+      radius: 20,
+      hint: 'Buscar por nombre, Ci ...',
+      ontap: () {},
+      callbackValueSearch: (value) {
+        listUserFunctionallity.onPressedSearhUserData(value);
+      },
+    );
 
     Container containerSearch = new Container(
       margin:

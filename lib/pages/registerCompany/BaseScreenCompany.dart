@@ -33,6 +33,10 @@ class _BaseScreenCompanyState extends State<BaseScreenCompany> {
         widget.functionality();
     registerCompanyFunctionality.context = context;
 
+    Image taxiGif = new Image.asset(
+      "assets/images/taxi.gif",
+    );
+
     CustomTextField txtNameCompany = new CustomTextField(
       value: widget.company.companyName,
       hint: 'Nombre Compañia',
@@ -75,14 +79,15 @@ class _BaseScreenCompanyState extends State<BaseScreenCompany> {
     );
 
     CustomDialogShow dialogShowRegister = new CustomDialogShow(
-        ontap: () {
-          registerCompanyFunctionality.closeNavigator();
-        },
-        buttonText: "Aceptar",
-        buttonColor: colorMain,
-        buttonColorText: Colors.white,
-        titleShowDialog: widget.tittleDialog(),
-        context: context);
+      ontap: () {
+        registerCompanyFunctionality.closeNavigator();
+      },
+      buttonText: "Aceptar",
+      buttonColor: colorMain,
+      buttonColorText: Colors.white,
+      titleShowDialog: widget.tittleDialog(),
+      context: context,
+    );
 
     activeShowDialog() {
       dialogShowRegister.getShowDialog();
@@ -129,53 +134,65 @@ class _BaseScreenCompanyState extends State<BaseScreenCompany> {
     );
 
     Container containerTitle = new Container(
-        alignment: Alignment.center,
-        margin: new EdgeInsets.only(
-            top: 40.0, bottom: 30.0, left: 35.0, right: 35.0),
-        child: title);
+      alignment: Alignment.center,
+      margin:
+          new EdgeInsets.only(top: 40.0, bottom: 30.0, left: 50.0, right: 50.0),
+      child: title,
+    );
+    Container containerTaxiGif = new Container(
+      alignment: Alignment.center,
+      margin:
+          new EdgeInsets.only(top: 40.0, bottom: 30.0, left: 50.0, right: 50.0),
+      child: taxiGif,
+    );
 
     Container containerButtons = new Container(
-        alignment: Alignment.centerLeft,
-        margin: new EdgeInsets.only(
-            top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
-        child: Row(
-          children: [
-            Expanded(flex: 1, child: btnCancel),
-            Expanded(flex: 1, child: btnGeneric)
-          ],
-        ));
+      alignment: Alignment.centerLeft,
+      margin:
+          new EdgeInsets.only(top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
+      child: Row(
+        children: [
+          Expanded(flex: 1, child: btnCancel),
+          Expanded(flex: 1, child: btnGeneric)
+        ],
+      ),
+    );
 
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
-        appBar: appBar,
-        drawer: SideMenu(),
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  child: Container(
-                      alignment: Alignment.center,
-                      child: Form(
-                        autovalidateMode: AutovalidateMode.always,
-                        key: _formKey,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            containerTitle,
-                            txtNameCompany,
-                            txtNit,
-                            containerButtons,
-                          ],
-                        ),
-                      )))
-            ],
-          ),
-        ));
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      appBar: appBar,
+      drawer: SideMenu(),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              child: Container(
+                alignment: Alignment.center,
+                child: Form(
+                  // autovalidateMode: AutovalidateMode.always,
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      containerTitle,
+                      containerTaxiGif,
+                      txtNameCompany,
+                      txtNit,
+                      containerButtons,
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

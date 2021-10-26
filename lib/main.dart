@@ -29,7 +29,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("registerCompany");
+    app = AppTaxiSegurito("userList");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -84,16 +84,17 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'registerVehicleScreen': (BuildContext contextss) =>
             RegisterVehicleScreen(),
         'updateVehicleScreen': (BuildContext contextss) => UpdateVehicleScreen(
-            Vehicle(
-                idVehicle: "1",
-                capacity: "1 kilo",
-                color: "rojo con franjas verdes",
-                model: "Lamborginy",
-                pleik: "sdasd",
-                photo: image,
-                status: "1",
-                owner_idOwner: "1",
-                report_car_idReports: "sdasd")),
+              Vehicle(
+                  idVehicle: "1",
+                  capacity: "1 kilo",
+                  color: "rojo con franjas verdes",
+                  model: "Lamborginy",
+                  pleik: "sdasd",
+                  photo: image,
+                  status: "1",
+                  owner_idOwner: "1",
+                  report_car_idReports: "sdasd"),
+            ),
       },
     );
   }

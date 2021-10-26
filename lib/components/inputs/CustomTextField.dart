@@ -97,12 +97,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
             validator: (value) {
               var validators = widget.multiValidator!.validators;
               for (FieldValidator validator in validators) {
-                if (validator.call(value) != null) {
+                if (!validator.isValid(value)) {
                   changeHeightTextField(60);
                   return validator.errorText;
                 } else {
                   changeHeightTextField(35);
-                  return null;
+                  //return null;
                 }
               }
             },

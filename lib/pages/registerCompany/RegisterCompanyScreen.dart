@@ -1,6 +1,7 @@
 import 'package:taxi_segurito_app/pages/registerCompany/BaseScreenCompany.dart';
 import 'package:taxi_segurito_app/pages/registerCompany/ScreensCompanyFunctionality.dart';
 
+// ignore: must_be_immutable
 class RegisterCompanyScreen extends BaseScreenCompany {
   ScreensCompanyFunctionality screensCompanyFunctionality =
       new ScreensCompanyFunctionality();

@@ -115,10 +115,11 @@ class _ContainerUserState extends State<ContainerUser> {
               child: Text(
                 "Dueño",
                 style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 14,
-                    fontFamily: "Raleway",
-                    fontWeight: FontWeight.w400),
+                  fontStyle: FontStyle.italic,
+                  fontSize: 14,
+                  fontFamily: "Raleway",
+                  fontWeight: FontWeight.w400,
+                ),
               ),
               alignment: Alignment.topRight,
             ),
@@ -136,16 +137,31 @@ class _ContainerUserState extends State<ContainerUser> {
         child: InkWell(
           splashColor: colorMain,
           onTap: () {
-            widget.callback(widget.dynamicObject);
+            widget.callback(
+              widget.dynamicObject,
+            );
           },
           child: Container(
             margin: new EdgeInsets.only(
-                top: 10.0, bottom: 10.0, left: 20.0, right: 20.0),
+              top: 10.0,
+              bottom: 10.0,
+              left: 20.0,
+              right: 20.0,
+            ),
             child: Row(
               children: [
-                Expanded(flex: 0, child: columnOne),
-                Expanded(flex: 1, child: columnTwo),
-                Expanded(flex: 0, child: columnThree),
+                Expanded(
+                  flex: 0,
+                  child: columnOne,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: columnTwo,
+                ),
+                Expanded(
+                  flex: 0,
+                  child: columnThree,
+                ),
               ],
             ),
           ),

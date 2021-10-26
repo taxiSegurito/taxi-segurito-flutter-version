@@ -25,9 +25,11 @@ class ContainerListView extends StatefulWidget {
 
 class _ContainerListViewState extends State<ContainerListView> {
   updateListView() {
-    setState(() {
-      widget.listDataUser = listUserData;
-    });
+    setState(
+      () {
+        widget.listDataUser = listUserData;
+      },
+    );
   }
 
   @override

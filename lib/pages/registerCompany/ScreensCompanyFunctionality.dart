@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/services/CompanyService.dart';
 
@@ -12,8 +11,7 @@ class ScreensCompanyFunctionality {
       {this.activeShowDialog, this.company, this.context});
 
   onPressedBtnRegister() async {
-    Company companyModel = company!;
-    insert(companyModel).then((value) {
+    insert(company!).then((value) {
       if (value) {
         activeShowDialog!();
       }
@@ -21,8 +19,7 @@ class ScreensCompanyFunctionality {
   }
 
   onPressedBtnUpdate() async {
-    Company companyModel = company!;
-    update(companyModel).then((value) {
+    update(company!).then((value) {
       print(value);
       if (value) {
         activeShowDialog!();

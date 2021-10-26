@@ -9,10 +9,13 @@ import 'package:taxi_segurito_app/models/Company.dart';
 Future<bool> insert(Company company) async {
   try {
     var path = Service.url + "insertCompany.php";
-    final response = await http.post(Uri.parse(path), body: {
-      'name': company.companyName,
-      'nit': company.nit,
-    });
+    final response = await http.post(
+      Uri.parse(path),
+      body: {
+        'name': company.companyName,
+        'nit': company.nit,
+      },
+    );
     String result = json.decode(response.body);
 
     if (result == "Success") {
