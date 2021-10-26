@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 
 void main() => runApp(scanDataDriver("prueba"));
 double ranking = 4.2;
@@ -83,6 +84,7 @@ class _InicioState extends State<Inicio> {
         loading = false;
       });
     });
+    codigo = "";
   }
 
   @override
@@ -115,7 +117,7 @@ class _InicioState extends State<Inicio> {
                     child: Column(
                       children: [
                         Container(
-                          margin: EdgeInsets.only(top: 15, bottom: 15),
+                          margin: EdgeInsets.only(top: 50, bottom: 15),
                           alignment: Alignment.center,
                           child: Text(
                             "Taxi Seguro",
@@ -277,7 +279,6 @@ class _InicioState extends State<Inicio> {
                                                         242, 176, 53, 1)))),
                                         onPressed: () {
                                           print("Escanear QR");
-                                          Navigator.pop(context);
                                         },
                                         child: Text(
                                           "Escanear QR",
