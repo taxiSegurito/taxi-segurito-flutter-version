@@ -1,10 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
-import 'package:taxi_segurito_app/models/user.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
 import 'package:taxi_segurito_app/services/OwnerService.dart';
 
 List<Owner> listUserData = [];
@@ -69,17 +65,6 @@ class ListUserFunctionallity {
   */
   onPressedItemListView(Owner userData) {
     print("functionality" + userData.fullName);
-    Company company =
-        Company(companyName: "6 de Agosto", nit: "123123", idCompany: "1");
-    Navigator.push(
-      context!,
-      new MaterialPageRoute(
-        builder: (BuildContext context) =>
-            new RegisterCompany.fromRegisterCompany(
-          company: company,
-        ),
-      ),
-    );
   }
 
   onPressedReturn() {

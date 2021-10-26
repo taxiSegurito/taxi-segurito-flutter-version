@@ -52,7 +52,7 @@ class RegisterOwnerFunctionality {
             password: password!,
             address: address!,
             ci: ci!,
-            idCompany: company!.idCompany!.toString()))
+            idCompany: company!.idCompany.toString()))
         .then((_) => activeShowDialog!());
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
+import 'package:taxi_segurito_app/services/VehicleService.dart';
 
 List<Driver> listDriver = [
   Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
@@ -13,28 +14,24 @@ List<Driver> listDriver = [
   Driver(name: "Juan", dni: "1232348", phone: "12234234678"),
 ];
 
-class RegisterVehicleFunctionality {
+class ScreenVehicleFunctionality {
   BuildContext? context;
-
-  String? model;
-  String? plate;
-  String? colorCar;
-  String? capacity;
-  Driver? driver;
-  List<Image>? listImage;
   VoidCallback? activeShowDialog;
-  Vehicle? vehicle;
+  Driver? driver = new Driver();
+  Vehicle? vehicle = new Vehicle();
 
-  RegisterVehicleFunctionality(
-      {this.context,
-      this.vehicle,
-      this.model,
-      this.plate,
-      this.driver,
-      this.colorCar,
-      this.capacity,
-      this.activeShowDialog,
-      this.listImage});
+  ScreenVehicleFunctionality({
+    this.context,
+    this.vehicle,
+    this.driver,
+    this.activeShowDialog,
+  });
+
+  final Map<String, dynamic> someMap = {
+    "context": BuildContext,
+    "vehicle": Vehicle,
+    "model": String,
+  };
 
   set setContext(context) {
     this.context = context;
@@ -44,14 +41,20 @@ class RegisterVehicleFunctionality {
     Navigator.of(context!).pop();
   }
 
-  List<Image> getListImage() {
-    return listImage!.toList();
-  }
-
   onPressedbtnRegisterCar() {
     //TODO: implementar el onPressed del boton registrar
   }
-  onPressedbtnUpdateVehicle() {}
+
+  onPressedbtnUpdateVehicle() {
+    Vehicle vehicleModel = vehicle!;
+    update(vehicleModel).then(
+      (value) {
+        if (value) {
+          activeShowDialog!();
+        }
+      },
+    );
+  }
 
   onPressedbtnCancelRegisterCar() {
     closeNavigator();

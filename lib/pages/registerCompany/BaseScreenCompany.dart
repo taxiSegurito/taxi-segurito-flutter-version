@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
@@ -7,33 +6,35 @@ import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyFunctionality.dart';
+import 'package:taxi_segurito_app/pages/registerCompany/ScreensCompanyFunctionality.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
-class RegisterCompany extends StatefulWidget {
-  Company? company;
-  RegisterCompany({Key? key}) : super(key: key);
-  RegisterCompany.fromRegisterCompany({Key? key, this.company})
-      : super(key: key);
+// ignore: must_be_immutable
+abstract class BaseScreenCompany extends StatefulWidget {
+  Company company = new Company();
+  BaseScreenCompany({Key? key}) : super(key: key);
   @override
-  _RegisterCompanyState createState() => _RegisterCompanyState();
+  _BaseScreenCompanyState createState() => _BaseScreenCompanyState();
+
+  String titleScreen();
+  String textButton();
+  void eventAction();
+  String tittleDialog();
+  ScreensCompanyFunctionality functionality();
 }
 
-class _RegisterCompanyState extends State<RegisterCompany> {
-  @override
-  initState() {
-    super.initState();
-  }
-
+class _BaseScreenCompanyState extends State<BaseScreenCompany> {
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
-    RegisterCompanyFunctionality registerCompanyFunctionality =
-        new RegisterCompanyFunctionality(context: context);
-    String textTitle = "Registro de Empresa";
+
+    ScreensCompanyFunctionality registerCompanyFunctionality =
+        widget.functionality();
+    registerCompanyFunctionality.context = context;
 
     CustomTextField txtNameCompany = new CustomTextField(
+      value: widget.company.companyName,
       hint: 'Nombre Compañia',
       multiValidator: MultiValidator(
         [
@@ -41,13 +42,22 @@ class _RegisterCompanyState extends State<RegisterCompany> {
           StringValidator(errorText: "No se permiten numeros")
         ],
       ),
+      assignValue: (value) {
+        widget.company.companyName = value;
+      },
     );
 
     CustomTextField txtNit = new CustomTextField(
+      value: widget.company.nit,
       hint: "Nit de la empresa",
       multiValidator: MultiValidator(
-        [RequiredValidator(errorText: "Campo vacio")],
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+        ],
       ),
+      assignValue: (value) {
+        widget.company.nit = value;
+      },
     );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
@@ -71,45 +81,29 @@ class _RegisterCompanyState extends State<RegisterCompany> {
         buttonText: "Aceptar",
         buttonColor: colorMain,
         buttonColorText: Colors.white,
-        titleShowDialog: "Registro Exitoso!",
+        titleShowDialog: widget.tittleDialog(),
         context: context);
 
     activeShowDialog() {
       dialogShowRegister.getShowDialog();
     }
 
-    bool registerDataCompany() {
+    bool isFormValid() {
       if (_formKey.currentState!.validate()) {
-        registerCompanyFunctionality = new RegisterCompanyFunctionality(
-            nameCompany: txtNameCompany.getValue(),
-            nit: txtNit.getValue(),
-            context: context,
-            activeShowDialog: activeShowDialog);
+        registerCompanyFunctionality.company = widget.company;
+        registerCompanyFunctionality.activeShowDialog = activeShowDialog;
         return true;
       }
       return false;
     }
 
-    bool registerUpdateDataCompany() {
-      if (_formKey.currentState!.validate()) {
-        registerCompanyFunctionality = new RegisterCompanyFunctionality(
-            idCompany: widget.company!.idCompany,
-            nameCompany: txtNameCompany.getValue(),
-            nit: txtNit.getValue(),
-            context: context,
-            activeShowDialog: activeShowDialog);
-        return true;
-      }
-      return false;
-    }
-
-    CustomButton btnRegister = new CustomButton(
+    CustomButton btnGeneric = new CustomButton(
       onTap: () {
-        if (registerDataCompany()) {
-          registerCompanyFunctionality.onPressedBtnRegister();
+        if (isFormValid()) {
+          widget.eventAction();
         }
       },
-      buttonText: "Registrar",
+      buttonText: widget.textButton(),
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
       buttonTextColor: Colors.white,
       marginBotton: 0,
@@ -118,33 +112,17 @@ class _RegisterCompanyState extends State<RegisterCompany> {
       marginTop: 0,
     );
 
-    updateData() {
-      if (widget.company != null) {
-        txtNameCompany.value = widget.company!.companyName;
-        txtNit.value = widget.company!.nit;
-        btnRegister.buttonText = "Actualizar";
-        btnRegister.onTap = () {
-          if (registerUpdateDataCompany()) {
-            registerCompanyFunctionality.onPressedBtnUpdate();
-          }
-        };
-        textTitle = "Actualizar Empresa";
-      }
-    }
-
-    updateData();
-
     AppBar appBar = new AppBar(
       backgroundColor: colorMain,
       elevation: 0,
       title: Text(
-        'Registro de dueño',
+        '',
         textAlign: TextAlign.center,
       ),
     );
 
     Text title = new Text(
-      textTitle,
+      widget.titleScreen(),
       style: const TextStyle(
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.right,
@@ -163,7 +141,7 @@ class _RegisterCompanyState extends State<RegisterCompany> {
         child: Row(
           children: [
             Expanded(flex: 1, child: btnCancel),
-            Expanded(flex: 1, child: btnRegister)
+            Expanded(flex: 1, child: btnGeneric)
           ],
         ));
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
+import 'package:taxi_segurito_app/pages/screenVehicle/ScreensVehicleFunctionality.dart';
 
 class CustomListViewCardSimple extends StatefulWidget {
   List<Driver>? listDrivers = listDriver;

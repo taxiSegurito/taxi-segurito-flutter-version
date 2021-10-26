@@ -10,13 +10,13 @@ import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
+import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyScreen.dart';
+import 'package:taxi_segurito_app/pages/registerCompany/UpdateCompanyScreen.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleScreen.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/UpdateVehicleScreen.dart';
 
 import 'models/Company.dart';
+import 'pages/screenVehicle/RegisterVehicleScreen.dart';
+import 'pages/screenVehicle/UpdateVehicleScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +29,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("updateVehicleScreen");
+    app = AppTaxiSegurito("registerCompany");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -57,6 +57,8 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   _AppTaxiSeguritoState(this.routeInitial);
   @override
   Widget build(BuildContext context) {
+    String image =
+        "iVBORw0KGgoAAAANSUhEUgAAAJYAAADICAQAAACgjNDuAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAFqSURBVHja7dgxSxthHMfxX60x0NBCpywKFizSoTg2S8HBqVMnRxfxTfgm+g7a1U06OEiHDh2KUDq0dOgcMYiLcXDQhnM405LU5DY59PN5xnuG48txz58nAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO6kBzV7n5k8zXye5CK99HIp1iSzWclGOlm4jvUru9nLmS/6f61s5zDFyDrPTl5IM66R7ZyPpSrXpyzKM2or/RtTFSnyPo8E+udZfk5MVeQsb+py+tRBZ+qf6XHeZlas4Yn8Kg+n7nidebFKc1mq2NFOW6zhl9WsPCsbYpUGOa7Y0U9frNJlvlfs+J2uWENfczLlaZGPOTVfDTXzYcqc9aPyALhnlvJ5QqqTrMsz7mW+3JDqKJv1GEjr5nnepZvB31Cn2c9axbh6yzNOve4elrOahbTyJ8c5yDe3WQAAAAAAAAAAAAAAAAAjrgA9sX9RB69GsAAAAEl0RVh0Y29tbWVudABGaWxlIHNvdXJjZTogaHR0cDovL2NvbW1vbnMud2lraW1lZGlhLm9yZy93aWtpL0ZpbGU6RnVsbF9zdG9wLnBuZ/hCj5kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTQtMTItMDRUMjM6MzY6MDQrMDA6MDDfLSfJAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE0LTEyLTA0VDIzOjM2OjA0KzAwOjAwrnCfdQAAAEZ0RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNi42LjktNyAyMDE0LTAzLTA2IFExNiBodHRwOi8vd3d3LmltYWdlbWFnaWNrLm9yZ4HTs8MAAAAYdEVYdFRodW1iOjpEb2N1bWVudDo6UGFnZXMAMaf/uy8AAAAYdEVYdFRodW1iOjpJbWFnZTo6aGVpZ2h0ADY0MFHve2EAAAAXdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANDgwInKzjgAAABl0RVh0VGh1bWI6Ok1pbWV0eXBlAGltYWdlL3BuZz+yVk4AAAAXdEVYdFRodW1iOjpNVGltZQAxNDE3NzM2MTY0Cs916QAAABN0RVh0VGh1bWI6OlNpemUAMi4xM0tCQmpcHHIAAAAzdEVYdFRodW1iOjpVUkkAZmlsZTovLy90bXAvbG9jYWxjb3B5XzE3NTRiNzYyNmU2MC0xLnBuZ1oV86IAAAAASUVORK5CYII=";
     return MaterialApp(
       title: "Taxi Segurito",
       theme: ThemeData(primarySwatch: Colors.amber),
@@ -67,10 +69,13 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
         'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
         'registerCompany': (BuildContext contextRegisterCompany) =>
-            RegisterCompany(),
+            RegisterCompanyScreen(),
+        'updateCompany': (BuildContext buildContext) => UpdateCompanyScreen(
+            Company(
+                idCompany: "1", companyName: "6 de Agosto", nit: "12345678")),
         'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
         'registerVehicle': (BuildContext contextRegisterVehicle) =>
-            RegisterVehicle(),
+            RegisterVehicleScreen(),
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversList(),
@@ -80,15 +85,15 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             RegisterVehicleScreen(),
         'updateVehicleScreen': (BuildContext contextss) => UpdateVehicleScreen(
             Vehicle(
+                idVehicle: "1",
                 capacity: "1 kilo",
                 color: "rojo con franjas verdes",
                 model: "Lamborginy",
                 pleik: "sdasd",
-                photo: "sadasd",
-                owner_idOwner: "2",
+                photo: image,
+                status: "1",
+                owner_idOwner: "1",
                 report_car_idReports: "sdasd")),
-        'updateCompany': (BuildContext contextUpdateCompany, {company}) =>
-            RegisterCompany.fromRegisterCompany(company: company)
       },
     );
   }

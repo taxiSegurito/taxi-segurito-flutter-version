@@ -7,6 +7,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 
 class CustomTextField extends StatefulWidget {
+  void Function(String value)? assignValue;
   String hint;
   String value;
   double marginLeft;
@@ -34,6 +35,7 @@ class CustomTextField extends StatefulWidget {
     this.obscureText = false,
     this.value = '',
     this.multiValidator,
+    this.assignValue,
   }) : super(key: key);
 
   @override
@@ -87,6 +89,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: widget.heightNum,
           alignment: Alignment.bottomCenter,
           child: new TextFormField(
+            onChanged: (value) {
+              widget.assignValue!(value);
+            },
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {

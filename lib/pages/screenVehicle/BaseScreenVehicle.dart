@@ -4,20 +4,17 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/widgets/SelectDriverCard.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/widgets/SearchDialogDriver.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
+import 'package:taxi_segurito_app/pages/screenVehicle/widgets/SelectDriverCard.dart';
 import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
-//mandar titulo
-//titulo de el card de conductor
-//cambiar nombre y evento del boton registrar
+import 'ScreensVehicleFunctionality.dart';
+import 'widgets/SearchDialogDriver.dart';
 
 abstract class ScreamVehicleBase extends StatefulWidget {
   _ScreamVehicleBaseState _screamVehicleBaseState =
@@ -25,27 +22,19 @@ abstract class ScreamVehicleBase extends StatefulWidget {
 
   Vehicle vehicle = new Vehicle();
   Driver driver = new Driver();
+
   @override
   State<ScreamVehicleBase> createState() {
     return _screamVehicleBaseState;
   }
 
-  _ScreamVehicleBaseState getView() {
-    return _screamVehicleBaseState;
-  }
-
   bool isRegister();
-
   String titleScreen();
-
   String titleCardDriverScreen();
-
   String tittleDialog();
   String textButton();
-
-  RegisterVehicleFunctionality functionality();
-
-  eventAction();
+  ScreenVehicleFunctionality functionality();
+  void eventAction();
 }
 
 class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
@@ -54,13 +43,22 @@ class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
 
-    RegisterVehicleFunctionality registerVehicleFunctionality =
+    closeNavigator(BuildContext context) {
+      Navigator.of(context).pop();
+    }
+
+    ScreenVehicleFunctionality registerVehicleFunctionality =
         widget.functionality();
     registerVehicleFunctionality.setContext = context;
 
     SelectDriverCard? cardInformationDriver;
+
     ImagesFileAdapter imageCar = new ImagesFileAdapter(
-      imagePath: "assets/images/carDefault.png",
+      imagePathDefaultUser: "assets/images/carDefault.png",
+      imageMainBase64: widget.vehicle.photo,
+      assignValue: (value) {
+        widget.vehicle.photo = value;
+      },
     );
 
     CustomTextField txtCarColor = new CustomTextField(
@@ -74,35 +72,51 @@ class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
                   "Ingrese el nombre del color Correctamente sin numeros"),
         ],
       ),
+      assignValue: (value) {
+        widget.vehicle.color = value;
+      },
     );
 
     CustomTextField txtCapacity = new CustomTextField(
       value: widget.vehicle.capacity,
       hint: 'Capacidad',
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: "Campo vacio"),
-        StringValidator(errorText: "Ingrese la capacidad en formato texto"),
-      ]),
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          StringValidator(errorText: "Ingrese la capacidad en formato texto"),
+        ],
+      ),
+      assignValue: (value) {
+        widget.vehicle.capacity = value;
+      },
     );
+
     CustomTextField txtModelCar = new CustomTextField(
       value: widget.vehicle.model,
       hint: 'Modelo',
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: "Campo vacio"),
-        RequiredValidator(errorText: "Campo vacio")
-      ]),
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          RequiredValidator(errorText: "Campo vacio")
+        ],
+      ),
+      assignValue: (value) {
+        widget.vehicle.model = value;
+      },
     );
 
     CustomTextField txtNumberPlate = new CustomTextField(
       value: widget.vehicle.pleik,
       hint: 'Placa',
-      multiValidator:
-          MultiValidator([RequiredValidator(errorText: "Campo Vacio")]),
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo Vacio"),
+        ],
+      ),
+      assignValue: (value) {
+        widget.vehicle.pleik = value;
+      },
     );
-
-    closeNavigator(BuildContext context) {
-      Navigator.of(context).pop();
-    }
 
     Text title = new Text(
       widget.titleScreen(),
@@ -113,25 +127,20 @@ class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
 
     callBackSendData(Driver driver) {
       cardInformationDriver!.updateParamaters(driver);
-      Fluttertoast.showToast(
-          msg: driver.name,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          backgroundColor: Colors.red,
-          textColor: Colors.yellow);
     }
 
     SearchDialogDriver showDialogSearch = new SearchDialogDriver(
-        context: context,
-        ontapButtonCancel: () {
-          closeNavigator(context);
-        },
-        callback: callBackSendData,
-        titleShowDialog: "Buscar conductor",
-        buttonCancelText: "Cancelar",
-        callbackValueSearch: (String value) {
-          registerVehicleFunctionality.onPressedSearhDriver(value);
-        });
+      context: context,
+      ontapButtonCancel: () {
+        closeNavigator(context);
+      },
+      callback: callBackSendData,
+      titleShowDialog: "Buscar conductor",
+      buttonCancelText: "Cancelar",
+      callbackValueSearch: (String value) {
+        registerVehicleFunctionality.onPressedSearhDriver(value);
+      },
+    );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
@@ -146,6 +155,7 @@ class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
       marginRight: 5,
       marginTop: 0,
     );
+
     CustomDialogShow dialogShowRegister = new CustomDialogShow(
         ontap: () {
           registerVehicleFunctionality.closeNavigator();
@@ -172,25 +182,18 @@ class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {
     );
 
     bool isRegisterDataVehicle() {
-      bool isValidCardData = cardInformationDriver!.getIsValid();
+      bool isValidCardData =
+          widget.isRegister() ? cardInformationDriver!.getIsValid() : true;
       bool isValidImageCar = imageCar.getIsValid();
 
       if (_formKey.currentState!.validate() &&
           isValidCardData &&
           isValidImageCar) {
-        Image imageOne = imageCar.getImage();
+        registerVehicleFunctionality.vehicle = widget.vehicle;
+        registerVehicleFunctionality.driver =
+            cardInformationDriver!.getDriver();
+        registerVehicleFunctionality.activeShowDialog = activeShowDialog;
 
-        var listImage = {imageOne};
-        registerVehicleFunctionality = new RegisterVehicleFunctionality(
-            vehicle: widget.vehicle,
-            model: txtModelCar.getValue(),
-            plate: txtNumberPlate.getValue(),
-            colorCar: txtCarColor.getValue(),
-            capacity: txtCapacity.getValue(),
-            driver: cardInformationDriver.getDriver(),
-            listImage: listImage.toList(),
-            context: context,
-            activeShowDialog: activeShowDialog);
         return true;
       }
       return false;

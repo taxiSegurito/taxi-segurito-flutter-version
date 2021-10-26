@@ -1,16 +1,17 @@
 class Company {
-  String? idCompany;
+  String idCompany;
   String companyName;
   String nit;
-  String? status;
-  DateTime? registerDate;
-  DateTime? updateDate;
+  String status;
+  String registerDate;
+  String updateDate;
 
-  Company(
-      {this.idCompany,
-      required this.companyName,
-      required this.nit,
-      this.status,
-      this.registerDate,
-      this.updateDate});
+  Company({
+    this.idCompany = '',
+    this.companyName = '',
+    this.nit = '',
+    this.status = '',
+    this.registerDate = '',
+    this.updateDate = '',
+  });
 }

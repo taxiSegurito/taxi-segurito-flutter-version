@@ -1,11 +1,12 @@
 import 'package:taxi_segurito_app/models/Vehicle.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/ScreenVehicleBase.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
 
-// ignore: must_be_immutable
+import 'BaseScreenVehicle.dart';
+
+import 'ScreensVehicleFunctionality.dart';
+
 class RegisterVehicleScreen extends ScreamVehicleBase {
-  RegisterVehicleFunctionality registerVehicleFunctionality =
-      new RegisterVehicleFunctionality();
+  ScreenVehicleFunctionality registerVehicleFunctionality =
+      new ScreenVehicleFunctionality();
   @override
   String titleCardDriverScreen() {
     return 'Seleccione un Conductor';
@@ -27,7 +28,7 @@ class RegisterVehicleScreen extends ScreamVehicleBase {
   }
 
   @override
-  RegisterVehicleFunctionality functionality() {
+  ScreenVehicleFunctionality functionality() {
     return registerVehicleFunctionality;
   }
 
