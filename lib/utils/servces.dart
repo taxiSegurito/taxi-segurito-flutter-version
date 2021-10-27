@@ -8,20 +8,19 @@ import 'package:taxi_segurito_app/utils/admin_session_for_.social_networks.dart'
 
 class Services {
   //host Local
-  String host = "192.168.56.1";
+  //String host = "192.168.56.1";
   //host Server
   /*String path =
       "/Backend-taxi-git/taxi-segurito-backend/app/api/user/user_controller.php";*/
-  //String host = "taxi-segurito.herokuapp.com/api";
-  //String path = "/taxi-segurito-backend/app/api/user/user_controller.php";
+  String host = "taxi-segurito.herokuapp.com";
+  String path = "/api/user/user_controller.php";
   //Method that sends data to backend
   Future<bool> AddData(Clientuser client) async {
     try {
       bool control = false;
-      //var url = Service.url + "UserAdd/UserController.php";
-      var url =
-          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";
-      // var url = "http://" + host + path;
+      /*var url =
+          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
+      var url = "http://" + host + path;
       var response = await http.post(Uri.parse(url),
           body: jsonEncode({
             "email": client.email,
@@ -29,7 +28,7 @@ class Services {
             "fullName": client.fullName,
             "cellphone": client.cellphone,
             "typeRegister": client.registerType,
-            "idrole": 2,
+            "idrole": 15, //server 15 es para cliente
             "type": "Insert"
           }));
       var res = jsonDecode(response.body);
@@ -53,14 +52,14 @@ class Services {
 
   Future<String> GetId(String email) async {
     try {
-      // var url = Service.url + "UserAdd/UserController.php";
       /*var url =
           "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
       String type = "id";
       final parameters = {'email': email, 'expectedResponse': type};
       final rute = Uri.http(
           host,
-          '/Backend-taxi-git/taxi-segurito-backend/app/api/user/user_controller.php',
+          path,
+          //'/Backend-taxi-git/taxi-segurito-backend/app/api/user/user_controller.php',
           parameters);
       var response = await http.get(rute);
       var res = jsonDecode(response.body);
@@ -77,14 +76,14 @@ class Services {
   //return Error si no
   Future<String> GetCellphoneIfExists(String email) async {
     try {
-      //var url = Service.url + "UserAdd/UserController.php";
       /*var url =
           "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
       String type = "cellphone";
       final parameters = {'email': email, 'expectedResponse': type};
       final rute = Uri.http(
           host,
-          '/Backend-taxi-git/taxi-segurito-backend/app/api/user/user_controller.php',
+          path,
+          //'/Backend-taxi-git/taxi-segurito-backend/app/api/user/user_controller.php',
           parameters);
       var response = await http.get(rute);
       var res = jsonDecode(response.body);
