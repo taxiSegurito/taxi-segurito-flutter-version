@@ -43,20 +43,6 @@ void main() async {
       app = AppTaxiSegurito("QRpage");
     }
   }
-  //Si existe una sesion Google
-  if (googleSession == true) {
-    app = MaterialApp(
-      initialRoute: 'scannerQr',
-      routes: {'scannerQr': (BuildContext contextFirstScreen) => QRPAGE()},
-    );
-  }
-  //Si Existe una sesion Facebook
-  else if (facebookSession) {
-    app = MaterialApp(
-      initialRoute: 'scannerQr',
-      routes: {'scannerQr': (BuildContext contextFirstScreen) => QRPAGE()},
-    );
-  }
   runApp(app);
 }
 
