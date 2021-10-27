@@ -59,32 +59,4 @@ class CallPanic {
       return false;
     }
   }
-
-  Future<List<String>> GetListFromDB() async {
-    Sessions sessions = Sessions();
-    List<String> numbers = List.empty();
-    bool googleSession = await sessions.verificationSession("emailGoogle");
-    bool facebookSession = await sessions.verificationSession("emailFacebook");
-    String idSession = "";
-    if (facebookSession == true) {
-      idSession = sessions.getSessionValue("idFacebook");
-    } else if (googleSession == true) {
-      idSession = sessions.getSessionValue("idGoogle");
-    }
-    try {
-      var url = Service.url + "UserAdd/UserController.php";
-      /*var url =
-          "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
-      var response = await http.post(Uri.parse(url),
-          body: jsonEncode(
-              {"idPerson": int.parse(idSession), "type": "GetListNumber"}));
-      var res = jsonDecode(response.body);
-      numbers = res;
-      log(res['result'].toString());
-      return numbers;
-    } catch (e) {
-      log(e.toString());
-      return List.empty();
-    }
-  }
 }
