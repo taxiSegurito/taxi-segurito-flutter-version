@@ -18,17 +18,6 @@ class CallPanic {
     }
   }
 
-  /*void SendSmsPanic() async {
-    try {
-      List<String> numbers = GetListNumbers();
-      String message = "Este Telefono Envio Alerta Desde un Taxi";
-      String result = await sendSMS(message: message, recipients: numbers);
-      log(result);
-    } catch (e) {
-      log(e.toString());
-    }
-  }*/
-
   Future<bool> SendSms() async {
     SmsSender sender = new SmsSender();
     List<String> address = GetListNumbers();
@@ -47,6 +36,28 @@ class CallPanic {
   List<String> GetListNumbers() {
     List<String> numbers = ["69685120", "69685120"];
     return numbers;
+  }
+
+  Future<bool> btnpanic() async {
+    try {
+      bool controlSms = false, controlCall = false;
+      await CallPanic().SendSms().then((value) => {
+            if (value == true) {controlSms = value}
+          });
+      await CallPanic().Call_Number().then((value) => {
+            if (value == true) {controlCall = value}
+          });
+      if (controlSms == true && controlCall == true) {
+        log("Se Ejecuta");
+        return true;
+      } else {
+        log("Hubo Algun Fallo");
+        return false;
+      }
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
   }
 
   Future<List<String>> GetListFromDB() async {

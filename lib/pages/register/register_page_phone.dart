@@ -11,6 +11,7 @@ import 'package:taxi_segurito_app/pages/register/register_info_functionality.dar
 import 'package:taxi_segurito_app/pages/register/register_page_info.dart';
 import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
 import 'package:taxi_segurito_app/utils/login_google_utils.dart';
+import 'package:taxi_segurito_app/utils/servces.dart';
 
 class RegisterPage extends StatefulWidget {
   Clientuser user = new Clientuser("Default");
@@ -181,42 +182,21 @@ class _RegisterPageState extends State<RegisterPage> {
                                           user.cellphone = number.text;
                                           log("Es desde btn google o facebook");
                                           log(user.email);
-                                          if (user.registerType == "Google") {
-                                            LoginGoogleUtils()
-                                                .AddDataGoogle(user)
-                                                .then((value) => {
-                                                      if (value == true)
-                                                        {
-                                                          Navigator
-                                                              .pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        QRPAGE()),
-                                                          )
-                                                        }
-                                                    });
-                                          } else {
-                                            LoginFacebookUtils()
-                                                .AddDataFacebook(user)
-                                                .then((value) => {
-                                                      if (value == true)
-                                                        {
-                                                          if (value == true)
-                                                            {
-                                                              Navigator
-                                                                  .pushReplacement(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder:
-                                                                        (context) =>
-                                                                            QRPAGE()),
-                                                              )
-                                                            }
-                                                        }
-                                                    });
-                                          }
+                                          Services()
+                                              .AddData(user)
+                                              .then((value) => {
+                                                    if (value == true)
+                                                      {
+                                                        Navigator
+                                                            .pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder:
+                                                                  (context) =>
+                                                                      QRPAGE()),
+                                                        )
+                                                      }
+                                                  });
                                         } else {
                                           _start = 0;
                                           Navigator.push(
