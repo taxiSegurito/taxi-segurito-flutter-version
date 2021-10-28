@@ -1,37 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
+import 'package:taxi_segurito_app/models/Driver.dart';
 
-class DriversList extends StatefulWidget {
-  DriversList({Key? key}) : super(key: key);
+import 'DriverListItem.dart';
 
-  @override
-  _DriversListState createState() => _DriversListState();
-}
+class DriversList extends StatelessWidget {
+  final Future<List<Driver>> driversFuture;
 
-class _DriversListState extends State<DriversList> {
+  DriversList(this.driversFuture);
+
   @override
   Widget build(BuildContext context) {
-    Text title = Text(
-      "Lista Conductores",
-      style: const TextStyle(
-          fontSize: 24.0,
-          color: Colors.black,
-          fontFamily: "Raleway",
-          fontStyle: FontStyle.normal,
-          fontWeight: FontWeight.w600),
-      textAlign: TextAlign.justify,
-    );
-    return Scaffold(
-      appBar: AppBar(
-        title: title,
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => DriverRegistration()));
-        },
-        child: const Icon(Icons.add),
-      ),
+    return FutureBuilder(
+      future: driversFuture,
+      builder: (_, AsyncSnapshot<List<Driver>> snapshot) {
+        if (snapshot.hasData) {
+          final drivers = snapshot.data!;
+          return ListView.builder(
+            itemCount: drivers.length,
+            itemBuilder: (_, index) {
+              return DriverListItem(drivers[index]);
+            },
+          );
+        }
+        return Center(child: CircularProgressIndicator());
+      },
     );
   }
 }

@@ -36,9 +36,9 @@ class _SelectDriverCardState extends State<SelectDriverCard> {
   updateParamaters(Driver driver) {
     setState(() {
       widget.driver = driver;
-      widget.ciPerson = driver.dni;
-      widget.namePerson = driver.name;
-      widget.phonePerson = driver.phone;
+      widget.ciPerson = driver.ci;
+      widget.namePerson = driver.fullName;
+      widget.phonePerson = driver.cellphone;
     });
     widget.ontapCloseDialog();
   }

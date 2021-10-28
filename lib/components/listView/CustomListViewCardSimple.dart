@@ -45,16 +45,16 @@ class _CustomListViewCardSimpleState extends State<CustomListViewCardSimple> {
               child: Column(children: [
                 ListTile(
                   title: Text(
-                    driver.name,
+                    driver.fullName,
                     style: TextStyle(fontSize: 13),
                   ),
                   subtitle: Row(
                     children: [
                       Expanded(
-                          child: Text("CI: " + driver.dni,
+                          child: Text("CI: " + driver.ci,
                               style: TextStyle(fontSize: 13))),
                       Expanded(
-                          child: Text("Celular: " + driver.phone,
+                          child: Text("Celular: " + driver.cellphone,
                               style: TextStyle(fontSize: 13)))
                     ],
                   ),

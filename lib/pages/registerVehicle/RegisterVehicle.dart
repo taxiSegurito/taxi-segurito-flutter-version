@@ -51,7 +51,7 @@ class _RegisterVehicleState extends State<RegisterVehicle> {
     callBackSendData(Driver driver) {
       cardInformationDriver!.updateParamaters(driver);
       Fluttertoast.showToast(
-          msg: driver.name,
+          msg: driver.fullName,
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           backgroundColor: Colors.red,
