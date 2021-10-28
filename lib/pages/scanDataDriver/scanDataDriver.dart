@@ -9,15 +9,14 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 
-void main() => runApp(scanDataDriver("prueba"));
+void main() => runApp(ScanDataDriver("prueba"));
 double ranking = 4.2;
 
-class scanDataDriver extends StatelessWidget {
+class ScanDataDriver extends StatelessWidget {
   //const scanDataDriver({Key? key}) : super(key: key);
   String code;
-  scanDataDriver(this.code);
+  ScanDataDriver(this.code);
 
   @override
   Widget build(BuildContext context) {

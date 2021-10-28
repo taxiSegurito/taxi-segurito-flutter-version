@@ -51,7 +51,7 @@ class _QrBarcodeState extends State<QRPAGE> {
     Timer(
         Duration(milliseconds: 1500),
         () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => scanDataDriver(code))));
+            MaterialPageRoute(builder: (context) => ScanDataDriver(code))));
   }
 
   Widget _scanner(BuildContext context) {
