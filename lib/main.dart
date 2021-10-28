@@ -1,6 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
+import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
+import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
+import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
+import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
@@ -19,6 +24,8 @@ void main() async {
 
   bool idsession = await sessions.verificationSession("iduser");
   bool rolsession = await sessions.verificationSession("rol");
+  bool googleSession = await sessions.verificationSession("emailGoogle");
+  bool facebookSession = await sessions.verificationSession("emailFacebook");
   Widget app = MaterialApp(
     debugShowCheckedModeBanner: false,
   );
@@ -58,6 +65,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       initialRoute: routeInitial,
       routes: {
         'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
+        'scannerQr': (BuildContext contexQRPage) => QRPAGE(),
         'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
         'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
         'registerCompany': (BuildContext contextRegisterCompany) =>

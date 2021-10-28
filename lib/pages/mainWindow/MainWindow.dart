@@ -1,9 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithIcon.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/icons/SocialMediaIcons.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindowFunctionality.dart';
+
+void main() {
+  //
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MainWindow());
+}
 
 class MainWindow extends StatefulWidget {
   MainWindow({Key? key}) : super(key: key);
@@ -13,6 +20,30 @@ class MainWindow extends StatefulWidget {
 }
 
 class _MainWindowState extends State<MainWindow> {
+  bool initialized = false;
+  bool error = false;
+
+  void InitializeFlutterFire() async {
+    try {
+      // Wait for Firebase to initialize and set `_initialized` state to true
+      await Firebase.initializeApp();
+      setState(() {
+        initialized = true;
+      });
+    } catch (e) {
+      // Set `_error` state to true if Firebase initialization fails
+      setState(() {
+        error = true;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    InitializeFlutterFire();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     MainWindowFunctionality mainWindowFunctionality =

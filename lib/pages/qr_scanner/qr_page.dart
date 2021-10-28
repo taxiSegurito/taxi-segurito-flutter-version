@@ -5,6 +5,7 @@ import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
 import 'package:taxi_segurito_app/pages/scanDataDriver/scanDataDriver.dart';
 import '../../components/sidemenu/side_menu.dart';
 
+
 class QRPAGE extends StatefulWidget {
   @override
   _QrBarcodeState createState() => new _QrBarcodeState();

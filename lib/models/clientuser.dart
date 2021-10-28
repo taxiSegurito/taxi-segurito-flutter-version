@@ -15,4 +15,11 @@ class Clientuser extends User {
             cellphone: cellphone,
             email: email,
             password: password);
+  Clientuser.InsertForGoogleAndFacebook(
+      this.registerType, fullname, cellphone, email, password)
+      : super.insert(
+            fullname: fullname,
+            cellphone: cellphone,
+            email: email,
+            password: password);
 }
