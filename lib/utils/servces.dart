@@ -26,7 +26,7 @@ class Services {
             "fullName": client.fullName,
             "cellphone": client.cellphone,
             "typeRegister": client.registerType,
-            "idrole": 15, //server 15 es para cliente
+            "idrole": 2, //server 15 es para cliente // local ngrok 2 es cliente
             "type": "Insert"
           }));
       var res = jsonDecode(response.body);
