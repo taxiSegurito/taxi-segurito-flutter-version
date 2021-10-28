@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
+import 'package:taxi_segurito_app/pages/scanDataDriver/scanDataDriver.dart';
 import '../../components/sidemenu/side_menu.dart';
 
 class QRPAGE extends StatefulWidget {
@@ -47,7 +48,10 @@ class _QrBarcodeState extends State<QRPAGE> {
     setState(() {
       _camState = false;
     });
-    Timer(Duration(milliseconds: 1500), () => Navigator.pop(context, code));
+    Timer(
+        Duration(milliseconds: 1500),
+        () => Navigator.push(context,
+            MaterialPageRoute(builder: (context) => scanDataDriver(code))));
   }
 
   Widget _scanner(BuildContext context) {

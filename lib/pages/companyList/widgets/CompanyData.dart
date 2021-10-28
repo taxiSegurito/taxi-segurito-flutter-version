@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/UpdateCompanyScreen.dart';
+import 'package:taxi_segurito_app/pages/screenCompany/UpdateCompanyScreen.dart';
 
 class CompanyData extends StatefulWidget {
   void Function(Company company) callbackCompany;

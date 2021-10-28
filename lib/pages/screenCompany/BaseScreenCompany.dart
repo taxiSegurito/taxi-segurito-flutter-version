@@ -6,8 +6,9 @@ import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/ScreensCompanyFunctionality.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
+
+import 'ScreensCompanyFunctionality.dart';
 
 // ignore: must_be_immutable
 abstract class BaseScreenCompany extends StatefulWidget {

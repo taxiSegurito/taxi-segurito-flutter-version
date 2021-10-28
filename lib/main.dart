@@ -11,13 +11,14 @@ import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompanyScreen.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/UpdateCompanyScreen.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
-
 import 'models/Company.dart';
+import 'models/Driver.dart';
 import 'pages/companyList/CompanyList.dart';
 import 'pages/menu/ownerMenu.dart';
+import 'pages/scanDataDriver/travelCalification/driver_travel_calification_page.dart';
+import 'pages/screenCompany/RegisterCompanyScreen.dart';
+import 'pages/screenCompany/UpdateCompanyScreen.dart';
 import 'pages/screenVehicle/RegisterVehicleScreen.dart';
 import 'pages/screenVehicle/UpdateVehicleScreen.dart';
 
@@ -32,7 +33,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("adminMenu");
+    app = AppTaxiSegurito("reportCar");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -89,6 +90,19 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             RegisterVehicleScreen(),
         'ownerMenu': (_) => OwnerMenu(),
         'adminMenu': (_) => AdminMenu(),
+        'reportCar': (_) => DriverTravelCalificationPage(
+              Driver(name: "Rogelio Castro", dni: "12345678", phone: "5554554"),
+              Vehicle(
+                  idVehicle: "1",
+                  capacity: "1 kilo",
+                  color: "rojo con franjas verdes",
+                  model: "Lamborginy",
+                  pleik: "sdasd",
+                  photo: image,
+                  status: "1",
+                  owner_idOwner: "1",
+                  report_car_idReports: "sdasd"),
+            ),
         'updateVehicleScreen': (BuildContext contextss) => UpdateVehicleScreen(
               Vehicle(
                   idVehicle: "1",
