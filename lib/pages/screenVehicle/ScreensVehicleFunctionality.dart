@@ -17,7 +17,7 @@ List<Driver> listDriver = [
 class ScreenVehicleFunctionality {
   BuildContext? context;
   VoidCallback? activeShowDialog;
-  Driver? driver = new Driver();
+  Driver? driver = new Driver("", "", "");
   Vehicle? vehicle = new Vehicle();
 
   ScreenVehicleFunctionality({
