@@ -38,7 +38,7 @@ void main() async {
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
-      app = AppTaxiSegurito("registerOwner");
+      app = AppTaxiSegurito("adminMenu");
     }
     if (rol.toString() == "Dueño") {
       app = AppTaxiSegurito("ownerMenu");

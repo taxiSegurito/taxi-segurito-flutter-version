@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';
+import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class UserLoginPage extends StatefulWidget {
   const UserLoginPage({Key? key}) : super(key: key);
@@ -24,6 +27,34 @@ class _UserLoginPageState extends State<UserLoginPage> {
 
   Widget build(BuildContext context) {
     LoginFuctionality loginFuctionality = new LoginFuctionality(context);
+
+    CustomTextField txtNameOR = new CustomTextField(
+      //value: widget.company.companyName,
+      hint: 'Ingrese su celular o e-mail',
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          StringValidator(errorText: "No se permiten numeros")
+        ],
+      ),
+      assignValue: (value) {
+        //widget.company.companyName = value;
+      },
+    );
+
+    CustomTextField txtPassword = new CustomTextField(
+      //value: widget.company.companyName,
+      hint: 'Ingrese su celular o e-mail',
+      multiValidator: MultiValidator(
+        [
+          RequiredValidator(errorText: "Campo vacio"),
+          StringValidator(errorText: "No se permiten numeros")
+        ],
+      ),
+      assignValue: (value) {
+        //widget.company.companyName = value;
+      },
+    );
     return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(

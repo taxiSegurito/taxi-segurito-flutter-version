@@ -4,12 +4,9 @@ import 'package:taxi_segurito_app/models/Driver.dart';
 class SelectDriverCard extends StatefulWidget {
   _SelectDriverCardState _customCardSimpleState = new _SelectDriverCardState();
   String? headerText;
-  String? namePerson;
-  String? ciPerson;
-  String? phonePerson;
   VoidCallback ontap;
   VoidCallback ontapCloseDialog;
-  Driver driver = new Driver();
+  late Driver? driver;
   SelectDriverCard(
       {Key? key,
       required this.ontap,
@@ -40,9 +37,6 @@ class _SelectDriverCardState extends State<SelectDriverCard> {
   updateParamaters(Driver driver) {
     setState(() {
       widget.driver = driver;
-      widget.ciPerson = driver.ci;
-      widget.namePerson = driver.fullName;
-      widget.phonePerson = driver.cellphone;
     });
     widget.ontapCloseDialog();
   }
@@ -52,7 +46,7 @@ class _SelectDriverCardState extends State<SelectDriverCard> {
   bool validateDrown() {
     bool isValid = true;
 
-    if (widget.ciPerson == null) {
+    if (widget.driver!.ci.isEmpty) {
       setState(() => errorMessage = "Campo vacio");
       colorBorder = Colors.red;
       isValid = false;
@@ -85,36 +79,36 @@ class _SelectDriverCardState extends State<SelectDriverCard> {
               ),
               InkWell(
                 child: ListTile(
-                  title: widget.driver.name.isEmpty
+                  title: widget.driver!.fullName.isEmpty
                       ? Text(
                           "no seleccionado",
                           style: TextStyle(fontSize: 13),
                         )
                       : Text(
-                          widget.driver.name,
+                          widget.driver!.fullName,
                           style: TextStyle(fontSize: 13),
                         ),
                   subtitle: Row(
                     children: [
                       Expanded(
-                        child: widget.driver.dni.isEmpty
+                        child: widget.driver!.ci.isEmpty
                             ? Text(
                                 "CI: " + "00000000",
                                 style: TextStyle(fontSize: 13),
                               )
                             : Text(
-                                "CI: " + widget.driver.dni,
+                                "CI: " + widget.driver!.ci,
                                 style: TextStyle(fontSize: 13),
                               ),
                       ),
                       Expanded(
-                        child: widget.driver.phone.isEmpty
+                        child: widget.driver!.cellphone.isEmpty
                             ? Text(
                                 "Celular: " + "00000000",
                                 style: TextStyle(fontSize: 13),
                               )
                             : Text(
-                                "Celular: " + widget.driver.phone,
+                                "Celular: " + widget.driver!.cellphone,
                                 style: TextStyle(fontSize: 13),
                               ),
                       )

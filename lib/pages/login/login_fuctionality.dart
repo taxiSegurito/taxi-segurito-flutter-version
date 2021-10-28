@@ -6,10 +6,13 @@ import 'package:flutter/material.dart';
 
 class LoginFuctionality {
   late BuildContext context;
+
   LoginFuctionality(this.context);
+
   void loginValidate(User user) async {
     Sessions sessions = new Sessions();
     List<dynamic> result = await login(user);
+
     if (result.length != 0) {
       GlobalToast.displayToast(
           Text("Bienvenido"), Colors.greenAccent, Icon(Icons.check), 2);
@@ -19,19 +22,29 @@ class LoginFuctionality {
       }
       var msg = await sessions.getSessionValue("iduser");
       var role = await sessions.getSessionValue("rol");
-      print(msg.toString() + " " + role.toString());
-      if (role.toString() == "Administrador") {
+
+      print(
+        msg.toString() + " " + role.toString(),
+      );
+
+      if (role.toString() == "admin") {
         Navigator.pushNamed(context, 'registerOwner');
       }
-      if (role.toString() == "Cliente") {
+
+      if (role.toString() == "client") {
         Navigator.pushNamed(context, 'QRpage');
       }
-      if (role.toString() == "Dueño") {
-        Navigator.pushNamed(context, 'driverList');
+
+      if (role.toString() == "owner") {
+        Navigator.pushNamed(context, 'ownerMenu');
       }
     } else {
       GlobalToast.displayToast(
-          Text("Datos Incorrectos"), Colors.redAccent, Icon(Icons.error), 2);
+        Text("Datos Incorrectos"),
+        Colors.redAccent,
+        Icon(Icons.error),
+        2,
+      );
     }
   }
 }

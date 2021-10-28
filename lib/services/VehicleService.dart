@@ -7,7 +7,7 @@ import 'package:taxi_segurito_app/models/Owner.dart';
 
 Future<bool> update(Vehicle vehicle) async {
   try {
-    var path = Service.urlLocal + "vehicle_controller.php";
+    var path = Service.url + "vehicle_controller.php";
     final response = await http.post(
       Uri.parse(path),
       body: jsonEncode(

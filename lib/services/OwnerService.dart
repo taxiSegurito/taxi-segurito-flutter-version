@@ -37,8 +37,7 @@ List<Owner> convertToList(response) {
 
 Future<List<Owner>> selectByLike(value) async {
   try {
-    String path =
-        Service.urlLocal + "Owner/owner_controller.php?criteria=" + value;
+    String path = Service.url + "Owner/owner_controller.php?criteria=" + value;
     var response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {

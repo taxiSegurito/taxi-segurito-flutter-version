@@ -6,7 +6,7 @@ import 'package:taxi_segurito_app/services/env.dart';
 Future<bool> insertReportCar(ReportCar reportCar) async {
   print(reportCar.calification + "desde end oint");
   try {
-    var path = Service.urlLocal + "CarReport/reportCar_controller.php";
+    var path = Service.url + "CarReport/reportCar_controller.php";
     final response = await http.post(Uri.parse(path),
         body: jsonEncode(
           {

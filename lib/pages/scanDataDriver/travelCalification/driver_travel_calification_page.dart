@@ -26,7 +26,7 @@ class _DriverTravelCalificationPageState
     // TODO: implement initState
     super.initState();
     widget.reportCar!.idClientuser = "55";
-    widget.reportCar!.idVehicule = widget.vehicle!.idVehicle!;
+    widget.reportCar!.idVehicule = widget.vehicle.idVehicle!;
   }
 
   @override
@@ -93,9 +93,9 @@ class _DriverTravelCalificationPageState
         children: [
           SizedBox(height: 10),
           _bannerPriceInfo(
-              widget.driver!.fullName,
-              'Auto -' + widget.vehicle!.model,
-              'Color - ' + widget.vehicle!.color),
+              widget.driver.fullName,
+              'Auto -' + widget.vehicle.model,
+              'Color - ' + widget.vehicle.color),
           SizedBox(height: 10),
           _textCalificateYourDriver(),
           SizedBox(height: 5),

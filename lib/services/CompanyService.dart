@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/services/env.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 
 Future<bool> insert(Company company) async {
   try {
-    var path = Service.url + "insertCompany.php";
+    var path = Service.url + "Company/company_controller.php";
     final response = await http.post(
       Uri.parse(path),
       body: {
@@ -18,7 +16,7 @@ Future<bool> insert(Company company) async {
     );
     String result = json.decode(response.body);
 
-    if (result == "Success") {
+    if (result == "success") {
       return Future<bool>.value(true);
     } else {
       return Future<bool>.value(false);
@@ -30,7 +28,7 @@ Future<bool> insert(Company company) async {
 
 Future<bool> update(Company company) async {
   try {
-    var path = Service.urlLocal + "company_controller.php";
+    var path = Service.url + "Company/company_controller.php";
     final response = await http.post(
       Uri.parse(path),
       headers: <String, String>{
@@ -89,7 +87,8 @@ List<Company> convertToList(response) {
 
 Future<List<Company>> selectCompanyByLike(value) async {
   try {
-    String path = Service.url + "company_controller.php?criteria=" + value;
+    String path =
+        Service.url + "Company/company_controller.php?criteria=" + value;
     var response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
