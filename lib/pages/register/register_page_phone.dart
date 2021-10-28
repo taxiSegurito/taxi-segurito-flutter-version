@@ -183,7 +183,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           log("Es desde btn google o facebook");
                                           log(user.email);
                                           Services()
-                                              .AddData(user)
+                                              .addData(user)
                                               .then((value) => {
                                                     if (value == true)
                                                       {

@@ -33,7 +33,7 @@ void main() async {
       app = AppTaxiSegurito("registerOwner");
     }
     if (rol.toString() == "Dueño") {
-      app = AppTaxiSegurito("driverList");
+      app = AppTaxiSegurito("ownerMenu");
     }
     if (rol.toString() == "Cliente") {
       app = AppTaxiSegurito("QRpage");
@@ -60,19 +60,16 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       debugShowCheckedModeBanner: false,
       initialRoute: routeInitial,
       routes: {
-        'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'scannerQr': (BuildContext contexQRPage) => QRPAGE(),
-        'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
-        'registerCompany': (BuildContext contextRegisterCompany) =>
-            RegisterCompany(),
-        'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
-        'registerVehicle': (BuildContext contextRegisterVehicle) =>
-            RegisterVehicle(),
-        'driverRegistration': (BuildContext contextRegistration) =>
-            DriverRegistration(),
-        'QRpage': (BuildContext contextDriveList) => QRPAGE(),
-        'driverList': (BuildContext contextDriveList) => DriversListPage(),
+        'loginUser': (_) => UserLoginPage(),
+        'scannerQr': (_) => QRPAGE(),
+        'firstScreen': (_) => MainWindow(),
+        'registerScreen': (_) => RegisterPage(),
+        'registerCompany': (_) => RegisterCompany(),
+        'registerOwner': (_) => RegisterOwner(),
+        'registerVehicle': (_) => RegisterVehicle(),
+        'driverRegistration': (_) => DriverRegistration(),
+        'QRpage': (_) => QRPAGE(),
+        'driverList': (_) => DriversListPage(),
         'ownerMenu': (_) => OwnerMenu(),
       },
     );

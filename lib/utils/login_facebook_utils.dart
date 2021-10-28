@@ -24,7 +24,7 @@ class LoginFacebookUtils {
             "Facebook", fullName, cellphone, email, "Facebook");
         //CheckExits retorna numero si existe
         //retorna Error si no existe
-        String exits = await Services().GetCellphoneIfExists(email);
+        String exits = await Services().getCellphoneIfExists(email);
         if (exits != "Error") {
           Clientuser clientExits = Clientuser.InsertForGoogleAndFacebook(
               "Facebook", fullName, cellphone = exits, email, "Facebook");

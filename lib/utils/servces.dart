@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:http/http.dart' as http;
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/utils/admin_session_for_.social_networks.dart';
 
 class Services {
@@ -15,7 +13,7 @@ class Services {
   String host = "taxi-segurito.herokuapp.com";
   String path = "/api/user/user_controller.php";
   //Method that sends data to backend
-  Future<bool> AddData(Clientuser client) async {
+  Future<bool> addData(Clientuser client) async {
     try {
       bool control = false;
       /*var url =
@@ -50,7 +48,7 @@ class Services {
     }
   }
 
-  Future<String> GetId(String email) async {
+  Future<String> getId(String email) async {
     try {
       /*var url =
           "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
@@ -74,7 +72,7 @@ class Services {
   //Verifica que exista en la base de datos
   //return cellphone si existe
   //return Error si no
-  Future<String> GetCellphoneIfExists(String email) async {
+  Future<String> getCellphoneIfExists(String email) async {
     try {
       /*var url =
           "http://192.168.0.3/backend-taxi-segurito-app/UserController.php";*/
@@ -95,7 +93,7 @@ class Services {
     }
   }
 
-  Future<List<String>?> GetListFromDB() async {
+  Future<List<String>?> getListFromDB() async {
     List<String> numbers = List.empty();
     int id = await AdminSession().GetIdSession();
     try {

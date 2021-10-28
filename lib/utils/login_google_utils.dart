@@ -33,7 +33,7 @@ class LoginGoogleUtils {
         Clientuser client = Clientuser.InsertForGoogleAndFacebook(
             "Google", fullName, cellphone, email, "Google");
         bool controlBD;
-        String exits = await Services().GetCellphoneIfExists(email);
+        String exits = await Services().getCellphoneIfExists(email);
         //Ya existe
         if (exits != "Error") {
           Clientuser clientUser = Clientuser.InsertForGoogleAndFacebook(
@@ -43,7 +43,7 @@ class LoginGoogleUtils {
         }
         //En caso de que haya un numero
         if (client.cellphone != "null") {
-          controlBD = await Services().AddData(client);
+          controlBD = await Services().addData(client);
           if (controlBD == true) {
             return client;
           } else if (controlBD == false) {

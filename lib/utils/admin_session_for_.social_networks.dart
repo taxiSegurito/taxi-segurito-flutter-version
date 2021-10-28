@@ -7,7 +7,7 @@ import 'package:taxi_segurito_app/utils/servces.dart';
 class AdminSession {
   Sessions sessions = new Sessions();
   void AddSession(Clientuser client) async {
-    String Id = await Services().GetId(client.email);
+    String Id = await Services().getId(client.email);
     await sessions.addSessionValue("iduser", Id);
     await sessions.addSessionValue("rol", "Cliente");
     log(await GetIdSession() + " " + await GettypeSession());
