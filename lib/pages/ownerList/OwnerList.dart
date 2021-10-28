@@ -3,25 +3,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
-import 'package:taxi_segurito_app/pages/listUsers/ListUserFunctionallity.dart';
-import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerReplayList.dart';
-import 'package:taxi_segurito_app/pages/listUsers/widgets/ContainerListView.dart';
 
-class ListUser extends StatefulWidget {
-  ListUser({Key? key}) : super(key: key);
+import 'OwnerListFunctionality.dart';
+import 'widgets/ContainerListView.dart';
+import 'widgets/ContainerReplayList.dart';
+
+class OnwerList extends StatefulWidget {
+  OnwerList({Key? key}) : super(key: key);
 
   @override
-  _ListUserState createState() => _ListUserState();
+  _OnwerListState createState() => _OnwerListState();
 }
 
-class _ListUserState extends State<ListUser> {
-  ListUserFunctionallity listUserFunctionallity = new ListUserFunctionallity();
+class _OnwerListState extends State<OnwerList> {
+  OwnerListFunctionallity listUserFunctionallity =
+      new OwnerListFunctionallity();
   ContainerListView containerListView = new ContainerListView();
 
   @override
   initState() {
     super.initState();
-    listUserFunctionallity = new ListUserFunctionallity();
+    listUserFunctionallity = new OwnerListFunctionallity();
     containerListView = new ContainerListView();
     listUserFunctionallity.loaded();
     listUserFunctionallity.callUpdateListView = () {

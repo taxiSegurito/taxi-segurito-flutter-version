@@ -1,8 +1,7 @@
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 
-import 'BaseScreenVehicle.dart';
-
 import 'ScreensVehicleFunctionality.dart';
+import 'BaseScreenVehicle.dart';
 
 class RegisterVehicleScreen extends ScreamVehicleBase {
   ScreenVehicleFunctionality registerVehicleFunctionality =

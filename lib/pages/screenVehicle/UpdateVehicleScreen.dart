@@ -1,9 +1,8 @@
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 
-import 'BaseScreenVehicle.dart';
-
 import 'ScreensVehicleFunctionality.dart';
+import 'BaseScreenVehicle.dart';
 
 // ignore: must_be_immutable
 class UpdateVehicleScreen extends ScreamVehicleBase {

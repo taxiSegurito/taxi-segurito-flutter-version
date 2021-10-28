@@ -25,7 +25,7 @@ class ScreenVehicleFunctionality {
     this.vehicle,
     this.driver,
     this.activeShowDialog,
-  },);
+  });
 
   final Map<String, dynamic> someMap = {
     "context": BuildContext,

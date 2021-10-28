@@ -34,7 +34,7 @@ abstract class ScreamVehicleBase extends StatefulWidget {
   String tittleDialog();
   String textButton();
   ScreenVehicleFunctionality functionality();
-  void eventAction();
+  eventAction();
 }
 
 class _ScreamVehicleBaseState extends State<ScreamVehicleBase> {

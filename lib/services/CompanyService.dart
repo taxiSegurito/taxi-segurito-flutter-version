@@ -55,3 +55,55 @@ Future<bool> update(Company company) async {
     return Future<bool>.value(false);
   }
 }
+
+Future<List<Company>> selectCompany() async {
+  try {
+    String path = Service.url + "Company/company_controller.php";
+    var response = await http.get(Uri.parse(path));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return Future<List<Company>>.value(
+        convertToList(response),
+      );
+    } else {
+      return Future<List<Company>>.value(
+        [],
+      );
+    }
+  } catch (exception) {
+    return Future<List<Company>>.value(
+      [],
+    );
+  }
+}
+
+List<Company> convertToList(response) {
+  List<Company> listCompany = [];
+  for (var singleOwner in json.decode(response.body)) {
+    listCompany.add(
+      Company.fromJson(singleOwner),
+    );
+  }
+  return listCompany;
+}
+
+Future<List<Company>> selectCompanyByLike(value) async {
+  try {
+    String path = Service.url + "company_controller.php?criteria=" + value;
+    var response = await http.get(Uri.parse(path));
+
+    if (response.statusCode == 200) {
+      return Future<List<Company>>.value(
+        convertToList(response),
+      );
+    } else {
+      return Future<List<Company>>.value(
+        [],
+      );
+    }
+  } catch (exception) {
+    return Future<List<Company>>.value(
+      [],
+    );
+  }
+}

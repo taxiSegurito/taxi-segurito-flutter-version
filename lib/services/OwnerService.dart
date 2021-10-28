@@ -5,7 +5,8 @@ import 'package:taxi_segurito_app/models/Owner.dart';
 
 Future<List<Owner>> select() async {
   try {
-    String path = Service.url + "UserAdd/owner_controller.php";
+    String path = Service.url + "Owner/owner_controller.php";
+
     var response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
@@ -36,13 +37,9 @@ List<Owner> convertToList(response) {
 
 Future<List<Owner>> selectByLike(value) async {
   try {
-    String path = Service.url + "UserAdd/owner_controller.php";
-    var response = await http.post(
-      Uri.parse(path),
-      body: jsonEncode(
-        {'valueSearch': value},
-      ),
-    );
+    String path =
+        Service.urlLocal + "Owner/owner_controller.php?criteria=" + value;
+    var response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
       return Future<List<Owner>>.value(

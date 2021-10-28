@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
-import 'package:taxi_segurito_app/pages/listUsers/ListUser.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
+import 'package:taxi_segurito_app/pages/menu/adminMenu.dart';
+import 'package:taxi_segurito_app/pages/ownerList/OwnerList.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
 import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
@@ -15,6 +16,8 @@ import 'package:taxi_segurito_app/pages/registerCompany/UpdateCompanyScreen.dart
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
 
 import 'models/Company.dart';
+import 'pages/companyList/CompanyList.dart';
+import 'pages/menu/ownerMenu.dart';
 import 'pages/screenVehicle/RegisterVehicleScreen.dart';
 import 'pages/screenVehicle/UpdateVehicleScreen.dart';
 
@@ -29,7 +32,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("userList");
+    app = AppTaxiSegurito("adminMenu");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -80,9 +83,12 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversList(),
         'QRpage': (BuildContext contextDriveList) => QRPAGE(),
-        'userList': (BuildContext contextUserList) => ListUser(),
+        'userList': (BuildContext contextUserList) => OnwerList(),
+        'companyList': (BuildContext contextUserList) => CompanyList(),
         'registerVehicleScreen': (BuildContext contextss) =>
             RegisterVehicleScreen(),
+        'ownerMenu': (_) => OwnerMenu(),
+        'adminMenu': (_) => AdminMenu(),
         'updateVehicleScreen': (BuildContext contextss) => UpdateVehicleScreen(
               Vehicle(
                   idVehicle: "1",

@@ -1,15 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
+import 'package:taxi_segurito_app/services/CompanyService.dart';
 import 'package:taxi_segurito_app/services/OwnerService.dart';
 
-List<Owner> listUserData = [];
+List<Company> listCompany = [
+  Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1"),
+  Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1"),
+  Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1")
+];
 
-class ListUserFunctionallity {
+class CompanyListFunctionallity {
   BuildContext? context;
   VoidCallback? callUpdateListView;
 
-  ListUserFunctionallity({this.context, this.callUpdateListView});
+  CompanyListFunctionallity({this.context, this.callUpdateListView});
 
   set setVoidCallbackUpdateListView(VoidCallback voidCallback) {
     this.callUpdateListView = voidCallback;
@@ -27,14 +33,14 @@ class ListUserFunctionallity {
   }
 
   loadListView() {
-    selectUserDataDataBase();
+    selectCompanyDataBase();
   }
 
-  selectUserDataDataBase() {
-    listUserData = [];
+  selectCompanyDataBase() {
+    listCompany = [];
     try {
-      select().then((value) {
-        listUserData = value;
+      selectCompany().then((value) {
+        listCompany = value;
         callUpdateListView!();
       });
     } catch (exception) {
@@ -42,10 +48,10 @@ class ListUserFunctionallity {
     }
   }
 
-  selectLikeUserDataDataBase(String value) {
+  selectLikeCompanyDataBase(String value) {
     try {
-      selectByLike(value).then((value) {
-        listUserData = value;
+      selectCompanyByLike(value).then((value) {
+        listCompany = value;
         callUpdateListView!();
       });
     } catch (exception) {
@@ -53,8 +59,8 @@ class ListUserFunctionallity {
     }
   }
 
-  onPressedSearhUserData(String value) {
-    selectLikeUserDataDataBase(value);
+  onPressedSearhCompany(String value) {
+    selectLikeCompanyDataBase(value);
   }
 
   onPressedReloadListView() {
