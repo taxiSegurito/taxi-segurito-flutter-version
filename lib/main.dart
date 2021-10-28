@@ -30,6 +30,7 @@ void main() async {
   bool rolsession = await sessions.verificationSession("rol");
   bool googleSession = await sessions.verificationSession("emailGoogle");
   bool facebookSession = await sessions.verificationSession("emailFacebook");
+
   Widget app = MaterialApp(
     debugShowCheckedModeBanner: false,
   );
@@ -80,10 +81,10 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverRegistration': (_) => DriverRegistration(),
         'QRpage': (_) => QRPAGE(),
         'driverList': (_) => DriversListPage(),
-        'ownerMenu': (_) => OwnerMenu(),
+        'ownerMenu': (_) => OwnerMenu.initial(),
         'userList': (_) => OnwerList(),
         'companyList': (_) => CompanyList(),
-        'adminMenu': (_) => AdminMenu(),
+        'adminMenu': (_) => AdminMenu.initial(),
         'reportCar': (_) => DriverTravelCalificationPage(
               Driver("Rogelio Castro", "12345678", "75554554"),
               Vehicle(

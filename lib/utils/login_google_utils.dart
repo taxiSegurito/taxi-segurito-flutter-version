@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
-import 'package:taxi_segurito_app/utils/admin_session_for_.social_networks.dart';
+import 'package:taxi_segurito_app/utils/admin_session.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';
 
 class LoginGoogleUtils {
@@ -38,7 +38,7 @@ class LoginGoogleUtils {
         if (exits != "Error") {
           Clientuser clientUser = Clientuser.InsertForGoogleAndFacebook(
               "Google", fullName, cellphone = exits, email, "Google");
-          AdminSession().AddSession(clientUser);
+          AdminSession().addSession(clientUser);
           return clientUser;
         }
         //En caso de que haya un numero

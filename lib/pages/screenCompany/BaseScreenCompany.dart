@@ -125,6 +125,17 @@ class _BaseScreenCompanyState extends State<BaseScreenCompany> {
         '',
         textAlign: TextAlign.center,
       ),
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+          );
+        },
+      ),
     );
 
     Text title = new Text(
@@ -163,7 +174,7 @@ class _BaseScreenCompanyState extends State<BaseScreenCompany> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: appBar,
-      drawer: SideMenu(),
+      //drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

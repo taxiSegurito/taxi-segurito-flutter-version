@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:http/http.dart' as http;
-import 'package:taxi_segurito_app/utils/admin_session_for_.social_networks.dart';
+import 'package:taxi_segurito_app/utils/admin_session.dart';
 
 class Services {
   //host Local
@@ -34,7 +34,7 @@ class Services {
         //The procedure was carried out successfully
         log("Entro?");
         control = true;
-        AdminSession().AddSession(client);
+        AdminSession().addSession(client);
       } else {
         //failure
         log(res['result']);
@@ -95,7 +95,7 @@ class Services {
 
   Future<List<String>?> getListFromDB() async {
     List<String> numbers = List.empty();
-    int id = await AdminSession().GetIdSession();
+    int id = await AdminSession().getSessionId();
     try {
       //var url = Service.url + "UserAdd/UserController.php";
       /*var url =

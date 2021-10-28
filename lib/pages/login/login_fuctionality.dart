@@ -14,21 +14,22 @@ class LoginFuctionality {
     List<dynamic> result = await login(user);
 
     if (result.length != 0) {
-      GlobalToast.displayToast(
-          Text("Bienvenido"), Colors.greenAccent, Icon(Icons.check), 2);
+      /*GlobalToast.displayToast(
+          Text("Bienvenido"), Colors.greenAccent, Icon(Icons.check), 2);*/
       for (var item in result) {
-        await sessions.addSessionValue("iduser", item["iduser"].toString());
-        await sessions.addSessionValue("rol", item["name"].toString());
+        await sessions.addSessionValue("iduser", item["id"].toString());
+        await sessions.addSessionValue("rol", item["role"].toString());
+        await sessions.addSessionValue("name", item["name"].toString());
       }
-      var msg = await sessions.getSessionValue("iduser");
-      var role = await sessions.getSessionValue("rol");
+      var msg = await sessions.getSessionValue("id");
+      var role = await sessions.getSessionValue("role");
 
       print(
         msg.toString() + " " + role.toString(),
       );
 
       if (role.toString() == "admin") {
-        Navigator.pushNamed(context, 'registerOwner');
+        Navigator.pushNamed(context, 'adminMenu');
       }
 
       if (role.toString() == "client") {
@@ -45,6 +46,7 @@ class LoginFuctionality {
         Icon(Icons.error),
         2,
       );
+      print("No se logueo");
     }
   }
 }

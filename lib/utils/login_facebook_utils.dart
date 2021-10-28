@@ -1,7 +1,7 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';
-import 'admin_session_for_.social_networks.dart';
+import 'admin_session.dart';
 
 class LoginFacebookUtils {
   FacebookAuth facebookAuth = FacebookAuth.i;
@@ -28,7 +28,7 @@ class LoginFacebookUtils {
         if (exits != "Error") {
           Clientuser clientExits = Clientuser.InsertForGoogleAndFacebook(
               "Facebook", fullName, cellphone = exits, email, "Facebook");
-          AdminSession().AddSession(clientExits);
+          AdminSession().addSession(clientExits);
           return clientExits;
         }
         //Cuando No exista el usuario en la BD se le debera pedir el numero de telefono

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/listContact_page.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
-import 'package:taxi_segurito_app/utils/admin_session_for_.social_networks.dart';
+import 'package:taxi_segurito_app/utils/admin_session.dart';
 import 'package:taxi_segurito_app/utils/call_panic.dart';
 import 'package:taxi_segurito_app/utils/logOut.dart';
 
@@ -56,7 +56,7 @@ class SideMenUFunctionality {
 
   onPressedLogOut() {
     try {
-      AdminSession().DeleteSession().then((value) {
+      AdminSession().deleteSession().then((value) {
         if (value == true) {
           Navigator.pushReplacement(
             context,

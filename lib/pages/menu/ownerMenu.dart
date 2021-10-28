@@ -2,6 +2,9 @@ import 'package:taxi_segurito_app/pages/menu/baseMenu.dart';
 import 'package:taxi_segurito_app/pages/menu/menuItem.dart';
 
 class OwnerMenu extends Menu {
+  OwnerMenu.initial() : super.initial();
+  OwnerMenu(String name) : super(name);
+
   @override
   List<MenuItem> getItems() {
     return [
