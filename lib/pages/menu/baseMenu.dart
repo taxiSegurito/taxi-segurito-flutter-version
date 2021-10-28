@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/menu/menuItem.dart';
+import 'package:taxi_segurito_app/utils/admin_session_for_.social_networks.dart';
 
 abstract class Menu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'Cerrar sesión',
+            onPressed: () async {
+              AdminSession().DeleteSession().then((value) {
+                if (value == true) {
+                  Navigator.pushReplacementNamed(context, 'firstScreen');
+                }
+              });
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Flexible(

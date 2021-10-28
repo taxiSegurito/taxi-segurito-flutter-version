@@ -1,9 +1,5 @@
 import 'dart:developer';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
-import 'package:taxi_segurito_app/utils/login_google_utils.dart';
 
 class LogOut {
   Future<bool> LogOutSession() async {

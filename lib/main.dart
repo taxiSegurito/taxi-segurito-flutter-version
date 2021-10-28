@@ -37,13 +37,13 @@ void main() async {
     app = AppTaxiSegurito("firstScreen");
   } else {
     var rol = await sessions.getSessionValue("rol");
-    if (rol.toString() == "Administrador") {
+    if (rol.toString() == "admin") {
       app = AppTaxiSegurito("adminMenu");
     }
-    if (rol.toString() == "Dueño") {
+    if (rol.toString() == "owner") {
       app = AppTaxiSegurito("ownerMenu");
     }
-    if (rol.toString() == "Cliente") {
+    if (rol.toString() == "client") {
       app = AppTaxiSegurito("QRpage");
     }
   }
