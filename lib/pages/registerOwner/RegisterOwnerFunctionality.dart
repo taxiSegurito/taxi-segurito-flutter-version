@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/services/InsertOwner.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
