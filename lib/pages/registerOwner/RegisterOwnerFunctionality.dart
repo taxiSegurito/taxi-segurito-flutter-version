@@ -5,7 +5,9 @@ import 'package:taxi_segurito_app/models/Company.dart';
 
 class RegisterOwnerFunctionality {
   BuildContext context;
-
+//person
+//user
+//owner
   Company? company;
   String? names;
   String? lastName;
@@ -32,7 +34,7 @@ class RegisterOwnerFunctionality {
       this.activeShowDialog});
 
   List<Company> companyList = [
-    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: 1),
+    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: "1"),
   ];
 
   List<Company> getListCompany() {
@@ -42,15 +44,17 @@ class RegisterOwnerFunctionality {
   onPressedbtnRegisterCar() {
     fullName = names! + " " + lastName! + " " + lastNameSecond!;
     insert(Owner(
-            fullname: fullName!,
-            cellphone: cellphone!,
+            fullName: fullName!,
+            cellPhone: cellphone!,
             email: email!,
             password: password!,
             address: address!,
             ci: ci!,
-            idCompany: company!.idCompany!.toString()))
+            idCompany: company!.idCompany.toString()))
         .then((_) => activeShowDialog!());
   }
+
+  onPressedUpdate(Owner owner) {}
 
   closeNavigator() {
     Navigator.of(context).pop();

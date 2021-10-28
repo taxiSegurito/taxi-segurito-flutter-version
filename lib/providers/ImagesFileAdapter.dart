@@ -1,17 +1,30 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:taxi_segurito_app/providers/ImageAccessProvider.dart';
 
 class ImagesFileAdapter extends StatefulWidget {
   _ImagesFileAdapterState _imagesFileState = new _ImagesFileAdapterState();
-  final bool isShapeCircle;
-  late Image imageCar;
-  String? imagePath;
+  ImageAccessProvider imageAccessProvider = new ImageAccessProvider();
+  void Function(String value)? assignValue;
 
-  bool isActiveImageDefault = true;
+  Image imageDefault = new Image.asset("assets/images/imageDefault.png");
+  String? imagePathDefaultUser;
+
+  Image? imageMain;
+  String? imageMainBase64;
+
+  final bool isShapeCircle;
+  bool isUsingCamera;
+
   ImagesFileAdapter({
     Key? key,
-    this.imagePath,
+    this.isUsingCamera = false,
+    this.imagePathDefaultUser = '',
     this.isShapeCircle = false,
+    this.imageMain,
+    this.imageMainBase64 = '',
+    this.assignValue,
   }) : super(key: key);
 
   @override
@@ -20,112 +33,164 @@ class ImagesFileAdapter extends StatefulWidget {
   }
 
   bool getIsValid() {
-    return _imagesFileState.validateDrown();
+    return _imagesFileState.validateImage();
+  }
+
+  setImage(Image image) {
+    imageMain = image;
   }
 
   Image getImage() {
-    return imageCar;
+    return imageMain!;
+  }
+
+  String getImageBase64() {
+    return imageMainBase64!;
+  }
+
+  Image viewImg64(String imgbase64) {
+    return imgbase64.isEmpty
+        ? imagePathDefaultUser != null
+            ? Image.asset(imagePathDefaultUser!)
+            : Image.asset(
+                "assets/images/imageDefault.png",
+              )
+        : Image.memory(imageAccessProvider.viewImage64(imgbase64));
   }
 }
 
 class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
-  String? dropdownError;
-  Color colorBorder = Colors.grey;
-  bool validateDrown() {
-    bool isValid = true;
+  String? imageMessageNotValid;
+  @override
+  void initState() {
+    super.initState();
+    widget.imageDefault = widget.imagePathDefaultUser!.isEmpty
+        ? widget.imageDefault
+        : new Image.asset(widget.imagePathDefaultUser!);
 
-    if (widget.isActiveImageDefault) {
-      setState(() => dropdownError = "Seleccione Imagen");
-      colorBorder = Colors.red;
-      isValid = false;
-    } else {
-      setState(() => dropdownError = null);
-      colorBorder = Colors.grey;
-      isValid = true;
-    }
-    return isValid;
+    widget.imageMain = widget.imageMainBase64!.isEmpty
+        ? widget.imageDefault
+        : widget.viewImg64(widget.imageMainBase64!);
   }
 
-  ImageAccessProvider imageAccessProvider = new ImageAccessProvider();
+  bool validateImage() {
+    if (widget.imageMain == widget.imageDefault) {
+      setState(() => imageMessageNotValid = "Seleccione Imagen");
+      return false;
+    } else {
+      setState(() => imageMessageNotValid = null);
+      return true;
+    }
+  }
 
   openGalery() {
-    imageAccessProvider.openGallery().then((_) {
-      setState(() {
-        widget.isActiveImageDefault = false;
-        widget.imagePath = null;
-        widget.imageCar = Image.file(imageAccessProvider.getImage());
-      });
-    });
+    widget.imageAccessProvider.openGallery().then(
+      (_) {
+        setState(
+          () {
+            widget.imageMain =
+                Image.file(widget.imageAccessProvider.getImage());
+            widget.imageMainBase64 =
+                widget.imageAccessProvider.stringImgBase64();
+          },
+        );
+        widget.assignValue!(widget.imageMainBase64!);
+      },
+    );
+  }
+
+  openCamera() {
+    widget.imageAccessProvider.openCamera().then(
+      (_) {
+        setState(
+          () {
+            widget.imageMain =
+                Image.file(widget.imageAccessProvider.getImage());
+            widget.imageMainBase64 =
+                widget.imageAccessProvider.stringImgBase64();
+          },
+        );
+        widget.assignValue!(widget.imageMainBase64!);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    Image imagedefault;
-    if (widget.isActiveImageDefault) {
-      imagedefault = new Image.asset(
-        "assets/images/imageDefault.png",
-      );
-      widget.imageCar = imagedefault;
-    }
-
-    if (widget.imagePath != null) {
-      imagedefault = new Image.asset(widget.imagePath!);
-      widget.imageCar = imagedefault;
-    }
-
-    return Column(children: [
-      InkWell(
-          onTap: () {
-            openGalery();
-          },
-          child: Container(
-              width: 115,
-              height: 115,
-              margin: EdgeInsets.all(5),
+    return Container(
+      color: Color.fromRGBO(240, 240, 240, 1),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              if (widget.isUsingCamera) {
+                openCamera();
+              } else {
+                openGalery();
+              }
+            },
+            child: Container(
+              height: 130,
+              margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
+                  borderRadius: widget.isShapeCircle
+                      ? null
+                      : BorderRadius.all(Radius.circular(0)),
                   image: DecorationImage(
-                      image: widget.imageCar.image, fit: BoxFit.cover),
+                      image: widget.imageMain!.image, fit: BoxFit.cover),
                   shape: widget.isShapeCircle
                       ? BoxShape.circle
                       : BoxShape.rectangle),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.black26,
-                                offset: Offset(2, 2),
-                                blurRadius: 6,
-                                spreadRadius: 0)
-                          ],
-                        ),
-                        child: Center(
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                            size: 40,
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(
+                            2,
+                            2,
                           ),
-                        ))
-                  ]))),
-      Container(
-        width: width,
-        padding: EdgeInsets.only(left: 10, right: 10),
-        child: dropdownError == null
-            ? SizedBox()
-            : Container(
-                margin: new EdgeInsets.only(),
-                child: Text(
-                  dropdownError ?? "",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(color: Colors.red, fontSize: 12),
-                )),
+                          blurRadius: 6,
+                          spreadRadius: 0,
+                        )
+                      ],
+                    ),
+                    child: Center(
+                      child: Icon(
+                        Icons.camera_alt,
+                        color: Colors.white,
+                        size: 40,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            width: width,
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: imageMessageNotValid == null
+                ? SizedBox()
+                : Container(
+                    margin: new EdgeInsets.only(),
+                    child: Text(
+                      imageMessageNotValid ?? "",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(color: Colors.red, fontSize: 12),
+                    ),
+                  ),
+          ),
+        ],
       ),
-    ]);
+    );
   }
 }

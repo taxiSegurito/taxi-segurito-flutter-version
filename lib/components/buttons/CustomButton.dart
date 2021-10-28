@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class CustomButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final String buttonText;
-  final Color buttonColor;
-  final Color buttonTextColor;
+class CustomButton extends StatefulWidget {
+  VoidCallback onTap;
+  String buttonText;
+  Color buttonColor;
+  Color buttonTextColor;
   double marginLeft;
   double marginRight;
   double marginBotton;
@@ -24,6 +24,11 @@ class CustomButton extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  @override
   Widget build(BuildContext context) {
     // TODO: implement build
 
@@ -31,10 +36,10 @@ class CustomButton extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return new Container(
       margin: new EdgeInsets.only(
-          top: marginTop,
-          bottom: marginBotton,
-          left: marginLeft,
-          right: marginRight),
+          top: widget.marginTop,
+          bottom: widget.marginBotton,
+          left: widget.marginLeft,
+          right: widget.marginRight),
       width: width,
       height: 40.0,
       decoration: BoxDecoration(
@@ -49,19 +54,19 @@ class CustomButton extends StatelessWidget {
           color: Colors.white),
       child: ElevatedButton(
         onPressed: () {
-          onTap();
+          widget.onTap();
         },
         child: // Iniciar sesión con correo / número de celular
-            Text(buttonText,
+            Text(widget.buttonText,
                 style: TextStyle(
-                    color: buttonTextColor,
+                    color: widget.buttonTextColor,
                     fontWeight: FontWeight.w400,
                     fontFamily: "Raleway",
                     fontStyle: FontStyle.normal,
                     fontSize: 14.0),
                 textAlign: TextAlign.center),
         style: ElevatedButton.styleFrom(
-          primary: buttonColor,
+          primary: widget.buttonColor,
           fixedSize: Size(300, 100),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

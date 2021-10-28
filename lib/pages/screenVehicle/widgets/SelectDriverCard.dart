@@ -9,9 +9,13 @@ class SelectDriverCard extends StatefulWidget {
   String? phonePerson;
   VoidCallback ontap;
   VoidCallback ontapCloseDialog;
-  Driver? driver;
+  Driver driver = new Driver();
   SelectDriverCard(
-      {Key? key, required this.ontap, required this.ontapCloseDialog})
+      {Key? key,
+      required this.ontap,
+      required this.headerText,
+      required this.ontapCloseDialog,
+      required this.driver})
       : super(key: key);
 
   @override
@@ -74,43 +78,43 @@ class _SelectDriverCardState extends State<SelectDriverCard> {
               Container(
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  "Seleccione un conductor",
+                  widget.headerText!,
                   textAlign: TextAlign.left,
                   style: TextStyle(fontSize: 13),
                 ),
               ),
               InkWell(
                 child: ListTile(
-                  title: widget.namePerson == null
+                  title: widget.driver.name.isEmpty
                       ? Text(
                           "no seleccionado",
                           style: TextStyle(fontSize: 13),
                         )
                       : Text(
-                          widget.namePerson!,
+                          widget.driver.name,
                           style: TextStyle(fontSize: 13),
                         ),
                   subtitle: Row(
                     children: [
                       Expanded(
-                        child: widget.ciPerson == null
+                        child: widget.driver.dni.isEmpty
                             ? Text(
                                 "CI: " + "00000000",
                                 style: TextStyle(fontSize: 13),
                               )
                             : Text(
-                                "CI: " + widget.ciPerson!,
+                                "CI: " + widget.driver.dni,
                                 style: TextStyle(fontSize: 13),
                               ),
                       ),
                       Expanded(
-                        child: widget.phonePerson == null
+                        child: widget.driver.phone.isEmpty
                             ? Text(
                                 "Celular: " + "00000000",
                                 style: TextStyle(fontSize: 13),
                               )
                             : Text(
-                                "Celular: " + widget.phonePerson!,
+                                "Celular: " + widget.driver.phone,
                                 style: TextStyle(fontSize: 13),
                               ),
                       )

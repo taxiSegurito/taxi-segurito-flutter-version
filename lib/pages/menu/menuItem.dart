@@ -5,11 +5,8 @@ class MenuItem extends StatelessWidget {
   final String iconPath;
   final String pageRoute;
 
-  MenuItem({
-    required this.text,
-    required this.iconPath,
-    required this.pageRoute
-  });
+  MenuItem(
+      {required this.text, required this.iconPath, required this.pageRoute});
 
   @override
   Widget build(BuildContext context) {

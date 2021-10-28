@@ -37,28 +37,29 @@ class _CustomDialogShowState extends State<CustomDialogShow> {
   showAlertDialog(BuildContext context, String text, VoidCallback ontap,
       String buttonText, Color buttonColor, Color buttonColorText) {
     showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25))),
-            titleTextStyle: TextStyle(
-                color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
-            title: Text(
-              text,
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: Colors.white,
-            content: btnAceptar = new CustomButton(
-                onTap: () {
-                  ontap();
-                },
-                buttonText: buttonText,
-                buttonColor: buttonColor,
-                buttonTextColor: buttonColorText),
-          );
-        });
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(25))),
+          titleTextStyle: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+          title: Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.white,
+          content: btnAceptar = new CustomButton(
+              onTap: () {
+                ontap();
+              },
+              buttonText: buttonText,
+              buttonColor: buttonColor,
+              buttonTextColor: buttonColorText),
+        );
+      },
+    );
   }
 
   @override

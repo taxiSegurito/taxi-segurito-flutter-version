@@ -7,16 +7,23 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 
 class CustomTextField extends StatefulWidget {
+  void Function(String value)? assignValue;
   String hint;
-  String? value;
+  String value;
   double marginLeft;
   double marginRight;
   double marginBotton;
   double marginTop;
-  MultiValidator multiValidator;
+  MultiValidator? multiValidator;
   double heightNum;
   bool obscureText;
   _CustomTextFieldState _customTextFieldState = new _CustomTextFieldState();
+  TextEditingController _controller = TextEditingController();
+
+  TextEditingController get controller {
+    return _controller;
+  }
+
   CustomTextField({
     Key? key,
     this.hint = "Campo de text",
@@ -26,16 +33,23 @@ class CustomTextField extends StatefulWidget {
     this.marginBotton = 5,
     this.heightNum = 35,
     this.obscureText = false,
-    required this.multiValidator,
+    this.value = '',
+    this.multiValidator,
+    this.assignValue,
   }) : super(key: key);
 
   @override
   State<CustomTextField> createState() {
+    _controller.text = value;
     return _customTextFieldState;
   }
 
   String getValue() {
     return value = _customTextFieldState.getValue();
+  }
+
+  setValue(String value) {
+    _customTextFieldState.setValue(value);
   }
 
   void changeHeightTextField(double num) {
@@ -44,10 +58,19 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  final TextEditingController valueController = TextEditingController();
   changeHeightTextField(double num) {
     setState(() {
       widget.heightNum = num;
+    });
+  }
+
+  String getValue() {
+    return widget._controller.text;
+  }
+
+  setValue(String value) {
+    setState(() {
+      widget._controller.text = value;
     });
   }
 
@@ -66,22 +89,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: widget.heightNum,
           alignment: Alignment.bottomCenter,
           child: new TextFormField(
+            onChanged: (value) {
+              widget.assignValue!(value);
+            },
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {
-              var validators = widget.multiValidator.validators;
+              var validators = widget.multiValidator!.validators;
               for (FieldValidator validator in validators) {
-                if (validator.call(value) != null) {
+                if (!validator.isValid(value)) {
                   changeHeightTextField(60);
                   return validator.errorText;
                 } else {
                   changeHeightTextField(35);
-                  return null;
+                  //return null;
                 }
               }
             },
             textAlignVertical: TextAlignVertical.center,
-            controller: valueController,
+            controller: widget._controller,
             textAlign: TextAlign.start,
             style: TextStyle(fontSize: 13),
             decoration: InputDecoration(
@@ -105,9 +131,5 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
       ],
     );
-  }
-
-  String getValue() {
-    return valueController.text;
   }
 }

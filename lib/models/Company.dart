@@ -1,16 +1,26 @@
 class Company {
-  int? idCompany;
+  String idCompany;
   String companyName;
   String nit;
-  int? status;
-  DateTime? registerDate;
-  DateTime? updateDate;
+  String status;
+  String registerDate;
+  String updateDate;
 
-  Company(
-      {this.idCompany,
-      required this.companyName,
-      required this.nit,
-      this.status,
-      this.registerDate,
-      this.updateDate});
+  Company({
+    this.idCompany = '',
+    this.companyName = '',
+    this.nit = '',
+    this.status = '',
+    this.registerDate = '',
+    this.updateDate = '',
+  });
+
+  factory Company.fromJson(Map<String, dynamic> json) {
+    return Company(
+      companyName: json['name'].toString(),
+      nit: json['nit'].toString(),
+      idCompany: json['id'].toString(),
+      status: json['status'].toString(),
+    );
+  }
 }

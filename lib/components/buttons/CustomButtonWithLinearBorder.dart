@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CustomButtonWithLinearBorder extends StatelessWidget {
-  final VoidCallback onTap;
-  final String buttonText;
-  final Color buttonColor;
-  final Color buttonBorderColor;
-  final Color buttonTextColor;
+  VoidCallback onTap;
+  String buttonText;
+  Color buttonColor;
+  Color buttonBorderColor;
+  Color buttonTextColor;
   double marginLeft;
   double marginRight;
   double marginBotton;
