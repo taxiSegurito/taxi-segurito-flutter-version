@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
-import 'package:taxi_segurito_app/services/env.dart';
+import 'package:taxi_segurito_app/services/Server.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
 
 Future<bool> update(Vehicle vehicle) async {
   try {
-    var path = Service.url + "vehicle_controller.php";
+    var path = Server.url + "vehicle_controller.php";
     final response = await http.post(
       Uri.parse(path),
       body: jsonEncode(

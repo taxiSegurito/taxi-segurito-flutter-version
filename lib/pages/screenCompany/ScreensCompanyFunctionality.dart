@@ -6,12 +6,18 @@ class ScreensCompanyFunctionality {
   Company? company = new Company();
   BuildContext? context;
   VoidCallback? activeShowDialog;
+  late CompanyService companyService;
 
-  ScreensCompanyFunctionality(
-      {this.activeShowDialog, this.company, this.context});
+  ScreensCompanyFunctionality({
+    this.activeShowDialog,
+    this.company,
+    this.context,
+  }) {
+    companyService = CompanyService();
+  }
 
   onPressedBtnRegister() async {
-    insert(company!).then((value) {
+    companyService.insert(company!).then((value) {
       if (value) {
         activeShowDialog!();
       }
@@ -19,7 +25,7 @@ class ScreensCompanyFunctionality {
   }
 
   onPressedBtnUpdate() async {
-    update(company!).then((value) {
+    companyService.update(company!).then((value) {
       print(value);
       if (value) {
         activeShowDialog!();

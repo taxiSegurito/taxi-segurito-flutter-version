@@ -252,13 +252,14 @@ class _InicioState extends State<Inicio> {
                         ),
                         //Botones para moverse a otras pantallas
                         Container(
-                            width: 350,
-                            margin: EdgeInsets.only(bottom: 15),
-                            child: Table(
-                              defaultVerticalAlignment:
-                                  TableCellVerticalAlignment.middle,
-                              children: [
-                                TableRow(children: <Widget>[
+                          width: 350,
+                          margin: EdgeInsets.only(bottom: 15),
+                          child: Table(
+                            defaultVerticalAlignment:
+                                TableCellVerticalAlignment.middle,
+                            children: [
+                              TableRow(
+                                children: <Widget>[
                                   Container(
                                     margin: EdgeInsets.only(right: 2.5),
                                     child: ElevatedButton(
@@ -293,35 +294,39 @@ class _InicioState extends State<Inicio> {
                                   Container(
                                     margin: EdgeInsets.only(left: 2.5),
                                     child: ElevatedButton(
-                                        style: ButtonStyle(
-                                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                                RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10))),
-                                            backgroundColor:
-                                                MaterialStateProperty.all<Color>(
-                                                    Color.fromRGBO(
-                                                        242, 176, 53, 1)),
-                                            side: MaterialStateProperty.all<BorderSide>(BorderSide(
-                                                width: 1,
-                                                color: Color.fromRGBO(242, 176, 53, 1)))),
-                                        onPressed: () {
-                                          print("Nueva reseña");
-                                        },
-                                        child: Text(
-                                          "Nueva Reseña",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontFamily: 'Raleway',
-                                            fontSize: 16,
-                                            letterSpacing: 0,
-                                          ),
-                                        )),
-                                  )
-                                ])
-                              ],
-                            ))
+                                      style: ButtonStyle(
+                                          shape:
+                                              MaterialStateProperty.all<OutlinedBorder>(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10))),
+                                          backgroundColor: MaterialStateProperty.all<Color>(
+                                              Color.fromRGBO(242, 176, 53, 1)),
+                                          side: MaterialStateProperty.all<BorderSide>(
+                                              BorderSide(
+                                                  width: 1,
+                                                  color: Color.fromRGBO(
+                                                      242, 176, 53, 1)))),
+                                      onPressed: () {
+                                        print("Nueva reseña");
+                                      },
+                                      child: Text(
+                                        "Nueva Reseña",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily: 'Raleway',
+                                          fontSize: 16,
+                                          letterSpacing: 0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

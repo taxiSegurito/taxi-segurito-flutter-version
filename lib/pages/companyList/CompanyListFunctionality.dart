@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
 import 'package:taxi_segurito_app/services/CompanyService.dart';
-import 'package:taxi_segurito_app/services/OwnerService.dart';
 
 List<Company> listCompany = [
   Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1"),
@@ -12,10 +11,13 @@ List<Company> listCompany = [
 ];
 
 class CompanyListFunctionallity {
+  late CompanyService companyService;
   BuildContext? context;
   VoidCallback? callUpdateListView;
 
-  CompanyListFunctionallity({this.context, this.callUpdateListView});
+  CompanyListFunctionallity({this.context, this.callUpdateListView}) {
+    companyService = CompanyService();
+  }
 
   set setVoidCallbackUpdateListView(VoidCallback voidCallback) {
     this.callUpdateListView = voidCallback;
@@ -39,7 +41,7 @@ class CompanyListFunctionallity {
   selectCompanyDataBase() {
     listCompany = [];
     try {
-      selectCompany().then((value) {
+      companyService.selectCompany().then((value) {
         listCompany = value;
         callUpdateListView!();
       });
@@ -50,7 +52,7 @@ class CompanyListFunctionallity {
 
   selectLikeCompanyDataBase(String value) {
     try {
-      selectCompanyByLike(value).then((value) {
+      companyService.selectCompanyByCriteria(value).then((value) {
         listCompany = value;
         callUpdateListView!();
       });

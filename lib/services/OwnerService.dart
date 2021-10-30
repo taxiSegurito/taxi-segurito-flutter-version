@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:taxi_segurito_app/services/env.dart';
+import 'package:taxi_segurito_app/services/Server.dart';
 import 'package:taxi_segurito_app/models/Owner.dart';
 
 Future<List<Owner>> select() async {
   try {
-    String path = Service.url + "Owner/owner_controller.php";
+    String path = Server.url + "Owner/owner_controller.php";
 
     var response = await http.get(Uri.parse(path));
 
@@ -37,7 +37,7 @@ List<Owner> convertToList(response) {
 
 Future<List<Owner>> selectByLike(value) async {
   try {
-    String path = Service.url + "Owner/owner_controller.php?criteria=" + value;
+    String path = Server.url + "Owner/owner_controller.php?criteria=" + value;
     var response = await http.get(Uri.parse(path));
 
     if (response.statusCode == 200) {
