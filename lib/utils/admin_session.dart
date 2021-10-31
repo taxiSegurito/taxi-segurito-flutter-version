@@ -6,19 +6,19 @@ import 'package:taxi_segurito_app/utils/servces.dart';
 class AdminSession {
   SessionsService sessions = new SessionsService();
   void addSession(Clientuser client) async {
-    String Id = await Services().getId(client.email);
-    await sessions.addSessionValue("iduser", Id);
+    String id = await Services().getId(client.email);
+    await sessions.addSessionValue("iduser", id);
     await sessions.addSessionValue("rol", "Cliente");
     log(await getSessionId() + " " + await getSessionRole());
   }
 
   Future<bool> deleteSession() async {
-    bool idsession = await sessions.verificationSession("iduser");
-    bool rolsession = await sessions.verificationSession("rol");
+    bool idsession = await sessions.verificationSession("id");
+    bool rolsession = await sessions.verificationSession("role");
     if (idsession && rolsession) {
-      sessions.removeValuesSession("id");
-      sessions.removeValuesSession("role");
-      sessions.removeValuesSession("name");
+      sessions.removeValuesSession('id');
+      sessions.removeValuesSession('role');
+      sessions.removeValuesSession('name');
       return true;
     } else {
       return false;

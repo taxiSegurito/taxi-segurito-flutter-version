@@ -26,27 +26,25 @@ void main() async {
   HttpOverrides.global = new HttpProvider();
   SessionsService sessions = SessionsService();
 
-  bool idsession = await sessions.verificationSession("iduser");
-  bool rolsession = await sessions.verificationSession("rol");
-  bool googleSession = await sessions.verificationSession("emailGoogle");
-  bool facebookSession = await sessions.verificationSession("emailFacebook");
+  bool idsession = await sessions.verificationSession('id');
+  bool rolsession = await sessions.verificationSession('role');
 
   Widget app = MaterialApp(
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("firstScreen");
+    app = AppTaxiSegurito('firstScreen');
   } else {
-    final rol = await sessions.getSessionValue("rol");
-    final name = await sessions.getSessionValue("name");
-    if (rol.toString() == "admin") {
-      app = AppTaxiSegurito("adminMenu");
+    final rol = await sessions.getSessionValue('role');
+    final name = await sessions.getSessionValue('name');
+    if (rol.toString() == 'admin') {
+      app = AppTaxiSegurito('adminMenu', sessionName: name);
     }
-    if (rol.toString() == "owner") {
-      app = AppTaxiSegurito("ownerMenu");
+    if (rol.toString() == 'owner') {
+      app = AppTaxiSegurito('ownerMenu', sessionName: name);
     }
-    if (rol.toString() == "client") {
-      app = AppTaxiSegurito("QRpage");
+    if (rol.toString() == 'client') {
+      app = AppTaxiSegurito('QRpage');
     }
   }
   runApp(app);

@@ -1,6 +1,5 @@
 import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
-import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +18,8 @@ class LoginFuctionality {
       /*GlobalToast.displayToast(
           Text("Bienvenido"), Colors.greenAccent, Icon(Icons.check), 2);*/
 
-      if (userRes.role.toString() == "admin") {
+      if (userRes.role.toString() == 'admin') {
+        Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.pushReplacementNamed(
           context,
           'adminMenu',
@@ -27,11 +27,12 @@ class LoginFuctionality {
         );
       }
 
-      if (userRes.role.toString() == "client") {
+      if (userRes.role.toString() == 'client') {
         Navigator.pushReplacementNamed(context, 'QRpage');
       }
 
-      if (userRes.role.toString() == "owner") {
+      if (userRes.role.toString() == 'owner') {
+        Navigator.of(context).popUntil((route) => route.isFirst);
         Navigator.pushReplacementNamed(
           context,
           'ownerMenu',
