@@ -4,7 +4,8 @@ class Server {
   //     "http://10.0.2.2:8070/PHP_TAXISEGURITIO/taxi-segurito-backend/app/api/";
 
   static const protocol = "http://";
-  static const host = "handled-level-alias-wiring.trycloudflare.com";
+  static const host = "6359-186-27-113-55.ngrok.io";
+  // static const host = "10.0.3.2:8086";
   static const baseEndpoint = "/app/api";
   static const url = "$protocol$host$baseEndpoint";
 

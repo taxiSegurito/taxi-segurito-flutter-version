@@ -1,18 +1,27 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/clientuser.dart';
 import 'server.dart';
 
 class SignUpService {
   Future<bool> _registerClient(Clientuser clientUser, String signUpType) async {
+    print(clientUser.fullName + clientUser.email + clientUser.cellphone);
     String path = Server.url + "/auth/auth_controller.php";
-    final response = await http.post(Uri.parse(path), body: {
-      "fullname": clientUser.fullName,
-      "cellphone": clientUser.cellphone,
-      "email": clientUser.email,
-      "password": clientUser.password,
-      "typeRegister": signUpType
-    });
-
+    final response = await http.post(
+      Uri.parse(path),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        "email": clientUser.email,
+        "password": clientUser.password,
+        "typeRegister": signUpType,
+        "fullName": clientUser.fullName,
+        "cellphone": clientUser.cellphone
+      }),
+    );
+    print("${response.statusCode}  ${response.body}");
     final success = response.statusCode == 200;
     return success;
   }
