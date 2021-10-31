@@ -25,7 +25,7 @@ class Services {
             "password": client.password, //por defecto
             "fullName": client.fullName,
             "cellphone": client.cellphone,
-            "typeRegister": client.registerType,
+            "typeRegister": client.signUpType,
             "idrole": 2, //server 15 es para cliente // local ngrok 2 es cliente
             "type": "Insert"
           }));

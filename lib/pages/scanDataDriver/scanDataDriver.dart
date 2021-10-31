@@ -7,8 +7,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
-import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 
 void main() => runApp(ScanDataDriver("prueba"));
 double ranking = 4.2;
@@ -30,7 +30,7 @@ class ScanDataDriver extends StatelessWidget {
 
 //placa del vehiculo para hacer la busqueda en base de datos y url de conexion
 
-String path = Service.url;
+String path = Server.url;
 //datos select
 var data;
 var registros;
@@ -44,7 +44,7 @@ var placaVehicule = codigo.toString();
 Future<List<DataDriverVehicule>> getData() async {
   //cadena de coneccion para php
   data = List<DataDriverVehicule>.empty(growable: true);
-  path = path + "selectDataDriverVehicule.php";
+  path = path + "/selectDataDriverVehicule.php";
   var response = await http.post(Uri.parse(path), body: {
     'pleik': placaVehicule,
   }).timeout(Duration(seconds: 90));

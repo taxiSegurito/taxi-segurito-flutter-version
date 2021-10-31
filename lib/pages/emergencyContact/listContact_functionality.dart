@@ -3,53 +3,46 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 
-class ListContact_Functionality{
-
-  Sessions sessions = Sessions(); 
+class ListContact_Functionality {
+  SessionsService sessions = SessionsService();
   String idUser = "0";
   var dataSet;
   //Link database
   //var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
-  var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
+  var db = "https://taxi-segurito.000webhostapp.com/flutter_api/";
 
-  Future CheckID() async
-  {
+  Future CheckID() async {
     bool idsession = await sessions.verificationSession("iduser");
-    print("-1: "+idUser);
-    if (idsession)
-    {
+    print("-1: " + idUser);
+    if (idsession) {
       idUser = sessions.getSessionValue("iduser").toString();
-      print("0: "+idUser);
+      print("0: " + idUser);
       return true;
-    }
-    else return false;
+    } else
+      return false;
   }
 
   //Querys
 
   // 1 SELECT query: Get all user's contacts  at init widget
-  Future SelectContactData() async
-  {
+  Future SelectContactData() async {
     List<dynamic> data;
-    var url = db+"selectEmergencyContact.php";
-    try
-    {
-      var response = await http.post(Uri.parse(url),body:{
-        "id" : idUser,
+    var url = db + "selectEmergencyContact.php";
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        "id": idUser,
       });
       print("_SelectContactData query_");
-      print("1: "+response.body);
-      data = jsonDecode(response.body) ; //response.body returns String
-    }catch(e)
-    {
-      print("1.5: "+e.toString());
+      print("1: " + response.body);
+      data = jsonDecode(response.body); //response.body returns String
+    } catch (e) {
+      print("1.5: " + e.toString());
       return "NoResponse";
     }
     return data;
   }
-  
 
   // 3 UPDATE query: updates data user
   /*
@@ -71,30 +64,21 @@ class ListContact_Functionality{
   }
   */
   // 4 SOFT DELETE: realize a UPDATE, status = 0
-  Future DeleteHardContact(String _id) async
-  {
-    var url = db+"deleteEmergencyContact.php";
-    var response = await http.post(Uri.parse(url),body:{
-      "id" : _id,
+  Future DeleteHardContact(String _id) async {
+    var url = db + "deleteEmergencyContact.php";
+    var response = await http.post(Uri.parse(url), body: {
+      "id": _id,
     });
     print("_DeleteSoftUser query_");
-    print("1: "+response.body);
+    print("1: " + response.body);
     //User user = User.fromJson(json.decode(response.body)) ;
     String data = response.body;
-    print("2: "+data);
+    print("2: " + data);
     return data;
   }
 
-
-
   // UI FUNCTIONS
   // Function init
-
-
-   
-
-  
-
 
 /*
   void EditContact_Function() async
@@ -118,15 +102,12 @@ class ListContact_Functionality{
   }
   */
 
-
-  void ShowCustomToast(String myText, Color myColor)
-  {
-        Fluttertoast.showToast(
+  void ShowCustomToast(String myText, Color myColor) {
+    Fluttertoast.showToast(
         msg: myText,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         backgroundColor: myColor,
         textColor: Colors.white);
   }
-  
 }

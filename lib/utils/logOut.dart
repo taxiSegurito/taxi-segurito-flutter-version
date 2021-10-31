@@ -1,11 +1,11 @@
 import 'dart:developer';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 
 class LogOut {
   Future<bool> LogOutSession() async {
     try {
       bool control = false;
-      Sessions sessions = Sessions();
+      SessionsService sessions = SessionsService();
       bool idsession = await sessions.verificationSession("iduser");
       bool rolsession = await sessions.verificationSession("rol");
       bool googleSession = await sessions.verificationSession("emailGoogle");

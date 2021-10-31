@@ -1,6 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Sessions {
+class SessionsService {
   //metodo para agregar variables de session
   addSessionValue(String key, String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

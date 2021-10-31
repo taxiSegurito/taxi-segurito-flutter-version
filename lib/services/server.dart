@@ -4,7 +4,19 @@ class Server {
   //     "http://10.0.2.2:8070/PHP_TAXISEGURITIO/taxi-segurito-backend/app/api/";
 
   static const protocol = "http://";
-  static const host = "0013-186-27-113-55.ngrok.io";
+  static const host = "handled-level-alias-wiring.trycloudflare.com";
   static const baseEndpoint = "/app/api";
   static const url = "$protocol$host$baseEndpoint";
+
+  static const Map<String, int> RoleCodes = {
+    'ADMIN': 1,
+    'CLIENT': 2,
+    'OWNER': 3,
+  };
+
+  static const Map<String, String> SignUpType = {
+    'GOOGLE': 'go',
+    'FACEBOOK': 'fb',
+    'EMAIL': 'em',
+  };
 }

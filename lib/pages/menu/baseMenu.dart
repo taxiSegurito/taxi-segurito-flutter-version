@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/menu/menuItem.dart';
-import 'package:taxi_segurito_app/utils/admin_session.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 
 abstract class Menu extends StatelessWidget {
-  final Sessions sessions = new Sessions();
-  late String name = "";
+  final AuthService _authService = AuthService();
+  late String? name;
 
-  Menu.initial();
-  Menu(this.name);
+  Menu({this.name});
 
   @override
   Widget build(BuildContext context) {
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      name = ModalRoute.of(context)!.settings.arguments as String;
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -22,11 +24,10 @@ abstract class Menu extends StatelessWidget {
             icon: const Icon(Icons.logout),
             tooltip: 'Cerrar sesión',
             onPressed: () async {
-              AdminSession().deleteSession().then((value) {
-                if (value == true) {
-                  Navigator.pushReplacementNamed(context, 'firstScreen');
-                }
-              });
+              final success = await _authService.logOut();
+              if (success) {
+                Navigator.pushReplacementNamed(context, 'firstScreen');
+              }
             },
           ),
         ],
@@ -40,7 +41,7 @@ abstract class Menu extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "Bienvenido,\n${this.name}",
+                  "Bienvenido,\n$name",
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,

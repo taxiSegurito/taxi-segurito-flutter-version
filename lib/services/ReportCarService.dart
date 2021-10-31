@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/ReportCar.dart';
-import 'package:taxi_segurito_app/services/Server.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 
 Future<bool> insertReportCar(ReportCar reportCar) async {
   print(reportCar.calification + "desde end oint");

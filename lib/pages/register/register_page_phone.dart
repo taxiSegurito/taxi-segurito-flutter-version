@@ -178,7 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   onChanged: (value) {
                                     if (code != "") {
                                       if (value == code) {
-                                        if (user.registerType != "Default") {
+                                        if (user.signUpType != "Default") {
                                           user.cellphone = number.text;
                                           log("Es desde btn google o facebook");
                                           log(user.email);

@@ -1,29 +1,27 @@
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 
-class FormContact_Functionality{
-
-  Sessions sessions = Sessions(); 
-  String idUser = "0"; // Inicializa como 'invitado', con CheckID() se actualiza la sesion.
+class FormContact_Functionality {
+  SessionsService sessions = SessionsService();
+  String idUser =
+      "0"; // Inicializa como 'invitado', con CheckID() se actualiza la sesion.
   var dataSet;
   //Link database
-  var db ="https://taxi-segurito.000webhostapp.com/flutter_api/";
+  var db = "https://taxi-segurito.000webhostapp.com/flutter_api/";
   //UI data controllers
   TextEditingController contactName_Controller = TextEditingController();
   TextEditingController contactNumber_Controller = TextEditingController();
 
-  Future CheckID() async
-  {
+  Future CheckID() async {
     bool idsession = await sessions.verificationSession("iduser");
-    if (idsession)
-    {
+    if (idsession) {
       idUser = sessions.getSessionValue("iduser").toString();
-      print("0: "+idUser);
+      print("0: " + idUser);
       return true;
-    }
-    else return false;
+    } else
+      return false;
   }
   //Querys
 
@@ -52,29 +50,28 @@ class FormContact_Functionality{
   }
   */
   // 2 INSERT query: register emergency contact
-  Future InsertEmergencyContact(String _id, String _nameContact,String _number) async
-  {
-    var url = db+"insertEmergencyContact.php";
+  Future InsertEmergencyContact(
+      String _id, String _nameContact, String _number) async {
+    var url = db + "insertEmergencyContact.php";
     String data = "";
-    try
-    {
-    var response = await http.post(Uri.parse(url),body:{
-      "id" : _id,
-      "nameContact" : _nameContact,
-      "number" : _number,
-    });
-    print("_InsertEmergencyContact query_");
-    print("1: "+response.body);
-    //User user = User.fromJson(json.decode(response.body)) ;
-    data = response.body;
-    print("2: "+data);
-    }
-    catch(e) {
+    try {
+      var response = await http.post(Uri.parse(url), body: {
+        "id": _id,
+        "nameContact": _nameContact,
+        "number": _number,
+      });
+      print("_InsertEmergencyContact query_");
+      print("1: " + response.body);
+      //User user = User.fromJson(json.decode(response.body)) ;
+      data = response.body;
+      print("2: " + data);
+    } catch (e) {
       //ShowCustomToast("No se pudo conectar con el servidor...", Colors.red);
     }
 
     return data;
   }
+
   // 3 UPDATE query: updates data user
   /*
   Future UpdateUserData(String _id, String _fullname,String _cellphone,String _email) async
@@ -96,31 +93,32 @@ class FormContact_Functionality{
   */
   // 4 SOFT DELETE: realize a UPDATE, status = 0
   //no usado aun
-  Future DeleteHardContact(String _id) async
-  {
-    var url = db+"deleteEmergencyContact.php";
-    var response = await http.post(Uri.parse(url),body:{
-      "id" : _id,
+  Future DeleteHardContact(String _id) async {
+    var url = db + "deleteEmergencyContact.php";
+    var response = await http.post(Uri.parse(url), body: {
+      "id": _id,
     });
     print("_DeleteSoftUser query_");
-    print("1: "+response.body);
+    print("1: " + response.body);
     //User user = User.fromJson(json.decode(response.body)) ;
     String data = response.body;
-    print("2: "+data);
+    print("2: " + data);
     return data;
   }
 
-
-
   // UI FUNCTIONS
 
- void InsertContact_Function(BuildContext context) async
- {
-    String result = await InsertEmergencyContact(idUser, contactName_Controller.text, contactNumber_Controller.text);
+  void InsertContact_Function(BuildContext context) async {
+    String result = await InsertEmergencyContact(
+        idUser, contactName_Controller.text, contactNumber_Controller.text);
 
-    if(result=="Success") {ShowCustomToast("Se han guardado los cambios.", Colors.green);Navigator.pop(context);}
-    else {ShowCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);}
- }
+    if (result == "Success") {
+      ShowCustomToast("Se han guardado los cambios.", Colors.green);
+      Navigator.pop(context);
+    } else {
+      ShowCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);
+    }
+  }
 /*
   void EditContact_Function() async
   {
@@ -143,15 +141,12 @@ class FormContact_Functionality{
   }
   */
 
-
-  void ShowCustomToast(String myText, Color myColor)
-  {
-        Fluttertoast.showToast(
+  void ShowCustomToast(String myText, Color myColor) {
+    Fluttertoast.showToast(
         msg: myText,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         backgroundColor: myColor,
         textColor: Colors.white);
   }
-  
 }

@@ -66,7 +66,7 @@ class _RegisterDataState extends State<RegisterData> {
                         cellphone: number,
                         email: correo.text,
                         password: password.text,
-                        registerType: "normal");
+                        signUpType: "email");
                     registerFunctionality.registerClient(clientuser);
                   },
                   buttonText: "REGISTRARSE",

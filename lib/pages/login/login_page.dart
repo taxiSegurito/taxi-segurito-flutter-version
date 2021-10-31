@@ -3,7 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';
@@ -132,7 +132,8 @@ class _UserLoginPageState extends State<UserLoginPage> {
                               Container(
                                 child: TextButton(
                                   onPressed: () async {
-                                    Sessions sessions = new Sessions();
+                                    SessionsService sessions =
+                                        new SessionsService();
                                     await sessions
                                         .removeValuesSession("iduser");
                                     await sessions.removeValuesSession("rol");

@@ -8,7 +8,7 @@ import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/menu/adminMenu.dart';
 import 'package:taxi_segurito_app/pages/ownerList/OwnerList.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
 import 'package:taxi_segurito_app/pages/driversList/DriversListPage.dart';
 import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
@@ -24,7 +24,7 @@ import 'pages/screenVehicle/UpdateVehicleScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
-  Sessions sessions = Sessions();
+  SessionsService sessions = SessionsService();
 
   bool idsession = await sessions.verificationSession("iduser");
   bool rolsession = await sessions.verificationSession("rol");
@@ -37,7 +37,8 @@ void main() async {
   if (!idsession && !rolsession) {
     app = AppTaxiSegurito("firstScreen");
   } else {
-    var rol = await sessions.getSessionValue("rol");
+    final rol = await sessions.getSessionValue("rol");
+    final name = await sessions.getSessionValue("name");
     if (rol.toString() == "admin") {
       app = AppTaxiSegurito("adminMenu");
     }
@@ -53,14 +54,18 @@ void main() async {
 
 class AppTaxiSegurito extends StatefulWidget {
   final String initialRoute;
-  AppTaxiSegurito(this.initialRoute);
+  final String? sessionName;
+  AppTaxiSegurito(this.initialRoute, {this.sessionName});
   @override
-  _AppTaxiSeguritoState createState() => _AppTaxiSeguritoState(initialRoute);
+  _AppTaxiSeguritoState createState() =>
+      _AppTaxiSeguritoState(initialRoute, sessionName: this.sessionName);
 }
 
 class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   String routeInitial;
-  _AppTaxiSeguritoState(this.routeInitial);
+  String? sessionName;
+  _AppTaxiSeguritoState(this.routeInitial, {this.sessionName});
+
   @override
   Widget build(BuildContext context) {
     String image =
@@ -81,10 +86,10 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverRegistration': (_) => DriverRegistration(),
         'QRpage': (_) => QRPAGE(),
         'driverList': (_) => DriversListPage(),
-        'ownerMenu': (_) => OwnerMenu.initial(),
+        'ownerMenu': (_) => OwnerMenu(name: this.sessionName),
         'userList': (_) => OnwerList(),
         'companyList': (_) => CompanyList(),
-        'adminMenu': (_) => AdminMenu.initial(),
+        'adminMenu': (_) => AdminMenu(name: this.sessionName),
         'reportCar': (_) => DriverTravelCalificationPage(
               Driver("Rogelio Castro", "12345678", "75554554"),
               Vehicle(

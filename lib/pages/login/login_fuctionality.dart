@@ -1,43 +1,42 @@
-import 'package:taxi_segurito_app/bloc/services/authService.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:flutter/material.dart';
 
 class LoginFuctionality {
   late BuildContext context;
+  late AuthService authService;
 
-  LoginFuctionality(this.context);
+  LoginFuctionality(this.context) {
+    authService = AuthService();
+  }
 
   void loginValidate(User user) async {
-    Sessions sessions = new Sessions();
-    List<dynamic> result = await login(user);
+    User? userRes = await authService.logIn(user);
 
-    if (result.length != 0) {
+    if (userRes != null) {
       /*GlobalToast.displayToast(
           Text("Bienvenido"), Colors.greenAccent, Icon(Icons.check), 2);*/
-      for (var item in result) {
-        await sessions.addSessionValue("iduser", item["id"].toString());
-        await sessions.addSessionValue("rol", item["role"].toString());
-        await sessions.addSessionValue("name", item["name"].toString());
-      }
-      var msg = await sessions.getSessionValue("id");
-      var role = await sessions.getSessionValue("role");
 
-      print(
-        msg.toString() + " " + role.toString(),
-      );
-
-      if (role.toString() == "admin") {
-        Navigator.pushNamed(context, 'adminMenu');
+      if (userRes.role.toString() == "admin") {
+        Navigator.pushReplacementNamed(
+          context,
+          'adminMenu',
+          arguments: userRes.fullName,
+        );
       }
 
-      if (role.toString() == "client") {
-        Navigator.pushNamed(context, 'QRpage');
+      if (userRes.role.toString() == "client") {
+        Navigator.pushReplacementNamed(context, 'QRpage');
       }
 
-      if (role.toString() == "owner") {
-        Navigator.pushNamed(context, 'ownerMenu');
+      if (userRes.role.toString() == "owner") {
+        Navigator.pushReplacementNamed(
+          context,
+          'ownerMenu',
+          arguments: userRes.fullName,
+        );
       }
     } else {
       GlobalToast.displayToast(

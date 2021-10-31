@@ -1,5 +1,6 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';
 import 'admin_session.dart';
 
@@ -20,14 +21,22 @@ class LoginFacebookUtils {
         String fullName = userData.entries.first.value;
         String email = userData["email"].toString();
         String cellphone = "";
-        Clientuser client = Clientuser.InsertForGoogleAndFacebook(
-            "Facebook", fullName, cellphone, email, "Facebook");
+        Clientuser client = Clientuser.insert(
+            fullname: fullName,
+            cellphone: cellphone,
+            email: email,
+            password: "Facebook",
+            signUpType: Server.SignUpType['FACEBOOK']!);
         //CheckExits retorna numero si existe
         //retorna Error si no existe
         String exits = await Services().getCellphoneIfExists(email);
         if (exits != "Error") {
-          Clientuser clientExits = Clientuser.InsertForGoogleAndFacebook(
-              "Facebook", fullName, cellphone = exits, email, "Facebook");
+          Clientuser clientExits = Clientuser.insert(
+              fullname: fullName,
+              cellphone: exits,
+              email: email,
+              password: "Facebook",
+              signUpType: Server.SignUpType['FACEBOOK']!);
           AdminSession().addSession(clientExits);
           return clientExits;
         }

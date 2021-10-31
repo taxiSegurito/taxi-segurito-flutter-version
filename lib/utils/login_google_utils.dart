@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/utils/admin_session.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';
 
@@ -30,16 +31,24 @@ class LoginGoogleUtils {
         String fullName = user!.displayName.toString();
         String email = user!.email.toString();
         String cellphone = user!.phoneNumber.toString();
-        Clientuser client = Clientuser.InsertForGoogleAndFacebook(
-            "Google", fullName, cellphone, email, "Google");
+        Clientuser client = Clientuser.insert(
+            fullname: fullName,
+            cellphone: cellphone,
+            email: email,
+            password: "Google",
+            signUpType: Server.SignUpType['GOOGLE']!);
         bool controlBD;
         String exits = await Services().getCellphoneIfExists(email);
         //Ya existe
         if (exits != "Error") {
-          Clientuser clientUser = Clientuser.InsertForGoogleAndFacebook(
-              "Google", fullName, cellphone = exits, email, "Google");
-          AdminSession().addSession(clientUser);
-          return clientUser;
+          Clientuser client = Clientuser.insert(
+              fullname: fullName,
+              cellphone: exits,
+              email: email,
+              password: "Google",
+              signUpType: Server.SignUpType['GOOGLE']!);
+          AdminSession().addSession(client);
+          return client;
         }
         //En caso de que haya un numero
         if (client.cellphone != "null") {

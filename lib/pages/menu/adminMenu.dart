@@ -2,8 +2,7 @@ import 'package:taxi_segurito_app/pages/menu/baseMenu.dart';
 import 'package:taxi_segurito_app/pages/menu/menuItem.dart';
 
 class AdminMenu extends Menu {
-  AdminMenu.initial() : super.initial();
-  AdminMenu(String name) : super(name);
+  AdminMenu({String? name}) : super(name: name);
   @override
   List<MenuItem> getItems() {
     return [
