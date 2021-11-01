@@ -7,7 +7,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/login/login_fuctionality.dart';
 
 class UserLoginPage extends StatefulWidget {
-  const UserLoginPage({Key? key}) : super(key: key);
+  User? user = new User();
+  UserLoginPage({Key? key}) : super(key: key);
 
   @override
   _UserLoginPageState createState() => _UserLoginPageState();
@@ -33,11 +34,12 @@ class _UserLoginPageState extends State<UserLoginPage> {
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ));
+                onPressed: () => Navigator.pop(context),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              );
             },
           ),
         ),
