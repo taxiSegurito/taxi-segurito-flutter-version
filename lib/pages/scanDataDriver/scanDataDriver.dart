@@ -12,6 +12,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
 import '../../components/sidemenu/side_menu.dart';
 import 'dart:typed_data';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 void main() => runApp(scanDataDriver("prueba"));
 double ranking = 4.2;
@@ -59,13 +60,6 @@ Future<List<DataDriverVehicule>> getData() async {
     registros.add(DataDriverVehicule.fromJson(datos));
   }
   return registros;
-}
-
-//metodo para convertir las imágenes
-Uint8List convertImg(String imng) {
-  String byimgString = imng;
-  by8timg = Base64Decoder().convert(byimgString);
-  return by8timg;
 }
 
 class Inicio extends StatefulWidget {
@@ -148,8 +142,7 @@ class _InicioState extends State<Inicio> {
                                   Container(
                                     child: CircleAvatar(
                                         radius: 55,
-                                        child: Image.memory(
-                                            convertImg(data[0].photo))),
+                                        child: Image.memory(imageFromBase64(data[0].photo))),
                                   ),
                                   Container(
                                     child: Column(
@@ -458,7 +451,7 @@ class _CardVehiculeDataState extends State<CardVehiculeData> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.1),
                 child: Image.memory(
-                  convertImg(data[0].photovehicule),
+                  imageFromBase64(data[0].photovehicule),
                   width: 256,
                   height: 155,
                 ),

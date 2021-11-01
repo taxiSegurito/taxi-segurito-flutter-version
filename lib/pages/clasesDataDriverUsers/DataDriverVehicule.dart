@@ -1,11 +1,11 @@
 //clase para mostrar los datos del conductor y su vehiculo asignado despues del qr
 class DataDriverVehicule {
-  String iddriver = "";
+  int iddriver = 0;
   String fullname = "";
   String cellphone = "";
   String ci = "";
   String photo = "";
-  String idvehicule = "";
+  int idvehicule = 0;
   String pleik = "";
   String model = "";
   String color = "";
@@ -13,12 +13,12 @@ class DataDriverVehicule {
   //String puntaje = "";
 
   DataDriverVehicule(
-      String iddriver,
+      int iddriver,
       String fullName,
       String cellphone,
       String ci,
       String photo,
-      String idvehicule,
+      int idvehicule,
       String placa,
       String model,
       String color,
