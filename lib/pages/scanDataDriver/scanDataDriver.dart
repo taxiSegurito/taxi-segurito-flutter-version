@@ -1,6 +1,6 @@
 //ventana datos del conductor despues de leer el qr
 import 'dart:developer';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriverVehicule.dart';
 import 'dart:async';
@@ -10,18 +10,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
+import '../../components/sidemenu/side_menu.dart';
+import 'dart:typed_data';
 
 void main() => runApp(scanDataDriver("prueba"));
 double ranking = 4.2;
+late Uint8List by8timg;
 
 class scanDataDriver extends StatelessWidget {
-  //const scanDataDriver({Key? key}) : super(key: key);
   String code;
   scanDataDriver(this.code);
 
   @override
   Widget build(BuildContext context) {
-    //log(code.toString());
     return MaterialApp(
       title: "Datos Conductor",
       home: Inicio(code),
@@ -58,6 +59,13 @@ Future<List<DataDriverVehicule>> getData() async {
     registros.add(DataDriverVehicule.fromJson(datos));
   }
   return registros;
+}
+
+//metodo para convertir las imágenes
+Uint8List convertImg(String imng) {
+  String byimgString = imng;
+  by8timg = Base64Decoder().convert(byimgString);
+  return by8timg;
 }
 
 class Inicio extends StatefulWidget {
@@ -100,7 +108,7 @@ class _InicioState extends State<Inicio> {
               topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
           child: Container(
             width: 270,
-            child: BarButton(),
+            child: SideMenu(),
           )),
       //Codigo para el diseño del cuerpo de la ventana
       body: Wrap(
@@ -139,10 +147,9 @@ class _InicioState extends State<Inicio> {
                                 children: [
                                   Container(
                                     child: CircleAvatar(
-                                      radius: 55,
-                                      backgroundImage:
-                                          NetworkImage(data[0].photo),
-                                    ),
+                                        radius: 55,
+                                        child: Image.memory(
+                                            convertImg(data[0].photo))),
                                   ),
                                   Container(
                                     child: Column(
@@ -333,128 +340,6 @@ class _InicioState extends State<Inicio> {
   }
 }
 
-//boton menu lateral con las opciones de usuario
-class BarButton extends StatefulWidget {
-  BarButton({Key? key}) : super(key: key);
-
-  @override
-  _BarButtonState createState() => _BarButtonState();
-}
-
-class _BarButtonState extends State<BarButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          Container(
-            height: 140,
-            child: DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(242, 213, 60, 1),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: CircleAvatar(
-                      radius: 38,
-                      backgroundImage: NetworkImage(
-                          'http://assets.stickpng.com/images/585e4bd7cb11b227491c3397.png'),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Mariana Villazon",
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontFamily: 'Raleway',
-                        fontSize: 18,
-                        letterSpacing: 0,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight + Alignment(0, .4),
-                    child: Text(
-                      "7894548",
-                      style: TextStyle(
-                        color: Color.fromRGBO(153, 153, 153, 1),
-                        fontFamily: 'Raleway',
-                        fontSize: 12,
-                        letterSpacing: 0,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          ListTile(
-            title: Text(
-              "Historial de reseñas",
-              style: TextStyle(
-                  color: Color.fromRGBO(93, 93, 93, 1),
-                  fontFamily: 'Raleway',
-                  fontSize: 14,
-                  letterSpacing: 0),
-              textAlign: TextAlign.left,
-            ),
-            leading: Icon(Icons.access_time),
-            onTap: () {
-              print("Historial reseñas");
-            },
-          ),
-          Divider(
-            height: 0,
-            thickness: 1,
-          ),
-          ListTile(
-            title: Text(
-              "Contactos de emergencia",
-              style: TextStyle(
-                  color: Color.fromRGBO(93, 93, 93, 1),
-                  fontFamily: 'Raleway',
-                  fontSize: 14,
-                  letterSpacing: 0),
-              textAlign: TextAlign.left,
-            ),
-            leading: Icon(Icons.contacts),
-            onTap: () {
-              print("Contactos de emergencia");
-            },
-          ),
-          Container(
-            color: Color.fromRGBO(255, 176, 153, 0.2800000011920929),
-            child: ListTile(
-              title: Text(
-                "Botón de pánico",
-                style: TextStyle(
-                    color: Color.fromRGBO(242, 78, 29, 0.7599999904632568),
-                    fontFamily: 'Raleway',
-                    fontSize: 14,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              leading: Icon(
-                Icons.warning,
-                color: Color.fromRGBO(242, 78, 29, 0.7599999904632568),
-              ),
-              onTap: () {
-                print("Botón de pánico");
-              },
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
 //Card para mostrar los datos del vehiculo asignado al chofer
 class CardVehiculeData extends StatefulWidget {
   CardVehiculeData({Key? key}) : super(key: key);
@@ -572,8 +457,8 @@ class _CardVehiculeDataState extends State<CardVehiculeData> {
             Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.1),
-                child: Image.network(
-                  data[0].photovehicule,
+                child: Image.memory(
+                  convertImg(data[0].photovehicule),
                   width: 256,
                   height: 155,
                 ),
