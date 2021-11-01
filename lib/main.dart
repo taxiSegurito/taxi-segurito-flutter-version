@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/pages/historyReview/HistoryReview.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/menu/adminMenu.dart';
@@ -33,7 +34,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("reportCar");
+    app = AppTaxiSegurito("historyReview");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -88,6 +89,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'companyList': (BuildContext contextUserList) => CompanyList(),
         'registerVehicleScreen': (BuildContext contextss) =>
             RegisterVehicleScreen(),
+        'historyReview': (_) => HistoryReview(),
         'ownerMenu': (_) => OwnerMenu(),
         'adminMenu': (_) => AdminMenu(),
         'reportCar': (_) => DriverTravelCalificationPage(
