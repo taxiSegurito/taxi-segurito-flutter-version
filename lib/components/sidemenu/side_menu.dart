@@ -1,15 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
-
 //import 'package:custom_long_tap/custom_long_tap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu_functionality.dart';
-import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
-import 'package:taxi_segurito_app/utils/call_panic.dart';
-import 'package:taxi_segurito_app/utils/logOut.dart';
-import 'package:taxi_segurito_app/pages/emergencyContact/listContact_page.dart';
 
 class SideMenu extends StatelessWidget {
   late Timer timer;

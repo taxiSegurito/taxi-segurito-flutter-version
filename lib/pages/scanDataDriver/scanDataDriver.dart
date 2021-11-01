@@ -1,7 +1,7 @@
 //ventana datos del conductor despues de leer el qr
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriverVehicule.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 
-void main() => runApp(ScanDataDriver("prueba"));
+// void main() => runApp(ScanDataDriver("prueba"));
 double ranking = 4.2;
 
 class ScanDataDriver extends StatelessWidget {
@@ -29,12 +29,13 @@ class ScanDataDriver extends StatelessWidget {
 }
 
 //placa del vehiculo para hacer la busqueda en base de datos y url de conexion
-
 String path = Server.url;
+
 //datos select
 var data;
 var registros;
 var codigo;
+
 //para el circular progressBar
 bool loading = true;
 
@@ -47,7 +48,8 @@ Future<List<DataDriverVehicule>> getData() async {
   path = path + "/selectDataDriverVehicule.php";
   var response = await http.post(Uri.parse(path), body: {
     'pleik': placaVehicule,
-  }).timeout(Duration(seconds: 90));
+  }).timeout(Duration(
+      seconds: 90)); // para qué el timeout? sólo ralentiza la app, o no?
 
   var datos = jsonDecode(response.body);
 
@@ -76,7 +78,8 @@ class _InicioState extends State<Inicio> {
   void initState() {
     super.initState();
     log(code);
-    codigo = code;
+    codigo = code; // mezclando variables propias con globales? :/
+
     getData().then((value) {
       setState(() {
         data = value;
@@ -94,13 +97,7 @@ class _InicioState extends State<Inicio> {
         title: Text('Datos Conductor'),
         backgroundColor: Color.fromRGBO(242, 213, 60, 1),
       ),
-      drawer: ClipRRect(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(20), bottomRight: Radius.circular(20)),
-          child: Container(
-            width: 270,
-            child: BarButton(),
-          )),
+      drawer: SideMenu(),
       //Codigo para el diseño del cuerpo de la ventana
       body: Wrap(
         children: [
@@ -331,128 +328,6 @@ class _InicioState extends State<Inicio> {
                     ),
                   ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-//boton menu lateral con las opciones de usuario
-class BarButton extends StatefulWidget {
-  BarButton({Key? key}) : super(key: key);
-
-  @override
-  _BarButtonState createState() => _BarButtonState();
-}
-
-class _BarButtonState extends State<BarButton> {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          Container(
-            height: 140,
-            child: DrawerHeader(
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(242, 213, 60, 1),
-              ),
-              child: Stack(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: CircleAvatar(
-                      radius: 38,
-                      backgroundImage: NetworkImage(
-                          'http://assets.stickpng.com/images/585e4bd7cb11b227491c3397.png'),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "Mariana Villazon",
-                      style: TextStyle(
-                        color: Color.fromRGBO(0, 0, 0, 1),
-                        fontFamily: 'Raleway',
-                        fontSize: 18,
-                        letterSpacing: 0,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight + Alignment(0, .4),
-                    child: Text(
-                      "7894548",
-                      style: TextStyle(
-                        color: Color.fromRGBO(153, 153, 153, 1),
-                        fontFamily: 'Raleway',
-                        fontSize: 12,
-                        letterSpacing: 0,
-                      ),
-                      textAlign: TextAlign.left,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          ListTile(
-            title: Text(
-              "Historial de reseñas",
-              style: TextStyle(
-                  color: Color.fromRGBO(93, 93, 93, 1),
-                  fontFamily: 'Raleway',
-                  fontSize: 14,
-                  letterSpacing: 0),
-              textAlign: TextAlign.left,
-            ),
-            leading: Icon(Icons.access_time),
-            onTap: () {
-              print("Historial reseñas");
-            },
-          ),
-          Divider(
-            height: 0,
-            thickness: 1,
-          ),
-          ListTile(
-            title: Text(
-              "Contactos de emergencia",
-              style: TextStyle(
-                  color: Color.fromRGBO(93, 93, 93, 1),
-                  fontFamily: 'Raleway',
-                  fontSize: 14,
-                  letterSpacing: 0),
-              textAlign: TextAlign.left,
-            ),
-            leading: Icon(Icons.contacts),
-            onTap: () {
-              print("Contactos de emergencia");
-            },
-          ),
-          Container(
-            color: Color.fromRGBO(255, 176, 153, 0.2800000011920929),
-            child: ListTile(
-              title: Text(
-                "Botón de pánico",
-                style: TextStyle(
-                    color: Color.fromRGBO(242, 78, 29, 0.7599999904632568),
-                    fontFamily: 'Raleway',
-                    fontSize: 14,
-                    letterSpacing: 0,
-                    fontWeight: FontWeight.bold),
-                textAlign: TextAlign.left,
-              ),
-              leading: Icon(
-                Icons.warning,
-                color: Color.fromRGBO(242, 78, 29, 0.7599999904632568),
-              ),
-              onTap: () {
-                print("Botón de pánico");
-              },
-            ),
-          )
         ],
       ),
     );
