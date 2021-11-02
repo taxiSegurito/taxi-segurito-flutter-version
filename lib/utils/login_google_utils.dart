@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/utils/admin_session.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';

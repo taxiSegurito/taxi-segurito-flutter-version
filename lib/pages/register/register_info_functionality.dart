@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/services/sign_up_service.dart';
 
 class RegisterFunctionality {

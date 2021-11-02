@@ -1,5 +1,5 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';
 import 'admin_session.dart';

@@ -1,13 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/pages/emergencyContact/listContact_page.dart';
-import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
-import 'package:taxi_segurito_app/utils/admin_session.dart';
+import 'package:taxi_segurito_app/pages/emergencyContact/contact_list_page.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/utils/call_panic.dart';
-import 'package:taxi_segurito_app/utils/logOut.dart';
 
 var toastError = Fluttertoast.showToast(
     msg: "Debes Presionar 5 segundos",
@@ -23,9 +20,9 @@ var toastErrorCall = Fluttertoast.showToast(
     backgroundColor: Colors.red,
     textColor: Colors.yellow);
 
-class SideMenUFunctionality {
+class SideMenuFunctionality {
   BuildContext context;
-  SideMenUFunctionality(this.context);
+  SideMenuFunctionality(this.context);
 
   onPressedbtnContactEmergency() {
     Navigator.push(
@@ -54,16 +51,13 @@ class SideMenUFunctionality {
     showDialog(context: context, builder: infoDialog);
   }
 
-  onPressedLogOut() {
+  onPressedLogOut() async {
     try {
-      AdminSession().deleteSession().then((value) {
-        if (value == true) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainWindow()),
-          );
-        }
-      });
+      final loggedOut = await AuthService().logOut();
+      if (loggedOut) {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushReplacementNamed(context, 'firstScreen');
+      }
     } catch (e) {
       log(e.toString());
     }

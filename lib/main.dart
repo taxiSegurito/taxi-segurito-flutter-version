@@ -2,26 +2,25 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/Vehicle.dart';
-import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
-import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
-import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
-import 'package:taxi_segurito_app/pages/login/login_page.dart';
-import 'package:taxi_segurito_app/pages/menu/adminMenu.dart';
-import 'package:taxi_segurito_app/pages/ownerList/OwnerList.dart';
-import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
-import 'package:taxi_segurito_app/services/sessions_service.dart';
-import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
-import 'package:taxi_segurito_app/pages/driversList/DriversListPage.dart';
-import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
-import 'package:taxi_segurito_app/pages/menu/ownerMenu.dart';
-import 'models/Driver.dart';
-import 'pages/companyList/CompanyList.dart';
-import 'pages/menu/ownerMenu.dart';
-import 'pages/scanDataDriver/travelCalification/driver_travel_calification_page.dart';
-import 'pages/screenCompany/RegisterCompanyScreen.dart';
-import 'pages/screenVehicle/RegisterVehicleScreen.dart';
-import 'pages/screenVehicle/UpdateVehicleScreen.dart';
+import './pages/driver_register/driver_register.dart';
+import './pages/main_window/main_window.dart';
+import './pages/log_in/log_in_page.dart';
+import './pages/menu/admin_menu.dart';
+import './pages/owner_list/owner_list_page.dart';
+import './pages/scanner_qr/scanner_qr_page.dart';
+import './services/sessions_service.dart';
+import './pages/register/register_page_phone.dart';
+import './pages/driver_list/drivers_list_page.dart';
+import './pages/owner_register/owner_register.dart';
+import './pages/menu/owner_menu.dart';
+import './pages/company_list/company_list_page.dart';
+import './pages/travel_review/driver_travel_calification_page.dart';
+import './pages/company_screen/company_register_screen.dart';
+import './pages/vehicle_screen/vehicle_register_screen.dart';
+import './pages/vehicle_screen/vehicle_edit_screen.dart';
+import './models/vehicle.dart';
+import './models/providers/HttpProvider.dart';
+import './models/driver.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +44,7 @@ void main() async {
         app = AppTaxiSegurito('ownerMenu', sessionName: name);
         break;
       default:
-        app = AppTaxiSegurito('scannerQr');
+        app = AppTaxiSegurito('scannerQr', sessionName: name);
         break;
     }
   }
@@ -79,18 +78,18 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       routes: {
         'loginUser': (_) => UserLoginPage(),
         'registerScreen': (_) => RegisterPage(),
-        'scannerQr': (_) => QRPAGE(),
         'firstScreen': (_) => MainWindow(),
+        'scannerQr': (_) => ScannerQrPage(name: this.sessionName),
         'ownerMenu': (_) => OwnerMenu(name: this.sessionName),
         'adminMenu': (_) => AdminMenu(name: this.sessionName),
         'driverList': (_) => DriversListPage(),
         'driverRegistration': (_) => DriverRegistration(),
-        'registerCompany': (_) => RegisterCompanyScreen(),
-        'companyList': (_) => CompanyList(),
+        'registerCompany': (_) => CompanyRegisterScreen(),
+        'companyList': (_) => CompanyListPage(),
         'userList': (_) => OnwerList(),
         'registerOwner': (_) => RegisterOwner(),
-        'registerVehicle': (_) => RegisterVehicleScreen(),
-        'reportCar': (_) => DriverTravelCalificationPage(
+        'registerVehicle': (_) => VehicleRegisterScreen(),
+        'reportCar': (_) => TravelReviewPage(
               Driver("Rogelio Castro", "12345678", "75554554"),
               Vehicle(
                   idVehicle: 1,
@@ -102,7 +101,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
                   status: 1,
                   idOwner: 1),
             ),
-        'updateVehicleScreen': (BuildContext contextss) => UpdateVehicleScreen(
+        'updateVehicleScreen': (BuildContext contextss) => VehicleEditScreen(
               Vehicle(
                   idVehicle: 1,
                   capacity: 1,

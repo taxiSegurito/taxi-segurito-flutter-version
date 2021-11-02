@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/utils/admin_session.dart';
 

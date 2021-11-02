@@ -6,11 +6,12 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu_functionality.da
 
 class SideMenu extends StatelessWidget {
   late Timer timer;
+  String? username;
+  SideMenu({this.username});
 
   @override
   Widget build(BuildContext context) {
-    SideMenUFunctionality sideMenUFunctionality =
-        new SideMenUFunctionality(context);
+    SideMenuFunctionality functionality = SideMenuFunctionality(context);
     var divider = Divider(
       color: Colors.grey[350],
       height: 5,
@@ -35,10 +36,10 @@ class SideMenu extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 45,
                       backgroundImage: NetworkImage(
-                          'http://assets.stickpng.com/images/585e4bd7cb11b227491c3397.png'),
+                          'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'),
                     ),
                   ),
-                  Text("Nombre Usuario"),
+                  Text(this.username ?? "Nombre usuario"),
                   Text(
                     "+591 xxxxxxxxx",
                     style: TextStyle(
@@ -57,7 +58,7 @@ class SideMenu extends StatelessWidget {
             divider,
             ListTile(
               onTap: () {
-                sideMenUFunctionality.onPressedbtnContactEmergency();
+                functionality.onPressedbtnContactEmergency();
               },
               leading: Icon(Icons.contact_page_rounded),
               title: Text('Contactos de Emergencia'),
@@ -69,7 +70,7 @@ class SideMenu extends StatelessWidget {
                 // time duration
                 timer = Timer(Duration(seconds: 5), () async {
                   // your function here
-                  sideMenUFunctionality.onPressedbtnCallPanic();
+                  functionality.onPressedbtnCallPanic();
                 })
               },
               child: ListTile(
@@ -79,7 +80,7 @@ class SideMenu extends StatelessWidget {
                   color: Colors.red,
                 ),
                 onTap: () {
-                  sideMenUFunctionality.onPressedTimePressedFault();
+                  functionality.onPressedTimePressedFault();
                 },
                 title: Text(
                   'Boton de Panico',
@@ -98,7 +99,7 @@ class SideMenu extends StatelessWidget {
                 style: TextStyle(color: Colors.red),
               ),
               onTap: () {
-                sideMenUFunctionality.onPressedLogOut();
+                functionality.onPressedLogOut();
               },
             ),
           ],

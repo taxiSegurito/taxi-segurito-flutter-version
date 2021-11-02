@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/services/server.dart';
-import 'package:taxi_segurito_app/models/Owner.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 
 Future<bool> insert(Owner owner) async {
   String path = Server.url + "Owner/owner_controller.php";

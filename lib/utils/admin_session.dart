@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/utils/servces.dart';
 

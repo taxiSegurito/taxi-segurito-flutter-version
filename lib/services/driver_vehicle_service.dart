@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-import 'package:taxi_segurito_app/models/Driver.dart';
-import 'package:taxi_segurito_app/models/Vehicle.dart';
+import 'package:taxi_segurito_app/models/driver.dart';
+import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 import 'package:http/http.dart' as http;
 

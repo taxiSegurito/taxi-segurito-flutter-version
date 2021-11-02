@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:passwordfield/passwordfield.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 
 class RegisterData extends StatefulWidget {
