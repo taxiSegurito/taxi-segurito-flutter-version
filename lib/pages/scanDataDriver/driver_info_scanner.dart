@@ -4,8 +4,8 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
-import 'package:taxi_segurito_app/pages/scanDataDriver/widgets/DriverData.dart';
-import 'package:taxi_segurito_app/pages/scanDataDriver/widgets/VehicleData.dart';
+import 'package:taxi_segurito_app/pages/scanDataDriver/widgets/driver_data.dart';
+import 'package:taxi_segurito_app/pages/scanDataDriver/widgets/vehicle_data.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 
 class ScannedQrInfoPage extends StatefulWidget {
@@ -19,6 +19,7 @@ class ScannedQrInfoPage extends StatefulWidget {
 class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
   Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   final _driverVehicleService = DriverVehicleService();
+  late Future<Map<String, dynamic>?> futureInfo;
   late Driver driver;
   late Vehicle vehicle;
   late int driverHasVehicleId;
@@ -26,22 +27,11 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
   @override
   void initState() {
     super.initState();
-    _driverVehicleService
-        .getDriverAndVehicleByPleik(widget.pleik)
-        .then((scannedQrInfo) {
-      if (scannedQrInfo != null) {
-        driver = scannedQrInfo['driver'];
-        vehicle = scannedQrInfo['vehicle'];
-        driverHasVehicleId = scannedQrInfo['idDriverHasVehicle'];
-      }
-    });
+    futureInfo = _driverVehicleService.getDriverAndVehicleByPleik(widget.pleik);
   }
 
   @override
   Widget build(BuildContext context) {
-    DriverData driverData = new DriverData(driver);
-    VehicleData vehicleData = new VehicleData(vehicle);
-
     AppBar appBar = new AppBar(
       backgroundColor: colorMain,
       elevation: 0,
@@ -53,7 +43,9 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
     );
 
     final cancelButton = CustomButton(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushReplacementNamed(context, 'scannerQr');
+      },
       buttonText: 'Escanear nuevo QR',
       buttonColor: Colors.white,
       buttonTextColor: colorMain,
@@ -92,40 +84,54 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
         builder: (_, constraints) {
           return Container(
             height: constraints.maxHeight,
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              // height: height - 130,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  //containerTitle,
-                  driverData,
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "4.2 ",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        RatingBarIndicator(
-                          rating: 4,
-                          itemSize: 25,
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: Colors.amber,
+            child: FutureBuilder(
+              future: futureInfo,
+              builder: (_, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data != null) {
+                    driver = snapshot.data!['driver'] as Driver;
+                    vehicle = snapshot.data!['vehicle'] as Vehicle;
+                    driverHasVehicleId = snapshot.data!['idDriverHasVehicle'];
+                    return Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          //containerTitle,
+                          DriverData(driver),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "4.2 ",
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                                RatingBarIndicator(
+                                  rating: 4,
+                                  itemSize: 25,
+                                  itemBuilder: (context, _) => Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 16),
-                    child: vehicleData,
-                  ),
-                  Expanded(child: buttons)
-                ],
-              ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: VehicleData(vehicle),
+                          ),
+                          Expanded(child: buttons),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }
+                return Center(child: CircularProgressIndicator());
+              },
             ),
           );
         },

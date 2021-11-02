@@ -8,7 +8,7 @@ class VehicleData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 8;
-    Image imageDefault = Image.asset("assets/images/carDefault.png");
+    Image imageDefault = Image.memory(vehicle.picture);
 
     final vehicleIcon = Container(
       alignment: Alignment.centerRight,
@@ -29,7 +29,12 @@ class VehicleData extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _vehicleAttribute("Placa", vehicle.pleik),
+          _vehicleAttribute(
+            "Placa",
+            vehicle.pleik,
+            fontsize: 24,
+            weight: FontWeight.bold,
+          ),
           _vehicleAttribute("Modelo", vehicle.model),
           _vehicleAttribute("Color", vehicle.color),
         ],
@@ -65,8 +70,12 @@ class VehicleData extends StatelessWidget {
     );
   }
 
-  Widget _vehicleAttribute(title, value) {
-    final double fontSize = 14;
+  Widget _vehicleAttribute(
+    title,
+    value, {
+    double fontsize = 15.0,
+    FontWeight weight = FontWeight.normal,
+  }) {
     return Align(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +86,7 @@ class VehicleData extends StatelessWidget {
             style: TextStyle(
               color: Color.fromRGBO(0, 0, 0, 1),
               fontFamily: 'Raleway',
-              fontSize: fontSize,
+              fontSize: fontsize,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.left,
@@ -88,7 +97,8 @@ class VehicleData extends StatelessWidget {
               style: TextStyle(
                   color: Colors.grey,
                   fontFamily: 'Raleway',
-                  fontSize: fontSize,
+                  fontSize: fontsize,
+                  fontWeight: weight,
                   letterSpacing: 0),
               textAlign: TextAlign.right,
             ),

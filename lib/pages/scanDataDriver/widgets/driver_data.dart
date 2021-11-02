@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 
@@ -11,7 +9,7 @@ class DriverData extends StatelessWidget {
   Widget build(BuildContext context) {
     Image imagedefault = new Image.memory(driver.picture);
     double sizeFontSubtitle = 17;
-    double width = MediaQuery.of(context).size.width / 4;
+    double width = MediaQuery.of(context).size.width / 3.5;
     return Container(
       alignment: Alignment.center,
       child: Column(

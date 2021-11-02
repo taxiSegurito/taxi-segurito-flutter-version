@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_qr_bar_scanner/qr_bar_scanner_camera.dart';
 import 'package:taxi_segurito_app/pages/scanDataDriver/driver_info_scanner.dart';
-import 'package:taxi_segurito_app/pages/scanDataDriver/scanDataDriver.dart';
 import '../../components/sidemenu/side_menu.dart';
 
 class QRPAGE extends StatefulWidget {
@@ -23,33 +21,30 @@ class _QrBarcodeState extends State<QRPAGE> {
         backgroundColor: Colors.transparent,
         elevation: 0, //Cambie el color del appBar
         title: Text('Taxi Segurito'),
+        foregroundColor: Colors.white,
       ),
-      // DRAWER
-      //Llamar SideMenu()
       drawer: SideMenu(),
-      body: Stack(children: <Widget>[
-        _scanner(context),
-      ]),
+      body: Stack(
+        children: <Widget>[
+          _scanner(context),
+        ],
+      ),
     );
   }
 
   @override
   void initState() {
     super.initState();
-    _scanCode();
-  }
-
-  _scanCode() {
     setState(() {
       _camState = true;
     });
   }
 
-  _qrCallback(String code) {
+  _onQrScanned(String code) {
     setState(() {
       _camState = false;
     });
-    Navigator.pushReplacement(
+    Navigator.push(
       context,
       MaterialPageRoute<void>(
         builder: (_) => ScannedQrInfoPage(code),
@@ -71,17 +66,18 @@ class _QrBarcodeState extends State<QRPAGE> {
                         style: TextStyle(color: Colors.red),
                       ),
                       qrCodeCallback: (code) {
-                        _qrCallback(code!);
+                        _onQrScanned(code!);
                       },
                     )
                   : Center(
                       child: SizedBox(
-                          width: 80.0,
-                          height: 80.0,
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.red[100],
-                            strokeWidth: 10.0,
-                          )),
+                        width: 80.0,
+                        height: 80.0,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.red[100],
+                          strokeWidth: 10.0,
+                        ),
+                      ),
                     ),
             ),
           ),
