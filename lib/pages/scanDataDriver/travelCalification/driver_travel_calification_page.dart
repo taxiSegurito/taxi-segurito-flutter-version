@@ -10,7 +10,7 @@ import '../../../components/sidemenu/side_menu.dart';
 
 class DriverTravelCalificationPage extends StatefulWidget {
   Driver driver;
-  ReportCar? reportCar = new ReportCar();
+  ReportCar reportCar = new ReportCar();
   Vehicle vehicle;
   DriverTravelCalificationPage(this.driver, this.vehicle);
   @override
@@ -25,15 +25,15 @@ class _DriverTravelCalificationPageState
   void initState() {
     // TODO: implement initState
     super.initState();
-    widget.reportCar!.idClientuser = "55";
-    widget.reportCar!.idVehicule = widget.vehicle.idVehicle!;
+    widget.reportCar.idClientuser = 55;
+    widget.reportCar.idVehicule = widget.vehicle.idVehicle!;
   }
 
   @override
   Widget build(BuildContext context) {
     insertDataBase() async {
-      widget.reportCar!.calification = txtComent.text;
-      insertReportCar(widget.reportCar!).then(
+      widget.reportCar.comment = txtComent.text;
+      insertReportCar(widget.reportCar).then(
         (value) {
           if (value) {
             Navigator.pushNamed(context, 'adminMenu');
@@ -113,7 +113,7 @@ class _DriverTravelCalificationPageState
               unratedColor: Colors.grey[300],
               onRatingUpdate: (rating) {
                 print(rating);
-                widget.reportCar!.calification = rating.toString();
+                widget.reportCar.calification = rating;
               },
             ),
           ),
@@ -141,7 +141,7 @@ Widget _textCalificateYourDriver() {
     width: double.infinity,
     child: Column(
       children: [
-        Text('CALIFICA A TU CONDUCTOR',
+        Text('Califica a tu conductor',
             style: TextStyle(
                 color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 14))
       ],
@@ -162,7 +162,7 @@ Widget _bannerPriceInfo(
         Icon(Icons.check_circle, color: Colors.grey[800], size: 50),
         SizedBox(height: 5),
         Text(
-          'TU VIAJE A FINALIZADO',
+          'Tu viaje a finalizado',
           style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 20),

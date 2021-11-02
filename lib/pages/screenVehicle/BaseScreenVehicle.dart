@@ -6,6 +6,7 @@ import 'package:taxi_segurito_app/models/Vehicle.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/models/Driver.dart';
 import 'package:taxi_segurito_app/pages/screenVehicle/widgets/SelectDriverCard.dart';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
@@ -54,9 +55,9 @@ class _ScreenVehicleBaseState extends State<ScreenVehicleBase> {
 
     ImagesFileAdapter imageCar = new ImagesFileAdapter(
       imagePathDefaultUser: "assets/images/carDefault.png",
-      imageMainBase64: widget.vehicle.photo,
+      imageMainBase64: stringFromBase64Bytes(widget.vehicle.picture),
       assignValue: (value) {
-        widget.vehicle.photo = value;
+        widget.vehicle.picture = bytesFromBase64String(value);
       },
     );
 
@@ -77,7 +78,7 @@ class _ScreenVehicleBaseState extends State<ScreenVehicleBase> {
     );
 
     CustomTextField txtCapacity = new CustomTextField(
-      value: widget.vehicle.capacity,
+      value: widget.vehicle.capacity.toString(),
       hint: 'Capacidad',
       multiValidator: MultiValidator(
         [
@@ -86,7 +87,7 @@ class _ScreenVehicleBaseState extends State<ScreenVehicleBase> {
         ],
       ),
       assignValue: (value) {
-        widget.vehicle.capacity = value;
+        widget.vehicle.capacity = int.parse(value);
       },
     );
 
@@ -137,7 +138,7 @@ class _ScreenVehicleBaseState extends State<ScreenVehicleBase> {
       titleShowDialog: "Buscar conductor",
       buttonCancelText: "Cancelar",
       callbackValueSearch: (String value) {
-        registerVehicleFunctionality.onPressedSearhDriver(value);
+        registerVehicleFunctionality.onPressedSearchDriver(value);
       },
     );
 

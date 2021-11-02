@@ -27,8 +27,6 @@ class CustomButtonWithLinearBorder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return new Container(
@@ -40,21 +38,18 @@ class CustomButtonWithLinearBorder extends StatelessWidget {
       width: width,
       height: 40.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
         boxShadow: [
           BoxShadow(
-              color: Colors.black26,
-              offset: Offset(2, 2),
-              blurRadius: 6,
-              spreadRadius: 0)
+            color: Colors.black12,
+            offset: Offset(2, 2),
+            blurRadius: 6,
+            spreadRadius: 0,
+          )
         ],
       ),
       child: ElevatedButton(
-        onPressed: () {
-          onTap();
-        },
+        onPressed: onTap,
         child: // Iniciar sesión con correo / número de celular
             Text(buttonText,
                 style: TextStyle(

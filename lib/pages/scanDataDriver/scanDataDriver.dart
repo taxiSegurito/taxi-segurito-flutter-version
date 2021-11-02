@@ -8,6 +8,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 
 // void main() => runApp(ScanDataDriver("prueba"));
@@ -48,9 +49,8 @@ Future<List<DataDriverVehicule>> getData() async {
   path = path + "/selectDataDriverVehicule.php";
   var response = await http.post(Uri.parse(path), body: {
     'pleik': placaVehicule,
-  }).timeout(Duration(
-      seconds: 90)); // para qué el timeout? sólo ralentiza la app, o no?
-
+  });
+  // agreagr verificacion de datos
   var datos = jsonDecode(response.body);
 
   registros = List<DataDriverVehicule>.empty(growable: true);
@@ -136,8 +136,8 @@ class _InicioState extends State<Inicio> {
                                   Container(
                                     child: CircleAvatar(
                                       radius: 55,
-                                      backgroundImage:
-                                          NetworkImage(data[0].photo),
+                                      child: Image.memory(bytesFromBase64String(
+                                          data[0].picture)),
                                     ),
                                   ),
                                   Container(
@@ -451,8 +451,8 @@ class _CardVehiculeDataState extends State<CardVehiculeData> {
             Container(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15.1),
-                child: Image.network(
-                  data[0].photovehicule,
+                child: Image.memory(
+                  bytesFromBase64String(data[0].photovehicule),
                   width: 256,
                   height: 155,
                 ),

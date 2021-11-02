@@ -19,6 +19,6 @@ class Driver extends Person {
     super.status = json['status'] as int;
 
     String pictureBase64 = json['picture'] as String;
-    picture = imageFromBase64(pictureBase64);
+    picture = bytesFromBase64String(pictureBase64);
   }
 }

@@ -19,9 +19,12 @@ class UserLoginPage extends StatefulWidget {
 }
 
 class _UserLoginPageState extends State<UserLoginPage> {
+  final TextEditingController _pass = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
   Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   FToast fToast = FToast();
-  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -106,18 +109,42 @@ class _UserLoginPageState extends State<UserLoginPage> {
                   padding: EdgeInsets.only(top: 30),
                   child: Column(
                     children: [
-                      txtNameOR,
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Correo electrónico",
+                        ),
+                        controller: _email,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Correo requerido"),
+                          EmailValidator(errorText: "Correo inválido"),
+                        ]),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
-                      txtPassword,
+                      TextFormField(
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: "Contraseña",
+                        ),
+                        controller: _pass,
+                        validator: MultiValidator([
+                          RequiredValidator(errorText: "Contraseña requerida"),
+                          MinLengthValidator(6,
+                              errorText: "Mínimo 6 caracteres"),
+                          MaxLengthValidator(12,
+                              errorText: "Máximo 12 caracteres"),
+                        ]),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
                       CustomButton(
                         onTap: () async {
                           if (_formKey.currentState!.validate()) {
-                            loginFuctionality.loginValidate(widget.user);
+                            loginFuctionality.loginValidate(User.login(
+                                _email.value.text, _pass.value.text));
                           }
                         },
                         buttonText: "Ingresar",

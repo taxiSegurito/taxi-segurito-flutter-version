@@ -4,14 +4,14 @@ import 'package:taxi_segurito_app/models/ReportCar.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 
 Future<bool> insertReportCar(ReportCar reportCar) async {
-  print(reportCar.calification + "desde end oint");
+  print("${reportCar.calification} desde endpoint");
   try {
     var path = Server.url + "CarReport/reportCar_controller.php";
     final response = await http.post(Uri.parse(path),
         body: jsonEncode(
           {
             "calification": reportCar.calification,
-            "coments": reportCar.coments,
+            "coments": reportCar.comment,
             "clientUserId": reportCar.idClientuser,
             "vehicleId": reportCar.idVehicule
           },

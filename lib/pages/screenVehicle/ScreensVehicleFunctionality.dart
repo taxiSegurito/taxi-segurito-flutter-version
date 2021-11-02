@@ -17,8 +17,8 @@ List<Driver> listDriver = [
 class ScreenVehicleFunctionality {
   BuildContext? context;
   VoidCallback? activeShowDialog;
-  Driver? driver = new Driver("", "", "");
-  Vehicle? vehicle = new Vehicle();
+  Driver? driver;
+  Vehicle? vehicle;
 
   ScreenVehicleFunctionality({
     this.context,
@@ -60,7 +60,7 @@ class ScreenVehicleFunctionality {
     closeNavigator();
   }
 
-  onPressedSearhDriver(String value) {
+  onPressedSearchDriver(String value) {
     //TODO: implementar el buscador con la base de datos y el resultado añadirlo a la lista que esta acontinuacion.
 
     listDriver = [

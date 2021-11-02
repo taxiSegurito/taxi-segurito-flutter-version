@@ -1,30 +1,40 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
+
 class Vehicle {
-  String? idVehicle;
-  String color;
-  String model;
-  String pleik;
-  String capacity;
-  String photo;
-  String? status;
-  DateTime? registerDate;
-  DateTime? updateDate;
-  String owner_idOwner;
-  String report_car_idReports;
+  late int? idVehicle;
+  late String color;
+  late String model;
+  late String pleik;
+  late int capacity;
+  late Uint8List picture;
+  late int idOwner;
+  late int? status;
 
   //atributos con required son para insert
   Vehicle({
-    this.idVehicle = '',
-    this.color = '',
-    this.model = '',
-    this.pleik = '',
-    this.capacity = '',
-    this.photo = '',
-    this.status = '',
-    this.registerDate,
-    this.updateDate,
-    this.owner_idOwner = '',
-    this.report_car_idReports = '',
+    required this.color,
+    required this.model,
+    required this.pleik,
+    required this.capacity,
+    required this.picture,
+    required this.idOwner,
+    required this.status,
+    this.idVehicle,
   });
+
+  Vehicle.fromJson(Map<String, dynamic> json) {
+    this.idVehicle = json['idVehicle'] as int;
+    this.color = json['color'] as String;
+    this.model = json['model'] as String;
+    this.pleik = json['pleik'] as String;
+    this.capacity = json['capacity'] as int;
+    this.idOwner = json['idOwner'] as int;
+    this.status = json['status'] as int;
+
+    String pictureBase64 = json['picture'] as String;
+    this.picture = bytesFromBase64String(pictureBase64);
+  }
 }

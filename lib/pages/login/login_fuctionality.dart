@@ -28,7 +28,7 @@ class LoginFuctionality {
       }
 
       if (userRes.role.toString() == 'client') {
-        Navigator.pushReplacementNamed(context, 'QRpage');
+        Navigator.pushReplacementNamed(context, 'scannerQr');
       }
 
       if (userRes.role.toString() == 'owner') {

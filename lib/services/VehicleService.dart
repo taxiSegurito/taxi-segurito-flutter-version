@@ -17,9 +17,9 @@ Future<bool> update(Vehicle vehicle) async {
           "model": vehicle.model,
           "pleik": vehicle.pleik,
           "capacity": vehicle.capacity,
-          "photo": vehicle.photo,
+          "photo": vehicle.picture,
           "status": vehicle.status,
-          "owner_idowner": vehicle.owner_idOwner,
+          "owner_idowner": vehicle.idOwner,
           "typeRequest": "UPDATE"
         },
       ),

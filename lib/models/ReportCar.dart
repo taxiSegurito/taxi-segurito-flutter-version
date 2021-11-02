@@ -1,15 +1,17 @@
+import 'package:flutter/rendering.dart';
+
 class ReportCar {
-  String idReports;
-  String calification;
-  String coments;
-  String idClientuser;
-  String idVehicule;
+  late int? idReports;
+  late double? calification;
+  late String? comment;
+  late int? idClientuser;
+  late int? idVehicule;
 
   ReportCar({
-    this.idClientuser = '',
-    this.idReports = '',
-    this.calification = '',
-    this.coments = '',
-    this.idVehicule = '',
+    this.idClientuser,
+    this.idReports,
+    this.calification,
+    this.comment,
+    this.idVehicule,
   });
 }

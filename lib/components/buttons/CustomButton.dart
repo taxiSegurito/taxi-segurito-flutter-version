@@ -47,8 +47,8 @@ class _CustomButtonState extends State<CustomButton> {
           boxShadow: [
             BoxShadow(
                 color: Colors.black26,
-                offset: Offset(2, 2),
-                blurRadius: 6,
+                offset: Offset(0, 2),
+                blurRadius: 4,
                 spreadRadius: 0)
           ],
           color: Colors.white),
@@ -66,6 +66,7 @@ class _CustomButtonState extends State<CustomButton> {
                     fontSize: 14.0),
                 textAlign: TextAlign.center),
         style: ElevatedButton.styleFrom(
+          elevation: 0,
           primary: widget.buttonColor,
           fixedSize: Size(300, 100),
           shape:

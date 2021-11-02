@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/Vehicle.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
@@ -29,24 +31,25 @@ void main() async {
   bool idsession = await sessions.verificationSession('id');
   bool rolsession = await sessions.verificationSession('role');
 
-  Widget app = MaterialApp(
-    debugShowCheckedModeBanner: false,
-  );
-  if (!idsession && !rolsession) {
-    app = AppTaxiSegurito('firstScreen');
-  } else {
+  Widget app = AppTaxiSegurito('firstScreen');
+
+  if (idsession && rolsession) {
     final rol = await sessions.getSessionValue('role');
     final name = await sessions.getSessionValue('name');
-    if (rol.toString() == 'admin') {
-      app = AppTaxiSegurito('adminMenu', sessionName: name);
-    }
-    if (rol.toString() == 'owner') {
-      app = AppTaxiSegurito('ownerMenu', sessionName: name);
-    }
-    if (rol.toString() == 'client') {
-      app = AppTaxiSegurito('QRpage');
+
+    switch (rol.toString()) {
+      case 'admin':
+        app = AppTaxiSegurito('adminMenu', sessionName: name);
+        break;
+      case 'owner':
+        app = AppTaxiSegurito('ownerMenu', sessionName: name);
+        break;
+      default:
+        app = AppTaxiSegurito('scannerQr');
+        break;
     }
   }
+
   runApp(app);
 }
 
@@ -66,8 +69,8 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
 
   @override
   Widget build(BuildContext context) {
-    String image =
-        "iVBORw0KGgoAAAANSUhEUgAAAJYAAADICAQAAACgjNDuAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAFqSURBVHja7dgxSxthHMfxX60x0NBCpywKFizSoTg2S8HBqVMnRxfxTfgm+g7a1U06OEiHDh2KUDq0dOgcMYiLcXDQhnM405LU5DY59PN5xnuG48txz58nAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO6kBzV7n5k8zXye5CK99HIp1iSzWclGOlm4jvUru9nLmS/6f61s5zDFyDrPTl5IM66R7ZyPpSrXpyzKM2or/RtTFSnyPo8E+udZfk5MVeQsb+py+tRBZ+qf6XHeZlas4Yn8Kg+n7nidebFKc1mq2NFOW6zhl9WsPCsbYpUGOa7Y0U9frNJlvlfs+J2uWENfczLlaZGPOTVfDTXzYcqc9aPyALhnlvJ5QqqTrMsz7mW+3JDqKJv1GEjr5nnepZvB31Cn2c9axbh6yzNOve4elrOahbTyJ8c5yDe3WQAAAAAAAAAAAAAAAAAjrgA9sX9RB69GsAAAAEl0RVh0Y29tbWVudABGaWxlIHNvdXJjZTogaHR0cDovL2NvbW1vbnMud2lraW1lZGlhLm9yZy93aWtpL0ZpbGU6RnVsbF9zdG9wLnBuZ/hCj5kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTQtMTItMDRUMjM6MzY6MDQrMDA6MDDfLSfJAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE0LTEyLTA0VDIzOjM2OjA0KzAwOjAwrnCfdQAAAEZ0RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNi42LjktNyAyMDE0LTAzLTA2IFExNiBodHRwOi8vd3d3LmltYWdlbWFnaWNrLm9yZ4HTs8MAAAAYdEVYdFRodW1iOjpEb2N1bWVudDo6UGFnZXMAMaf/uy8AAAAYdEVYdFRodW1iOjpJbWFnZTo6aGVpZ2h0ADY0MFHve2EAAAAXdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANDgwInKzjgAAABl0RVh0VGh1bWI6Ok1pbWV0eXBlAGltYWdlL3BuZz+yVk4AAAAXdEVYdFRodW1iOjpNVGltZQAxNDE3NzM2MTY0Cs916QAAABN0RVh0VGh1bWI6OlNpemUAMi4xM0tCQmpcHHIAAAAzdEVYdFRodW1iOjpVUkkAZmlsZTovLy90bXAvbG9jYWxjb3B5XzE3NTRiNzYyNmU2MC0xLnBuZ1oV86IAAAAASUVORK5CYII=";
+    Uint8List image = base64Decode(
+        "iVBORw0KGgoAAAANSUhEUgAAAJYAAADICAQAAACgjNDuAAAAAmJLR0QA/4ePzL8AAAAJcEhZcwAACxMAAAsTAQCanBgAAAFqSURBVHja7dgxSxthHMfxX60x0NBCpywKFizSoTg2S8HBqVMnRxfxTfgm+g7a1U06OEiHDh2KUDq0dOgcMYiLcXDQhnM405LU5DY59PN5xnuG48txz58nAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAO6kBzV7n5k8zXye5CK99HIp1iSzWclGOlm4jvUru9nLmS/6f61s5zDFyDrPTl5IM66R7ZyPpSrXpyzKM2or/RtTFSnyPo8E+udZfk5MVeQsb+py+tRBZ+qf6XHeZlas4Yn8Kg+n7nidebFKc1mq2NFOW6zhl9WsPCsbYpUGOa7Y0U9frNJlvlfs+J2uWENfczLlaZGPOTVfDTXzYcqc9aPyALhnlvJ5QqqTrMsz7mW+3JDqKJv1GEjr5nnepZvB31Cn2c9axbh6yzNOve4elrOahbTyJ8c5yDe3WQAAAAAAAAAAAAAAAAAjrgA9sX9RB69GsAAAAEl0RVh0Y29tbWVudABGaWxlIHNvdXJjZTogaHR0cDovL2NvbW1vbnMud2lraW1lZGlhLm9yZy93aWtpL0ZpbGU6RnVsbF9zdG9wLnBuZ/hCj5kAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTQtMTItMDRUMjM6MzY6MDQrMDA6MDDfLSfJAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE0LTEyLTA0VDIzOjM2OjA0KzAwOjAwrnCfdQAAAEZ0RVh0c29mdHdhcmUASW1hZ2VNYWdpY2sgNi42LjktNyAyMDE0LTAzLTA2IFExNiBodHRwOi8vd3d3LmltYWdlbWFnaWNrLm9yZ4HTs8MAAAAYdEVYdFRodW1iOjpEb2N1bWVudDo6UGFnZXMAMaf/uy8AAAAYdEVYdFRodW1iOjpJbWFnZTo6aGVpZ2h0ADY0MFHve2EAAAAXdEVYdFRodW1iOjpJbWFnZTo6V2lkdGgANDgwInKzjgAAABl0RVh0VGh1bWI6Ok1pbWV0eXBlAGltYWdlL3BuZz+yVk4AAAAXdEVYdFRodW1iOjpNVGltZQAxNDE3NzM2MTY0Cs916QAAABN0RVh0VGh1bWI6OlNpemUAMi4xM0tCQmpcHHIAAAAzdEVYdFRodW1iOjpVUkkAZmlsZTovLy90bXAvbG9jYWxjb3B5XzE3NTRiNzYyNmU2MC0xLnBuZ1oV86IAAAAASUVORK5CYII=");
     return MaterialApp(
       title: "Taxi Segurito",
       theme: ThemeData(primarySwatch: Colors.amber),
@@ -75,43 +78,40 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       initialRoute: routeInitial,
       routes: {
         'loginUser': (_) => UserLoginPage(),
+        'registerScreen': (_) => RegisterPage(),
         'scannerQr': (_) => QRPAGE(),
         'firstScreen': (_) => MainWindow(),
-        'registerScreen': (_) => RegisterPage(),
+        'ownerMenu': (_) => OwnerMenu(name: this.sessionName),
+        'adminMenu': (_) => AdminMenu(name: this.sessionName),
+        'driverList': (_) => DriversListPage(),
+        'driverRegistration': (_) => DriverRegistration(),
         'registerCompany': (_) => RegisterCompanyScreen(),
+        'companyList': (_) => CompanyList(),
+        'userList': (_) => OnwerList(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => RegisterVehicleScreen(),
-        'driverRegistration': (_) => DriverRegistration(),
-        'QRpage': (_) => QRPAGE(),
-        'driverList': (_) => DriversListPage(),
-        'ownerMenu': (_) => OwnerMenu(name: this.sessionName),
-        'userList': (_) => OnwerList(),
-        'companyList': (_) => CompanyList(),
-        'adminMenu': (_) => AdminMenu(name: this.sessionName),
         'reportCar': (_) => DriverTravelCalificationPage(
               Driver("Rogelio Castro", "12345678", "75554554"),
               Vehicle(
-                  idVehicle: "1",
-                  capacity: "1 kilo",
+                  idVehicle: 1,
+                  capacity: 4,
                   color: "rojo con franjas verdes",
                   model: "Lamborginy",
                   pleik: "sdasd",
-                  photo: image,
-                  status: "1",
-                  owner_idOwner: "1",
-                  report_car_idReports: "sdasd"),
+                  picture: image,
+                  status: 1,
+                  idOwner: 1),
             ),
         'updateVehicleScreen': (BuildContext contextss) => UpdateVehicleScreen(
               Vehicle(
-                  idVehicle: "1",
-                  capacity: "1 kilo",
+                  idVehicle: 1,
+                  capacity: 1,
                   color: "rojo con franjas verdes",
                   model: "Lamborginy",
                   pleik: "sdasd",
-                  photo: image,
-                  status: "1",
-                  owner_idOwner: "1",
-                  report_car_idReports: "sdasd"),
+                  picture: image,
+                  status: 1,
+                  idOwner: 1),
             ),
       },
     );
