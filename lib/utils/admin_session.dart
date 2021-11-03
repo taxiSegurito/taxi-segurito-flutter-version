@@ -29,8 +29,9 @@ class AdminSession {
     return await sessions.getSessionValue("id");
   }
 
-  Future<dynamic> getSessionRole() async {
-    return await sessions.getSessionValue("role");
+  Future<String> getSessionRole() async {
+    final role = await sessions.getSessionValue("role");
+    return role.toString();
   }
 
   Future<dynamic> getSessionUsername() async {

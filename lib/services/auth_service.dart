@@ -25,6 +25,21 @@ class AuthService {
     return success;
   }
 
+  Future<int> getCurrentId() async {
+    final id = await _sessionsService.getSessionValue("id");
+    return int.parse(id);
+  }
+
+  Future<String> getCurrentRole() async {
+    final role = await _sessionsService.getSessionValue("role");
+    return role.toString();
+  }
+
+  Future<String> getCurrentUsername() async {
+    final name = await _sessionsService.getSessionValue("name");
+    return name.toString();
+  }
+
   _saveSession(User user) async {
     await _sessionsService.addSessionValue('id', user.idPerson.toString());
     await _sessionsService.addSessionValue('role', user.role);
@@ -43,21 +58,21 @@ class AuthService {
     }
     return false;
   }
-}
 
-Future<User?> _getUser(User user) async {
-  final queryParams = {'email': user.email, 'password': user.password};
-  final endpoint = Uri.http(
-    Server.host,
-    "${Server.baseEndpoint}/auth/auth_controller.php",
-    queryParams,
-  );
+  Future<User?> _getUser(User user) async {
+    final queryParams = {'email': user.email, 'password': user.password};
+    final endpoint = Uri.http(
+      Server.host,
+      "${Server.baseEndpoint}/auth/auth_controller.php",
+      queryParams,
+    );
 
-  final response = await http.get(endpoint);
-  if (response.statusCode == 200) {
-    final body = json.decode(response.body);
-    return new User.logInResponse(body['id'], body['role'], body['name']);
+    final response = await http.get(endpoint);
+    if (response.statusCode == 200) {
+      final body = json.decode(response.body);
+      return new User.logInResponse(body['id'], body['role'], body['name']);
+    }
+
+    return null;
   }
-
-  return null;
 }

@@ -14,24 +14,24 @@ class DriversListPage extends StatefulWidget {
 }
 
 class _DriversListPageState extends State<DriversListPage> {
-  DriversService driversService = DriversService();
+  DriversService _driversService = DriversService();
   late Future<List<Driver>> drivers;
 
   @override
   void initState() {
     super.initState();
-    drivers = driversService.getByOwner();
+    drivers = _driversService.getByOwner();
   }
 
   void _loadDrivers() {
     setState(() {
-      drivers = driversService.getByOwner();
+      drivers = _driversService.getByOwner();
     });
   }
 
   void _searchDriver(String value) {
     setState(() {
-      drivers = driversService.getByCriteria(value);
+      drivers = _driversService.getByCriteria(value);
     });
   }
 
