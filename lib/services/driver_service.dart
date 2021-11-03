@@ -7,7 +7,7 @@ import 'server.dart';
 class DriversService {
   AuthService _authService = AuthService();
 
-  Future<List<Driver>> getByOwner() async {
+  Future<List<Driver>> getDrivers() async {
     final ownerId = await _authService.getCurrentId();
     final queryParams = {'ownerId': ownerId.toString()};
     final endpoint = Uri.http(

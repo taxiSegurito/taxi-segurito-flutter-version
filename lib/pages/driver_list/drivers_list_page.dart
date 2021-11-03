@@ -20,12 +20,12 @@ class _DriversListPageState extends State<DriversListPage> {
   @override
   void initState() {
     super.initState();
-    drivers = _driversService.getByOwner();
+    drivers = _driversService.getDrivers();
   }
 
   void _loadDrivers() {
     setState(() {
-      drivers = _driversService.getByOwner();
+      drivers = _driversService.getDrivers();
     });
   }
 
