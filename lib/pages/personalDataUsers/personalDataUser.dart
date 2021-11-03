@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataVehiculesDriver.dart';
-import 'package:taxi_segurito_app/pages/personalDataDriver/personalDataDriver.dart';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 void main() => runApp(personalDataUser());
 
@@ -37,7 +37,7 @@ bool listview = true;
 var dataVehicules;
 var registros1;
 
-//obtener datos del usuario
+//obtener datos del Owner
 Future<DataDriverSelect> getData() async {
   //cadena de coneccion para php
   path = path + "selectDataOwner.php";
@@ -176,8 +176,8 @@ class _InicioState extends State<Inicio> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 15),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(data.photo),
                           radius: 75,
+                          child: Image.memory(imageFromBase64(data.photo)),
                         ),
                       ),
                       Container(
@@ -495,11 +495,10 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                   TableRow(children: [
                     Container(
                       margin: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Image.network(
-                        dataVehicules[index].photo,
-                        width: 70,
-                        height: 50,
-                      ),
+                      child: Image.memory(
+                          imageFromBase64(dataVehicules[index].photo)),
+                      width: 70,
+                      height: 50,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 15, right: 15),
