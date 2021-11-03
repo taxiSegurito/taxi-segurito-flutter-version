@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataVehiculesDriver.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriver.dart';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 class PersonalDataDriver extends StatefulWidget {
   PersonalDataDriver({Key? key}) : super(key: key);
@@ -162,8 +163,8 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 15),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(data?.photo),
                           radius: 75,
+                          child: Image.memory(imageFromBase64(data?.photo)),
                         ),
                       ),
                       Container(
@@ -391,11 +392,10 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                   TableRow(children: [
                     Container(
                       margin: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Image.network(
-                        dataVehicule[index].photo,
-                        width: 70,
-                        height: 50,
-                      ),
+                      child: Image.memory(
+                          imageFromBase64(dataVehicule[index].photo)),
+                      width: 70,
+                      height: 50,
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 15, right: 15),
