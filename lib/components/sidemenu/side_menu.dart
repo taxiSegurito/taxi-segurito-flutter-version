@@ -36,7 +36,7 @@ class SideMenu extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 45,
                       backgroundImage: NetworkImage(
-                          'https://cdn-icons-png.flaticon.com/128/1077/1077114.png'),
+                          'https://www.hispano-irish.com/wp-content/uploads/2020/05/PngItem_1300253.png'),
                     ),
                   ),
                   Text(this.username ?? "Nombre usuario"),

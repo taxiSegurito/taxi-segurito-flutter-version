@@ -4,7 +4,6 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
-import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/company.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
@@ -17,11 +16,11 @@ abstract class BaseCompanyScreen extends StatefulWidget {
   @override
   _BaseCompanyScreenState createState() => _BaseCompanyScreenState();
 
-  String titleScreen();
-  String textButton();
+  String getScreenTitle();
+  String getButtonText();
   void eventAction();
-  String tittleDialog();
-  CompanyScreenFunctionality functionality();
+  String getDialogTitle();
+  CompanyScreenFunctionality getFunctionality();
 }
 
 class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
@@ -30,15 +29,14 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
 
-    CompanyScreenFunctionality registerCompanyFunctionality =
-        widget.functionality();
-    registerCompanyFunctionality.context = context;
+    CompanyScreenFunctionality functionality = widget.getFunctionality();
+    functionality.context = context;
 
     Image taxiGif = new Image.asset(
       "assets/images/taxi.gif",
     );
 
-    final txtNameCompany = new CustomTextField(
+    Widget txtNameCompany = new CustomTextField(
       value: widget.company.companyName,
       hint: 'Nombre Compañia',
       multiValidator: MultiValidator(
@@ -52,7 +50,7 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
       },
     );
 
-    final txtNit = new CustomTextField(
+    Widget txtNit = new CustomTextField(
       value: widget.company.nit,
       hint: "Nit de la empresa",
       multiValidator: MultiValidator(
@@ -65,9 +63,9 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
       },
     );
 
-    final btnCancel = new CustomButtonWithLinearBorder(
+    Widget btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
-        registerCompanyFunctionality.onPressedBtnCancel();
+        functionality.onPressedBtnCancel();
       },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
@@ -79,14 +77,14 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
       marginTop: 0,
     );
 
-    final dialogShowRegister = new CustomDialogShow(
+    CustomDialogShow dialogShowRegister = new CustomDialogShow(
       ontap: () {
-        registerCompanyFunctionality.closeNavigator();
+        functionality.closeNavigator();
       },
       buttonText: "Aceptar",
       buttonColor: colorMain,
       buttonColorText: Colors.white,
-      titleShowDialog: widget.tittleDialog(),
+      titleShowDialog: widget.getDialogTitle(),
       context: context,
     );
 
@@ -96,20 +94,20 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
 
     bool isFormValid() {
       if (_formKey.currentState!.validate()) {
-        registerCompanyFunctionality.company = widget.company;
-        registerCompanyFunctionality.activeShowDialog = activeShowDialog;
+        functionality.company = widget.company;
+        functionality.activeShowDialog = activeShowDialog;
         return true;
       }
       return false;
     }
 
-    final btnGeneric = new CustomButton(
+    Widget btnGeneric = new CustomButton(
       onTap: () {
         if (isFormValid()) {
           widget.eventAction();
         }
       },
-      buttonText: widget.textButton(),
+      buttonText: widget.getButtonText(),
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
       buttonTextColor: Colors.white,
       marginBotton: 0,
@@ -119,7 +117,7 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
     );
 
     AppBar appBar = new AppBar(
-      backgroundColor: colorMain,
+      backgroundColor: Colors.white,
       elevation: 0,
       title: Text(
         '',
@@ -138,27 +136,26 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
       ),
     );
 
-    Text title = new Text(
-      widget.titleScreen(),
-      style: const TextStyle(
-          fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
-      textAlign: TextAlign.right,
-    );
-
-    Container containerTitle = new Container(
+    Widget title = new Container(
       alignment: Alignment.center,
       margin:
           new EdgeInsets.only(top: 40.0, bottom: 30.0, left: 50.0, right: 50.0),
-      child: title,
+      child: Text(
+        widget.getScreenTitle(),
+        style: const TextStyle(
+            fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
+        textAlign: TextAlign.right,
+      ),
     );
-    Container containerTaxiGif = new Container(
+
+    Widget gifTaxi = new Container(
       alignment: Alignment.center,
       margin:
           new EdgeInsets.only(top: 40.0, bottom: 30.0, left: 50.0, right: 50.0),
       child: taxiGif,
     );
 
-    Container containerButtons = new Container(
+    Widget buttons = new Container(
       alignment: Alignment.centerLeft,
       margin:
           new EdgeInsets.only(top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
@@ -174,7 +171,6 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       appBar: appBar,
-      //drawer: SideMenu(),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -192,11 +188,11 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      containerTitle,
-                      containerTaxiGif,
+                      title,
+                      gifTaxi,
                       txtNameCompany,
                       txtNit,
-                      containerButtons,
+                      buttons,
                     ],
                   ),
                 ),

@@ -2,9 +2,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
+import 'package:taxi_segurito_app/components/buttons/refresh_button.dart';
+import 'package:taxi_segurito_app/components/inputs/SearchBar.dart';
 import 'package:taxi_segurito_app/pages/company_list/widgets/company_list.dart';
-import 'package:taxi_segurito_app/pages/owner_list/widgets/refresh_button.dart';
 
 import 'company_list_functionality.dart';
 
@@ -30,7 +30,6 @@ class _CompanyListPageState extends State<CompanyListPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color colorMain = Color.fromRGBO(255, 193, 7, 1);
     functionality.context = context;
 
     companyListView.setCallbak = (value) {
@@ -61,31 +60,23 @@ class _CompanyListPageState extends State<CompanyListPage> {
       ),
     );
 
-    RefreshButton containerFilter = new RefreshButton(
-      onTap: () {
-        functionality.onPressedReloadListView();
-      },
-    );
-
-    CustomTextFieldSearch txtSearch = new CustomTextFieldSearch(
-      marginBotton: 0,
-      marginLeft: 0,
-      marginRight: 2,
-      marginTop: 0,
-      heightNum: 35,
-      radius: 20,
+    Widget searchField = SearchField(
+      onSearch: functionality.onPressedSearhCompany,
       hint: 'Buscar por nombre compañia o nit',
-      ontap: () {},
-      callbackValueSearch: (value) {
-        functionality.onPressedSearhCompany(value);
-      },
     );
 
-    Container containerSearch = new Container(
+    Widget searchBar = new Container(
       margin:
           new EdgeInsets.only(top: 5.0, bottom: 10.0, left: 20.0, right: 20.0),
       child: Row(
-        children: [Expanded(flex: 2, child: txtSearch), containerFilter],
+        children: [
+          Expanded(
+            flex: 2,
+            child:
+                Padding(padding: EdgeInsets.only(right: 8), child: searchField),
+          ),
+          RefreshButton(functionality.onPressedReloadListView),
+        ],
       ),
     );
 
@@ -98,7 +89,7 @@ class _CompanyListPageState extends State<CompanyListPage> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            containerSearch,
+            searchBar,
             Expanded(child: Container(child: companyListView))
           ],
         ),

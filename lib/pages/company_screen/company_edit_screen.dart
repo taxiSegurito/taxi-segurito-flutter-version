@@ -14,22 +14,22 @@ class CompanyEditScreen extends BaseCompanyScreen {
   }
 
   @override
-  CompanyScreenFunctionality functionality() {
+  CompanyScreenFunctionality getFunctionality() {
     return screensCompanyFunctionality;
   }
 
   @override
-  String textButton() {
+  String getButtonText() {
     return 'Actualizar';
   }
 
   @override
-  String titleScreen() {
+  String getScreenTitle() {
     return 'Actualizar Compañia';
   }
 
   @override
-  String tittleDialog() {
+  String getDialogTitle() {
     return 'Actualizacion Exitosa';
   }
 }

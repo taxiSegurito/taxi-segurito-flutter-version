@@ -3,30 +3,29 @@ import 'company_screen_functionality.dart';
 
 // ignore: must_be_immutable
 class CompanyRegisterScreen extends BaseCompanyScreen {
-  CompanyScreenFunctionality screensCompanyFunctionality =
-      new CompanyScreenFunctionality();
+  CompanyScreenFunctionality funcionality = new CompanyScreenFunctionality();
   @override
   void eventAction() {
-    screensCompanyFunctionality.onPressedBtnRegister();
+    funcionality.onPressedBtnRegister();
   }
 
   @override
-  CompanyScreenFunctionality functionality() {
-    return screensCompanyFunctionality;
+  CompanyScreenFunctionality getFunctionality() {
+    return funcionality;
   }
 
   @override
-  String textButton() {
+  String getButtonText() {
     return 'Registrar';
   }
 
   @override
-  String titleScreen() {
+  String getScreenTitle() {
     return 'Registrar Compañia';
   }
 
   @override
-  String tittleDialog() {
+  String getDialogTitle() {
     return 'Registro Exitoso';
   }
 }

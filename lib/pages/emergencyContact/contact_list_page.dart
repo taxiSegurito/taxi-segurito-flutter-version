@@ -22,7 +22,7 @@ class _ListContactState extends State<ListContact_Page> {
       List<dynamic> dataSet1 = await functionality.SelectContactData();
       print("2: " + dataSet1.toString());
       if (dataSet1.toString() == "NoResponse") {
-        functionality.ShowCustomToast(
+        functionality.showCustomToast(
             "Error al conectar con la base de datos.", Colors.red);
         return [];
       } else {

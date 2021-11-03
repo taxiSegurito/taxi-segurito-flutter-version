@@ -10,13 +10,12 @@ class CompanyService {
       var path = "${Server.url}/Company/company_controller.php";
       final response = await http.post(
         Uri.parse(path),
-        body: {
+        body: jsonEncode({
           'name': company.companyName,
           'nit': company.nit,
-        },
+        }),
       );
-      String result = json.decode(response.body);
-      return result == "success";
+      return response.statusCode == 200;
     } catch (exception) {
       return false;
     }
@@ -32,9 +31,10 @@ class CompanyService {
         },
         body: jsonEncode(
           {
-            "name": company.companyName,
-            "nit": company.nit,
-            "id": company.idCompany,
+            'name': company.companyName,
+            'nit': company.nit,
+            'id': company.idCompany,
+            'status': 1,
           },
         ),
       );

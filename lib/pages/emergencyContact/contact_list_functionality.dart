@@ -14,14 +14,14 @@ class ListContact_Functionality {
   var db = "https://taxi-segurito.000webhostapp.com/flutter_api/";
 
   Future CheckID() async {
-    bool idsession = await sessions.verificationSession("iduser");
+    bool idsession = await sessions.verificationSession("id");
     print("-1: " + idUser);
     if (idsession) {
-      idUser = sessions.getSessionValue("iduser").toString();
+      idUser = sessions.getSessionValue("id").toString();
       print("0: " + idUser);
       return true;
-    } else
-      return false;
+    }
+    return false;
   }
 
   //Querys
@@ -64,7 +64,7 @@ class ListContact_Functionality {
   }
   */
   // 4 SOFT DELETE: realize a UPDATE, status = 0
-  Future DeleteHardContact(String _id) async {
+  Future deleteHardContact(String _id) async {
     var url = db + "deleteEmergencyContact.php";
     var response = await http.post(Uri.parse(url), body: {
       "id": _id,
@@ -102,7 +102,7 @@ class ListContact_Functionality {
   }
   */
 
-  void ShowCustomToast(String myText, Color myColor) {
+  void showCustomToast(String myText, Color myColor) {
     Fluttertoast.showToast(
         msg: myText,
         toastLength: Toast.LENGTH_SHORT,

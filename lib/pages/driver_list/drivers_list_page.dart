@@ -3,7 +3,7 @@ import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/services/driver_service.dart';
 
 import 'drivers_list.dart';
-import '../../components/buttons/RefreshButton.dart';
+import '../../components/buttons/refresh_button.dart';
 import '../../components/inputs/SearchBar.dart';
 
 class DriversListPage extends StatefulWidget {
@@ -14,7 +14,7 @@ class DriversListPage extends StatefulWidget {
 }
 
 class _DriversListPageState extends State<DriversListPage> {
-  DriversService driversService = new DriversService();
+  DriversService driversService = DriversService();
   late Future<List<Driver>> drivers;
 
   @override
@@ -54,7 +54,7 @@ class _DriversListPageState extends State<DriversListPage> {
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(right: 8),
-                    child: SearchBar(
+                    child: SearchField(
                       onSearch: _searchDriver,
                       hint: "Buscar por nombre o C.I.",
                     ),

@@ -4,11 +4,7 @@ import 'package:taxi_segurito_app/models/company.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/services/company_service.dart';
 
-List<Company> listCompany = [
-  Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1"),
-  Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1"),
-  Company(companyName: "Taxis del norte", nit: "123456", idCompany: "1")
-];
+List<Company> listCompany = [];
 
 class CompanyListFunctionallity {
   late CompanyService companyService;

@@ -1,35 +1,10 @@
 import 'package:flutter/material.dart';
-import '../owner_list_functionality.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 import 'owner_list_item.dart';
 
-class OwnerList extends StatefulWidget {
-  List<dynamic>? listDataUser = listUserData;
-  void Function(dynamic dynamicObject)? callback;
-  _OwnerListState _containerListViewState = new _OwnerListState();
-  OwnerList({Key? key, this.callback}) : super(key: key);
-
-  @override
-  _OwnerListState createState() {
-    return _containerListViewState;
-  }
-
-  set setCallbak(function) {
-    this.callback = function;
-  }
-
-  updateListView() {
-    _containerListViewState.updateListView();
-  }
-}
-
-class _OwnerListState extends State<OwnerList> {
-  updateListView() {
-    setState(
-      () {
-        widget.listDataUser = listUserData;
-      },
-    );
-  }
+class OwnerList extends StatelessWidget {
+  Future<List<Owner>> ownersFuture;
+  OwnerList(this.ownersFuture);
 
   @override
   Widget build(BuildContext context) {
@@ -39,16 +14,20 @@ class _OwnerListState extends State<OwnerList> {
     return new Container(
       height: height,
       width: width,
-      child: ListView.builder(
-        itemCount: listUserData.length,
-        itemBuilder: (context, index) {
-          dynamic dinamycOb = listUserData[index];
-          return new OwnerListItem(
-            dynamicObject: dinamycOb,
-            callback: (value) {
-              widget.callback!(value);
-            },
-          );
+      child: FutureBuilder(
+        future: ownersFuture,
+        builder: (_, AsyncSnapshot<List<Owner>> snapshot) {
+          if (snapshot.hasData) {
+            final owners = snapshot.data!;
+            return ListView.builder(
+              itemCount: owners.length,
+              itemBuilder: (context, index) {
+                final owner = owners[index];
+                return OwnerListItem(owner);
+              },
+            );
+          }
+          return Center(child: CircularProgressIndicator());
         },
       ),
     );
