@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/services/InsertOwner.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/services/owner_service.dart';
 
 class RegisterOwnerFunctionality {
   BuildContext context;
@@ -19,6 +19,8 @@ class RegisterOwnerFunctionality {
   String? ci;
   String? address;
   VoidCallback? activeShowDialog;
+
+  OwnerService _ownerService = OwnerService();
 
   RegisterOwnerFunctionality(
       {required this.context,
@@ -43,7 +45,8 @@ class RegisterOwnerFunctionality {
 
   onPressedbtnRegisterCar() {
     fullName = names! + " " + lastName! + " " + lastNameSecond!;
-    insert(Owner(
+    _ownerService
+        .insert(Owner(
             fullName: fullName!,
             cellPhone: cellphone!,
             email: email!,
