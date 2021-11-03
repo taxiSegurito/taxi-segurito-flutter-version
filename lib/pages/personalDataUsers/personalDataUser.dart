@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriverSelect.dart';
 import 'dart:async';
@@ -33,41 +34,33 @@ var registros;
 bool loading = true;
 bool listview = true;
 //datos para el select de los autos
-var data1;
+var dataVehicules;
 var registros1;
 
 //obtener datos del usuario
-Future<List<DataDriverSelect>> getData() async {
+Future<DataDriverSelect> getData() async {
   //cadena de coneccion para php
-  data = List<DataDriverSelect>.empty(growable: true);
-  path = path + "selectDataDriver.php";
+  path = path + "selectDataOwner.php";
   var response = await http.post(Uri.parse(path), body: {
     'idDriver': idDriver,
   }).timeout(Duration(seconds: 90));
 
-  var datos = jsonDecode(response.body);
+  final datos = jsonDecode(response.body);
+  registros = new DataDriverSelect.fromJson(datos);
 
-  registros = List<DataDriverSelect>.empty(growable: true);
-
-  for (datos in datos) {
-    registros.add(DataDriverSelect.fromJson(datos));
-  }
   return registros;
 }
 
-//obtener datos de los vehiculos del usuario
+//obtener lista datos de los vehiculos del usuario
 Future<List<DataVehiculesDriver>> getDataVehicule() async {
   //cadena de coneccion para php
-  data1 = List<DataVehiculesDriver>.empty(growable: true);
-  var url = Service.url + "selectVehiculesDriver.php";
+  dataVehicules = List<DataVehiculesDriver>.empty(growable: true);
+  var url = Service.url + "selectVehiculesOwner.php";
   var response1 = await http.post(Uri.parse(url), body: {
     'idDriver': idDriver,
   }).timeout(Duration(seconds: 90));
-
   var datos1 = jsonDecode(response1.body);
-
   registros1 = List<DataVehiculesDriver>.empty(growable: true);
-
   for (datos1 in datos1) {
     registros1.add(DataVehiculesDriver.fromJson(datos1));
   }
@@ -93,7 +86,7 @@ class _InicioState extends State<Inicio> {
     });
     getDataVehicule().then((values) {
       setState(() {
-        data1.addAll(values);
+        dataVehicules.addAll(values);
         listview = false;
       });
     });
@@ -183,7 +176,7 @@ class _InicioState extends State<Inicio> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 15),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(data[0].photo),
+                          backgroundImage: NetworkImage(data.photo),
                           radius: 75,
                         ),
                       ),
@@ -211,7 +204,7 @@ class _InicioState extends State<Inicio> {
                           children: [
                             Container(
                               child: Text(
-                                data?[0].fullName,
+                                data?.fullName,
                                 style: TextStyle(
                                     fontFamily: 'Raleway',
                                     fontSize: 26,
@@ -248,7 +241,7 @@ class _InicioState extends State<Inicio> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].ci,
+                                    data?.ci,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -277,7 +270,7 @@ class _InicioState extends State<Inicio> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].license,
+                                    data?.license,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -306,7 +299,7 @@ class _InicioState extends State<Inicio> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].cellphone,
+                                    data?.cellphone,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -336,7 +329,7 @@ class _InicioState extends State<Inicio> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].email,
+                                    data?.email,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -365,7 +358,7 @@ class _InicioState extends State<Inicio> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].nacionalidad,
+                                    data?.nacionalidad,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -409,7 +402,7 @@ class _InicioState extends State<Inicio> {
                       //Container que almacenara los cards de vehiculos asignados
                       Container(
                         margin: EdgeInsets.only(bottom: 20),
-                        width: 300,
+                        width: 350,
                         height: 150,
                         alignment: Alignment.center,
                         child: listview == true
@@ -436,7 +429,7 @@ class AlertDialogDelete extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
       title: Text(
-        'Está seguro de que desea eliminar a ' + data?[0].fullName,
+        'Está seguro de que desea eliminar a ' + data?.fullName,
         style:
             TextStyle(color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
       ),
@@ -480,15 +473,15 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: data1.length,
+      itemCount: dataVehicules.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
             //viene el codigo despues de presionar el card respectivo
             print('Has Selecionado el Vehiculo: ' +
-                data1[index].idvehiculo +
+                dataVehicules[index].idvehiculo +
                 ' ' +
-                data1[index].model);
+                dataVehicules[index].model);
           },
           child: Card(
             shadowColor: Colors.black,
@@ -503,7 +496,7 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                     Container(
                       margin: EdgeInsets.only(top: 10, bottom: 10),
                       child: Image.network(
-                        data1[index].photo,
+                        dataVehicules[index].photo,
                         width: 70,
                         height: 50,
                       ),
@@ -514,7 +507,7 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                       child: Column(
                         children: [
                           Text(
-                            data1[index].model,
+                            dataVehicules[index].model,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: 'Raleway',
@@ -523,7 +516,7 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            data1[index].pleik,
+                            dataVehicules[index].pleik,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: 'Raleway',

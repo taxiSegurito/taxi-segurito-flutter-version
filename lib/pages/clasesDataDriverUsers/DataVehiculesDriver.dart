@@ -1,12 +1,12 @@
 //Clase con un constructor para leer el archivo json desde php
 class DataVehiculesDriver {
-  String iddriver = "";
+  int iddriver = 0;
   String photo = "";
   String model = "";
   String pleik = "";
-  String idvehiculo = "";
-  DataVehiculesDriver(String iddriver, String photo, String model, String pleik,
-      String idvehiculo) {
+  int idvehiculo = 0;
+  DataVehiculesDriver(
+      int iddriver, String photo, String model, String pleik, int idvehiculo) {
     this.iddriver = iddriver;
     this.photo = photo;
     this.model = model;

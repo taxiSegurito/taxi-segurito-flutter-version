@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../clasesDataDriverUsers/DataDriverSelect.dart';
 import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataVehiculesDriver.dart';
+import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriver.dart';
 
 class PersonalDataDriver extends StatefulWidget {
   PersonalDataDriver({Key? key}) : super(key: key);
@@ -24,31 +24,27 @@ var registros;
 bool loading = true;
 bool listview = true;
 //datos para el select de los autos
-var data1;
+var dataVehicule;
 var registros1;
 
-Future<List<DataDriverSelect>> getData() async {
+//Obtener datos driver
+Future<DataDriver> getData() async {
   //cadena de coneccion para php
-  data = List<DataDriverSelect>.empty(growable: true);
   path = path + "selectDataDriver.php";
   var response = await http.post(Uri.parse(path), body: {
     'idDriver': idDriver,
   }).timeout(Duration(seconds: 90));
 
-  var datos = jsonDecode(response.body);
+  final datos = jsonDecode(response.body);
+  registros = new DataDriver.fromJson(datos);
 
-  registros = List<DataDriverSelect>.empty(growable: true);
-
-  for (datos in datos) {
-    registros.add(DataDriverSelect.fromJson(datos));
-  }
   return registros;
 }
 
 //Cargar datos del vehiculo y el dueno o conductor asignado
 Future<List<DataVehiculesDriver>> getDataVehicule() async {
   //cadena de coneccion para php
-  data1 = List<DataVehiculesDriver>.empty(growable: true);
+  dataVehicule = List<DataVehiculesDriver>.empty(growable: true);
   var url = Service.url + "selectVehiculesDriver.php";
   var response1 = await http.post(Uri.parse(url), body: {
     'idDriver': idDriver,
@@ -76,7 +72,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
     });
     getDataVehicule().then((values) {
       setState(() {
-        data1.addAll(values);
+        dataVehicule.addAll(values);
         listview = false;
       });
     });
@@ -166,7 +162,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 15),
                         child: CircleAvatar(
-                          backgroundImage: NetworkImage(data?[0].photo),
+                          backgroundImage: NetworkImage(data?.photo),
                           radius: 75,
                         ),
                       ),
@@ -194,7 +190,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                           children: [
                             Container(
                               child: Text(
-                                data?[0].fullName,
+                                data.fullName,
                                 style: TextStyle(
                                     fontFamily: 'Raleway',
                                     fontSize: 26,
@@ -231,7 +227,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].ci,
+                                    data.ci,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -260,66 +256,7 @@ class _PersonalDataDriverState extends State<PersonalDataDriver> {
                                   margin: EdgeInsets.only(
                                       top: 15, bottom: 15, right: 15),
                                   child: Text(
-                                    data?[0].cellphone,
-                                    style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 18,
-                                        color: Color.fromRGBO(93, 93, 93, 1)),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            TableRow(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 15, bottom: 15, left: 15),
-                                  child: Text(
-                                    'Correo:',
-                                    style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 18,
-                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                        letterSpacing: 0,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 15, bottom: 15, right: 15),
-                                  child: Text(
-                                    data?[0].email,
-                                    style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 18,
-                                        color: Color.fromRGBO(93, 93, 93, 1)),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            TableRow(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 15, bottom: 15, left: 15),
-                                  child: Text(
-                                    'Nacionalidad:',
-                                    style: TextStyle(
-                                        fontFamily: 'Raleway',
-                                        fontSize: 18,
-                                        color: Color.fromRGBO(0, 0, 0, 1),
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 15, bottom: 15, right: 15),
-                                  child: Text(
-                                    data?[0].nacionalidad,
+                                    data.cellphone,
                                     style: TextStyle(
                                         fontFamily: 'Raleway',
                                         fontSize: 18,
@@ -389,7 +326,7 @@ class AlertDialogDelete extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoAlertDialog(
       title: Text(
-        'Está seguro de que desea eliminar a ' + data?[0].fullName,
+        'Está seguro de que desea eliminar a ' + data.fullName,
         style:
             TextStyle(color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
       ),
@@ -432,15 +369,15 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: data1.length,
+      itemCount: dataVehicule.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
           onTap: () {
             //viene el codigo despues de presionar el card respectivo
             print('Has Selecionado el Vehiculo: ' +
-                data1[index].idvehiculo +
+                dataVehicule[index].idvehiculo +
                 ' ' +
-                data1[index].model);
+                dataVehicule[index].model);
           },
           child: Card(
             shadowColor: Colors.black,
@@ -455,7 +392,7 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                     Container(
                       margin: EdgeInsets.only(top: 10, bottom: 10),
                       child: Image.network(
-                        data1[index].photo,
+                        dataVehicule[index].photo,
                         width: 70,
                         height: 50,
                       ),
@@ -466,7 +403,7 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                       child: Column(
                         children: [
                           Text(
-                            data1[index].model,
+                            dataVehicule[index].model,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: 'Raleway',
@@ -475,7 +412,7 @@ class _ListViewVehiculesState extends State<ListViewVehicules> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            data1[index].pleik,
+                            dataVehicule[index].pleik,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: 'Raleway',
