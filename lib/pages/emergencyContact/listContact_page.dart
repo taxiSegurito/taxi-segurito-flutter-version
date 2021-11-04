@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/formContact_page.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/listContact_functionality.dart';
+
 
 class ListContact_Page extends StatefulWidget
 {
@@ -13,27 +15,33 @@ class ListContact_Page extends StatefulWidget
 class _ListContactState extends State<ListContact_Page> {
   ListContact_Functionality listContact_functionality = new ListContact_Functionality();
   List<dynamic> contacts = [];
-  var aux; //Para esperar la respuesta del futureBuilder
+  var aux; //Para esperar la respuesta del SELECT en el futureBuilder, no nos sirve para nada mas
   var isSession;
 
   Future LoadData_Function() async
   {
     isSession = await listContact_functionality.CheckID(); //Revisa si hay sesion,
-    print("0.5: "+isSession.toString());
     if(isSession)
     {
-        List<dynamic> dataSet1 = await listContact_functionality.SelectContactData();
-        print("2: "+dataSet1.toString());
-        if(dataSet1.toString()=="NoResponse")
+      var dataSet = await listContact_functionality.SelectContactData();
+      print("2 dataSet: "+dataSet.toString());
+      if(dataSet.toString()!="NoResponse" && dataSet.toString() != "Error")
+      {
+        if(dataSet.toString()!="Null")
         {
-          listContact_functionality.ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
-          return [];
-        }
+          contacts = dataSet;
+          return []; //No importa que retorne porque no usamos el aux, directamente guardamos todo en var contacts
+        } 
         else{
-          contacts = dataSet1;
-          return dataSet1;
+          listContact_functionality.ShowCustomToast("No se ha encontrado los datos del usuario.", Colors.red);
+          return []; //No importa que retorne porque no usamos el aux.
         }
-
+      }
+      else
+      {
+        listContact_functionality.ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
+        return []; //No importa que retorne porque no usamos el aux.
+      }
     }
 
   }
@@ -43,7 +51,7 @@ class _ListContactState extends State<ListContact_Page> {
     return FutureBuilder(future: aux = LoadData_Function(),builder: (_,AsyncSnapshot snapshot) { return _loadWidgets();});
   }
 
-  // UI Function 1: Carga la interfaz una vez obtengan los datos, si no hay datos, mostrará "No tiene contactos de emergencia"
+  // UI Method 1: Carga la interfaz una vez obtengan los datos, si no hay datos, mostrará "No tiene contactos de emergencia"
   Widget _loadWidgets(){
   return Scaffold(
           appBar: AppBar(
@@ -76,7 +84,7 @@ class _ListContactState extends State<ListContact_Page> {
         
     );
   }
-  // UI Function 2: Metodo para generar un widget por cada contacto con sus datos
+  // UI Method 2: Metodo para generar un widget por cada contacto con sus datos
   List<Widget> _insertItem(){
 
     List<Widget> temporal = [];
@@ -94,7 +102,7 @@ class _ListContactState extends State<ListContact_Page> {
                       child: Row(
                         children: [
                           Container(
-                            width: MediaQuery.of(context).size.width / 5,
+                           // width: 70,
                             child: Icon(
                               Icons.person_outline,
                               size: 60,
@@ -104,16 +112,16 @@ class _ListContactState extends State<ListContact_Page> {
                             Column(
                               children: [
                               Container(
-                                width: (MediaQuery.of(context).size.width / 5)*3,
-                                height: 40,
+                                width: (MediaQuery.of(context).size.width / 10)*5,
+                                height: 35,
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   contact['nameContact'],
-                                  style: TextStyle(fontFamily: "Raleway",fontSize: 24,color: Colors.blueGrey),
+                                  style: TextStyle(fontFamily: "Raleway",fontSize: 22,color: Colors.blueGrey),
                                 ),
                               ),
                               Container(
-                                width: (MediaQuery.of(context).size.width / 5)*3,
+                                width: (MediaQuery.of(context).size.width / 10)*5,
                                 alignment: Alignment.centerLeft,
                                 child: Text(
                                   "+591 "+contact['number'],
@@ -122,6 +130,35 @@ class _ListContactState extends State<ListContact_Page> {
                               ),
                               ],
                             ),
+                            //Edit Button
+                            Container(
+                            width: 50,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => FormContact_Page.update(contact)),);
+                                },
+                              child: Icon(
+                                Icons.edit,
+                                size: 40,
+                                color: Colors.blueGrey,
+                                )
+                              )
+                            ),
+                            //
+                            //Delete Button
+                            Container(
+                            width: 40,
+                            alignment: Alignment.centerLeft,
+                            child: InkWell(
+                              onTap: (){_showConfirmDelete(contact['idEmergencyContact']);},
+                              child: Icon(
+                                Icons.delete,
+                                size: 40,
+                                color: Colors.red,
+                                )
+                              )
+                            ),
+                            
 
                         ],
                       ) 
@@ -132,7 +169,7 @@ class _ListContactState extends State<ListContact_Page> {
     }
     return temporal;
   }
-// UI Function 3: Genera floatingButtom para agregar contactos, si no hay sesion, no se activa el metodo
+// UI Method 3: Genera floatingButtom para agregar contactos, si no hay sesion, no se activa el metodo
   Widget _insertFloatingButton(){
     return FloatingActionButton(
           onPressed: () {
@@ -141,6 +178,33 @@ class _ListContactState extends State<ListContact_Page> {
           child: Icon(Icons.add),
         );
   }
-
+// UI Method 4: Muestra un mensaje de confirmacion de eliminacion.
+  Future<void> _showConfirmDelete(_idEmergencyContact) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('¿Borrar contacto de emergencia?'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Borrar'),
+            onPressed: () {
+              listContact_functionality.DeleteContact_Function(_idEmergencyContact,context);
+              Navigator.of(context).pop();
+              
+            },
+          ),
+          TextButton(
+            child: const Text('Cancelar'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+  }
 
 }

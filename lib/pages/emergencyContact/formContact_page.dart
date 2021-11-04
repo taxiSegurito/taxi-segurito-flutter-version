@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/formContact_functionality.dart';
-class FormContact_Page extends StatefulWidget {
-  _FormState createState() => _FormState();
+
+class FormContact_Page extends StatefulWidget 
+{
+  dynamic _dataContact;
+
+  FormContact_Page();
+  FormContact_Page.update(this._dataContact); //Aux para pasar datos de contacto
+
+  _FormState createState() => _FormState(_dataContact);
 }
 
 class _FormState extends State<FormContact_Page> {
+
+  dynamic _dataContact;//Aux para recibir datos de contacto
+  _FormState(this._dataContact); //Aux para pasar datos de contacto
+ 
   FormContact_Functionality formContact_Functionality = new FormContact_Functionality();
   var aux; //Para esperar la respuesta del futureBuilder
   var isSession;
+
   @override
   void initState()
   {
@@ -17,20 +29,10 @@ class _FormState extends State<FormContact_Page> {
   void LoadData_Function() async
   {
     isSession = await formContact_Functionality.CheckID(); //Revisa si hay sesion,
-    print("isSession: "+isSession.toString());
-    if(isSession)
-    { /*
-        List<dynamic> data = await formContact_Functionality.GetContactData();
-        print("2: "+data.toString());
-        if(data.toString()=="NoResponse")
-        {
-          formContact_Functionality.ShowCustomToast("Error al conectar con la base de datos.", Colors.red);
-          return [];
-        }
-        else{
-          //contacts = dataSet1;
-          return data;
-        } */
+    if(isSession && _dataContact!=null) // Si estamos haciendo un insert
+    { 
+      formContact_Functionality.contactName_Controller.text = _dataContact['nameContact'];
+      formContact_Functionality.contactNumber_Controller.text = _dataContact['number'];
     }
   }
   @override
@@ -38,7 +40,7 @@ class _FormState extends State<FormContact_Page> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          title: Text("Registrar contacto"),
+          title: (_dataContact == null) ?Text("Registrar contacto"):Text("Editar contacto"),
           backgroundColor: Colors.yellow,
           foregroundColor: Colors.black,
           leading: Builder(
@@ -84,11 +86,24 @@ class _FormState extends State<FormContact_Page> {
               ),
               Padding(padding: EdgeInsets.only(top: 30.0)),
               ElevatedButton(
-                child: Text(
+                child: (_dataContact == null) ?Text(
                   "Agregar contacto",
                   style: TextStyle(fontSize: 20)
-                  ),
-                onPressed: (){formContact_Functionality.InsertContact_Function(context);}
+                  ):Text(
+                  "Editar contacto",
+                  style: TextStyle(fontSize: 20)
+                  )
+                  ,
+                onPressed: (){
+                  if(_dataContact == null) // Si estamos haciendo un INSERT
+                  {
+                    formContact_Functionality.InsertContact_Function(context);
+                  }
+                  else                  // Si estamos haciendo un UPDATE
+                  {
+                    formContact_Functionality.EditContact_Function(context,_dataContact['idEmergencyContact']);
+                  }
+                },
               ),
 
             ],
