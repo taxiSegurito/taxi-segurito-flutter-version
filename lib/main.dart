@@ -83,10 +83,10 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'ownerMenu': (_) => OwnerMenu(name: this.sessionName),
         'adminMenu': (_) => AdminMenu(name: this.sessionName),
         'driverList': (_) => DriversListPage(),
-        'driverRegistration': (_) => DriverRegistration(),
         'registerCompany': (_) => CompanyRegisterScreen(),
         'companyList': (_) => CompanyListPage(),
         'userList': (_) => OnwerList(),
+        'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
         'reportCar': (_) => TravelReviewPage(

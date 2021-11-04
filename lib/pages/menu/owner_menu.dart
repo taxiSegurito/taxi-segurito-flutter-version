@@ -20,7 +20,7 @@ class OwnerMenu extends Menu {
       MenuItem(
         text: 'Registrar conductor',
         iconPath: 'assets/icons/add-driver-menu.png',
-        pageRoute: 'driverRegistration',
+        pageRoute: 'registerDriver',
       ),
     ];
   }

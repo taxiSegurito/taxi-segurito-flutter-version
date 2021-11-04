@@ -20,7 +20,6 @@ class StringValidator extends TextFieldValidator {
 
   @override
   bool isValid(String? value) {
-    print("validacion de string");
     bool isValidString =
         hasMatch(_stringRegExp.toString(), value!, caseSensitive: false);
     bool isValidNumber =
@@ -45,7 +44,6 @@ class NumberValidator extends TextFieldValidator {
   NumberValidator({required String errorText}) : super(errorText);
   @override
   bool isValid(String? value) {
-    print("validacion de numero");
     bool isValidString =
         hasMatch(_stringRegExp.toString(), value!, caseSensitive: false);
     bool isValidNumber =

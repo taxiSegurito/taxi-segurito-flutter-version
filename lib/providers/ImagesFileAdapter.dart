@@ -1,7 +1,6 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:taxi_segurito_app/providers/ImageAccessProvider.dart';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 class ImagesFileAdapter extends StatefulWidget {
   _ImagesFileAdapterState _imagesFileState = new _ImagesFileAdapterState();
@@ -32,7 +31,7 @@ class ImagesFileAdapter extends StatefulWidget {
     return _imagesFileState;
   }
 
-  bool getIsValid() {
+  bool validate() {
     return _imagesFileState.validateImage();
   }
 
@@ -46,6 +45,10 @@ class ImagesFileAdapter extends StatefulWidget {
 
   String getImageBase64() {
     return imageMainBase64!;
+  }
+
+  String getImageBase64AsString() {
+    return imageAccessProvider.stringImgBase64();
   }
 
   Image viewImg64(String imgbase64) {
@@ -119,7 +122,8 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Container(
-      color: Color.fromRGBO(240, 240, 240, 1),
+      // color: Color.fromRGBO(240, 240, 240, 1),
+      color: Colors.white,
       child: Column(
         children: [
           InkWell(
@@ -132,16 +136,15 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
             },
             child: Container(
               height: 130,
-              margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                  borderRadius: widget.isShapeCircle
-                      ? null
-                      : BorderRadius.all(Radius.circular(0)),
-                  image: DecorationImage(
-                      image: widget.imageMain!.image, fit: BoxFit.cover),
-                  shape: widget.isShapeCircle
-                      ? BoxShape.circle
-                      : BoxShape.rectangle),
+                borderRadius: widget.isShapeCircle
+                    ? null
+                    : BorderRadius.all(Radius.circular(0)),
+                image: DecorationImage(
+                    image: widget.imageMain!.image, fit: BoxFit.cover),
+                shape:
+                    widget.isShapeCircle ? BoxShape.circle : BoxShape.rectangle,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
@@ -152,12 +155,9 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(
-                            2,
-                            2,
-                          ),
-                          blurRadius: 6,
+                          color: Colors.black12,
+                          offset: Offset(1, 1),
+                          blurRadius: 8,
                           spreadRadius: 0,
                         )
                       ],
@@ -177,7 +177,7 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
           Container(
             alignment: Alignment.center,
             width: width,
-            padding: EdgeInsets.only(left: 10, right: 10),
+            padding: EdgeInsets.symmetric(horizontal: 10),
             child: imageMessageNotValid == null
                 ? SizedBox()
                 : Container(
@@ -185,7 +185,10 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
                     child: Text(
                       imageMessageNotValid ?? "",
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.red, fontSize: 12),
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
           ),

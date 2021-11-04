@@ -123,7 +123,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         titleShowDialog: "Registro Exitoso!",
         context: context);
     activeShowDialog() {
-      dialogShowRegister.getShowDialog();
+      dialogShowRegister.show();
     }
 
     bool registerDataOwner() {

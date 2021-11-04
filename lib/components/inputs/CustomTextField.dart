@@ -1,10 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
-import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 
 class CustomTextField extends StatefulWidget {
   void Function(String value)? assignValue;
@@ -45,7 +41,8 @@ class CustomTextField extends StatefulWidget {
   }
 
   String getValue() {
-    return value = _customTextFieldState.getValue();
+    value = _controller.text;
+    return value;
   }
 
   setValue(String value) {
@@ -64,10 +61,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
     });
   }
 
-  String getValue() {
-    return widget._controller.text;
-  }
-
   setValue(String value) {
     setState(() {
       widget._controller.text = value;
@@ -80,7 +73,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       children: [
         new Container(
-          margin: new EdgeInsets.only(
+          margin: EdgeInsets.only(
               top: widget.marginTop,
               bottom: widget.marginBotton,
               left: widget.marginLeft,
@@ -88,10 +81,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: width,
           height: widget.heightNum,
           alignment: Alignment.bottomCenter,
-          child: new TextFormField(
-            onChanged: (value) {
-              widget.assignValue!(value);
-            },
+          child: TextFormField(
+            onChanged: widget.assignValue,
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {
@@ -117,7 +108,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 borderRadius: BorderRadius.all(
                   Radius.circular(10),
                 ),
-                borderSide: BorderSide(width: 2, color: Colors.grey),
+                borderSide: BorderSide(width: 2, color: Colors.amber),
               ),
               fillColor: Colors.yellow,
               border: OutlineInputBorder(

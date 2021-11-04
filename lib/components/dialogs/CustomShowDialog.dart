@@ -5,25 +5,27 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 class CustomDialogShow extends StatefulWidget {
   _CustomDialogShowState _customDialogShowState = new _CustomDialogShowState();
 
-  final VoidCallback ontap;
+  final VoidCallback? ontap;
   final BuildContext context;
   final Color buttonColor;
   final Color buttonColorText;
   final String titleShowDialog;
   final String buttonText;
+  final String? message;
 
   CustomDialogShow(
       {Key? key,
-      required this.ontap,
+      this.ontap,
+      this.message,
       required this.buttonText,
       required this.buttonColor,
       required this.buttonColorText,
       required this.titleShowDialog,
       required this.context})
       : super(key: key);
-  getShowDialog() {
+  show() {
     _customDialogShowState.showAlertDialog(context, titleShowDialog, ontap,
-        buttonText, buttonColor, buttonColorText);
+        buttonText, buttonColor, buttonColorText, message);
   }
 
   @override
@@ -34,8 +36,14 @@ class CustomDialogShow extends StatefulWidget {
 
 class _CustomDialogShowState extends State<CustomDialogShow> {
   CustomButton? btnAceptar;
-  showAlertDialog(BuildContext context, String text, VoidCallback ontap,
-      String buttonText, Color buttonColor, Color buttonColorText) {
+  showAlertDialog(
+      BuildContext context,
+      String text,
+      VoidCallback? ontap,
+      String buttonText,
+      Color buttonColor,
+      Color buttonColorText,
+      String? message) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -50,13 +58,19 @@ class _CustomDialogShowState extends State<CustomDialogShow> {
             textAlign: TextAlign.center,
           ),
           backgroundColor: Colors.white,
-          content: btnAceptar = new CustomButton(
-              onTap: () {
-                ontap();
-              },
+          content: Text(
+            message ?? '',
+            textAlign: TextAlign.center,
+          ),
+          actions: [
+            CustomButton(
+              onTap: ontap ?? () => Navigator.pop(context),
               buttonText: buttonText,
               buttonColor: buttonColor,
-              buttonTextColor: buttonColorText),
+              buttonTextColor: buttonColorText,
+              marginTop: 0,
+            ),
+          ],
         );
       },
     );
