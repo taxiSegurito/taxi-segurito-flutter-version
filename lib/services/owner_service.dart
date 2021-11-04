@@ -13,6 +13,7 @@ class OwnerService {
       'password': owner.password,
       'address': owner.address,
       'ci': owner.ci,
+      'companyid': owner.idCompany,
     });
 
     return response.statusCode == 200;
