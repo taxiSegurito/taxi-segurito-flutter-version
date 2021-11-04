@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/Vehicle.dart';
+import 'package:taxi_segurito_app/models/vehicle.dart';
 
 class VehicleListItem extends StatelessWidget {
   final Vehicle vehicle;
@@ -15,14 +15,13 @@ class VehicleListItem extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Image(
-              image: NetworkImage(
-                  'https://upload.wikimedia.org/wikipedia/commons/f/fd/Taxi_en_Madrid.jpg'),
+              image: Image.memory(vehicle.picture).image,
             ),
             Container(
               padding: EdgeInsets.only(top: 6),
               child: ListTile(
                 title: Text(vehicle.pleik),
-                subtitle: Text("${vehicle.model}\n\nNombre conductor"),
+                subtitle: Text("${vehicle.model}"),
               ),
             ),
           ],

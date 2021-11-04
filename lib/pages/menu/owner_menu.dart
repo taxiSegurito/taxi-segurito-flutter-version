@@ -15,7 +15,7 @@ class OwnerMenu extends Menu {
       MenuItem(
         text: 'Ver lista de vehículos',
         iconPath: 'assets/icons/vehicle-menu.png',
-        pageRoute: 'vehiclesList',
+        pageRoute: 'vehicleList',
       ),
       MenuItem(
         text: 'Registrar conductor',
