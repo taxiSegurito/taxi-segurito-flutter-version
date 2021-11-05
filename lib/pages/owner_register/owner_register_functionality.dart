@@ -27,20 +27,21 @@ class RegisterOwnerFunctionality {
     return companyList.toList();
   }
 
-  onPressedbtnRegisterCar() {
-    _ownerService.insert(owner!).then((_) => activeShowDialog!());
+  onPressedbtnRegisterCar() async {
+    owner!.idCompany = company!.idCompany;
+    final success = await _ownerService.insert(owner!);
+    if (success) {
+      activeShowDialog!();
+    }
   }
 
-  getCompanies() {
+  Future<List<Company>?> getCompanies() async {
     companyList.clear();
     try {
-      _companyService.selectCompany().then(
-        (value) {
-          companyList = value;
-        },
-      );
+      companyList = await _companyService.selectCompany();
+      return companyList;
     } catch (exception) {
-      print(exception);
+      return null;
     }
   }
 

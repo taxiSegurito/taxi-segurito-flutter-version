@@ -19,7 +19,7 @@ class AdminMenu extends Menu {
       MenuItem(
         text: 'Registrar Dueño',
         iconPath: 'assets/icons/add-owner-menu.png',
-        pageRoute: 'driverRegistration',
+        pageRoute: 'registerOwner',
       ),
       MenuItem(
         text: 'Registrar Compañia',

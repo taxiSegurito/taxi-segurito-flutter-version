@@ -1,13 +1,13 @@
 class Owner {
-  String? idOwner;
-  String fullName;
-  String cellPhone;
-  String email;
-  String password;
-  String address;
-  String ci;
-  String idCompany;
-  String? status;
+  late String? idOwner;
+  late String fullName;
+  late String cellPhone;
+  late String email;
+  late String password;
+  late String address;
+  late String ci;
+  late String idCompany;
+  late String? status;
 
   Owner(
       {this.idOwner,
@@ -19,6 +19,8 @@ class Owner {
       required this.ci,
       required this.idCompany,
       this.status});
+
+  Owner.init();
 
   factory Owner.fromJson(Map<String, dynamic> json) {
     return Owner(

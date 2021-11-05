@@ -3,6 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
+import 'package:taxi_segurito_app/models/company.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/pages/owner_register/owner_register_functionality.dart';
 import 'package:taxi_segurito_app/pages/owner_register/widgets/DropDownCompany.dart';
@@ -11,7 +12,8 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class RegisterOwner extends StatefulWidget {
-  Owner? owner;
+  Owner owner = Owner.init();
+  List<Company> listCompanies = [];
   RegisterOwner({Key? key}) : super(key: key);
 
   @override
@@ -20,10 +22,19 @@ class RegisterOwner extends StatefulWidget {
 
 class _RegisterOwnerState extends State<RegisterOwner> {
   RegisterOwnerFunctionality functionality = RegisterOwnerFunctionality();
+
   @override
   void initState() {
     super.initState();
-    functionality.getCompanies();
+    functionality.getCompanies().then((value) {
+      if (value != null) {
+        setState(
+          () {
+            widget.listCompanies = value;
+          },
+        );
+      }
+    });
   }
 
   @override
@@ -40,9 +51,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     DropDownCompany ddbNameCompany = new DropDownCompany(
-      listItem: functionality.getListCompany(),
-      hint: "Seleccione empresa",
-    );
+        hint: "Seleccione empresa", listItem: widget.listCompanies);
 
     CustomTextField txtNameOwner = new CustomTextField(
       hint: 'Nombres',
@@ -75,7 +84,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         NumberValidator(errorText: "No se permite letras")
       ]),
       assignValue: (value) {
-        widget.owner!.cellPhone = value;
+        widget.owner.cellPhone = value;
       },
     );
 
@@ -86,7 +95,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         EmailValidator(errorText: "Ingrese los parametros correctos")
       ]),
       assignValue: (value) {
-        widget.owner!.email = value;
+        widget.owner.email = value;
       },
     );
 
@@ -98,7 +107,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         PasswordValidator(errorText: "Ingrese parametros correctos")
       ]),
       assignValue: (value) {
-        widget.owner!.password = value;
+        widget.owner.password = value;
       },
     );
 
@@ -108,7 +117,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         RequiredValidator(errorText: "Campo vacio"),
       ]),
       assignValue: (value) {
-        widget.owner!.address = value;
+        widget.owner.address = value;
       },
     );
 
@@ -118,7 +127,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
         RequiredValidator(errorText: "Campo vacio"),
       ]),
       assignValue: (value) {
-        widget.owner!.ci = value;
+        widget.owner.ci = value;
       },
     );
 
@@ -137,9 +146,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     final dialogShowRegister = new CustomDialogShow(
-        ontap: () {
-          functionality.closeNavigator();
-        },
+        ontap: functionality.closeNavigator,
         buttonText: "Aceptar",
         buttonColor: colorMain,
         buttonColorText: Colors.white,
@@ -152,7 +159,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     bool registerDataOwner() {
       bool isValidDdbNameCompany = ddbNameCompany.getIsValid();
       if (_formKey.currentState!.validate() && isValidDdbNameCompany) {
-        widget.owner!.fullName = txtNameOwner.getValue() +
+        widget.owner.fullName = txtNameOwner.getValue() +
             ' ' +
             txtLastName.getValue() +
             ' ' +

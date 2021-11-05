@@ -106,7 +106,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.only(top: 30, left: 24, right: 24),
                   child: Column(
                     children: [
                       TextFormField(
