@@ -21,7 +21,6 @@ class SignUpService {
         "cellphone": clientUser.cellphone
       }),
     );
-    print("${response.statusCode}  ${response.body}");
     final success = response.statusCode == 200;
     return success;
   }
