@@ -26,7 +26,7 @@ class Owner {
     return Owner(
         idOwner: json['id'].toString(),
         fullName: json['fullName'].toString(),
-        cellPhone: json['phone'].toString(),
+        cellPhone: json['cellphone'].toString(),
         email: json['email'].toString(),
         password: json['password'].toString(),
         address: json['address'].toString(),
