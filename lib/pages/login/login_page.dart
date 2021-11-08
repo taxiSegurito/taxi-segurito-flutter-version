@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/user/recoveryPass_page.dart';
+import 'package:taxi_segurito_app/pages/recoveryPassword/recoveryPassword_page.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
@@ -158,7 +158,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                   Sessions sessions = new Sessions();
                                   await sessions.removeValuesSession("iduser");
                                   await sessions.removeValuesSession("rol");
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecoveryPass()),);
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecoveryPassword_page()),);
                                 },
                                 child: Text("Olvidaste tu contraseña?",
                                     style: TextStyle(color: Colors.blueAccent)),
