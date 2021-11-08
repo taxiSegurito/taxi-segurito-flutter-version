@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
 import 'package:taxi_segurito_app/models/sesions/sesion.dart';
+import 'package:taxi_segurito_app/pages/forgetObjects/ForgetObject.dart';
 import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
 import 'package:taxi_segurito_app/pages/login/login_page.dart';
 import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
@@ -23,7 +24,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("QRpage");
+    app = AppTaxiSegurito("lostObjects");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -68,7 +69,8 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverRegistration': (BuildContext contextRegistration) =>
             DriverRegistration(),
         'driverList': (BuildContext contextDriveList) => DriversList(),
-        'QRpage': (BuildContext contextDriveList) => QRPAGE()
+        'QRpage': (BuildContext contextDriveList) => QRPAGE(),
+        'lostObjects': (BuildContext contextLostObjects) => ForgetObjects()
       },
     );
   }
