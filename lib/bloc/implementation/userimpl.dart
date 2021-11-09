@@ -20,3 +20,31 @@ Future<bool> insertClient(Clientuser clientuser) async {
     return Future<bool>.value(false);
   }
 }
+
+Future<dynamic> checkEmailOnDatabase(_email) async
+{
+  final queryParameters = {
+    'email': _email,
+    'expectedResponse': 'id',
+  };
+  try{
+    print("___CheckEmail query___");
+    final uri = Uri.https(Service.domain, Service.path+"user/user_controller.php", queryParameters);
+    final response = await http.get(uri);
+    print("1 query_result: "+response.body);
+    var data = jsonDecode(response.body);
+    if(data['result'] == "Error")
+    {
+      return false;
+    } 
+    else
+    {
+      int.parse(data['result'].toString());
+      return true;
+    } 
+  }catch(e)
+  {
+    print("2 msgError: "+e.toString());
+    return 'NoResponse';
+  }
+}

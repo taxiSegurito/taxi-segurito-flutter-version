@@ -1,18 +1,20 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:taxi_segurito_app/pages/recoveryPassword/recoveryPassword_functionality.dart';
-import 'package:taxi_segurito_app/pages/updateUserclient/updatePassword.dart';
-//import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
+import 'package:taxi_segurito_app/pages/recoveryPassword/recoveryPasswordFunctionality.dart';
 
-class RecoveryPassword_page extends StatefulWidget {
+class RecoveryPassword extends StatefulWidget {
+
   @override
-  _RecoveryPasswordState createState() => new _RecoveryPasswordState();
+  RecoveryPasswordState createState() => new RecoveryPasswordState();
 }
 
-class _RecoveryPasswordState extends State<RecoveryPassword_page> {
-
+class RecoveryPasswordState extends State<RecoveryPassword> {
+  late RecoveryPasswordFuncionality recoveryPasswordFuncionality;
   @override
+  void initState() {
+    super.initState();
+    recoveryPasswordFuncionality = new RecoveryPasswordFuncionality(context);
+  }
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
@@ -70,7 +72,7 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
                           ]),
                       child: TextField(
                         textAlign: TextAlign.center,
-                        controller: email_Controller,
+                        controller: recoveryPasswordFuncionality.email_Controller,
                         decoration: InputDecoration(
                             hintText: "Ingrese su correo electrónico"),
                       ),
@@ -88,7 +90,12 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.yellow.shade600),
                                 ),
-                                onPressed: isEnabledButtons ? btnEnviarEmail : null,
+                                onPressed: (){
+                                  if(recoveryPasswordFuncionality.isEnabledButtons)
+                                  {
+                                    recoveryPasswordFuncionality.onPressedBtnEnviarEmail();
+                                  }
+                                 },
                                 child:
                                     Text("        Enviar código a mi correo        "))
                           ],
@@ -100,7 +107,7 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
                     Container(
                       width: MediaQuery.of(context).size.width / 3,
                       height: 38,
-                      margin: EdgeInsets.only(top: 20),
+                      margin: EdgeInsets.only(top: 30),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
                           color: Colors.white,
@@ -109,9 +116,9 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
                           ]),
                       child: TextField(
                         textAlign: TextAlign.center,
-                        controller: codeInput_Controller,
+                        controller: recoveryPasswordFuncionality.codeInput_Controller,
                         decoration: InputDecoration(
-                          hintText: "Código de verificación",
+                          hintText: "Código",
                         ),
                       ),
                     ),
@@ -119,7 +126,7 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
 
                     // Button: Confirmar
                     Container(
-                      padding: EdgeInsets.only(top: 50),
+                      padding: EdgeInsets.only(top: 30),
                       child: Container(
                         child: Column(
                           children: [
@@ -129,7 +136,12 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.yellow.shade600),
                                 ),
-                                onPressed: isEnabledButtons ? btnConfirm : null,
+                                onPressed: (){
+                                  if(recoveryPasswordFuncionality.isEnabledButtons)
+                                  {
+                                    recoveryPasswordFuncionality.onPressedBtnConfirmar(); 
+                                  }
+                                 },
                                 child:
                                     Text("             Confirmar            "))
                           ],
@@ -144,24 +156,5 @@ class _RecoveryPasswordState extends State<RecoveryPassword_page> {
         )
       )
     );
-  }
-  
-  // METHODS
-
-  // Metodo 1 : Habilita o deshabilita los botones EnviarEmail y Confirmar cuando inicia o termina el proceso.
-  enableElevatedButton() {
-    setState(() {
-      isEnabledButtons = !isEnabledButtons;
-      print("confirmarButton: $isEnabledButtons");
-    });
-  }
-
-  //Metodo 2: Redirecciona a updatePassword_page.dart cuando se ingresa el codeVerify correcto
-  btnConfirm()
-  {
-    if(validateCodeVerify())
-    {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePassword(lastEmailAux)),);
-    }
   }
 }
