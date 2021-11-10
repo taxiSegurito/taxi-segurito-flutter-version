@@ -8,22 +8,20 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_info.dart';
-import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
-import 'package:taxi_segurito_app/utils/login_google_utils.dart';
-import 'package:taxi_segurito_app/utils/servces.dart';
+import 'package:taxi_segurito_app/services/sign_up_service.dart';
 
 class RegisterPage extends StatefulWidget {
-  Clientuser user = new Clientuser("Default");
+  Clientuser? user = null;
   RegisterPage();
   RegisterPage.GoogleOrFacebook(Clientuser clientuser) {
     user = clientuser;
   }
   @override
-  _RegisterPageState createState() => new _RegisterPageState(user);
+  _RegisterPageState createState() => new _RegisterPageState(user!);
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  Clientuser user = new Clientuser("Default");
+  Clientuser? user = null;
   _RegisterPageState(Clientuser user) {
     this.user = user;
   }
@@ -67,6 +65,27 @@ class _RegisterPageState extends State<RegisterPage> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  void verifiedTypeRegister() async {
+    if (user!.signUpType != null) {
+      user!.cellphone = number.text;
+      log("Es desde btn google o facebook");
+      log(user!.email);
+      bool result = false;
+      if (user!.signUpType == "fb") {
+        result = await SignUpService().registerClientThroughFacebook(user!);
+      } else {
+        result = await SignUpService().registerClientThroughGoogle(user!);
+      }
+      if (result == true) {
+        Navigator.pushReplacementNamed(context, 'scannerQr');
+      }
+    } else {
+      _start = 0;
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => RegisterData(number.text)));
+    }
   }
 
   Widget build(BuildContext context) {
@@ -177,29 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 onChanged: (value) {
                                   if (code != "") {
                                     if (value == code) {
-                                      if (user.signUpType != "Default") {
-                                        user.cellphone = number.text;
-                                        log("Es desde btn google o facebook");
-                                        log(user.email);
-                                        Services()
-                                            .addData(user)
-                                            .then((value) => {
-                                                  if (value == true)
-                                                    {
-                                                      Navigator
-                                                          .pushReplacementNamed(
-                                                              context,
-                                                              'scannerQr')
-                                                    }
-                                                });
-                                      } else {
-                                        _start = 0;
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    RegisterData(number.text)));
-                                      }
+                                      verifiedTypeRegister();
                                     }
                                   }
                                 },

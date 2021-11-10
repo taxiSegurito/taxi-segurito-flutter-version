@@ -1,8 +1,8 @@
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:taxi_segurito_app/models/client_user.dart';
+import 'package:taxi_segurito_app/models/user.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/server.dart';
-import 'package:taxi_segurito_app/utils/servces.dart';
-import 'admin_session.dart';
 
 class LoginFacebookUtils {
   FacebookAuth facebookAuth = FacebookAuth.i;
@@ -29,15 +29,15 @@ class LoginFacebookUtils {
             signUpType: Server.SignUpType['FACEBOOK']!);
         //CheckExits retorna numero si existe
         //retorna Error si no existe
-        String exits = await Services().getCellphoneIfExists(email);
-        if (exits != "Error") {
+        User? userExist = await AuthService().logIn(client);
+        if (userExist != null) {
           Clientuser clientExits = Clientuser.insert(
-              fullname: fullName,
-              cellphone: exits,
+              fullname: userExist.fullName,
+              cellphone: userExist.cellphone,
               email: email,
               password: "Facebook",
               signUpType: Server.SignUpType['FACEBOOK']!);
-          AdminSession().addSession(clientExits);
+          //AuthService().logIn(clientExits);
           return clientExits;
         }
         //Cuando No exista el usuario en la BD se le debera pedir el numero de telefono

@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:taxi_segurito_app/models/client_user.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/server.dart';
-import 'package:taxi_segurito_app/utils/admin_session.dart';
-import 'package:taxi_segurito_app/utils/servces.dart';
+import 'package:taxi_segurito_app/services/sign_up_service.dart';
+import 'package:taxi_segurito_app/models/user.dart' as U;
 
 class LoginGoogleUtils {
   static const String TAG = "LoginGoogleUtils";
@@ -38,21 +40,23 @@ class LoginGoogleUtils {
             password: "Google",
             signUpType: Server.SignUpType['GOOGLE']!);
         bool controlBD;
-        String exits = await Services().getCellphoneIfExists(email);
+        U.User? exitsClient = await AuthService().logIn(client);
         //Ya existe
-        if (exits != "Error") {
+        if (exitsClient != null) {
+          log("Entro");
           Clientuser client = Clientuser.insert(
-              fullname: fullName,
-              cellphone: exits,
+              fullname: exitsClient.fullName,
+              cellphone: exitsClient.cellphone,
               email: email,
               password: "Google",
               signUpType: Server.SignUpType['GOOGLE']!);
-          AdminSession().addSession(client);
+          //AuthService().logIn(client);
+          log(exitsClient.cellphone + "es t");
           return client;
         }
         //En caso de que haya un numero
         if (client.cellphone != "null") {
-          controlBD = await Services().addData(client);
+          controlBD = await SignUpService().registerClientThroughGoogle(client);
           if (controlBD == true) {
             return client;
           } else if (controlBD == false) {
@@ -69,9 +73,5 @@ class LoginGoogleUtils {
     } catch (e) {
       return null;
     }
-  }
-
-  Future<void> LogOutGoogle() async {
-    await googleSignIn.signOut();
   }
 }
