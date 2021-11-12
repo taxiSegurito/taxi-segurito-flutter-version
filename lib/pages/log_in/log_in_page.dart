@@ -3,6 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
+import 'package:taxi_segurito_app/pages/recoveryPassword/recoveryPassword.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -165,6 +166,7 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                     await sessions
                                         .removeValuesSession("iduser");
                                     await sessions.removeValuesSession("rol");
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => RecoveryPassword()),);
                                   },
                                   child: Text("Olvidaste tu contraseña?",
                                       style:
