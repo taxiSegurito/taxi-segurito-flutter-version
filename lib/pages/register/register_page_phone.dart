@@ -79,7 +79,8 @@ class _RegisterPageState extends State<RegisterPage> {
         result = await SignUpService().registerClientThroughGoogle(user!);
       }
       if (result == true) {
-        Navigator.pushReplacementNamed(context, 'scannerQr');
+        Navigator.pushReplacementNamed(context, 'scannerQr',
+            arguments: user!.fullName);
       }
     } else {
       _start = 0;
