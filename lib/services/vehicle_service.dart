@@ -27,7 +27,7 @@ Future<bool> update(Vehicle vehicle) async {
     String result = json.decode(response.body);
 
     if (result == "Success") {
-      return Future<bool>.value(true);
+      return true;
     } else {
       return Future<bool>.value(false);
     }

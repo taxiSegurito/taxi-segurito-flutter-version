@@ -30,7 +30,7 @@ void main() async {
   bool idsession = await sessions.verificationSession('id');
   bool rolsession = await sessions.verificationSession('role');
 
-  Widget app = AppTaxiSegurito('firstScreen');
+  Widget app = AppTaxiSegurito('driverRegistration');
 
   if (idsession && rolsession) {
     final rol = await sessions.getSessionValue('role');
@@ -86,7 +86,6 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverRegistration': (_) => DriverRegistration(),
         'registerCompany': (_) => CompanyRegisterScreen(),
         'companyList': (_) => CompanyListPage(),
-        'userList': (_) => OnwerList(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
         'reportCar': (_) => TravelReviewPage(

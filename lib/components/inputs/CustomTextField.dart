@@ -89,9 +89,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           height: widget.heightNum,
           alignment: Alignment.bottomCenter,
           child: new TextFormField(
-            onChanged: (value) {
-              widget.assignValue!(value);
-            },
+            onChanged: widget.assignValue,
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {
