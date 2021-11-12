@@ -16,12 +16,10 @@ class RecoveryPasswordFuncionality {
   var codeVerify = '';
   var isEnabledButtons = true;
 
-// UI FUNCTIONS
-
-  /// UI 1: Envia un email con condigo de verificacion al email ingresado en email_Controller.
+  /// Send a email with a verify code to the email on the email_Controller.
   onPressedBtnEnviarEmail()
   {
-    FocusScope.of(context).unfocus(); //Se deshace de ese molesto tecldo en pantalla
+    FocusScope.of(context).unfocus();
     if(email_Controller.text == "")
     {
       GlobalToast.displayToast(Text("Debe ingresar su correo."), Colors.yellow, Icon(Icons.warning), 3);
@@ -42,7 +40,7 @@ class RecoveryPasswordFuncionality {
       }
     }
   }
-  /// UI 2: Redirecciona a updatePassword_page.dart cuando se ingresa el codeVerify correcto
+  ///Redirects to updatePassword_page.dart when the verify code is the correct.
   onPressedBtnConfirmar()
   {
     if(validateCodeVerify())
@@ -51,10 +49,7 @@ class RecoveryPasswordFuncionality {
     }
   }
   
-
-// FUNCTIONS
-
-  ///Function 1: Retorna un codigo de numeros aleatorios de tamaño 6.
+  ///Return a string of six random numbers.
   String generateVerifyCode()
   {
     String codeAux = '';
@@ -64,7 +59,7 @@ class RecoveryPasswordFuncionality {
     }
     return codeAux;
   }
-  ///Function 2: Comprueba si un email esta registrado en la bdd y le envia un correo con el codigo de verificacion.
+  ///Comprobates if a email is registered on database and send the verify code to the email.
   comprobateIsRegistered(_email) async
   {
     UserService userService= new UserService();
@@ -87,13 +82,12 @@ class RecoveryPasswordFuncionality {
     isEnabledButtons = true;
   }
 
-///Function 3: Comprueba si el codigo del codeInput_Controller y el codigo enviado en email son el mismo.
+///Comprobates if the code in codeInput_Controller and the code sended are the same.
 bool validateCodeVerify()
 {
   bool isValid = false;
-  if(codeInput_Controller.text == "")
+  if(codeInput_Controller.text == '')
   {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => UpdatePassword(email_Controller.text)),); //BORRAAAAAARRRR
     GlobalToast.displayToast(Text("Ingrese el código de verificación."), Colors.yellow, Icon(Icons.warning), 3);
   }
   else

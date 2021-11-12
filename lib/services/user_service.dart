@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/models/user.dart';
@@ -18,7 +17,7 @@ class UserService {
       var response = await http.get(endpoint);
       print("1 query_result: "+response.body);
       var result = jsonDecode(response.body);
-      if (result['result'] != 'Error') {//if (response.statusCode == 200) {
+      if (response.statusCode == 200) {
         return result['result'];
       }
       return 'Error';
@@ -26,7 +25,28 @@ class UserService {
       return 'Error';
     }
 }
-Future<bool> updatePasswordByEmail(String email, String password) async {
+Future updatePasswordByEmail(String email, String password) async {
+  try {
+      var path = "${Server.url}/User/user_controller.php";
+      final response = await http.post(
+        Uri.parse(path),
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+      );
+      print("response: "+response.body);
+      print(response.statusCode);
+      if(response.statusCode == 200)
+      {
+        return true;
+      }
+      else return false;
+    } 
+    catch (e) {
+      print("error: "+e.toString());
+      return false;
+    }
   var url ="https://taxi-segurito.000webhostapp.com/flutter_api/updatePassword.php";
   var response = await http.post(Uri.parse(url),body:{
     "email" : email,

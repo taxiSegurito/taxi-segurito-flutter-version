@@ -5,6 +5,9 @@ import 'package:taxi_segurito_app/services/user_service.dart';
 
 class UpdatePasswordFuncionality {
 
+  late BuildContext context;
+  UpdatePasswordFuncionality(this.context);
+
   TextEditingController newPassword_Controller = new TextEditingController();
   TextEditingController repeatNewPassword_Controller = new TextEditingController();
   
@@ -19,7 +22,18 @@ class UpdatePasswordFuncionality {
       if(newPassword_Controller.text == repeatNewPassword_Controller.text)
       {
         UserService userService = new UserService();
-        userService.updatePasswordByEmail(email,newPassword_Controller.text);
+        var result = await userService.updatePasswordByEmail(email,newPassword_Controller.text);
+        print("AAAAAAAAAAAAA");
+        print(result.toString());
+        if(result == true)
+        {
+          Navigator.pushNamed(context, 'loginUser');
+        }
+        else
+        {
+          GlobalToast.displayToast(Text("No se pudo cambiar la contraseña..."), Colors.red, Icon(Icons.error), 3);
+        }
+        
       }
       else
       {

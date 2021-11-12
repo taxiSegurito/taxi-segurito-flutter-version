@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/user/updatePassword_functionality.dart';
 
 class UpdatePassword extends StatefulWidget {
@@ -7,22 +6,25 @@ class UpdatePassword extends StatefulWidget {
   UpdatePassword(this._auxEmail); //Aux para pasar email
 
   @override
-  _UpdatePasswordState createState() => new _UpdatePasswordState(_auxEmail);
+  UpdatePasswordState createState() => new UpdatePasswordState(_auxEmail);
 }
 
-class _UpdatePasswordState extends State<UpdatePassword> {
-  String email;//Aux para recibir email
-  _UpdatePasswordState(this.email);
+class UpdatePasswordState extends State<UpdatePassword> {
+  late UpdatePasswordFuncionality updatePasswordFuncionality;
 
-  UpdatePasswordFuncionality updatePasswordFuncionality = new UpdatePasswordFuncionality();
-
+  String email;
+  UpdatePasswordState(this.email);
   @override
+  void initState() {
+    super.initState();
+    updatePasswordFuncionality = new UpdatePasswordFuncionality(context);
+  }
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
           centerTitle: true,
           title: Text("Taxi Segurito"),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.yellow,
           leading: Builder(
             builder: (BuildContext context) {
               return IconButton(
@@ -100,7 +102,7 @@ class _UpdatePasswordState extends State<UpdatePassword> {
                       ),
                     ),
 
-                    // btn Cambiar contraseña
+                    // Button ChangePassword
                     Container(
                       padding: EdgeInsets.only(top: 50),
                       child: Container(
