@@ -23,6 +23,8 @@ import './models/vehicle.dart';
 import './models/providers/HttpProvider.dart';
 import './models/driver.dart';
 
+import './components/stars/exampleStars.dart'; ///////BORRRARRRRR
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
@@ -79,7 +81,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       routes: {
         'loginUser': (_) => UserLoginPage(),
         'registerScreen': (_) => RegisterPage(),
-        'firstScreen': (_) => MainWindow(),
+        'firstScreen': (_) => Function_Page(), /////////CMBIAR A MainWindow()
         'scannerQr': (_) => ScannerQrPage(name: this.sessionName),
         'ownerMenu': (_) => OwnerMenu(name: this.sessionName),
         'adminMenu': (_) => AdminMenu(name: this.sessionName),

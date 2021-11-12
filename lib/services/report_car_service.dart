@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/report_car.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 
+
 Future<bool> insertReportCar(ReportCar reportCar) async {
   print("${reportCar.calification} desde endpoint");
   try {
@@ -30,3 +31,30 @@ Future<bool> insertReportCar(ReportCar reportCar) async {
     return Future<bool>.value(false);
   }
 }
+
+  //Returns a double if success.
+  Future getAverageCualification(idVehicle) async
+  {
+    try
+    {
+      final queryParams = {
+        'idVehicle': idVehicle
+        };
+      final endpoint = Uri.http(Server.host,'${Server.baseEndpoint}/reportCar/reportCar_controller.php',
+        queryParams);
+
+      var response = await http.get(endpoint);
+
+      if (response.statusCode == 200) {
+        var result = jsonDecode(response.body);
+        print("result: "+result);
+        return result;
+      }
+      else return 0;
+    }catch(e)
+    {
+      print("2 msgError: "+e.toString());
+      return -1;
+    }
+  }
+
