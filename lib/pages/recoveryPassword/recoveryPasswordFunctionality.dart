@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
 import 'package:taxi_segurito_app/bloc/services/email/EmailSender.dart';
@@ -73,7 +74,6 @@ class RecoveryPasswordFuncionality {
           GlobalToast.displayToast(Text("Enviando..."), Colors.green, Icon(Icons.timer), 3);
 
           EmailSender emailSender = EmailSender.withGmailApp();
-          print("lastemail"+lastEmailAux);
           var result = await emailSender.sendEmail(lastEmailAux,'$codeVerify\nIngresa este código para restablecer tu contraseña');
 
           if(result == 'success') GlobalToast.displayToast(Text("¡Correo enviado!"), Colors.green, Icon(Icons.check), 3);

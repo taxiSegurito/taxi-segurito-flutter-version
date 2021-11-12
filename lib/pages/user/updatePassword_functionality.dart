@@ -23,11 +23,10 @@ class UpdatePasswordFuncionality {
       {
         UserService userService = new UserService();
         var result = await userService.updatePasswordByEmail(email,newPassword_Controller.text);
-        print("AAAAAAAAAAAAA");
-        print(result.toString());
         if(result == true)
         {
-          Navigator.pushNamed(context, 'loginUser');
+          //Navigator.pushNamed(context, 'loginUser');
+          GlobalToast.displayToast(Text("¡Contraseña cambiada con exito!"), Colors.green, Icon(Icons.check), 3);
         }
         else
         {
