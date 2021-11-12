@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-  List<Widget> insertStars(double avgAux)
+  List<Widget> insertStars(double avgAux, size)
   {
     List<Widget> temporal = [];
     IconData iconType = Icons.star_rounded;  
@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
         }
       }
       Widget item = Icon(
-          iconType, color:Colors.yellow, size: 35,
+          iconType, color:Colors.yellow, size: size,
         );
       temporal.add(item);
       avgAux = avgAux-1;
@@ -27,7 +27,7 @@ import 'package:flutter/material.dart';
     return temporal;
   }
 
-   Widget insertTextAVG(double avg)
+   Widget insertTextAVG(double avg, size)
   {
-    return Text(avg.toString(),style: TextStyle(fontFamily: 'Raleway',fontSize: 35),);
+    return Text(avg.toString(),style: TextStyle(fontFamily: 'Raleway',fontSize: size),);
   }

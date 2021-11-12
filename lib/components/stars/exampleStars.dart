@@ -49,7 +49,7 @@ class _Function_State extends State<Function_Page> {
           child: Align(
             alignment: Alignment.topCenter,
             child: Row(
-              children: insertStars(averageStars),
+              children: insertStars(averageStars, 35),
             ),
           )
         ),
