@@ -6,6 +6,6 @@ class EmailAccount
   EmailAccount(this.adress,this.password);
 
   EmailAccount.gmailApp({
-    this.adress = 'xxsupersyverxx@gmail.com',
-    this.password = 'comandos19'}); // contra cmbiada, desactualizado talvez usar autenticacion mas segura
+    this.adress = 'tsegurito@gmail.com',
+    this.password = 'taxiseguv1'});
 }
