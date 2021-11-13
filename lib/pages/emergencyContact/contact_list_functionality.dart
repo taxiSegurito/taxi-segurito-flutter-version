@@ -11,7 +11,6 @@ class ListContact_Functionality{
   int sessionId = 0;
   bool isSession = false;
   
-
   List<EmergencyContact> contacts = [];
   
   Future CheckSession() async

@@ -30,11 +30,12 @@ Future insertEmergencyContact(EmergencyContact emergencyContact) async {
     print("___InsertEmergencyContact query___");
     final uri = Server.url+"/emergencyContact/emergencyContact_controller.php";
     print(emergencyContact.idClientUser);
-    final response = await http.post(Uri.parse(uri),body:{
+    final response = await http.post(Uri.parse(uri),body: jsonEncode({
+      "idEmergencyContact" : '',
       "nameContact" : emergencyContact.nameContact,
       "number" : emergencyContact.number,
       "idClientUser" : emergencyContact.idClientUser.toString(),
-    });
+    }));
     print("  1 query_result: "+response.body);
     var data = jsonDecode(response.body);
     if(data == "success")
@@ -62,6 +63,7 @@ Future updateEmergencyContact(EmergencyContact emergencyContact) async {
       "idEmergencyContact" : emergencyContact.idEmergencyContact,
       "nameContact" : emergencyContact.nameContact,
       "number" : emergencyContact.number,
+      "idClientUser" : '',
     }));
     print("  1 query_result: "+response.body);
         var data = jsonDecode(response.body);
@@ -87,6 +89,9 @@ Future deleteEmergencyContact(EmergencyContact emergencyContact) async {
     final url = Server.url+"/emergencyContact/emergencyContact_controller.php";
     final response = await http.delete(Uri.parse(url),body:jsonEncode({
       "idEmergencyContact" : emergencyContact.idEmergencyContact,
+      "nameContact" : '',
+      "number" : '',
+      "idClientUser" : '',
     }));
     print("  1 query_result: "+response.body);
     var data = jsonDecode(response.body);

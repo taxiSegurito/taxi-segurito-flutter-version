@@ -19,14 +19,16 @@ class _ListContactState extends State<ListContact_Page> {
   initState()
   {
     super.initState();
+    /*
     setState(() {
       listContact_functionality.loadData();
     });
+    */
   }
 
   @override
   Widget build(BuildContext context) {
-    return _loadWidgets();
+    return FutureBuilder(future: listContact_functionality.loadData(),builder: (context, snapshot) {return _loadWidgets();});    
   }
 
   // UI Method 1: Contiene toda la interfaz, se recarga una vez se obtengan los datos, si no hay datos, mostrará "No tiene contactos de emergencia"
