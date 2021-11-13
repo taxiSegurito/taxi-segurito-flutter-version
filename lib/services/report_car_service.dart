@@ -7,25 +7,22 @@ class ReportCarService {
   Future<bool> insertReportCar(ReportCar reportCar) async {
     print("${reportCar.calification} desde endpoint");
     try {
-      var path = Server.url + "CarReport/reportCar_controller.php";
-      final response = await http.post(Uri.parse(path),
-          body: jsonEncode(
-            {
-              "calification": reportCar.calification,
-              "coments": reportCar.comment,
-              "clientUserId": reportCar.idClientuser,
-              "vehicleId": reportCar.idVehicule
-            },
-          ));
-      String result = json.decode(response.body);
+      var path = "${Server.url}/report_car/report_car_controller.php";
+      final response = await http.post(
+        Uri.parse(path),
+        body: jsonEncode(
+          {
+            "calification": reportCar.calification,
+            "coments": reportCar.comment,
+            "clientUserId": reportCar.idClientuser,
+            "vehicleId": reportCar.idVehicule
+          },
+        ),
+      );
 
-      print(result);
-
-      if (result == "success") {
-        return Future<bool>.value(true);
-      } else {
-        return Future<bool>.value(false);
-      }
+      final success = response.statusCode == 200;
+      print(success);
+      return success;
     } catch (exception) {
       print(exception);
       return Future<bool>.value(false);

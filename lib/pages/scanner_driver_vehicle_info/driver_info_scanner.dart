@@ -4,6 +4,7 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/pages/travel_review/driver_travel_calification_page.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 import 'package:taxi_segurito_app/services/report_car_service.dart';
 import './widgets/driver_data.dart';
@@ -58,7 +59,12 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
     );
 
     final btnNewReview = CustomButton(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+                builder: (_) => TravelReviewPage(driver, vehicle)));
+      },
       buttonText: 'Nueva Reseña',
       buttonColor: colorMain,
       buttonTextColor: Colors.white,

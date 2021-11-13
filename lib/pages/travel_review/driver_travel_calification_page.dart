@@ -5,82 +5,46 @@ import 'package:taxi_segurito_app/components/buttons/Button_app.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/report_car.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/report_car_service.dart';
 import '../../../components/sidemenu/side_menu.dart';
 
 class TravelReviewPage extends StatefulWidget {
-  Driver driver;
   ReportCar reportCar = new ReportCar();
+  Driver driver;
   Vehicle vehicle;
-  TravelReviewPage(this.driver, this.vehicle);
+  TravelReviewPage(this.driver, this.vehicle) {
+    reportCar.idVehicule = vehicle.idVehicle;
+  }
   @override
   _TravelReviewPageState createState() => _TravelReviewPageState();
 }
 
 class _TravelReviewPageState extends State<TravelReviewPage> {
   ReportCarService _reportCarService = ReportCarService();
+  AuthService _authService = AuthService();
   TextEditingController txtComent = new TextEditingController();
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    widget.reportCar.idClientuser = 55;
-    widget.reportCar.idVehicule = widget.vehicle.idVehicle!;
+
+  void _getUserId() async {
+    widget.reportCar.idClientuser = await _authService.getCurrentId();
+  }
+
+  insertDataBase() async {
+    _getUserId();
+    widget.reportCar.comment = txtComent.text;
+    _reportCarService.insertReportCar(widget.reportCar).then(
+      (value) {
+        if (value) {
+          Navigator.pushNamed(context, 'adminMenu');
+        } else {
+          print("no se inserto");
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    insertDataBase() async {
-      widget.reportCar.comment = txtComent.text;
-      _reportCarService.insertReportCar(widget.reportCar).then(
-        (value) {
-          if (value) {
-            Navigator.pushNamed(context, 'adminMenu');
-          } else {
-            print("no se inserto");
-          }
-        },
-      );
-    }
-
-    Widget _buttonCalificate() {
-      return Row(
-        children: <Widget>[
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: Container(
-                height: 50,
-                margin: EdgeInsets.all(20),
-                child: ButtonApp(
-                  onPressed: () {},
-                  text: 'Cancelar',
-                  textColor: Colors.amber,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                height: 50,
-                margin: EdgeInsets.all(20),
-                child: ButtonApp(
-                  onPressed: () {
-                    insertDataBase();
-                  },
-                  text: 'Enviar',
-                  color: Colors.amber,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(242, 212, 61, 1),
@@ -132,54 +96,94 @@ class _TravelReviewPageState extends State<TravelReviewPage> {
       ),
     );
   }
-}
 
-Widget _textCalificateYourDriver() {
-  return Container(
-    height: 17,
-    width: double.infinity,
-    child: Column(
-      children: [
-        Text('Califica a tu conductor',
-            style: TextStyle(
-                color: Colors.cyan, fontWeight: FontWeight.bold, fontSize: 14))
-      ],
-    ),
-  );
-}
-
-Widget _bannerPriceInfo(
-  String title,
-  String value,
-  String driver,
-) {
-  return Container(
-    height: 170,
-    width: double.infinity,
-    child: Column(
-      children: [
-        Icon(Icons.check_circle, color: Colors.grey[800], size: 50),
-        SizedBox(height: 5),
-        Text(
-          'Tu viaje a finalizado',
-          style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+  Widget _buttonCalificate() {
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Container(
+              height: 50,
+              margin: EdgeInsets.all(20),
+              child: ButtonApp(
+                onPressed: () {},
+                text: 'Cancelar',
+                textColor: Colors.amber,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ),
-        SizedBox(height: 20),
-        Text(
-          driver,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 5),
-        Text(
-          title,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 5),
-        Text(
-          value,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              height: 50,
+              margin: EdgeInsets.all(20),
+              child: ButtonApp(
+                onPressed: () {
+                  insertDataBase();
+                },
+                text: 'Enviar',
+                color: Colors.amber,
+              ),
+            ),
+          ),
         ),
       ],
-    ),
-  );
+    );
+  }
+
+  Widget _textCalificateYourDriver() {
+    return Container(
+      height: 17,
+      width: double.infinity,
+      child: Column(
+        children: [
+          Text('Califica a tu conductor',
+              style: TextStyle(
+                  color: Colors.cyan,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14))
+        ],
+      ),
+    );
+  }
+
+  Widget _bannerPriceInfo(
+    String title,
+    String value,
+    String driver,
+  ) {
+    return Container(
+      height: 170,
+      width: double.infinity,
+      child: Column(
+        children: [
+          Icon(Icons.check_circle, color: Colors.grey[800], size: 50),
+          SizedBox(height: 5),
+          Text(
+            'Tu viaje a finalizado',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          Text(
+            driver,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 5),
+          Text(
+            title,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 5),
+          Text(
+            value,
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
 }
