@@ -106,7 +106,7 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
                                   .getAverageRating(vehicle.idVehicle!),
                               builder: (_, AsyncSnapshot<double> snapshot) {
                                 if (snapshot.hasData) {
-                                  getRatingBar(snapshot.data!);
+                                  return getRatingBar(snapshot.data!);
                                 }
                                 return CircularProgressIndicator();
                               },
