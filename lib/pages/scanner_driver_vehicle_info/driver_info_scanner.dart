@@ -5,6 +5,7 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
+import 'package:taxi_segurito_app/services/report_car_service.dart';
 import './widgets/driver_data.dart';
 import './widgets/vehicle_data.dart';
 
@@ -19,6 +20,7 @@ class ScannedQrInfoPage extends StatefulWidget {
 class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
   Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   final _driverVehicleService = DriverVehicleService();
+  final _reportCarService = ReportCarService();
   late Future<Map<String, dynamic>?> futureInfo;
   late Driver driver;
   late Vehicle vehicle;
@@ -97,25 +99,17 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          //containerTitle,
                           DriverData(driver),
                           Center(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "4.2 ",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                RatingBarIndicator(
-                                  rating: 4,
-                                  itemSize: 25,
-                                  itemBuilder: (context, _) => Icon(
-                                    Icons.star,
-                                    color: Colors.amber,
-                                  ),
-                                ),
-                              ],
+                            child: FutureBuilder(
+                              future: _reportCarService
+                                  .getAverageRating(vehicle.idVehicle!),
+                              builder: (_, AsyncSnapshot<double> snapshot) {
+                                if (snapshot.hasData) {
+                                  getRatingBar(snapshot.data!);
+                                }
+                                return CircularProgressIndicator();
+                              },
                             ),
                           ),
                           Padding(
@@ -126,9 +120,8 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
                         ],
                       ),
                     );
-                  } else {
-                    return Center(child: CircularProgressIndicator());
                   }
+                  return Center(child: CircularProgressIndicator());
                 }
                 return Center(child: CircularProgressIndicator());
               },
@@ -136,6 +129,26 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
           );
         },
       ),
+    );
+  }
+
+  Widget getRatingBar(double rating) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          rating.toString(),
+          style: TextStyle(fontSize: 20),
+        ),
+        RatingBarIndicator(
+          rating: rating,
+          itemSize: 25,
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -18,6 +18,7 @@ class TravelReviewPage extends StatefulWidget {
 }
 
 class _TravelReviewPageState extends State<TravelReviewPage> {
+  ReportCarService _reportCarService = ReportCarService();
   TextEditingController txtComent = new TextEditingController();
   @override
   void initState() {
@@ -31,7 +32,7 @@ class _TravelReviewPageState extends State<TravelReviewPage> {
   Widget build(BuildContext context) {
     insertDataBase() async {
       widget.reportCar.comment = txtComent.text;
-      insertReportCar(widget.reportCar).then(
+      _reportCarService.insertReportCar(widget.reportCar).then(
         (value) {
           if (value) {
             Navigator.pushNamed(context, 'adminMenu');
