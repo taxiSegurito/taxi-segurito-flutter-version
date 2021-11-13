@@ -3,7 +3,6 @@ import 'package:flutter/rendering.dart';
 import 'package:taxi_segurito_app/pages/recoveryPassword/recoveryPasswordFunctionality.dart';
 
 class RecoveryPassword extends StatefulWidget {
-
   @override
   RecoveryPasswordState createState() => new RecoveryPasswordState();
 }
@@ -15,6 +14,7 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
     super.initState();
     recoveryPasswordFuncionality = new RecoveryPasswordFuncionality(context);
   }
+
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
@@ -32,9 +32,8 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
             },
           ),
         ),
-
-      body: SingleChildScrollView(
-        child : Container(
+        body: SingleChildScrollView(
+            child: Container(
           child: Column(
             children: [
               Container(
@@ -46,10 +45,14 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
                     Align(
                       alignment: Alignment.topCenter,
                       child: Padding(
-                        padding: const EdgeInsets.only(right: 40,bottom: 10,left: 40),
+                        padding: const EdgeInsets.only(
+                            right: 40, bottom: 10, left: 40),
                         child: Text(
                           "Recupera tu contraseña usando tu correo electrónico",
-                          style: TextStyle(color: Colors.black, fontSize: 20,fontFamily: 'Raleway'),
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontFamily: 'Raleway'),
                         ),
                       ),
                     ),
@@ -72,12 +75,13 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
                           ]),
                       child: TextField(
                         textAlign: TextAlign.center,
-                        controller: recoveryPasswordFuncionality.email_Controller,
+                        controller:
+                            recoveryPasswordFuncionality.emailController,
                         decoration: InputDecoration(
                             hintText: "Ingrese su correo electrónico"),
                       ),
                     ),
-                    
+
                     // Button: Enviar Email
                     Container(
                       padding: EdgeInsets.only(top: 30),
@@ -90,14 +94,15 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.yellow.shade600),
                                 ),
-                                onPressed: (){
-                                  if(recoveryPasswordFuncionality.isEnabledButtons)
-                                  {
-                                    recoveryPasswordFuncionality.onPressedBtnEnviarEmail();
+                                onPressed: () {
+                                  if (recoveryPasswordFuncionality
+                                      .areButtonsEnabled) {
+                                    recoveryPasswordFuncionality
+                                        .onPressedBtnEnviarEmail();
                                   }
-                                 },
-                                child:
-                                    Text("        Enviar código a mi correo        "))
+                                },
+                                child: Text(
+                                    "        Enviar código a mi correo        "))
                           ],
                         ),
                       ),
@@ -116,13 +121,13 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
                           ]),
                       child: TextField(
                         textAlign: TextAlign.center,
-                        controller: recoveryPasswordFuncionality.codeInput_Controller,
+                        controller:
+                            recoveryPasswordFuncionality.codeInputController,
                         decoration: InputDecoration(
                           hintText: "Código",
                         ),
                       ),
                     ),
-
 
                     // Button: Confirmar
                     Container(
@@ -136,12 +141,13 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
                                       MaterialStateProperty.all<Color>(
                                           Colors.yellow.shade600),
                                 ),
-                                onPressed: (){
-                                  if(recoveryPasswordFuncionality.isEnabledButtons)
-                                  {
-                                    recoveryPasswordFuncionality.onPressedBtnConfirmar(); 
+                                onPressed: () {
+                                  if (recoveryPasswordFuncionality
+                                      .areButtonsEnabled) {
+                                    recoveryPasswordFuncionality
+                                        .onPressedBtnConfirmar();
                                   }
-                                 },
+                                },
                                 child:
                                     Text("             Confirmar            "))
                           ],
@@ -153,8 +159,6 @@ class RecoveryPasswordState extends State<RecoveryPassword> {
               ),
             ],
           ),
-        )
-      )
-    );
+        )));
   }
 }
