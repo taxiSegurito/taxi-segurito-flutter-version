@@ -52,7 +52,6 @@ class LoginFacebookUtils {
                 email: email,
                 password: "Facebook",
                 signUpType: Server.SignUpType['FACEBOOK']!);
-            //AuthService().logIn(clientExits);
             return clientExits;
           }
           //Cuando No exista el usuario en la BD se le debera pedir el numero de telefono
