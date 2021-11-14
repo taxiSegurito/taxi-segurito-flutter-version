@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
-import 'package:taxi_segurito_app/pages/emergencyContact/contact_form_page.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_list_functionality.dart';
 
 
@@ -14,16 +13,14 @@ class ListContact_Page extends StatefulWidget
 
 class _ListContactState extends State<ListContact_Page> {
   
-  ListContact_Functionality listContact_functionality = new ListContact_Functionality();
+  late ListContact_Functionality listContact_functionality;
+
   @override
-  initState()
+  void initState()
   {
     super.initState();
-    /*
-    setState(() {
-      listContact_functionality.loadData();
-    });
-    */
+    listContact_functionality = new ListContact_Functionality(context);
+    
   }
 
   @override
@@ -113,9 +110,7 @@ class _ListContactState extends State<ListContact_Page> {
                             Container(
                             width: 50,
                             child: InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => FormContact_Page.update(contact)),);
-                                },
+                              onTap: () { listContact_functionality.onTapEditIcon(contact);},
                               child: Icon(
                                 Icons.edit,
                                 size: 40,
@@ -154,9 +149,7 @@ class _ListContactState extends State<ListContact_Page> {
  /// UI Method 1: Genera floatingButtom para agregar contactos.
   Widget _insertFloatingButton(){
     return FloatingActionButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => FormContact_Page.insert()),);
-            },
+          onPressed: () { listContact_functionality.onPressedFloatingButton();},
           child: Icon(Icons.add),
         );
   }
@@ -173,8 +166,8 @@ class _ListContactState extends State<ListContact_Page> {
           TextButton(
             child: const Text('Borrar'),
             onPressed: () {
-                listContact_functionality.DeleteContact_Function(idEmergencyContact,context);
                 setState(() {
+                listContact_functionality.deleteContact(idEmergencyContact);
                 Navigator.of(context).pop();
               });
             },

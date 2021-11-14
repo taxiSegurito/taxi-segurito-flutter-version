@@ -3,13 +3,18 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
+import 'package:taxi_segurito_app/pages/emergencyContact/contact_form_page.dart';
 
 class ListContact_Functionality{
 
   SessionsService sessions = SessionsService();
   EmergencyContactService emergencyContactService = new EmergencyContactService();
+
   int sessionId = 0;
   bool isSession = false;
+
+  late BuildContext context;
+  ListContact_Functionality(this.context);
   
   List<EmergencyContact> contacts = [];
   
@@ -22,13 +27,12 @@ class ListContact_Functionality{
       {
         var iduser = await sessions.getSessionValue("id");
         sessionId = int.parse(iduser);
-        print(sessionId.toString());
         return true;
       }
       else return false;
     }catch(e)
     {
-      print("  2 msgError: "+e.toString());
+      print("CheckSession msgError: "+e.toString());
       return false;
     }
   }
@@ -40,7 +44,6 @@ class ListContact_Functionality{
   if(isSession)
     {
       var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(new EmergencyContact.getByIdUser(sessionId));
-      print("  2 dataSet: "+dataSet.toString());
       if(dataSet.toString() != "Error")
       {
         if(dataSet!=[])
@@ -53,28 +56,39 @@ class ListContact_Functionality{
           }
         } 
         else{
-          ShowCustomToast("No se han encontrado los datos del usuario.", Colors.red);
+          showCustomToast("No se han encontrado los datos del usuario.", Colors.red);
         }
       }
       else
       {
-        ShowCustomToast("Error en la base de datos.", Colors.red);
+        showCustomToast("Error en la base de datos.", Colors.red);
       }
     }
   }
 
-  void DeleteContact_Function(idEmergencyContact,context) async
+  onPressedFloatingButton()
+  {
+    Navigator.push(this.context, MaterialPageRoute(builder: (context) => FormContact_Page.insert()),);
+  }
+
+  onTapEditIcon(contact)
+  {
+    Navigator.push(this.context, MaterialPageRoute(builder: (context) => FormContact_Page.update(contact)),);
+  }
+
+  deleteContact(idEmergencyContact) async
   {
     bool result = await emergencyContactService.deleteEmergencyContact(new EmergencyContact.delete(idEmergencyContact));
 
-    if(result)
-    {
-      ShowCustomToast("Se ha borrado el contacto.", Colors.green);
+    if(result) {
+      showCustomToast("Se ha borrado el contacto.", Colors.green);
     }
-    else {ShowCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);}
+    else {
+      showCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);
+    }
   }
 
-  void ShowCustomToast(String myText, Color myColor)
+  void showCustomToast(String myText, Color myColor)
   {
         Fluttertoast.showToast(
         msg: myText,
