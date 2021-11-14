@@ -13,6 +13,13 @@ class Vehicle {
   late int idOwner;
   late int? status;
 
+  Vehicle.empty() {
+    this.color = '';
+    this.model = '';
+    this.pleik = '';
+    this.capacity = 1;
+  }
+
   //atributos con required son para insert
   Vehicle({
     required this.color,

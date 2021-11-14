@@ -8,14 +8,14 @@ import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/services/owner_service.dart';
 import 'widgets/owner_list.dart';
 
-class OnwerList extends StatefulWidget {
-  OnwerList({Key? key}) : super(key: key);
+class OnwerListPage extends StatefulWidget {
+  OnwerListPage({Key? key}) : super(key: key);
 
   @override
-  _OnwerListState createState() => _OnwerListState();
+  _OnwerListPageState createState() => _OnwerListPageState();
 }
 
-class _OnwerListState extends State<OnwerList> {
+class _OnwerListPageState extends State<OnwerListPage> {
   OwnerService _ownersService = OwnerService();
   late Future<List<Owner>> owners;
 

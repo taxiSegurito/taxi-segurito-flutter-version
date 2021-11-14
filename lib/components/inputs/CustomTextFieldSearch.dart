@@ -42,19 +42,20 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Container(
-        margin: new EdgeInsets.only(
-            top: widget.marginTop,
-            bottom: widget.marginBotton,
-            left: widget.marginLeft,
-            right: widget.marginRight),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(widget.radius),
+      margin: new EdgeInsets.only(
+          top: widget.marginTop,
+          bottom: widget.marginBotton,
+          left: widget.marginLeft,
+          right: widget.marginRight),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
         ),
-        child: Row(children: [
+        borderRadius: BorderRadius.circular(widget.radius),
+      ),
+      child: Row(
+        children: [
           Padding(
             padding: EdgeInsets.only(left: 8),
             child: Icon(
@@ -80,19 +81,27 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
                   isDense: true,
                   hintText: widget.hint,
                   focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(widget.radius)),
-                    borderSide:
-                        BorderSide(width: 0, color: Colors.grey.withOpacity(0)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(widget.radius),
+                    ),
+                    borderSide: BorderSide(
+                      width: 0,
+                      color: Colors.grey.withOpacity(0),
+                    ),
                   ),
                   fillColor: Colors.yellow,
                   border: InputBorder.none),
               onFieldSubmitted: (value) {
                 widget.callbackValueSearch(value);
               },
+              onTap: () {
+                widget.ontap;
+              },
             ),
           )),
-        ]));
+        ],
+      ),
+    );
   }
 
   String getValue() {
