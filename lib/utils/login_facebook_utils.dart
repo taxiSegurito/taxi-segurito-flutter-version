@@ -15,7 +15,10 @@ class LoginFacebookUtils {
     try {
       final LoginResult result = await FacebookAuth.instance.login(
         permissions: ['email', 'public_profile'],
-      );
+      ).catchError((e) {
+        log(e.toString());
+        return null;
+      });
       if (result.status == LoginStatus.failed) {
         return null;
       }
@@ -24,7 +27,11 @@ class LoginFacebookUtils {
       } else if (result.status == LoginStatus.success) {
         //The data is captured in userData
         var userData = await FacebookAuth.instance
-            .getUserData(fields: "name,email,picture.width(200)");
+            .getUserData(fields: "name,email,picture.width(200)")
+            .catchError((e) {
+          log(e.toString());
+          return null;
+        });
         if (userData != null) {
           String fullName = userData.entries.first.value;
           String email = userData["email"].toString();
