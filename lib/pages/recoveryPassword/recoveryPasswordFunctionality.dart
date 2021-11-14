@@ -26,13 +26,13 @@ class RecoveryPasswordFuncionality {
       areButtonsEnabled = false;
       codeVerify = generateVerifyCode();
       lastEmailAux = emailController.text;
-      if (EmailSender.validateEmail(lastEmailAux)) {
+      /*if (EmailSender.validateEmail(lastEmailAux)) {
         comprobateIsRegistered(lastEmailAux);
       } else {
         GlobalToast.displayToast(Text("El correo no existe."), Colors.yellow,
             Icon(Icons.warning), 3);
         areButtonsEnabled = true;
-      }
+      }*/
     }
   }
 

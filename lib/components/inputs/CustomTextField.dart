@@ -35,7 +35,7 @@ class CustomTextField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CustomTextField> createState() {
+  _CustomTextFieldState createState() {
     _controller.text = value;
     return _customTextFieldState;
   }
@@ -81,11 +81,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           width: width,
           height: widget.heightNum,
           alignment: Alignment.bottomCenter,
-<<<<<<< HEAD
           child: new TextFormField(
-=======
-          child: TextFormField(
->>>>>>> b54640b39b90a465cd93ecfda615d8ea7c166e88
             onChanged: widget.assignValue,
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,

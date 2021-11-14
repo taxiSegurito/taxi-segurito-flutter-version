@@ -341,15 +341,16 @@ class AlertDialogDelete extends StatelessWidget {
       ),
       actions: <Widget>[
         CupertinoDialogAction(
-            child: Text(
-              'Eliminar',
-              style: TextStyle(
-                  color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
-            ),
-            onPressed: () {
-              Navigator.of(context).pop('Aceptar');
-              print('Eliminar conductor');
-            }),
+          child: Text(
+            'Eliminar',
+            style: TextStyle(
+                color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop('Aceptar');
+            print('Eliminar conductor');
+          },
+        ),
         CupertinoDialogAction(
           child: Text(
             'Cancelar',

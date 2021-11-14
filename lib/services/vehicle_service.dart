@@ -18,11 +18,6 @@ class VehicleService {
       queryParams,
     );
 
-<<<<<<< HEAD
-    if (result == "Success") {
-      return true;
-    } else {
-=======
     var response = await http.get(endpoint);
     if (response.statusCode == 200) {
       return _jsonToList(response);
@@ -57,7 +52,6 @@ class VehicleService {
         return Future<bool>.value(false);
       }
     } catch (exception) {
->>>>>>> b54640b39b90a465cd93ecfda615d8ea7c166e88
       return Future<bool>.value(false);
     }
   }

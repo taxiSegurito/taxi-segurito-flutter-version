@@ -107,7 +107,8 @@ class _UserLoginPageState extends State<UserLoginPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 30, left: 24, right: 24),
+                  //padding: EdgeInsets.only(top: 30, left: 24, right: 24),
+                  margin: EdgeInsets.only(left: 50, right: 50),
                   child: Column(
                     children: [
                       TextFormField(
@@ -149,6 +150,8 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                 _email.value.text, _pass.value.text));
                           }
                         },
+                        marginLeft: 0,
+                        marginRight: 0,
                         buttonText: "Ingresar",
                         buttonColor: colorMain,
                         buttonTextColor: Colors.white,
@@ -166,7 +169,12 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                     await sessions
                                         .removeValuesSession("iduser");
                                     await sessions.removeValuesSession("rol");
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => RecoveryPassword()),);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RecoveryPassword()),
+                                    );
                                   },
                                   child: Text("Olvidaste tu contraseña?",
                                       style:
