@@ -20,7 +20,7 @@ abstract class BaseVehicleScreen extends StatefulWidget {
   _BaseVehicleScreenState _screamVehicleBaseState =
       new _BaseVehicleScreenState();
 
-  late Vehicle vehicle;
+  late Vehicle vehicle = Vehicle.empty();
   late Driver driver;
 
   @override
@@ -34,6 +34,7 @@ abstract class BaseVehicleScreen extends StatefulWidget {
   String tittleDialog();
   String textButton();
   VehicleScreenFunctionality functionality();
+  ImagesFileAdapter getImageFileAdapter();
   eventAction();
 }
 
@@ -52,13 +53,15 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
 
     SelectDriverCard? cardInformationDriver;
 
-    ImagesFileAdapter imageCar = new ImagesFileAdapter(
-      imagePathDefaultUser: "assets/images/carDefault.png",
-      imageMainBase64: stringFromBase64Bytes(widget.vehicle.picture),
-      assignValue: (value) {
-        widget.vehicle.picture = bytesFromBase64String(value);
-      },
-    );
+    // ImagesFileAdapter imageCar = new ImagesFileAdapter(
+    //   imagePathDefaultUser: "assets/images/carDefault.png",
+    //   imageMainBase64: stringFromBase64Bytes(widget.vehicle.picture),
+    //   assignValue: (value) {
+    //     widget.vehicle.picture = bytesFromBase64String(value);
+    //   },
+    // );
+
+    ImagesFileAdapter vahicleImage = widget.getImageFileAdapter();
 
     CustomTextField txtCarColor = new CustomTextField(
       value: widget.vehicle.color,
@@ -183,7 +186,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
     bool isRegisterDataVehicle() {
       bool isValidCardData =
           widget.isRegister() ? cardInformationDriver!.getIsValid() : true;
-      bool isValidImageCar = imageCar.validate();
+      bool isValidImageCar = vahicleImage.validate();
 
       if (_formKey.currentState!.validate() &&
           isValidCardData &&
@@ -261,7 +264,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
                     top: 10.0, bottom: 10.0, left: 50.0, right: 50.0),
                 child: Row(
                   children: [
-                    Expanded(child: imageCar),
+                    Expanded(child: vahicleImage),
                   ],
                 ),
               ),
