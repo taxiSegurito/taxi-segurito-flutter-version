@@ -19,10 +19,9 @@ class LoginGoogleUtils {
       //Log in Start
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn().catchError((e) {
-        print(e.toString());
+        log(e.toString());
         return null;
       });
-      log(googleSignInAccount.toString() + "Prueba");
       //If the login was correct it will be different from null
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
