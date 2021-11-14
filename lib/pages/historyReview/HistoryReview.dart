@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/historyReview/ListViewHistoryReview.dart';
 import 'package:taxi_segurito_app/services/HistoryReviewService.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import '../../../components/sidemenu/side_menu.dart';
 
 class HistoryReview extends StatefulWidget {
   HistoryReview({Key? key}) : super(key: key);
-  String? idUser;
+  late int idUser;
 
   @override
   _HistoryReviewState createState() => _HistoryReviewState();
 }
 
 class _HistoryReviewState extends State<HistoryReview> {
+  AuthService _authService = AuthService();
+
   Color colorMain = Color.fromRGBO(242, 212, 61, 1);
 
-  selectHistoryReviewDataBase(String criteria) {
+  selectHistoryReviewDataBase() async {
+    widget.idUser = await _authService.getCurrentId();
     listHistoryReviewGlobal.clear();
     try {
-      selectHistoryReview(criteria).then((value) {
+      selectHistoryReview(widget.idUser).then((value) {
         listHistoryReviewGlobal = value;
       });
     } catch (exception) {
@@ -27,10 +31,8 @@ class _HistoryReviewState extends State<HistoryReview> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    widget.idUser = "55";
-    selectHistoryReviewDataBase(widget.idUser!);
+    selectHistoryReviewDataBase();
   }
 
   @override

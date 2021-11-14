@@ -5,7 +5,6 @@ import 'package:taxi_segurito_app/services/server.dart';
 
 class ReportCarService {
   Future<bool> insertReportCar(ReportCar reportCar) async {
-    print("${reportCar.calification} desde endpoint");
     try {
       var path = "${Server.url}/report_car/report_car_controller.php";
       final response = await http.post(

@@ -3,9 +3,9 @@ import 'package:taxi_segurito_app/models/HistoryReview.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<HistoryReviewModel>> selectHistoryReview(String criteria) async {
+Future<List<HistoryReviewModel>> selectHistoryReview(int userId) async {
   try {
-    final queryParams = {'criteria': criteria};
+    final queryParams = {'userId': userId.toString()};
 
     final endpoint = Uri.http(
       Server.host,
