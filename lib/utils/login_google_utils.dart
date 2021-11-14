@@ -9,7 +9,6 @@ import 'package:taxi_segurito_app/services/sign_up_service.dart';
 import 'package:taxi_segurito_app/models/user.dart' as U;
 
 class LoginGoogleUtils {
-  static const String TAG = "LoginGoogleUtils";
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
@@ -19,7 +18,10 @@ class LoginGoogleUtils {
     try {
       //Log in Start
       final GoogleSignInAccount? googleSignInAccount =
-          await googleSignIn.signIn();
+          await googleSignIn.signIn().catchError((e) {
+        log(e.toString());
+        return null;
+      });
       //If the login was correct it will be different from null
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
