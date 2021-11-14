@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 
-class ListContact_Functionality {
+class ListContactFunctionality {
   SessionsService sessions = SessionsService();
   String idUser = "0";
   var dataSet;

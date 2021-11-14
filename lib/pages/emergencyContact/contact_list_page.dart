@@ -10,12 +10,12 @@ class ListContact_Page extends StatefulWidget {
 }
 
 class _ListContactState extends State<ListContact_Page> {
-  ListContact_Functionality functionality = new ListContact_Functionality();
+  ListContactFunctionality functionality = new ListContactFunctionality();
   List<dynamic> contacts = [];
   var aux; //Para esperar la respuesta del futureBuilder
   var isSession;
 
-  Future LoadData_Function() async {
+  Future loadData() async {
     isSession = await functionality.CheckID(); //Revisa si hay sesion,
     print("0.5: " + isSession.toString());
     if (isSession) {
@@ -36,7 +36,7 @@ class _ListContactState extends State<ListContact_Page> {
   Widget build(BuildContext context) {
     //Para poder obtener los datos antes de presentar la interfaz, utilizaremos un FutureBuilder
     return FutureBuilder(
-        future: aux = LoadData_Function(),
+        future: aux = loadData(),
         builder: (_, AsyncSnapshot snapshot) {
           return _loadWidgets();
         });

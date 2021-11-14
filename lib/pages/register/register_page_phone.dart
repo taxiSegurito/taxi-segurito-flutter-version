@@ -8,23 +8,23 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/models/client_user.dart';
 import 'package:taxi_segurito_app/pages/register/register_info_functionality.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_info.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/services/sign_up_service.dart';
 
 class RegisterPage extends StatefulWidget {
-  Clientuser? user = null;
+  Clientuser? user;
   RegisterPage();
   RegisterPage.GoogleOrFacebook(Clientuser clientuser) {
     user = clientuser;
   }
   @override
-  _RegisterPageState createState() => new _RegisterPageState(user!);
+  _RegisterPageState createState() => new _RegisterPageState(user: user);
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  Clientuser? user = null;
-  _RegisterPageState(Clientuser user) {
-    this.user = user;
-  }
+  Clientuser? user;
+  _RegisterPageState({this.user});
+
   bool visibilitycode = false;
   bool visibilityphone = true;
   TextEditingController number = TextEditingController();
@@ -67,20 +67,25 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void verifiedTypeRegister() async {
-    if (user!.signUpType != null) {
+  void _verifySIgnUpType() async {
+    if (user != null) {
       user!.cellphone = number.text;
       log("Es desde btn google o facebook");
       log(user!.email);
+
       bool result = false;
-      if (user!.signUpType == "fb") {
+      if (user!.signUpType == Server.SignUpType["FACEBOOK"]) {
         result = await SignUpService().registerClientThroughFacebook(user!);
-      } else {
+      } else if (user!.signUpType == Server.SignUpType["GOOGLE"]) {
         result = await SignUpService().registerClientThroughGoogle(user!);
       }
-      if (result == true) {
-        Navigator.pushReplacementNamed(context, 'scannerQr',
-            arguments: user!.fullName);
+
+      if (result) {
+        Navigator.pushReplacementNamed(
+          context,
+          'scannerQr',
+          arguments: user!.fullName,
+        );
       }
     } else {
       _start = 0;
@@ -89,6 +94,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     RegisterFunctionality registerFunctionality =
         new RegisterFunctionality.cont(context);
@@ -153,23 +159,24 @@ class _RegisterPageState extends State<RegisterPage> {
                                       height: 20,
                                     ),
                                     new CustomButton(
-                                        onTap: () {
-                                          if (!visibilitycode) {
-                                            Sms sms = new Sms();
-                                            code = registerFunctionality
-                                                .generateCode();
-                                            _changed(true, "code");
-                                            startTimer();
-                                            _changed(false, "phone");
-                                            // sms.sendSms(
-                                            //     "+591" + number.text,
-                                            //     "El codigo de verificacion es: " +
-                                            //         code);
-                                          }
-                                        },
-                                        buttonText: "VERIFICAR",
-                                        buttonColor: Colors.amberAccent,
-                                        buttonTextColor: Colors.white)
+                                      onTap: () {
+                                        if (!visibilitycode) {
+                                          Sms sms = new Sms();
+                                          code = registerFunctionality
+                                              .generateCode();
+                                          _changed(true, "code");
+                                          startTimer();
+                                          _changed(false, "phone");
+                                          // sms.sendSms(
+                                          //     "+591" + number.text,
+                                          //     "El codigo de verificacion es: " +
+                                          //         code);
+                                        }
+                                      },
+                                      buttonText: "VERIFICAR",
+                                      buttonColor: Colors.amberAccent,
+                                      buttonTextColor: Colors.white,
+                                    )
                                   ],
                                 ),
                               )
@@ -197,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 onChanged: (value) {
                                   if (code != "") {
                                     if (value == code) {
-                                      verifiedTypeRegister();
+                                      _verifySIgnUpType();
                                     }
                                   }
                                 },
