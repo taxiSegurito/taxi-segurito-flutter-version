@@ -41,7 +41,7 @@ class ListContact_Functionality{
     {
       var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(new EmergencyContact.getByIdUser(sessionId));
       print("  2 dataSet: "+dataSet.toString());
-      if(dataSet.toString()!="NoResponse" && dataSet.toString() != "Error")
+      if(dataSet.toString() != "Error")
       {
         if(dataSet!=[])
         {

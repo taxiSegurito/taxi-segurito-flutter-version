@@ -173,8 +173,10 @@ class _ListContactState extends State<ListContact_Page> {
           TextButton(
             child: const Text('Borrar'),
             onPressed: () {
-              listContact_functionality.DeleteContact_Function(idEmergencyContact,context);
-              Navigator.of(context).pop();
+                listContact_functionality.DeleteContact_Function(idEmergencyContact,context);
+                setState(() {
+                Navigator.of(context).pop();
+              });
             },
           ),
           TextButton(
