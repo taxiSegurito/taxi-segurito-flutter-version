@@ -57,6 +57,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       imageMainBase64: stringFromBase64Bytes(widget.vehicle.picture),
       assignValue: (value) {
         widget.vehicle.picture = bytesFromBase64String(value);
+        widget.vehicle.pictureStr = stringFromBase64Bytes(widget.vehicle.picture);
       },
     );
 

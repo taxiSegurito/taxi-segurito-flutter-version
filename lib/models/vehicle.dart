@@ -10,6 +10,7 @@ class Vehicle {
   late String pleik;
   late int capacity;
   late Uint8List picture;
+  late String pictureStr;
   late int idOwner;
   late int? status;
 
@@ -21,8 +22,17 @@ class Vehicle {
     required this.capacity,
     required this.picture,
     required this.idOwner,
-    required this.status,
+    this.status,
     this.idVehicle,
+  });
+
+  Vehicle.insert({
+    this.color = '',
+    this.model = '',
+    this.pleik = '',
+    this.capacity = 0,
+    this.pictureStr = '',
+    this.idOwner = 0,
   });
 
   Vehicle.fromJson(Map<String, dynamic> json) {

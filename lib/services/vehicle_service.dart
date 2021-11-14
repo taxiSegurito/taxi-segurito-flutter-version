@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/services/auth_service.dart';
@@ -60,5 +61,25 @@ class VehicleService {
     List<dynamic> body = jsonDecode(response.body);
     List<Vehicle> vehicles = body.map((v) => Vehicle.fromJson(v)).toList();
     return vehicles;
+  }
+
+  Future<bool> insertVehicle(Vehicle vehicle) async {
+    try {
+      var path = '${Server.url}/Vehicle/vehicle_controller.php';
+      final response = await http.post(
+        Uri.parse(path),
+        body: jsonEncode({
+          "color": vehicle.color,
+          "model": vehicle.model,
+          "pleik": vehicle.pleik,
+          "capacity": vehicle.capacity,
+          "photo": vehicle.pictureStr,
+          //"ownerId": vehicle.idOwner.toString(),
+        }),
+      );
+      return response.statusCode == 200;
+    } catch (exception) {
+      return false;
+    }
   }
 }

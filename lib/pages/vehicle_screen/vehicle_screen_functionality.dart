@@ -18,7 +18,8 @@ class VehicleScreenFunctionality {
   BuildContext? context;
   VoidCallback? activeShowDialog;
   Driver? driver;
-  Vehicle? vehicle;
+  Vehicle? vehicle = new Vehicle.insert();
+  late VehicleService vehicleService;
 
   VehicleScreenFunctionality({
     this.context,
@@ -41,8 +42,12 @@ class VehicleScreenFunctionality {
     Navigator.of(context!).pop();
   }
 
-  onPressedbtnRegisterCar() {
-    //TODO: implementar el onPressed del boton registrar
+  onPressedbtnRegisterCar() async {
+    vehicleService.insertVehicle(vehicle!).then((value) {
+      if (value) {
+        activeShowDialog!();
+      }
+    });
   }
 
   onPressedbtnUpdateVehicle() {
@@ -50,7 +55,7 @@ class VehicleScreenFunctionality {
     // update(vehicleModel).then(
     //   (value) {
     //     if (value) {
-    //       activeShowDialog!();
+    //       activeShowDialog!();m
     //     }
     //   },
     // );
