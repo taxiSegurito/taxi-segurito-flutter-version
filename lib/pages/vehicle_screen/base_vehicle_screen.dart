@@ -166,7 +166,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
         context: context);
 
     activeShowDialog() {
-      dialogShowRegister.getShowDialog();
+      dialogShowRegister.show();
     }
 
     cardInformationDriver = new SelectDriverCard(
@@ -183,7 +183,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
     bool isRegisterDataVehicle() {
       bool isValidCardData =
           widget.isRegister() ? cardInformationDriver!.getIsValid() : true;
-      bool isValidImageCar = imageCar.getIsValid();
+      bool isValidImageCar = imageCar.validate();
 
       if (_formKey.currentState!.validate() &&
           isValidCardData &&

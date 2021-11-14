@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:taxi_segurito_app/components/buttons/refresh_button.dart';
-import 'package:taxi_segurito_app/components/inputs/SearchBar.dart';
+import 'package:taxi_segurito_app/components/inputs/search_field.dart';
 import 'package:taxi_segurito_app/pages/company_list/widgets/company_list.dart';
 
 import 'company_list_functionality.dart';

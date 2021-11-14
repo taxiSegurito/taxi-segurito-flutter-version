@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:taxi_segurito_app/components/buttons/refresh_button.dart';
-import 'package:taxi_segurito_app/components/inputs/CustomTextFieldSearch.dart';
-import 'package:taxi_segurito_app/components/inputs/SearchBar.dart';
+import 'package:taxi_segurito_app/components/inputs/search_field.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/services/owner_service.dart';
 import 'widgets/owner_list.dart';
@@ -57,8 +56,8 @@ class _OnwerListPageState extends State<OnwerListPage> {
           flex: 2,
           child: Padding(
             padding: EdgeInsets.only(right: 8),
-            child: CustomTextFieldSearch(
-              callbackValueSearch: _searchOwners,
+            child: SearchField(
+              onSearch: _searchOwners,
               hint: 'Buscar por nombre, Ci ...',
             ),
           ),

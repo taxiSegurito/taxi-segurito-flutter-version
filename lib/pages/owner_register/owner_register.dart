@@ -3,6 +3,8 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
+import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/pages/owner_register/owner_register_functionality.dart';
 import 'package:taxi_segurito_app/pages/owner_register/widgets/DropDownCompany.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
@@ -10,6 +12,8 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 class RegisterOwner extends StatefulWidget {
+  Owner owner = Owner.init();
+  List<Company> listCompanies = [];
   RegisterOwner({Key? key}) : super(key: key);
 
   @override
@@ -17,12 +21,27 @@ class RegisterOwner extends StatefulWidget {
 }
 
 class _RegisterOwnerState extends State<RegisterOwner> {
+  RegisterOwnerFunctionality functionality = RegisterOwnerFunctionality();
+
+  @override
+  void initState() {
+    super.initState();
+    functionality.getCompanies().then((value) {
+      if (value != null) {
+        setState(
+          () {
+            widget.listCompanies = value;
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    functionality.context = context;
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
-    RegisterOwnerFunctionality functionality =
-        RegisterOwnerFunctionality(context: context);
 
     Text title = new Text(
       "Registro de Dueño",
@@ -32,11 +51,9 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     DropDownCompany ddbNameCompany = new DropDownCompany(
-      listItem: functionality.getListCompany(),
-      hint: "Seleccione empresa",
-    );
+        hint: "Seleccione empresa", listItem: widget.listCompanies);
 
-    final txtNameOwner = new CustomTextField(
+    CustomTextField txtNameOwner = new CustomTextField(
       hint: 'Nombres',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -44,7 +61,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       ]),
     );
 
-    final txtLastName = new CustomTextField(
+    CustomTextField txtLastName = new CustomTextField(
       hint: 'Apellido Paterno',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -52,7 +69,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       ]),
     );
 
-    final txtLastNameSecond = new CustomTextField(
+    CustomTextField txtLastNameSecond = new CustomTextField(
       hint: 'Apellido Materno',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -60,43 +77,58 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       ]),
     );
 
-    final txtPhone = new CustomTextField(
+    CustomTextField txtPhone = new CustomTextField(
       hint: 'Telefono',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
         NumberValidator(errorText: "No se permite letras")
       ]),
+      assignValue: (value) {
+        widget.owner.cellPhone = value;
+      },
     );
 
-    final txtEmail = new CustomTextField(
+    CustomTextField txtEmail = new CustomTextField(
       hint: 'Correo electronico',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
         EmailValidator(errorText: "Ingrese los parametros correctos")
       ]),
+      assignValue: (value) {
+        widget.owner.email = value;
+      },
     );
 
-    final txtPassword = new CustomTextField(
+    CustomTextField txtPassword = new CustomTextField(
       hint: 'Contraseña',
       obscureText: true,
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
         PasswordValidator(errorText: "Ingrese parametros correctos")
       ]),
+      assignValue: (value) {
+        widget.owner.password = value;
+      },
     );
 
-    final txtAddress = new CustomTextField(
+    CustomTextField txtAddress = new CustomTextField(
       hint: 'Direccion',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
       ]),
+      assignValue: (value) {
+        widget.owner.address = value;
+      },
     );
 
-    final txtDni = new CustomTextField(
+    CustomTextField txtDni = new CustomTextField(
       hint: 'Cedula de identidad',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
       ]),
+      assignValue: (value) {
+        widget.owner.ci = value;
+      },
     );
 
     final btnCancel = new CustomButtonWithLinearBorder(
@@ -114,33 +146,27 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     final dialogShowRegister = new CustomDialogShow(
-        ontap: () {
-          functionality.closeNavigator();
-        },
+        ontap: functionality.closeNavigator,
         buttonText: "Aceptar",
         buttonColor: colorMain,
         buttonColorText: Colors.white,
         titleShowDialog: "Registro Exitoso!",
         context: context);
     activeShowDialog() {
-      dialogShowRegister.getShowDialog();
+      dialogShowRegister.show();
     }
 
     bool registerDataOwner() {
       bool isValidDdbNameCompany = ddbNameCompany.getIsValid();
       if (_formKey.currentState!.validate() && isValidDdbNameCompany) {
-        functionality = new RegisterOwnerFunctionality(
-            company: ddbNameCompany.getValue(),
-            names: txtNameOwner.getValue(),
-            lastName: txtLastName.getValue(),
-            lastNameSecond: txtLastNameSecond.getValue(),
-            cellphone: txtPhone.getValue(),
-            email: txtEmail.getValue(),
-            password: txtPassword.getValue(),
-            ci: txtDni.getValue(),
-            address: txtAddress.getValue(),
-            context: context,
-            activeShowDialog: activeShowDialog);
+        widget.owner.fullName = txtNameOwner.getValue() +
+            ' ' +
+            txtLastName.getValue() +
+            ' ' +
+            txtLastNameSecond.getValue();
+        functionality.company = ddbNameCompany.getValue();
+        functionality.owner = widget.owner;
+        functionality.activeShowDialog = activeShowDialog;
         return true;
       }
       return false;

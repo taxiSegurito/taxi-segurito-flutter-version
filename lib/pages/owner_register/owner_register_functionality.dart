@@ -1,39 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/services/company_service.dart';
 import 'package:taxi_segurito_app/services/owner_service.dart';
 
 class RegisterOwnerFunctionality {
-  BuildContext context;
+  BuildContext? context;
 //person
 //user
 //owner
   Company? company;
-  String? names;
-  String? lastName;
-  String? lastNameSecond;
-  String? fullName;
-  String? cellphone;
-  String? email;
-  String? password;
-  String? ci;
-  String? address;
+  Owner? owner;
   VoidCallback? activeShowDialog;
 
   OwnerService _ownerService = OwnerService();
+  CompanyService _companyService = CompanyService();
 
   RegisterOwnerFunctionality(
-      {required this.context,
-      this.company,
-      this.names,
-      this.lastName,
-      this.lastNameSecond,
-      this.email,
-      this.password,
-      this.address,
-      this.ci,
-      this.cellphone,
-      this.activeShowDialog});
+      {this.context, this.company, this.owner, this.activeShowDialog});
 
   List<Company> companyList = [
     Company(companyName: "6 de Agosto", nit: "12345678", idCompany: "1"),
@@ -43,24 +27,28 @@ class RegisterOwnerFunctionality {
     return companyList.toList();
   }
 
-  onPressedbtnRegisterCar() {
-    fullName = names! + " " + lastName! + " " + lastNameSecond!;
-    _ownerService
-        .insert(Owner(
-            fullName: fullName!,
-            cellPhone: cellphone!,
-            email: email!,
-            password: password!,
-            address: address!,
-            ci: ci!,
-            idCompany: company!.idCompany.toString()))
-        .then((_) => activeShowDialog!());
+  onPressedbtnRegisterCar() async {
+    owner!.idCompany = company!.idCompany;
+    final success = await _ownerService.insert(owner!);
+    if (success) {
+      activeShowDialog!();
+    }
+  }
+
+  Future<List<Company>?> getCompanies() async {
+    companyList.clear();
+    try {
+      companyList = await _companyService.selectCompany();
+      return companyList;
+    } catch (exception) {
+      return null;
+    }
   }
 
   onPressedUpdate(Owner owner) {}
 
   closeNavigator() {
-    Navigator.of(context).pop();
+    Navigator.of(context!).pop();
   }
 
   onPressedbtnCancelRegisterCar() {

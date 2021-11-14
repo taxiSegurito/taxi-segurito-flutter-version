@@ -47,13 +47,13 @@ class VehicleScreenFunctionality {
 
   onPressedbtnUpdateVehicle() {
     Vehicle vehicleModel = vehicle!;
-    update(vehicleModel).then(
-      (value) {
-        if (value) {
-          activeShowDialog!();
-        }
-      },
-    );
+    // update(vehicleModel).then(
+    //   (value) {
+    //     if (value) {
+    //       activeShowDialog!();
+    //     }
+    //   },
+    // );
   }
 
   onPressedbtnCancelRegisterCar() {

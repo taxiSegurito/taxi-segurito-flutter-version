@@ -46,7 +46,7 @@ class _SelectDriverCardState extends State<SelectDriverCard> {
   bool validateDrown() {
     bool isValid = true;
 
-    if (widget.driver!.ci.isEmpty) {
+    if (widget.driver!.ci == null) {
       setState(() => errorMessage = "Campo vacio");
       colorBorder = Colors.red;
       isValid = false;

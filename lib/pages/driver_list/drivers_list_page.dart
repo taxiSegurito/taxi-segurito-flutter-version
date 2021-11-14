@@ -4,7 +4,7 @@ import 'package:taxi_segurito_app/services/driver_service.dart';
 
 import 'drivers_list.dart';
 import '../../components/buttons/refresh_button.dart';
-import '../../components/inputs/SearchBar.dart';
+import '../../components/inputs/search_field.dart';
 
 class DriversListPage extends StatefulWidget {
   DriversListPage({Key? key}) : super(key: key);

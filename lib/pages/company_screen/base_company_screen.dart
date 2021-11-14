@@ -89,7 +89,7 @@ class _BaseCompanyScreenState extends State<BaseCompanyScreen> {
     );
 
     activeShowDialog() {
-      dialogShowRegister.getShowDialog();
+      dialogShowRegister.show();
     }
 
     bool isFormValid() {

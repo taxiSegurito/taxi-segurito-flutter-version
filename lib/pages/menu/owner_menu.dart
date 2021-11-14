@@ -15,12 +15,12 @@ class OwnerMenu extends Menu {
       MenuItem(
         text: 'Ver lista de vehículos',
         iconPath: 'assets/icons/vehicle-menu.png',
-        pageRoute: '',
+        pageRoute: 'vehicleList',
       ),
       MenuItem(
         text: 'Registrar conductor',
         iconPath: 'assets/icons/add-driver-menu.png',
-        pageRoute: 'driverRegistration',
+        pageRoute: 'registerDriver',
       ),
     ];
   }
