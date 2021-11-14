@@ -18,6 +18,7 @@ import './pages/company_screen/company_register_screen.dart';
 import './pages/vehicle_screen/vehicle_register_screen.dart';
 import './pages/vehicle_screen/vehicle_edit_screen.dart';
 import './pages/vehiclesList/VehiclesListPage.dart';
+import './pages/historyReview/HistoryReview.dart';
 import './models/vehicle.dart';
 import './models/providers/HttpProvider.dart';
 
@@ -86,6 +87,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'companyList': (_) => CompanyListPage(),
         'userList': (_) => OnwerList(),
         'vehicleList': (_) => VehiclesListPage(),
+        'historyReview': (_) => HistoryReview(),
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
