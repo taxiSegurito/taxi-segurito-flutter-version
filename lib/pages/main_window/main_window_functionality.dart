@@ -69,7 +69,8 @@ class MainWindowFunctionality {
       LoginFacebookUtils().LoginWithFacebook().then((user) {
         if (user != null) {
           if (user.cellphone != "") {
-            Navigator.pushNamed(context, 'scannerQr'); //Ruta a Cambiar
+            Navigator.pushReplacementNamed(
+                context, 'scannerQr'); //Ruta a Cambiar
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataFacebook(client)
