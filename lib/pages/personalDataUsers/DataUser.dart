@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriverSelect.dart';
 import 'package:taxi_segurito_app/pages/personalDataUsers/DatauserFuctionality.dart';
-import 'package:taxi_segurito_app/pages/personalDataUsers/widgets/driver_data.dart';
+import 'package:taxi_segurito_app/pages/personalDataUsers/widgets/owner_data.dart';
 import 'package:taxi_segurito_app/pages/personalDataUsers/widgets/vehicle_data.dart';
 
 class DataUser extends StatefulWidget {

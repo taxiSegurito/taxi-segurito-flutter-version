@@ -9,8 +9,23 @@ import 'package:taxi_segurito_app/models/owner.dart';
 class VehicleService {
   AuthService _authService = AuthService();
 
-  Future<List<Vehicle>> getVehicles() async {
+  Future<List<Vehicle>> getOwnVehicles() async {
     final ownerId = await _authService.getCurrentId();
+    final queryParams = {'ownerId': ownerId.toString()};
+    final endpoint = Uri.http(
+      Server.host,
+      '${Server.baseEndpoint}/vehicle/vehicle_controller.php',
+      queryParams,
+    );
+
+    var response = await http.get(endpoint);
+    if (response.statusCode == 200) {
+      return _jsonToList(response);
+    }
+    throw 'Unable to fetch vehicles data';
+  }
+
+  Future<List<Vehicle>> getVehiclesByOwnerId(int ownerId) async {
     final queryParams = {'ownerId': ownerId.toString()};
     final endpoint = Uri.http(
       Server.host,

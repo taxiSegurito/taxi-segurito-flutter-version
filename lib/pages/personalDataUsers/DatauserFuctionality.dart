@@ -14,7 +14,7 @@ class DataUserFuctionality {
 
     var response = await http.post(Uri.parse(path), body: {
       'idDriver': idDriver.toString(),
-    }).timeout(Duration(seconds: 90));
+    });
 
     final datos = jsonDecode(response.body);
     var registros = new DataDriverSelect.fromJson(datos);
@@ -30,7 +30,7 @@ class DataUserFuctionality {
 
     var response1 = await http.post(Uri.parse(url), body: {
       'idDriver': idDriver.toString(),
-    }).timeout(Duration(seconds: 90));
+    });
     var datos1 = jsonDecode(response1.body);
     for (datos1 in datos1) {
       dataVehicules.add(DataVehiculesDriver.fromJson(datos1));
