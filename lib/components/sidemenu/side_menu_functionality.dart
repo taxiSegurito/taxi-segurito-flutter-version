@@ -5,7 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_list_page.dart';
 import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/utils/call_panic.dart';
-
+import 'package:taxi_segurito_app/pages/client_user_info/getUser_page.dart';
 var toastError = Fluttertoast.showToast(
     msg: "Debes Presionar 5 segundos",
     toastLength: Toast.LENGTH_SHORT,
@@ -43,6 +43,9 @@ class SideMenuFunctionality {
       log(e.toString());
       toastErrorCall;
     }
+  }
+  onPressedUserAvatar() {
+     Navigator.push(context, MaterialPageRoute(builder: (context) => GetUser_page()),);
   }
 
   onPressedTimePressedFault() {

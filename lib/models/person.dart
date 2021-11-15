@@ -10,5 +10,7 @@ class Person {
   Person.get(this.idPerson, this.fullName, this.cellphone, this.registerDate,
       this.updateDate, this.status);
   Person.insert(this.fullName, this.cellphone);
+  Person.update(this.idPerson, this.fullName, this.cellphone);
+  Person.delete(this.idPerson);
   Person.logIn(this.idPerson, this.fullName);
 }

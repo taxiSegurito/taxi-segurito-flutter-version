@@ -30,25 +30,30 @@ class SideMenu extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.amber[300],
               ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundImage: NetworkImage(
-                          'https://www.hispano-irish.com/wp-content/uploads/2020/05/PngItem_1300253.png'),
+              child: InkWell(
+                onTap: () {
+                    functionality.onPressedUserAvatar();
+                  },
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: CircleAvatar(
+                        radius: 45,
+                        backgroundImage: NetworkImage(
+                            'https://www.hispano-irish.com/wp-content/uploads/2020/05/PngItem_1300253.png'),
+                      ),
                     ),
-                  ),
-                  Text(this.username ?? "Nombre usuario"),
-                  Text(
-                    "+591 xxxxxxxxx",
-                    style: TextStyle(
-                        color: Colors.grey[500], fontFamily: "Raleway"),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                ],
+                    Text(this.username ?? "Nombre usuario"),
+                    Text(
+                      "+591 xxxxxxxxx",
+                      style: TextStyle(
+                          color: Colors.grey[500], fontFamily: "Raleway"),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                  ],
+                ),
               ),
             ),
             ListTile(
