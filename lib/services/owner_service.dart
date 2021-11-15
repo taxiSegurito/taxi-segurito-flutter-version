@@ -33,15 +33,17 @@ class OwnerService {
   }
 
   Future<Owner> selectById(int ownerId) async {
-    final path = Server.url + "selectDataOwner.php";
-    var response = await http.post(Uri.parse(path), body: {
-      'idDriver': ownerId,
-    });
+    final queryParams = {'ownerId': ownerId.toString()};
+    final endpoint = Uri.http(Server.host,
+        '${Server.baseEndpoint}/Owner/owner_controller.php', queryParams);
+    final response = await http.get(endpoint);
 
-    final datos = jsonDecode(response.body);
-    registros = new DataDriverSelect.fromJson(datos);
-
-    return registros;
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      final owner = Owner.fromJson(body);
+      return owner;
+    }
+    throw 'Unable to retrieve owner';
   }
 
   Future<List<Owner>> selectByNameCiOrPhone(criteria) async {
