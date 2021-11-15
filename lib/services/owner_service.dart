@@ -32,6 +32,18 @@ class OwnerService {
     throw 'Unable to retrieve owners';
   }
 
+  Future<Owner> selectById(int ownerId) async {
+    final path = Server.url + "selectDataOwner.php";
+    var response = await http.post(Uri.parse(path), body: {
+      'idDriver': ownerId,
+    });
+
+    final datos = jsonDecode(response.body);
+    registros = new DataDriverSelect.fromJson(datos);
+
+    return registros;
+  }
+
   Future<List<Owner>> selectByNameCiOrPhone(criteria) async {
     String path = '${Server.url}/Owner/owner_controller.php?criteria=$criteria';
     var response = await http.get(Uri.parse(path));
