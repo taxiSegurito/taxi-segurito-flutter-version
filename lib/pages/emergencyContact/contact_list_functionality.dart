@@ -18,7 +18,7 @@ class ListContactFunctionality {
 
   List<EmergencyContact> contacts = [];
 
-  Future CheckSession() async {
+  Future checkSession() async {
     try {
       bool isSession = await sessions.verificationSession("id");
       if (isSession) {
@@ -34,7 +34,7 @@ class ListContactFunctionality {
   }
 
   Future loadData() async {
-    isSession = await CheckSession();
+    isSession = await checkSession();
     print(isSession);
     if (isSession) {
       var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(
@@ -59,14 +59,14 @@ class ListContactFunctionality {
   onPressedFloatingButton() {
     Navigator.push(
       this.context,
-      MaterialPageRoute(builder: (context) => FormContact_Page.insert()),
+      MaterialPageRoute(builder: (context) => ContactFormPage.insert()),
     );
   }
 
   onTapEditIcon(contact) {
     Navigator.push(
       this.context,
-      MaterialPageRoute(builder: (context) => FormContact_Page.update(contact)),
+      MaterialPageRoute(builder: (context) => ContactFormPage.update(contact)),
     );
   }
 
