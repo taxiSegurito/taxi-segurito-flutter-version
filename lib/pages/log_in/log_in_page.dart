@@ -3,6 +3,7 @@ import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
+import 'package:taxi_segurito_app/pages/recoveryPassword/recoveryPassword.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -106,7 +107,8 @@ class _UserLoginPageState extends State<UserLoginPage> {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 30, left: 24, right: 24),
+                  //padding: EdgeInsets.only(top: 30, left: 24, right: 24),
+                  margin: EdgeInsets.only(left: 50, right: 50),
                   child: Column(
                     children: [
                       TextFormField(
@@ -148,6 +150,8 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                 _email.value.text, _pass.value.text));
                           }
                         },
+                        marginLeft: 0,
+                        marginRight: 0,
                         buttonText: "Ingresar",
                         buttonColor: colorMain,
                         buttonTextColor: Colors.white,
@@ -165,6 +169,12 @@ class _UserLoginPageState extends State<UserLoginPage> {
                                     await sessions
                                         .removeValuesSession("iduser");
                                     await sessions.removeValuesSession("rol");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RecoveryPassword()),
+                                    );
                                   },
                                   child: Text("Olvidaste tu contraseña?",
                                       style:

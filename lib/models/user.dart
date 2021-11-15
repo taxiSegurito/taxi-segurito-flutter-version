@@ -19,6 +19,6 @@ class User extends Person {
       : super.insert(fullname, cellphone);
 
   User.login(this.email, this.password);
-  User.logInResponse(int id, this.role, String fullname)
-      : super.logIn(id, fullname);
+  User.logInResponse(int id, this.role, String fullname, String cellphone)
+      : super.logIn(id, fullname, cellphone);
 }

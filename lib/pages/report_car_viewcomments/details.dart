@@ -1,10 +1,12 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/report_car_viewcomments/comentsCar.dart';
 
 class DetailsPage extends StatelessWidget {
-  final int index;
+  
+  Vehicle index;
   DetailsPage(this.index);
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class DetailsPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context,
                         MaterialPageRoute(
-                          builder: (context) => CommentsCar()
+                          builder: (context) => CommentsCar(index)
                         ),
                       );
                     },
@@ -57,19 +59,19 @@ class DetailsPage extends StatelessWidget {
             ),
           ),
           Text("Vehículo"),
-          Text("1945PHR"),
+          Text(index.pleik),
           Divider(height: 30, thickness: 2,),
           Row(
             children: [
               Text("Modelo: ", textAlign: TextAlign.left,),
-              Text("43823843CB", textAlign: TextAlign.right,),
+              Text(index.model, textAlign: TextAlign.right,),
             ],
           ),
           Divider(height: 30, thickness: 2, ),
           Row(
             children: [
               Text("Color: ", textAlign: TextAlign.left,),
-              Text("Negro", textAlign: TextAlign.right,),
+              Text(index.color, textAlign: TextAlign.right,),
             ],
           ),
           Divider(height: 30, thickness: 2,),

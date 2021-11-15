@@ -38,7 +38,7 @@ class MainWindowFunctionality {
             Navigator.pushReplacementNamed(
               context,
               'scannerQr',
-            ); //Ruta a Cambiar
+            );
           } else {
             //Se deberia llamar a la ventana de registro telefono
             //para llenar el dato y llamar al metodo AddDataGoogle(client)
@@ -96,7 +96,7 @@ class MainWindowFunctionality {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.yellow);
-    Navigator.pushReplacementNamed(context, 'scannerQr');
+    Navigator.pushNamed(context, 'scannerQr');
   }
 
   //evento click del boton de crear cuenta

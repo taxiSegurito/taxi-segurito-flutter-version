@@ -26,6 +26,11 @@ class AdminMenu extends Menu {
         iconPath: 'assets/icons/add-company-menu.png',
         pageRoute: 'registerCompany',
       ),
+      MenuItem(
+        text: 'Registrar vehículo',
+        iconPath: 'assets/icons/vehicle-menu.png',
+        pageRoute: 'registerVehicle',
+      ),
     ];
   }
 }

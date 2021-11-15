@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/user.dart';
 import 'package:taxi_segurito_app/services/server.dart';
@@ -44,22 +45,26 @@ class AuthService {
     await _sessionsService.addSessionValue('id', user.idPerson.toString());
     await _sessionsService.addSessionValue('role', user.role);
     await _sessionsService.addSessionValue('name', user.fullName);
+    await _sessionsService.addSessionValue('cellphone', user.cellphone);
   }
 
   Future<bool> _deleteSession() async {
     bool id = await _sessionsService.verificationSession('id');
     bool role = await _sessionsService.verificationSession('role');
     bool name = await _sessionsService.verificationSession('name');
-    if (id && role && name) {
+    bool cell = await _sessionsService.verificationSession('cellphone');
+    if (id && role && name && cell) {
       _sessionsService.removeValuesSession('id');
       _sessionsService.removeValuesSession('role');
       _sessionsService.removeValuesSession('name');
+      _sessionsService.removeValuesSession('cellphone');
       return true;
     }
     return false;
   }
 
   Future<User?> _getUser(User user) async {
+    log("Entra Metodo get");
     final queryParams = {'email': user.email, 'password': user.password};
     final endpoint = Uri.http(
       Server.host,
@@ -68,11 +73,14 @@ class AuthService {
     );
 
     final response = await http.get(endpoint);
+    log("response.body: "+response.body);
     if (response.statusCode == 200) {
       final body = json.decode(response.body);
-      return new User.logInResponse(body['id'], body['role'], body['name']);
+      log(body['name']);
+      return new User.logInResponse(
+          body['id'], body['role'], body['name'], body['cellphone']);
     }
-
+    log("retorna nulo");
     return null;
   }
 }

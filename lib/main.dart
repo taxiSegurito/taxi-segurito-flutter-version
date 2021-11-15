@@ -14,14 +14,15 @@ import './pages/driver_list/drivers_list_page.dart';
 import './pages/owner_register/owner_register.dart';
 import './pages/menu/owner_menu.dart';
 import './pages/company_list/company_list_page.dart';
-import './pages/travel_review/driver_travel_calification_page.dart';
 import './pages/company_screen/company_register_screen.dart';
-import './pages/vehicle_screen/vehicle_register_screen.dart';
-import './pages/vehicle_screen/vehicle_edit_screen.dart';
+// import './pages/vehicle_screen/vehicle_register_screen.dart';
+// import './pages/vehicle_screen/vehicle_edit_screen.dart';
+import './pages/vehicle_page/vehicle_register_screen.dart';
+import './pages/vehicle_page/vehicle_edit_screen.dart';
 import './pages/vehiclesList/VehiclesListPage.dart';
+import './pages/historyReview/HistoryReview.dart';
 import './models/vehicle.dart';
 import './models/providers/HttpProvider.dart';
-import './models/driver.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,23 +87,11 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'driverList': (_) => DriversListPage(),
         'registerCompany': (_) => CompanyRegisterScreen(),
         'companyList': (_) => CompanyListPage(),
-        'userList': (_) => OnwerList(),
         'vehicleList': (_) => VehiclesListPage(),
+        'historyReview': (_) => HistoryReview(),
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
-        'reportCar': (_) => TravelReviewPage(
-              Driver("Rogelio Castro", "12345678", "75554554"),
-              Vehicle(
-                  idVehicle: 1,
-                  capacity: 4,
-                  color: "rojo con franjas verdes",
-                  model: "Lamborginy",
-                  pleik: "sdasd",
-                  picture: image,
-                  status: 1,
-                  idOwner: 1),
-            ),
         'updateVehicleScreen': (BuildContext contextss) => VehicleEditScreen(
               Vehicle(
                   idVehicle: 1,

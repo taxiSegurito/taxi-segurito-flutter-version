@@ -4,15 +4,20 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:taxi_segurito_app/models/report_car_select.dart';
+import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/pages/personalDataDriver/personalDataDriver.dart';
+import 'package:taxi_segurito_app/pages/report_car_viewcomments/details.dart';
 
 
 class CommentsCar extends StatefulWidget{
 
+  final Vehicle index;
+  CommentsCar(this.index);
   void Function(dynamic dynamicObject)? callback;
+  
   _ContainerListComments _containerListComments =
       new _ContainerListComments();
-  CommentsCar({Key? key, this.callback}) : super(key: key);
-
+  //CommentsCar({Key? key, this.callback}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -26,8 +31,12 @@ class CommentsCar extends StatefulWidget{
 }
 
 class _ContainerListComments extends State<CommentsCar>{
+  
+  
+
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -38,11 +47,14 @@ class _ContainerListComments extends State<CommentsCar>{
       
     );
   }
-
+  
+  
   List<ReportCarSelect> data =[];
   //This method for get comments of vehicles
   Future<List<ReportCarSelect>> getComments() async {
-    String path = "http://10.0.2.2:2325/backend/ReportCar_controller.php?idUserSession=67&idVehicleOfOwner=3";
+    int? idVehicle = widget.index.idVehicle;
+    int? idOwner = widget.index.idOwner;
+    String path = 'http://10.0.2.2:2325/backend/ReportCar_controller.php?idUserSession='+idOwner.toString()+'&idVehicleOfOwner='+idVehicle.toString();
     final response = await http.get(Uri.parse(path));
     if(response.statusCode == 200){
       return Future<List<ReportCarSelect>>.value(
@@ -77,10 +89,11 @@ class _ContainerListComments extends State<CommentsCar>{
 //list of comments
   ListView _buildListViewComents(BuildContext context) {
     
-    Image photo = Image.asset("lib/assets/logoPrincipal.png");
+
+    
     return ListView.builder(
       itemCount: data.length,
-      itemBuilder: (_,index) {
+      itemBuilder: (_,i) {
         
         return Center(
           
@@ -90,13 +103,16 @@ class _ContainerListComments extends State<CommentsCar>{
               
               ListTile(
                 
-                title: Text(data[index].fullnameUser!),
-                subtitle: Text(data[index].datetime!),
+                title: Text(data[i].fullnameUser!),
+                subtitle: Text(data[i].datetime!),
                 leading: CircleAvatar(radius: 25,
-                  backgroundColor: Colors.white,
+                backgroundColor: Colors.white,
                   child: ClipRRect(
+                    
                     borderRadius:BorderRadius.circular(15),
-                    child: photo,
+                    child: Image(
+                      image: Image.memory(widget.index.picture).image,
+                    )
                   )
                 ),
                 
@@ -107,7 +123,7 @@ class _ContainerListComments extends State<CommentsCar>{
                 alignment: Alignment.centerLeft,
                 child: RatingBarIndicator(
                   
-                  rating: data[index].calification!,
+                  rating: data[i].calification!,
                   direction: Axis.horizontal,
                   itemSize: 20,
                   itemCount: 5,
@@ -117,7 +133,7 @@ class _ContainerListComments extends State<CommentsCar>{
                   ),
                 ),
               ),
-              Text(data[index].comments!),
+              Text(data[i].comments!),
               Divider(height: 30, thickness: 2,),
               
             ],
@@ -126,11 +142,5 @@ class _ContainerListComments extends State<CommentsCar>{
         );
       },
     );
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
   }
 }

@@ -32,6 +32,20 @@ class OwnerService {
     throw 'Unable to retrieve owners';
   }
 
+  Future<Owner> selectById(int ownerId) async {
+    final queryParams = {'ownerId': ownerId.toString()};
+    final endpoint = Uri.http(Server.host,
+        '${Server.baseEndpoint}/Owner/owner_controller.php', queryParams);
+    final response = await http.get(endpoint);
+
+    if (response.statusCode == 200) {
+      final body = jsonDecode(response.body);
+      final owner = Owner.fromJson(body);
+      return owner;
+    }
+    throw 'Unable to retrieve owner';
+  }
+
   Future<List<Owner>> selectByNameCiOrPhone(criteria) async {
     String path = '${Server.url}/Owner/owner_controller.php?criteria=$criteria';
     var response = await http.get(Uri.parse(path));

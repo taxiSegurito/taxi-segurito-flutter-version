@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/client_user.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'server.dart';
 
 class SignUpService {
@@ -38,6 +39,9 @@ class SignUpService {
       clientUser,
       Server.SignUpType['GOOGLE']!,
     );
+    if (success) {
+      AuthService().logIn(clientUser);
+    }
     return success;
   }
 
@@ -46,6 +50,9 @@ class SignUpService {
       clientUser,
       Server.SignUpType['FACEBOOK']!,
     );
+    if (success) {
+      AuthService().logIn(clientUser);
+    }
     return success;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/pages/report_car_viewcomments/details.dart';
 
 class VehicleListItem extends StatelessWidget {
   final Vehicle vehicle;
@@ -22,6 +23,13 @@ class VehicleListItem extends StatelessWidget {
               child: ListTile(
                 title: Text(vehicle.pleik),
                 subtitle: Text("${vehicle.model}"),
+                onTap:() { 
+                  Navigator.push(
+                    context, MaterialPageRoute(
+                      builder: (context) => DetailsPage(vehicle)
+                    )
+                  );
+                },
               ),
             ),
           ],
