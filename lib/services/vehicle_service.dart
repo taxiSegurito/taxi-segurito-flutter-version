@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/server.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
 
 class VehicleService {
   AuthService _authService = AuthService();

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataVehiculesDriver.dart';
+import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 class VehicleData extends StatelessWidget {
-  final DataVehiculesDriver vehicle;
+  final Vehicle vehicle;
   VehicleData(this.vehicle);
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    Image imageDefault = Image.memory(bytesFromBase64String(vehicle.photo));
+    Image imageDefault = Image.memory(vehicle.picture);
 
     final vehicleData = Container(
       margin: EdgeInsets.only(left: 10),

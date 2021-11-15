@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
+import 'package:taxi_segurito_app/pages/owner_info/owner_info_page.dart';
 
 class OwnerListItem extends StatelessWidget {
   Owner owner;
@@ -8,7 +9,7 @@ class OwnerListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Image imagedefault = new Image.asset(
-      "assets/images/userDefault.png",
+      "assets/images/user_default.png",
     );
 
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
@@ -98,7 +99,10 @@ class OwnerListItem extends StatelessWidget {
       child: Material(
         child: InkWell(
           splashColor: colorMain,
-          onTap: () {},
+          onTap: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => OwnerInfoPage(owner)));
+          },
           child: Container(
             margin: EdgeInsets.symmetric(
               vertical: 10.0,

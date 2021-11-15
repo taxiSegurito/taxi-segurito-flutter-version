@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataDriverSelect.dart';
-import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 
 class OwnerData extends StatelessWidget {
-  DataDriverSelect dataDriverSelect;
-  OwnerData(this.dataDriverSelect);
+  Owner owner;
+  OwnerData(this.owner);
 
   @override
   Widget build(BuildContext context) {
-    Image imagedefault =
-        new Image.memory(bytesFromBase64String(dataDriverSelect.photo));
+    Image imagedefault = Image.asset("assets/images/user_default.png");
     double sizeFontSubtitle = 17;
     double width = MediaQuery.of(context).size.width / 3.5;
     return Container(
@@ -40,9 +38,10 @@ class OwnerData extends StatelessWidget {
                   child: Text(
                     'Dueño',
                     style: TextStyle(
-                        color: Color.fromRGBO(93, 93, 93, 1),
-                        fontFamily: 'Raleway',
-                        fontSize: 12),
+                      color: Color.fromRGBO(93, 93, 93, 1),
+                      fontFamily: 'Raleway',
+                      fontSize: sizeFontSubtitle,
+                    ),
                   ),
                 )
               ],
@@ -55,7 +54,7 @@ class OwnerData extends StatelessWidget {
               children: [
                 Container(
                   child: Text(
-                    dataDriverSelect.fullName,
+                    owner.fullName,
                     style: TextStyle(
                         fontFamily: 'Raleway',
                         fontSize: 26,
@@ -89,34 +88,7 @@ class OwnerData extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
                       child: Text(
-                        dataDriverSelect.ci,
-                        style: TextStyle(
-                            fontFamily: 'Raleway',
-                            fontSize: 18,
-                            color: Color.fromRGBO(93, 93, 93, 1)),
-                        textAlign: TextAlign.right,
-                      ),
-                    ),
-                  ],
-                ),
-                TableRow(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 15, bottom: 15, left: 15),
-                      child: Text(
-                        'Licencia:',
-                        style: TextStyle(
-                            fontFamily: 'Raleway',
-                            fontSize: 18,
-                            color: Color.fromRGBO(0, 0, 0, 1),
-                            fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
-                      child: Text(
-                        dataDriverSelect.license,
+                        owner.ci,
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 18,
@@ -143,7 +115,7 @@ class OwnerData extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
                       child: Text(
-                        dataDriverSelect.cellphone,
+                        owner.cellPhone,
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 18,
@@ -163,7 +135,6 @@ class OwnerData extends StatelessWidget {
                             fontFamily: 'Raleway',
                             fontSize: 18,
                             color: Color.fromRGBO(0, 0, 0, 1),
-                            letterSpacing: 0,
                             fontWeight: FontWeight.bold),
                         textAlign: TextAlign.left,
                       ),
@@ -171,7 +142,7 @@ class OwnerData extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
                       child: Text(
-                        dataDriverSelect.email,
+                        owner.email,
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 18,
@@ -186,7 +157,7 @@ class OwnerData extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 15, bottom: 15, left: 15),
                       child: Text(
-                        'Nacionalidad:',
+                        'Dirección:',
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 18,
@@ -198,7 +169,7 @@ class OwnerData extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
                       child: Text(
-                        dataDriverSelect.nacionalidad,
+                        owner.address,
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 18,
@@ -213,7 +184,7 @@ class OwnerData extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.only(top: 15, left: 15, bottom: 20),
                       child: Text(
-                        'Vehiculo(s) Asignados:',
+                        'Vehiculo(s):',
                         style: TextStyle(
                             fontFamily: 'Raleway',
                             fontSize: 18,
@@ -223,14 +194,10 @@ class OwnerData extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 15, right: 15),
+                      margin: EdgeInsets.only(top: 15, left: 15, bottom: 20),
                       child: Text(
-                        'Boliviana/o',
-                        style: TextStyle(
-                            fontFamily: 'Raleway',
-                            fontSize: 0,
-                            color: Color.fromRGBO(93, 93, 93, 1)),
-                        textAlign: TextAlign.right,
+                        '',
+                        textAlign: TextAlign.left,
                       ),
                     ),
                   ],
