@@ -9,11 +9,8 @@ import 'package:taxi_segurito_app/bloc/services/env.dart';
 import 'package:taxi_segurito_app/pages/clasesDataDriverUsers/DataVehiculesDriver.dart';
 import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
-void main() => runApp(personalDataUser());
-
-// ignore: camel_case_types
-class personalDataUser extends StatelessWidget {
-  const personalDataUser({Key? key}) : super(key: key);
+class PersonalDataUser extends StatelessWidget {
+  const PersonalDataUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
