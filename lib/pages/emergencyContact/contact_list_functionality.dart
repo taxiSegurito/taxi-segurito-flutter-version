@@ -17,7 +17,6 @@ class ListContactFunctionality {
 
   late BuildContext context;
   ListContactFunctionality(this.context);
-
   List<EmergencyContact> contacts = [];
 
   Future<bool> checkSession() async {

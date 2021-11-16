@@ -9,8 +9,8 @@ class VehicleListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      // onTap: () => Navigator.push(context,
-      //     MaterialPageRoute(builder: (context) => DetailsPage(vehicle))),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => DetailsPage(vehicle))),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         elevation: 2,
