@@ -4,8 +4,8 @@ import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_form_page.dart';
-
-class ListContact_Functionality{
+import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
+class ListContactFunctionality{
 
   SessionsService sessions = SessionsService();
   EmergencyContactService emergencyContactService = new EmergencyContactService();
@@ -14,10 +14,10 @@ class ListContact_Functionality{
   bool isSession = false;
 
   late BuildContext context;
-  ListContact_Functionality(this.context);
+  ListContactFunctionality(this.context);
   
   List<EmergencyContact> contacts = [];
-  
+
   Future CheckSession() async
   {
     try
@@ -37,13 +37,14 @@ class ListContact_Functionality{
     }
   }
 
- Future loadData() async
+ Future<EmergencyContact> loadData() async
  {
   isSession = await CheckSession();
   print(isSession);
   if(isSession)
     {
       var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(new EmergencyContact.getByIdUser(sessionId));
+      
       if(dataSet.toString() != "Error")
       {
         if(dataSet!=[])
@@ -56,7 +57,7 @@ class ListContact_Functionality{
           }
         } 
         else{
-          showCustomToast("No se han encontrado los datos del usuario.", Colors.red);
+          GlobalToast.displayToast(Text('No se han encontrado los datos del usuario'), Colors.red, Icon(Icons.error), 2);//showCustomToast("No se han encontrado los datos del usuario.", Colors.red);
         }
       }
       else
@@ -64,7 +65,9 @@ class ListContact_Functionality{
         showCustomToast("Error en la base de datos.", Colors.red);
       }
     }
+    return new EmergencyContact.delete(1);
   }
+
 
   onPressedFloatingButton()
   {

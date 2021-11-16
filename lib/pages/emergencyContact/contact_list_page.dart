@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_list_functionality.dart';
 
 
@@ -13,19 +14,25 @@ class ListContact_Page extends StatefulWidget
 
 class _ListContactState extends State<ListContact_Page> {
   
-  late ListContact_Functionality listContact_functionality;
+  late ListContactFunctionality listContact_functionality;
 
   @override
   void initState()
   {
     super.initState();
-    listContact_functionality = new ListContact_Functionality(context);
-    
+    listContact_functionality = new ListContactFunctionality(context);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: listContact_functionality.loadData(),builder: (context, snapshot) {return _loadWidgets();});    
+    return FutureBuilder<EmergencyContact>(future: listContact_functionality.loadData(),builder: (context, snapshot) {
+      if(snapshot.hasData)
+      {
+        return _loadWidgets();
+      }
+      return Text("");
+      
+      });    
   }
 
   // UI Method 1: Contiene toda la interfaz, se recarga una vez se obtengan los datos, si no hay datos, mostrará "No tiene contactos de emergencia"
@@ -54,11 +61,36 @@ class _ListContactState extends State<ListContact_Page> {
         ):
         //Si no hay contactos
         Center(
-          child: Padding(padding : EdgeInsets.all(20),
-                         child: Text("No tiene contactos de emergencia registrados.",textAlign: TextAlign.center,
-                                style: TextStyle(fontFamily: "Raleway",fontSize: 25,color: Colors.grey,),)),
+          child: Padding(padding : EdgeInsets.all(20,),
+                  child:  Column(
+                    children: [
+                      Container(height: (MediaQuery.of(context).size.height / 3)),
+                      Text("No tiene contactos de emergencia registrados.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontFamily: "Raleway",fontSize: 25,color: Colors.grey,),
+                      ),
+                      Container(height:20),
+                      (listContact_functionality.isSession == true) ?
+                        ElevatedButton(onPressed: () {
+                          setState(() {
+                            //This setState refresh widgets
+                          });
+                        }, 
+                        child: Text("   Actualizar   ",style: TextStyle(color: Colors.blueGrey),),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(Colors.yellow),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            )
+                          )
+                        ),
+                       )
+                       : Text(""),
+                    ]
+                  ),
+          )
         ),
-        
     );
   }
   // UI Method 2: Metodo para generar un widget por cada contacto con sus datos
