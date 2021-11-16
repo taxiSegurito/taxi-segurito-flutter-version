@@ -19,6 +19,8 @@ class LocationFunctionality {
       for (var value in result) {
         res.add(EmergencyContact.fromJson(value));
       }
+    } else {
+      res = [];
     }
     return res;
   }

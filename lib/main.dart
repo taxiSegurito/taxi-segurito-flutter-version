@@ -24,7 +24,7 @@ void main() async {
     debugShowCheckedModeBanner: false,
   );
   if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("ContactList");
+    app = AppTaxiSegurito("firstScreen");
   } else {
     var rol = await sessions.getSessionValue("rol");
     if (rol.toString() == "Administrador") {
@@ -34,7 +34,7 @@ void main() async {
       app = AppTaxiSegurito("driverList");
     }
     if (rol.toString() == "Cliente") {
-      app = AppTaxiSegurito("QRpage");
+      app = AppTaxiSegurito("ContactList");
     }
   }
   runApp(app);

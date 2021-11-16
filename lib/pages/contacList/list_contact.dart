@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/bloc/services/sms/sms_twilio.dart';
+import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
 import 'package:taxi_segurito_app/models/emergencycontact.dart';
+import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/contacList/location_functionality.dart';
 import 'package:geolocator/geolocator.dart';
 
 class ContactList extends StatefulWidget {
   ContactList({Key? key}) : super(key: key);
-
   @override
   _ContactListState createState() => _ContactListState();
 }
@@ -15,6 +17,8 @@ class _ContactListState extends State<ContactList> {
   LocationFunctionality locationFunctionality = new LocationFunctionality();
   late Future<List<EmergencyContact>> emergycontact;
   late Position currentPosition;
+  var iduser;
+  FToast fToast = FToast();
 
   _getCurrentLocation() {
     Geolocator.getCurrentPosition(
@@ -32,8 +36,18 @@ class _ContactListState extends State<ContactList> {
   @override
   void initState() {
     super.initState();
-    emergycontact = locationFunctionality.listContac("1");
+    getidsession();
     _getCurrentLocation();
+    fToast = FToast();
+    fToast.init(context);
+  }
+
+  void getidsession() async {
+    Sessions sessions = new Sessions();
+    var id = await sessions.getSessionValue("iduser");
+    setState(() {
+      emergycontact = locationFunctionality.listContac(id.toString());
+    });
   }
 
   @override
@@ -56,7 +70,7 @@ class _ContactListState extends State<ContactList> {
                       _getCurrentLocation();
                       print(currentPosition.latitude);
                       print(currentPosition.longitude);
-                      this._enviarUbicacion(context, data[index]);
+                      this._shareLocation(context, data[index]);
                     },
                     title: Text(data[index].nameContact),
                     subtitle: Text(data[index].number),
@@ -75,7 +89,7 @@ class _ContactListState extends State<ContactList> {
         )));
   }
 
-  _enviarUbicacion(context, EmergencyContact contact) {
+  _shareLocation(context, EmergencyContact contact) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -84,7 +98,11 @@ class _ContactListState extends State<ContactList> {
                   contact.nameContact +
                   "?"),
               actions: [
-                ElevatedButton(onPressed: () {}, child: Text("Cancelar")),
+                ElevatedButton(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Cancelar")),
                 ElevatedButton(
                     onPressed: () {
                       Sms sms = new Sms();
@@ -94,6 +112,9 @@ class _ContactListState extends State<ContactList> {
                               currentPosition.latitude.toString() +
                               "," +
                               currentPosition.longitude.toString());
+                      GlobalToast.displayToast(Text("Message enviado"),
+                          Colors.greenAccent, Icon(Icons.check), 2);
+                      Navigator.pop(context);
                     },
                     child: Text("Enviar"))
               ],
