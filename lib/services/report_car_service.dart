@@ -1,9 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/report_car.dart';
+import 'package:taxi_segurito_app/models/user.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/server.dart';
 
 class ReportCarService {
+  AuthService _authService = AuthService();
+
   Future<bool> insertReportCar(ReportCar reportCar) async {
     try {
       var path = "${Server.url}/report_car/report_car_controller.php";
@@ -49,5 +53,37 @@ class ReportCarService {
       print("2 msgError: " + e.toString());
       return -1.1;
     }
+  }
+
+  Future<List<Map<String, dynamic>>?> getVehicleReviews(int idVehicle) async {
+    final ownerId = await _authService.getCurrentId();
+    final queryParams = {
+      'idOwner': ownerId.toString(),
+      'idVehicleOfOwner': idVehicle.toString()
+    };
+
+    final endpoint = Uri.http(
+      Server.host,
+      '${Server.baseEndpoint}/report_car/report_car_controller.php',
+      queryParams,
+    );
+
+    final response = await http.get(endpoint);
+    if (response.statusCode == 200) {
+      return _reviewsToList(response);
+    }
+    return null;
+  }
+
+  List<Map<String, dynamic>> _reviewsToList(http.Response response) {
+    List<dynamic> body = jsonDecode(response.body);
+    List<Map<String, dynamic>> reviews = body.map((review) {
+      return {
+        'comment': ReportCar.fromJson(review['comment']),
+        'user': User.fromJson(review['user'])
+      };
+    }).toList();
+
+    return reviews;
   }
 }
