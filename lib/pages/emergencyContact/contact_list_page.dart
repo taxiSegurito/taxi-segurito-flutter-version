@@ -44,9 +44,8 @@ class _ListContactState extends State<ListContactPage> {
         ),
       ),
       //FloatingButton
-      floatingActionButton: (functionality.isSession == true)
-          ? _insertFloatingButton()
-          : _insertFloatingButton(),
+      floatingActionButton:
+          (functionality.isSession == true) ? _insertFloatingButton() : null,
 
       body: (functionality.contacts.isNotEmpty)
           ? ListView(children: _insertItem() //Si hay contactos
