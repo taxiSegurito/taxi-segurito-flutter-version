@@ -4,7 +4,7 @@ import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_form_page.dart';
-import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
+import 'package:taxi_segurito_app/pages/emergencyContact/contact_form_page.dart';
 class ListContactFunctionality{
 
   SessionsService sessions = SessionsService();
@@ -18,7 +18,7 @@ class ListContactFunctionality{
   
   List<EmergencyContact> contacts = [];
 
-  Future CheckSession() async
+  Future checkSession() async
   {
     try
     {
@@ -39,7 +39,7 @@ class ListContactFunctionality{
 
  Future<EmergencyContact> loadData() async
  {
-  isSession = await CheckSession();
+  isSession = await checkSession();
   print(isSession);
   if(isSession)
     {
@@ -57,7 +57,7 @@ class ListContactFunctionality{
           }
         } 
         else{
-          GlobalToast.displayToast(Text('No se han encontrado los datos del usuario'), Colors.red, Icon(Icons.error), 2);//showCustomToast("No se han encontrado los datos del usuario.", Colors.red);
+          showCustomToast("No se han encontrado los datos del usuario.", Colors.red);
         }
       }
       else
