@@ -4,7 +4,7 @@ import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
-import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 
 import 'company_screen_functionality.dart';

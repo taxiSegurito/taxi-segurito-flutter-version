@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/services/company_service.dart';
 
 class CompanyScreenFunctionality {

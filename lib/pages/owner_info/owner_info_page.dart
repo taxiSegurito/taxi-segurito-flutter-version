@@ -1,10 +1,17 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/owner_info/widgets/owner_data.dart';
 import 'package:taxi_segurito_app/pages/owner_info/widgets/vehicle_data.dart';
+import 'package:taxi_segurito_app/pages/owner_register/UpdateOwnerScreen.dart';
+import 'package:taxi_segurito_app/services/owner_service.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/services/vehicle_service.dart';
+import 'package:http/http.dart' as http;
 
 class OwnerInfoPage extends StatefulWidget {
   Owner owner;
@@ -50,8 +57,11 @@ class _OwnerInfoPageState extends State<OwnerInfoPage> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pop(context);
-                    print("Estas en modificar");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new UpdateOwnerScreen(widget.owner)));
                   },
                 )),
                 PopupMenuItem(
@@ -121,6 +131,25 @@ class _OwnerInfoPageState extends State<OwnerInfoPage> {
   }
 }
 
+Future<bool> deleteOwner(Owner owner) async {
+  try {
+    String path = '${Server.url}/Owner/owner_controller.php';
+    var response = await http.delete(Uri.parse(path),
+        body: jsonEncode({"id": owner.idOwner.toString()}));
+    var result = jsonDecode(response.body);
+    if (result == 1) {
+      print("Borrado Exitosamente" + result.toString());
+      return Future<bool>.value(true);
+    } else {
+      print("Error : " + result);
+      return Future<bool>.value(false);
+    }
+  } catch (exception) {
+    log(exception.toString());
+    return Future<bool>.value(false);
+  }
+}
+
 class AlertDialogDelete extends StatelessWidget {
   late Owner owner;
   AlertDialogDelete(this.owner);
@@ -142,6 +171,7 @@ class AlertDialogDelete extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).pop('Aceptar');
               print('Eliminar conductor');
+              deleteOwner(owner);
             }),
         CupertinoDialogAction(
           child: Text(

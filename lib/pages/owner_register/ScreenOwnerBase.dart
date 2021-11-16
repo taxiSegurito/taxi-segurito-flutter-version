@@ -1,32 +1,58 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:taxi_segurito_app/models/Company.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
+import 'package:taxi_segurito_app/pages/owner_register/widgets/DropDownCompany.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
-import 'package:taxi_segurito_app/models/Company.dart';
-import 'package:taxi_segurito_app/models/Owner.dart';
-import 'package:taxi_segurito_app/pages/owner_register/owner_register_functionality.dart';
-import 'package:taxi_segurito_app/pages/owner_register/widgets/DropDownCompany.dart';
+import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
+import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
+import 'owner_register_functionality.dart';
 
-class RegisterOwner extends StatefulWidget {
-  Owner owner = Owner.init();
+abstract class ScreenOwnerBase extends StatefulWidget {
+  _ScreenOwnerBaseState _screenOwnerBaseState = new _ScreenOwnerBaseState();
+
+  Owner owner = new Owner.init();
+
+  Company company = new Company();
+
   List<Company> listCompanies = [];
-  RegisterOwner({Key? key}) : super(key: key);
-
   @override
-  _RegisterOwnerState createState() => _RegisterOwnerState();
+  State<ScreenOwnerBase> createState() {
+    return _screenOwnerBaseState;
+  }
+
+  String tittleScreen();
+
+  String tittleDialog();
+
+  RegisterOwnerFunctionality functionality();
+
+  String textButtom();
+
+  String textDeleteButton();
+
+  eventActionUpdate();
+
+  eventActionDelete();
 }
 
-class _RegisterOwnerState extends State<RegisterOwner> {
-  RegisterOwnerFunctionality functionality = RegisterOwnerFunctionality();
-
+class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
+  RegisterOwnerFunctionality? functionality;
   @override
   void initState() {
     super.initState();
-    functionality.getCompanies().then((value) {
+    functionality = widget.functionality();
+    functionality!.getCompanies().then((value) {
       if (value != null) {
         setState(
           () {
@@ -39,21 +65,25 @@ class _RegisterOwnerState extends State<RegisterOwner> {
 
   @override
   Widget build(BuildContext context) {
-    functionality.context = context;
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
+    functionality!.setContext = context;
 
     Text title = new Text(
-      "Registro de Dueño",
+      widget.tittleScreen(),
       style: const TextStyle(
           fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.normal),
       textAlign: TextAlign.center,
     );
 
     DropDownCompany ddbNameCompany = new DropDownCompany(
-        hint: "Seleccione empresa", listItem: widget.listCompanies);
+      value: widget.company,
+      listItem: widget.listCompanies,
+      hint: "Seleccione empresa",
+    );
 
     CustomTextField txtNameOwner = new CustomTextField(
+      value: widget.owner.fullName.split(' ')[0],
       hint: 'Nombres',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -62,6 +92,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtLastName = new CustomTextField(
+      value: widget.owner.fullName.split(' ')[1],
       hint: 'Apellido Paterno',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -70,7 +101,8 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtLastNameSecond = new CustomTextField(
-      hint: 'Apellido Materno',
+      value: widget.owner.fullName.split(' ')[2],
+      hint: 'Apellido Maternos',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
         StringValidator(errorText: "No se permite numeros")
@@ -78,6 +110,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtPhone = new CustomTextField(
+      value: widget.owner.cellPhone,
       hint: 'Telefono',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -89,6 +122,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtEmail = new CustomTextField(
+      value: widget.owner.email,
       hint: 'Correo electronico',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -100,18 +134,19 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtPassword = new CustomTextField(
+      value: widget.owner.password,
       hint: 'Contraseña',
       obscureText: true,
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
-        PasswordValidator(errorText: "Ingrese parametros correctos")
+        //PasswordValidator(errorText: "Ingrese parametros correctos")
       ]),
       assignValue: (value) {
         widget.owner.password = value;
       },
     );
-
     CustomTextField txtAddress = new CustomTextField(
+      value: widget.owner.address,
       hint: 'Direccion',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -122,6 +157,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
     );
 
     CustomTextField txtDni = new CustomTextField(
+      value: widget.owner.ci,
       hint: 'Cedula de identidad',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -133,7 +169,7 @@ class _RegisterOwnerState extends State<RegisterOwner> {
 
     final btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
-        functionality.onPressedbtnCancelRegisterCar();
+        functionality!.onPressedbtnCancelRegisterCar();
       },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
@@ -145,18 +181,20 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       marginTop: 0,
     );
 
-    final dialogShowRegister = new CustomDialogShow(
-        ontap: functionality.closeNavigator,
+    CustomDialogShow dialogShowRegister = new CustomDialogShow(
+        ontap: () {
+          functionality!.closeNavigator();
+        },
         buttonText: "Aceptar",
         buttonColor: colorMain,
         buttonColorText: Colors.white,
-        titleShowDialog: "Registro Exitoso!",
+        titleShowDialog: widget.tittleDialog(),
         context: context);
     activeShowDialog() {
       dialogShowRegister.show();
     }
 
-    bool registerDataOwner() {
+    bool validateForm() {
       bool isValidDdbNameCompany = ddbNameCompany.getIsValid();
       if (_formKey.currentState!.validate() && isValidDdbNameCompany) {
         widget.owner.fullName = txtNameOwner.getValue() +
@@ -164,21 +202,21 @@ class _RegisterOwnerState extends State<RegisterOwner> {
             txtLastName.getValue() +
             ' ' +
             txtLastNameSecond.getValue();
-        functionality.company = ddbNameCompany.getValue();
-        functionality.owner = widget.owner;
-        functionality.activeShowDialog = activeShowDialog;
+        functionality!.company = ddbNameCompany.getValue();
+        functionality!.owner = widget.owner;
+        functionality!.activeShowDialog = activeShowDialog;
         return true;
       }
       return false;
     }
 
-    final btnRegister = new CustomButton(
+    CustomButton btnGeneric = new CustomButton(
       onTap: () {
-        if (registerDataOwner()) {
-          functionality.onPressedbtnRegisterCar();
+        if (validateForm()) {
+          this.widget.eventActionUpdate();
         }
       },
-      buttonText: "Registrar",
+      buttonText: widget.textButtom(),
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
       buttonTextColor: Colors.white,
       marginBotton: 0,
@@ -191,56 +229,47 @@ class _RegisterOwnerState extends State<RegisterOwner> {
       backgroundColor: colorMain,
       elevation: 0,
     );
-
-    final containerTitle = new Container(
+    Container containerTitle = new Container(
         alignment: Alignment.center,
         margin: new EdgeInsets.only(
-          top: 20.0,
-          bottom: 10.0,
-          left: 35.0,
-          right: 35.0,
-        ),
+            top: 20.0, bottom: 10.0, left: 35.0, right: 35.0),
         child: title);
 
-    final containerButtons = new Container(
-      alignment: Alignment.centerLeft,
-      margin:
-          new EdgeInsets.only(top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
-      child: Row(
-        children: [
-          Expanded(flex: 1, child: btnCancel),
-          Expanded(flex: 1, child: btnRegister)
-        ],
-      ),
-    );
-
+    Container containerButtons = new Container(
+        alignment: Alignment.centerLeft,
+        margin: new EdgeInsets.only(
+            top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
+        child: Row(
+          children: [
+            Expanded(flex: 1, child: btnCancel),
+            Expanded(flex: 1, child: btnGeneric)
+          ],
+        ));
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.white,
-      appBar: appBar,
-      drawer: SideMenu(),
-      body: SingleChildScrollView(
-        child: Form(
-          key: _formKey,
-          child: Expanded(
-            child: Column(
-              children: [
-                containerTitle,
-                ddbNameCompany,
-                txtNameOwner,
-                txtLastName,
-                txtLastNameSecond,
-                txtPhone,
-                txtEmail,
-                txtPassword,
-                txtDni,
-                txtAddress,
-                containerButtons
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        drawer: SideMenu(),
+        body: SingleChildScrollView(
+          child: Form(
+              key: _formKey,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    containerTitle,
+                    ddbNameCompany,
+                    txtNameOwner,
+                    txtLastName,
+                    txtLastNameSecond,
+                    txtPhone,
+                    txtEmail,
+                    txtPassword,
+                    txtDni,
+                    txtAddress,
+                    containerButtons
+                  ],
+                ),
+              )),
+        ));
   }
 }

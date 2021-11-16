@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
 import 'owner_list_item.dart';
 
 class OwnerList extends StatelessWidget {

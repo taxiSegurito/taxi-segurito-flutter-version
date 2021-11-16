@@ -1,7 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/services/server.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
 
 class OwnerService {
   Future<bool> insert(Owner owner) async {
@@ -60,5 +61,53 @@ class OwnerService {
     List<dynamic> body = jsonDecode(response.body);
     List<Owner> owners = body.map((o) => Owner.fromJson(o)).toList();
     return owners;
+  }
+
+  Future<bool> deleteOwner(Owner owner) async {
+    try {
+      String path = '${Server.url}/Owner/owner_controller.php';
+      var response = await http.delete(Uri.parse(path),
+          body: jsonEncode({"idOwner": owner.idOwner.toString()}));
+      var result = jsonDecode(response.body);
+      if (result == 1) {
+        print("Borrado Exitosamente" + result.toString());
+        return Future<bool>.value(true);
+      } else {
+        print("Error : " + result);
+        return Future<bool>.value(false);
+      }
+    } catch (exception) {
+      log(exception.toString());
+      return Future<bool>.value(false);
+    }
+  }
+}
+
+Future<bool> update(Owner owner) async {
+  try {
+    String path = '${Server.url}/Owner/owner_controller.php';
+    var response = await http.put(Uri.parse(path),
+        body: jsonEncode({
+          "id": owner.idOwner.toString(),
+          "fullName": owner.fullName.toString(),
+          "phone": owner.cellPhone.toString(),
+          "email": owner.email.toString(),
+          "password": owner.password.toString(),
+          "address": owner.address.toString(),
+          "ci": owner.ci.toString(),
+          "idCompany": int.parse(owner.idCompany.toString()),
+          "status": 1
+        }));
+    var result = jsonDecode(response.body);
+    log(result);
+
+    if (result == 'success') {
+      return Future<bool>.value(true);
+    } else {
+      return Future<bool>.value(false);
+    }
+  } catch (exception) {
+    log(exception.toString());
+    return Future<bool>.value(false);
   }
 }

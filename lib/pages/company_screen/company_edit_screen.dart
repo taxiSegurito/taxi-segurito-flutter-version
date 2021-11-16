@@ -1,4 +1,4 @@
-import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 import 'base_company_screen.dart';
 import 'company_screen_functionality.dart';
 

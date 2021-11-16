@@ -1,17 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
-import 'package:taxi_segurito_app/models/company.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/services/company_service.dart';
 import 'package:taxi_segurito_app/services/owner_service.dart';
 
 class RegisterOwnerFunctionality {
   BuildContext? context;
-//person
-//user
-//owner
-  Company? company;
-  Owner? owner;
+  String? names;
+  String? lastName;
+  String? lastNameSecond;
+  String? fullName;
+  String? cellphone;
+  String? email;
+  String? password;
+  String? ci;
+  String? address;
   VoidCallback? activeShowDialog;
+  Owner? owner = new Owner.init();
+  Company? company = new Company();
 
   OwnerService _ownerService = OwnerService();
   CompanyService _companyService = CompanyService();
@@ -19,12 +28,8 @@ class RegisterOwnerFunctionality {
   RegisterOwnerFunctionality(
       {this.context, this.company, this.owner, this.activeShowDialog});
 
-  List<Company> companyList = [
-    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: "1"),
-  ];
-
-  List<Company> getListCompany() {
-    return companyList.toList();
+  set setContext(context) {
+    this.context = context;
   }
 
   onPressedbtnRegisterCar() async {
@@ -36,16 +41,35 @@ class RegisterOwnerFunctionality {
   }
 
   Future<List<Company>?> getCompanies() async {
+    List<Company> companyList = [];
     companyList.clear();
     try {
       companyList = await _companyService.selectCompany();
       return companyList;
     } catch (exception) {
+      print(exception);
       return null;
     }
   }
 
-  onPressedUpdate(Owner owner) {}
+  onPressedbtnDeleteOwner() {}
+
+  onPressedbtnUpdateOwner() {
+    update(owner!).then((value) {
+      if (value) {
+        activeShowDialog!();
+        Fluttertoast.showToast(
+            msg: "Owner se actualizo ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.purple,
+            textColor: Colors.white);
+      } else {
+        log(" palle gaso");
+      }
+    });
+    print(owner!.fullName);
+  }
 
   closeNavigator() {
     Navigator.of(context!).pop();

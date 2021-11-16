@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
-import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
 import 'package:taxi_segurito_app/pages/company_screen/company_edit_screen.dart';
 
 class CompanyListItem extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/company.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
+import 'package:taxi_segurito_app/models/Company.dart';
+import 'package:taxi_segurito_app/models/Owner.dart';
 import 'package:taxi_segurito_app/services/company_service.dart';
 
 List<Company> listCompany = [];
