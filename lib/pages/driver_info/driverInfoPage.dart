@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/driver_data.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/vehicle_data.dart';
+import 'package:taxi_segurito_app/pages/driver_register/driver_Update_form.dart';
+import 'package:taxi_segurito_app/services/driver_service.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 import 'package:taxi_segurito_app/services/vehicle_service.dart';
 
@@ -42,67 +46,6 @@ class DriverInfoPageState extends State<DriverInfoPage> {
       color: Colors.black,
     );
 
-    showAlertDialog() {
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-            ),
-            titleTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-            title: Text(
-              "¿Esta se seguro de que desea eliminar una Compañia?",
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: Colors.white,
-            content: Row(
-              children: [
-                Expanded(
-                  child: CustomButtonWithLinearBorder(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      buttonBorderColor: colorMainNull,
-                      marginBotton: 0,
-                      marginLeft: 0,
-                      marginRight: 0,
-                      marginTop: 0,
-                      buttonText: "Cancelar",
-                      buttonColor: Colors.white,
-                      buttonTextColor: colorMainNull),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: CustomButtonWithLinearBorder(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      buttonBorderColor: colorMainDanger,
-                      marginBotton: 0,
-                      marginLeft: 0,
-                      marginRight: 0,
-                      marginTop: 0,
-                      buttonText: "Eliminar",
-                      buttonColor: Colors.white,
-                      buttonTextColor: colorMainDanger),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
-
     AppBar appBar = new AppBar(
       centerTitle: true,
       title: Text('Datos Conductor'),
@@ -124,7 +67,13 @@ class DriverInfoPageState extends State<DriverInfoPage> {
                       ),
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext contect) =>
+                                new DriverUpdateForm(widget._driver)));
+                  },
                 ),
               ),
               PopupMenuItem(
@@ -143,7 +92,11 @@ class DriverInfoPageState extends State<DriverInfoPage> {
                     ],
                   ),
                   onTap: () {
-                    showAlertDialog();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialogDelete(widget._driver);
+                        });
                   },
                 ),
               )
@@ -248,6 +201,45 @@ class DriverInfoPageState extends State<DriverInfoPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AlertDialogDelete extends StatelessWidget {
+  late Driver driver;
+  AlertDialogDelete(this.driver);
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoAlertDialog(
+      title: Text(
+        '¿Está seguro de eliminar a ${driver.fullName}?',
+        style:
+            TextStyle(color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
+      ),
+      actions: <Widget>[
+        CupertinoDialogAction(
+            child: Text(
+              'Eliminar',
+              style: TextStyle(
+                  color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop('Aceptar');
+              print('Eliminar conductor');
+              DriversService().deleteDriver(driver);
+            }),
+        CupertinoDialogAction(
+          child: Text(
+            'Cancelar',
+            style: TextStyle(
+                color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop('Cancelar');
+            print('Cancelar eliminacion');
+          },
+        )
+      ],
     );
   }
 }

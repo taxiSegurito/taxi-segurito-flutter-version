@@ -10,7 +10,7 @@ class DriversService {
   Future<bool> insert(Driver driver) async {
     final ownerId = await _authService.getCurrentId();
     String path = '${Server.url}/driver/driver_controller.php';
-    Response response = await post(
+    final response = await post(
       Uri.parse(path),
       body: jsonEncode({
         "fullname": driver.fullName,
@@ -68,5 +68,46 @@ class DriversService {
     List<dynamic> body = jsonDecode(response.body);
     List<Driver> drivers = body.map((d) => Driver.fromJson(d)).toList();
     return drivers;
+  }
+
+  Future<bool> deleteDriver(Driver driver) async {
+    try {
+      String path = '${Server.url}/driver/driver_controller.php';
+      Response response = await delete(Uri.parse(path),
+          body: jsonEncode({"id": driver.idPerson.toString()}));
+
+      var result = jsonDecode(response.body);
+
+      if (result == 1) {
+        return Future<bool>.value(true);
+      } else {
+        return Future<bool>.value(false);
+      }
+    } catch (exception) {
+      return Future<bool>.value(false);
+    }
+  }
+
+  Future<bool> updateDriver(Driver driver) async {
+    try {
+      String path = '${Server.url}/driver/driver_controller.php';
+
+      Response response = await put(Uri.parse(path),
+          body: jsonEncode({
+            "id": driver.idPerson.toString(),
+            "fullname": driver.fullName.toString(),
+            "cellphone": driver.cellphone.toString(),
+            "license": driver.license.toString(),
+            "ci": driver.ci.toString(),
+          }));
+      var result = jsonDecode(response.body);
+      if (result == 'success') {
+        return Future<bool>.value(true);
+      } else {
+        return Future<bool>.value(false);
+      }
+    } catch (exception) {
+      return Future<bool>.value(false);
+    }
   }
 }
