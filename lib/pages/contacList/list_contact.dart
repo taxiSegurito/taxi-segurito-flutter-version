@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/bloc/services/sms/sms_twilio.dart';
+import 'package:taxi_segurito_app/bloc/services/sms_twilio.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
 import 'package:taxi_segurito_app/models/emergencycontact.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/contacList/location_functionality.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -14,10 +13,9 @@ class ContactList extends StatefulWidget {
 }
 
 class _ContactListState extends State<ContactList> {
-  LocationFunctionality locationFunctionality = new LocationFunctionality();
+  LocationFunctionality locationFunctionality = LocationFunctionality();
   late Future<List<EmergencyContact>> emergycontact;
   late Position currentPosition;
-  var iduser;
   FToast fToast = FToast();
 
   _getCurrentLocation() {
@@ -36,18 +34,10 @@ class _ContactListState extends State<ContactList> {
   @override
   void initState() {
     super.initState();
-    getidsession();
+    emergycontact = locationFunctionality.getContacts();
     _getCurrentLocation();
     fToast = FToast();
     fToast.init(context);
-  }
-
-  void getidsession() async {
-    Sessions sessions = new Sessions();
-    var id = await sessions.getSessionValue("iduser");
-    setState(() {
-      emergycontact = locationFunctionality.listContac(id.toString());
-    });
   }
 
   @override

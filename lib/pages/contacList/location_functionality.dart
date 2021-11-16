@@ -1,27 +1,31 @@
 import 'dart:convert';
-
-import 'package:taxi_segurito_app/bloc/services/env.dart';
+import 'package:http/http.dart';
 import 'package:taxi_segurito_app/models/emergencycontact.dart';
-import 'package:http/http.dart' as http;
+import 'package:taxi_segurito_app/services/auth_service.dart';
+import 'package:taxi_segurito_app/services/server.dart';
 
 class LocationFunctionality {
-  Future<List<EmergencyContact>> listContac(String idCLient) async {
-    String path = Service.url + "listContact.php";
-    var response = await http.post(Uri.parse(path), body: {
-      'idcliente': idCLient,
-    }).timeout(Duration(seconds: 90));
-    List<dynamic> result = [];
-    var datos = json.decode(response.body);
-    var res = List<EmergencyContact>.empty(growable: true);
+  Future<List<EmergencyContact>> getContacts() async {
+    AuthService _authService = AuthService();
+    final clientId = await _authService.getCurrentId();
+    final queryParams = {'idClientUser': clientId.toString()};
+    final uri = Uri.https(
+        Server.host,
+        Server.baseEndpoint +
+            "/emergencyContact/emergencyContact_controller.php",
+        queryParams);
 
-    if (datos != "Error") {
-      result = datos;
-      for (var value in result) {
-        res.add(EmergencyContact.fromJson(value));
-      }
-    } else {
-      res = [];
+    Response response = await get(uri);
+    if (response.statusCode == 200) {
+      return _jsonToList(response);
     }
-    return res;
+    throw 'Unable to fetch Contacts data';
+  }
+
+  List<EmergencyContact> _jsonToList(Response response) {
+    List<dynamic> body = jsonDecode(response.body);
+    List<EmergencyContact> contacts =
+        body.map((d) => EmergencyContact.fromJson(d)).toList();
+    return contacts;
   }
 }

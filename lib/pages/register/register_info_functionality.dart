@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/bloc/implementation/userimpl.dart';
 import 'package:taxi_segurito_app/components/toast/toats_glo.dart';
-import 'package:taxi_segurito_app/models/clientuser.dart';
+import 'package:taxi_segurito_app/models/client_user.dart';
+import 'package:taxi_segurito_app/services/sign_up_service.dart';
 
 class RegisterFunctionality {
   late BuildContext context;
@@ -19,15 +19,16 @@ class RegisterFunctionality {
     return code;
   }
 
-  registerClient(Clientuser clientuser) async {
-    final result = await insertClient(clientuser);
-    if (result) {
-      GlobalToast.displayToast(
-          Text("Registro Exitoso"), Colors.green, Icon(Icons.check), 2);
+  registerClient(Clientuser clientUser) async {
+    final signUpService = SignUpService();
+    final success = await signUpService.registerClientThroughEmail(clientUser);
+    if (success) {
+      // GlobalToast.displayToast(
+      //     Text("Registro Exitoso"), Colors.green, Icon(Icons.check), 2);
       Navigator.pushNamed(context, 'loginUser');
     } else {
-      GlobalToast.displayToast(
-          Text("Registro no completado"), Colors.red, Icon(Icons.error), 2);
+      // GlobalToast.displayToast(
+      //     Text("Registro no completado"), Colors.red, Icon(Icons.error), 2);
     }
   }
 }
