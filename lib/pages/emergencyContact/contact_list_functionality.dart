@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/models/emergencyContact.dart';
@@ -37,6 +39,7 @@ class ListContactFunctionality {
   Future loadData() async {
     final isSession = await checkSession();
     print(isSession);
+    log(isSession.toString());
     if (isSession) {
       var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(
           new EmergencyContact.getByIdUser(currentUserId));

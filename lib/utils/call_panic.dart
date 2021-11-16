@@ -19,7 +19,7 @@ class CallPanic {
         return true;
       }
     } catch (e) {
-      log(e.toString());
+      log(e.toString() + " callNumber");
       return false;
     }
   }
@@ -31,7 +31,8 @@ class CallPanic {
     List<String>? address = getListNumberAsString(emergency);
     try {
       if (address != null) {
-        for (var x in address!) {
+        for (var x in address) {
+          log(x + " NRO: TELEFONICO");
           await sender.sendSms(new SmsMessage(
               x, "Este Telefono Envio Alerta Desde un Taxi de Placa"));
         }
@@ -39,10 +40,11 @@ class CallPanic {
       } else {
         await sender.sendSms(new SmsMessage(
             "911", "Este Telefono Envio Alerta Desde un Taxi de Placa"));
+        log("Sin NRO Registrado");
         return true;
       }
     } catch (e) {
-      log(e.toString());
+      log(e.toString() + " sendSms()");
       return false;
     }
   }
@@ -53,6 +55,7 @@ class CallPanic {
       await CallPanic().sendSms().then((value) => {
             if (value == true) {controlSms = value}
           });
+      log("sendSms Execute");
       await CallPanic().callNumber().then((value) => {
             if (value == true) {controlCall = value}
           });
@@ -64,7 +67,7 @@ class CallPanic {
         return false;
       }
     } catch (e) {
-      log(e.toString());
+      log(e.toString() + " btnpanic()");
       return false;
     }
   }
@@ -75,6 +78,7 @@ class CallPanic {
     int sessionId = 0;
     var iduser = await sessions.getSessionValue("id");
     sessionId = int.parse(iduser);
+    log("Session ID NRO: " + sessionId.toString());
     EmergencyContactService emergencyContactService =
         new EmergencyContactService();
     var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(
@@ -84,8 +88,10 @@ class CallPanic {
         contacts.clear();
         for (var a in dataSet) {
           EmergencyContact aux = EmergencyContact.fromJson(a);
+          log(a.toString() + " ---- " + aux.nameContact + aux.number);
           contacts.add(aux);
         }
+        log("Retorna Lista Correctamente");
         return contacts;
       } else {
         return null;
@@ -96,10 +102,11 @@ class CallPanic {
   }
 
   List<String>? getListNumberAsString(List<EmergencyContact> contacts) {
-    List<String> numbers = new List.empty();
+    List<String> numbers = [];
     if (contacts != null) {
       for (var c in contacts) {
         numbers.add(c.number);
+        log(c.number);
       }
       return numbers;
     } else {
