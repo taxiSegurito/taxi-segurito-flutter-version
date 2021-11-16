@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:sms_advanced/sms_advanced.dart';
-import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';

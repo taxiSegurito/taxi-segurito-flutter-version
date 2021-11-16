@@ -89,6 +89,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'companyList': (_) => CompanyListPage(),
         'vehicleList': (_) => VehiclesListPage(),
         'historyReview': (_) => HistoryReview(),
+        'userList': (_) => OwnerListPage(),
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),

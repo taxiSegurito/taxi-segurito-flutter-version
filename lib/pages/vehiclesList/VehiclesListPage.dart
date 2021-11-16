@@ -18,12 +18,12 @@ class _VehiclesListPageState extends State<VehiclesListPage> {
   late Future<List<Vehicle>> vehiclesFuture;
 
   _VehiclesListPageState() {
-    vehiclesFuture = _vehicleService.getVehicles();
+    vehiclesFuture = _vehicleService.getOwnVehicles();
   }
 
   void _refreshVehicles() {
     this.setState(() {
-      vehiclesFuture = _vehicleService.getVehicles();
+      vehiclesFuture = _vehicleService.getOwnVehicles();
     });
   }
 

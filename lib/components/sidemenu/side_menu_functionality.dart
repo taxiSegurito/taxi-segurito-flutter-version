@@ -27,7 +27,7 @@ class SideMenuFunctionality {
   onPressedbtnContactEmergency() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ListContact_Page()),
+      MaterialPageRoute(builder: (context) => ListContactPage()),
     );
   }
 

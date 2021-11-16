@@ -5,13 +5,15 @@ class DataVehiculesDriver {
   String model = "";
   String pleik = "";
   int idvehiculo = 0;
-  DataVehiculesDriver(
-      int iddriver, String photo, String model, String pleik, int idvehiculo) {
+  String color = "";
+  DataVehiculesDriver(int iddriver, String photo, String model, String pleik,
+      int idvehiculo, String color) {
     this.iddriver = iddriver;
     this.photo = photo;
     this.model = model;
     this.pleik = pleik;
     this.idvehiculo = idvehiculo;
+    this.color = color;
   }
 
   DataVehiculesDriver.fromJson(Map<String, dynamic> json) {
@@ -20,5 +22,6 @@ class DataVehiculesDriver {
     model = json['model'];
     pleik = json['pleik'];
     idvehiculo = json['idvehiculo'];
+    color = json['color'];
   }
 }

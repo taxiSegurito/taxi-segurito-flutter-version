@@ -1,29 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:taxi_segurito_app/models/emergencyContact.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/sessions_service.dart';
 import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_form_page.dart';
 
-class ListContact_Functionality {
+class ListContactFunctionality {
+  AuthService _authService = AuthService();
   SessionsService sessions = SessionsService();
   EmergencyContactService emergencyContactService =
       new EmergencyContactService();
 
-  int sessionId = 0;
+  int currentUserId = 0;
   bool isSession = false;
 
   late BuildContext context;
-  ListContact_Functionality(this.context);
+  ListContactFunctionality(this.context);
 
   List<EmergencyContact> contacts = [];
 
-  Future CheckSession() async {
+  Future<bool> checkSession() async {
     try {
       bool isSession = await sessions.verificationSession("id");
       if (isSession) {
-        var iduser = await sessions.getSessionValue("id");
-        sessionId = int.parse(iduser);
+        currentUserId = await _authService.getCurrentId();
         return true;
       } else
         return false;
@@ -34,11 +35,11 @@ class ListContact_Functionality {
   }
 
   Future loadData() async {
-    isSession = await CheckSession();
+    final isSession = await checkSession();
     print(isSession);
     if (isSession) {
       var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(
-          new EmergencyContact.getByIdUser(sessionId));
+          new EmergencyContact.getByIdUser(currentUserId));
       if (dataSet.toString() != "Error") {
         if (dataSet != []) {
           contacts.clear();
@@ -59,14 +60,14 @@ class ListContact_Functionality {
   onPressedFloatingButton() {
     Navigator.push(
       this.context,
-      MaterialPageRoute(builder: (context) => FormContact_Page.insert()),
+      MaterialPageRoute(builder: (context) => ContactFormPage.insert()),
     );
   }
 
   onTapEditIcon(contact) {
     Navigator.push(
       this.context,
-      MaterialPageRoute(builder: (context) => FormContact_Page.update(contact)),
+      MaterialPageRoute(builder: (context) => ContactFormPage.update(contact)),
     );
   }
 

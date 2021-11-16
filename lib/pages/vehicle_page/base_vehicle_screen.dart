@@ -201,8 +201,10 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
             children: [
               containerTitle,
               Container(
-                margin: new EdgeInsets.only(
-                    top: 10.0, bottom: 10.0, left: 50.0, right: 50.0),
+                margin: EdgeInsets.symmetric(
+                  vertical: 10.0,
+                  horizontal: 50.0,
+                ),
                 child: Row(
                   children: [
                     Expanded(child: vahicleImage),
