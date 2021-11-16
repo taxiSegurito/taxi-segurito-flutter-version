@@ -31,7 +31,7 @@ class CallPanic {
     List<String>? address = getListNumberAsString(emergency);
     try {
       if (address != null) {
-        for (var x in address!) {
+        for (var x in address) {
           await sender.sendSms(new SmsMessage(
               x, "Este Telefono Envio Alerta Desde un Taxi de Placa"));
         }
