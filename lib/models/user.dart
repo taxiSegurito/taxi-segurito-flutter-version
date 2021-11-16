@@ -21,4 +21,11 @@ class User extends Person {
   User.login(this.email, this.password);
   User.logInResponse(int id, this.role, String fullname, String cellphone)
       : super.logIn(id, fullname, cellphone);
+
+  User.fromJson(Map<String, dynamic> json) {
+    super.idPerson = json['idPerson'] as int;
+    super.fullName = json['fullname'] as String;
+    super.cellphone = json['cellphone'] as String;
+    this.email = json['email'] as String;
+  }
 }

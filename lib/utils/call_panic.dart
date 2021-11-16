@@ -1,14 +1,23 @@
 import 'dart:developer';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:sms_advanced/sms_advanced.dart';
-import 'package:http/http.dart' as http;
+import 'package:taxi_segurito_app/models/emergencyContact.dart';
+import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 
 class CallPanic {
   Future<bool> callNumber() async {
     try {
-      String num = getNumbersList().first;
-      FlutterPhoneDirectCaller.directCall(num);
-      return true;
+      List<EmergencyContact> emergency = List.empty();
+      emergency = (await getListNumbers())!;
+      String num = getListNumberAsString(emergency)!.first;
+      if (num != null) {
+        FlutterPhoneDirectCaller.directCall(num);
+        return true;
+      } else {
+        FlutterPhoneDirectCaller.directCall("911");
+        return true;
+      }
     } catch (e) {
       log(e.toString());
       return false;
@@ -17,22 +26,25 @@ class CallPanic {
 
   Future<bool> sendSms() async {
     SmsSender sender = new SmsSender();
-    List<String> address = getNumbersList();
+    List<EmergencyContact> emergency = List.empty();
+    emergency = (await getListNumbers())!;
+    List<String>? address = getListNumberAsString(emergency);
     try {
-      for (var x in address) {
+      if (address != null) {
+        for (var x in address) {
+          await sender.sendSms(new SmsMessage(
+              x, "Este Telefono Envio Alerta Desde un Taxi de Placa"));
+        }
+        return true;
+      } else {
         await sender.sendSms(new SmsMessage(
-            x, "Este Telefono Envio Alerta Desde un Taxi de Placa XXXX-XXXX"));
+            "911", "Este Telefono Envio Alerta Desde un Taxi de Placa"));
+        return true;
       }
-      return true;
     } catch (e) {
       log(e.toString());
       return false;
     }
-  }
-
-  List<String> getNumbersList() {
-    List<String> numbers = ["69685120", "69685120"];
-    return numbers;
   }
 
   Future<bool> btnpanic() async {
@@ -54,6 +66,44 @@ class CallPanic {
     } catch (e) {
       log(e.toString());
       return false;
+    }
+  }
+
+  Future<List<EmergencyContact>?> getListNumbers() async {
+    SessionsService sessions = new SessionsService();
+    List<EmergencyContact> contacts = [];
+    int sessionId = 0;
+    var iduser = await sessions.getSessionValue("id");
+    sessionId = int.parse(iduser);
+    EmergencyContactService emergencyContactService =
+        new EmergencyContactService();
+    var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(
+        new EmergencyContact.getByIdUser(sessionId));
+    if (dataSet.toString() != "Error") {
+      if (dataSet != []) {
+        contacts.clear();
+        for (var a in dataSet) {
+          EmergencyContact aux = EmergencyContact.fromJson(a);
+          contacts.add(aux);
+        }
+        return contacts;
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
+  List<String>? getListNumberAsString(List<EmergencyContact> contacts) {
+    List<String> numbers = new List.empty();
+    if (contacts != null) {
+      for (var c in contacts) {
+        numbers.add(c.number);
+      }
+      return numbers;
+    } else {
+      return null;
     }
   }
 }
