@@ -99,18 +99,13 @@ class _ForgeObjects extends State<MyHomePageForgetObject> {
     );
 
     dialog.show();
-  }
-
-    
-    
+  } 
 
     Container contanierButtons = Container(
       margin:
           new EdgeInsets.only(top: 5.0, bottom: 10.0, left: 20.0, right: 20.0),
       child: Row(
         children: [
-          
-          
           Expanded(
             child: RaisedButton(
               onPressed: () {
