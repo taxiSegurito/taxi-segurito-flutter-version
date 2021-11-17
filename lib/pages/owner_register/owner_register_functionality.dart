@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/pages/owner_list/owner_list_page.dart';
 import 'package:taxi_segurito_app/services/company_service.dart';
 import 'package:taxi_segurito_app/services/owner_service.dart';
 
@@ -19,12 +20,16 @@ class RegisterOwnerFunctionality {
   RegisterOwnerFunctionality(
       {this.context, this.company, this.owner, this.activeShowDialog});
 
-  List<Company> companyList = [
-    Company(companyName: "6 de Agosto", nit: "12345678", idCompany: "1"),
-  ];
-
-  List<Company> getListCompany() {
-    return companyList.toList();
+  Future<List<Company>?> getCompanies() async {
+    List<Company> companyList = [];
+    companyList.clear();
+    try {
+      companyList = await _companyService.selectCompany();
+      return companyList;
+    } catch (exception) {
+      print(exception);
+      return null;
+    }
   }
 
   onPressedbtnRegisterCar() async {
@@ -35,17 +40,32 @@ class RegisterOwnerFunctionality {
     }
   }
 
-  Future<List<Company>?> getCompanies() async {
-    companyList.clear();
+  onPressedbtnDeleteOwner() {
     try {
-      companyList = await _companyService.selectCompany();
-      return companyList;
-    } catch (exception) {
-      return null;
-    }
+      _ownerService.deleteOwner(owner!).then((value) {
+        if (value) {
+          Navigator.push(
+            context!,
+            MaterialPageRoute(
+              builder: (BuildContext context) => new OwnerListPage(),
+            ),
+          );
+        }
+      });
+    } catch (exception) {}
   }
 
-  onPressedUpdate(Owner owner) {}
+  onPressedbtnUpdateOwner() {
+    try {
+      _ownerService.update(owner!).then(
+        (value) {
+          if (value) {
+            activeShowDialog!();
+          }
+        },
+      );
+    } catch (exception) {}
+  }
 
   closeNavigator() {
     Navigator.of(context!).pop();

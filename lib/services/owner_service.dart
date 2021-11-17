@@ -46,6 +46,28 @@ class OwnerService {
     throw 'Unable to retrieve owner';
   }
 
+  Future<bool> deleteOwner(Owner owner) async {
+    try {
+      String path = '${Server.url}/Owner/owner_controller.php';
+      var response = await http.delete(
+        Uri.parse(path),
+        body: jsonEncode(
+          {
+            "idOwner": owner.idOwner,
+          },
+        ),
+      );
+      var result = jsonDecode(response.body);
+      if (result == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (exception) {
+      return false;
+    }
+  }
+
   Future<List<Owner>> selectByNameCiOrPhone(criteria) async {
     String path = '${Server.url}/Owner/owner_controller.php?criteria=$criteria';
     var response = await http.get(Uri.parse(path));
@@ -54,6 +76,37 @@ class OwnerService {
       return convertToList(response);
     }
     throw 'Unable to retrieve owners';
+  }
+
+  Future<bool> update(Owner owner) async {
+    try {
+      String path = '${Server.url}/Owner/owner_controller.php';
+      var response = await http.put(
+        Uri.parse(path),
+        body: jsonEncode(
+          {
+            "id": owner.idOwner,
+            "fullName": owner.fullName,
+            "phone": owner.cellPhone,
+            "email": owner.email,
+            "password": owner.password,
+            "address": owner.address,
+            "ci": owner.ci,
+            "idCompany": owner.idCompany,
+            "status": 1
+          },
+        ),
+      );
+      var result = jsonDecode(response.body);
+
+      if (result == 'success') {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (exception) {
+      return false;
+    }
   }
 
   List<Owner> convertToList(response) {

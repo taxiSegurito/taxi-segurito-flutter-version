@@ -17,7 +17,7 @@ class Vehicle {
     this.color = '';
     this.model = '';
     this.pleik = '';
-    this.capacity = 1;
+    this.capacity = 0;
   }
 
   //atributos con required son para insert
