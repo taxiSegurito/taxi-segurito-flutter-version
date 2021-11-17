@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
@@ -8,7 +5,6 @@ import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/driver_data.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/vehicle_data.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
-import 'package:taxi_segurito_app/services/vehicle_service.dart';
 
 // ignore: must_be_immutable
 class DriverInfoPage extends StatefulWidget {
@@ -59,7 +55,7 @@ class DriverInfoPageState extends State<DriverInfoPage> {
               fontWeight: FontWeight.w700,
             ),
             title: Text(
-              "¿Esta se seguro de que desea eliminar una Compañia?",
+              "¿Esta se seguro de eliminar a ${widget._driver.fullName}?",
               textAlign: TextAlign.center,
             ),
             backgroundColor: Colors.white,
@@ -106,6 +102,7 @@ class DriverInfoPageState extends State<DriverInfoPage> {
     AppBar appBar = new AppBar(
       centerTitle: true,
       title: Text('Datos Conductor'),
+      foregroundColor: Colors.white,
       actions: <Widget>[
         PopupMenuButton(
           itemBuilder: (BuildContext context) {
