@@ -3,6 +3,7 @@ import 'package:taxi_segurito_app/models/person.dart';
 import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 class Driver extends Person {
+  late String idDriver;
   late String ci;
   late String license;
   late Uint8List picture;
@@ -11,6 +12,14 @@ class Driver extends Person {
 
   Driver(String fullName, this.ci, String cellphone)
       : super.insert(fullName, cellphone);
+
+  Driver.update({
+    required String idDriver,
+    required String fullName,
+    required String cellphone,
+    required this.license,
+    required this.ci,
+  });
 
   Driver.insert({
     required String fullName,
@@ -33,4 +42,6 @@ class Driver extends Person {
     String pictureBase64 = json['picture'] as String;
     picture = bytesFromBase64String(pictureBase64);
   }
+
+  Driver.init();
 }

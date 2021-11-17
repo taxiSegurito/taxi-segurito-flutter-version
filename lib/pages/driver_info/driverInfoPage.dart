@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
@@ -5,7 +6,7 @@ import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/driver_data.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/vehicle_data.dart';
 import 'package:taxi_segurito_app/pages/driver_register/driver_edit.dart';
-import 'package:taxi_segurito_app/pages/driver_register/driver_edit_form.dart';
+import 'package:taxi_segurito_app/services/driver_service.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 
 // ignore: must_be_immutable
@@ -148,7 +149,11 @@ class DriverInfoPageState extends State<DriverInfoPage> {
                     ],
                   ),
                   onTap: () {
-                    showAlertDialog();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialogDelete(widget._driver);
+                        });
                   },
                 ),
               )
@@ -253,6 +258,45 @@ class DriverInfoPageState extends State<DriverInfoPage> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AlertDialogDelete extends StatelessWidget {
+  late Driver driver;
+  AlertDialogDelete(this.driver);
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoAlertDialog(
+      title: Text(
+        '¿Está seguro de eliminar a ${driver.fullName}?',
+        style:
+            TextStyle(color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
+      ),
+      actions: <Widget>[
+        CupertinoDialogAction(
+            child: Text(
+              'Eliminar',
+              style: TextStyle(
+                  color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop('Aceptar');
+              print('Eliminar conductor');
+              DriversService().delete(driver);
+            }),
+        CupertinoDialogAction(
+          child: Text(
+            'Cancelar',
+            style: TextStyle(
+                color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop('Cancelar');
+            print('Cancelar eliminacion');
+          },
+        )
+      ],
     );
   }
 }
