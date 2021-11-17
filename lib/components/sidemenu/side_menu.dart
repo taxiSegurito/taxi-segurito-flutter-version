@@ -8,7 +8,7 @@ class SideMenu extends StatelessWidget {
   late Timer timer;
   String? username;
   SideMenu({this.username});
-
+  Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   @override
   Widget build(BuildContext context) {
     SideMenuFunctionality functionality = SideMenuFunctionality(context);
@@ -21,14 +21,16 @@ class SideMenu extends StatelessWidget {
     );
     return ClipRRect(
       borderRadius: BorderRadius.only(
-          topRight: Radius.circular(25), bottomRight: Radius.circular(25)),
+        topRight: Radius.circular(25),
+        bottomRight: Radius.circular(25),
+      ),
       child: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.amber[300],
+                color: colorMain,
               ),
               child: Column(
                 children: [
@@ -39,11 +41,17 @@ class SideMenu extends StatelessWidget {
                           'https://www.hispano-irish.com/wp-content/uploads/2020/05/PngItem_1300253.png'),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(this.username ?? "Nombre usuario"),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     "+591 xxxxxxxxx",
-                    style: TextStyle(
-                        color: Colors.grey[500], fontFamily: "Raleway"),
+                    style:
+                        TextStyle(color: Colors.white, fontFamily: "Raleway"),
                   ),
                   SizedBox(
                     height: 10.0,
