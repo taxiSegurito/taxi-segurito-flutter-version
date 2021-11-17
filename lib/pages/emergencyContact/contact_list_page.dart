@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
+import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_list_functionality.dart';
+import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
 
 class ListContactPage extends StatefulWidget {
   @override
@@ -10,20 +12,36 @@ class ListContactPage extends StatefulWidget {
 }
 
 class _ListContactState extends State<ListContactPage> {
+  EmergencyContactService _contactService = EmergencyContactService();
+  late List<EmergencyContact> contacts;
+  late Future<List<EmergencyContact>?> contactsFuture;
   late ListContactFunctionality functionality;
 
   @override
   void initState() {
     super.initState();
     functionality = new ListContactFunctionality(context);
+    contactsFuture = _contactService.getEmergencyContacts();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: functionality.loadData(),
-      builder: (context, snapshot) {
-        return _loadWidgets();
+      future: contactsFuture,
+      builder: (_, AsyncSnapshot<List<EmergencyContact>?> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data != null) {
+            contacts = snapshot.data!;
+            return _loadWidgets();
+          } else {
+            functionality.showToast("Error en la base de datos.", Colors.red);
+          }
+        }
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
       },
     );
   }
@@ -32,125 +50,135 @@ class _ListContactState extends State<ListContactPage> {
   Widget _loadWidgets() {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contactos de Emergencia"),
+        title: Text("Contactos de emergencia"),
         foregroundColor: Colors.white,
-        backgroundColor: Color.fromRGBO(242, 213, 60, 1),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.arrow_back));
-          },
-        ),
+        actions: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  contactsFuture = _contactService.getEmergencyContacts();
+                });
+              },
+              child: Icon(
+                Icons.refresh,
+                size: 26.0,
+              ),
+            ),
+          ),
+        ],
       ),
-      //FloatingButton
       floatingActionButton:
-          (functionality.isSession == true) ? _insertFloatingButton() : null,
-
-      body: (functionality.contacts.isNotEmpty)
-          ? ListView(children: _insertItem() //Si hay contactos
-              )
+          functionality.isSession ? _insertFloatingButton() : null,
+      body: (contacts.isNotEmpty)
+          ? ListView.builder(
+              itemCount: contacts.length,
+              itemBuilder: (_, index) {
+                return _getContactItem(contacts[index]);
+              },
+            )
           :
           //Si no hay contactos
           Center(
               child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Text(
-                    "No tiene contactos de emergencia registrados.",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: "Raleway",
-                      fontSize: 25,
-                      color: Colors.grey,
-                    ),
-                  )),
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "No tiene contactos de emergencia registrados.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: "Raleway",
+                    fontSize: 25,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
             ),
     );
   }
 
   // UI Method 2: Metodo para generar un widget por cada contacto con sus datos
-  List<Widget> _insertItem() {
-    List<Widget> temporal = [];
-
-    for (var contact in functionality.contacts) {
-      Widget item = Padding(
-        padding: EdgeInsets.all(10),
-        child: Container(
-          padding: EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              color: Colors.white,
-              boxShadow: [BoxShadow(blurRadius: 10.0, color: Colors.black12)]),
-          child: Row(
-            children: [
-              Container(
-                  child: Icon(
+  Widget _getContactItem(EmergencyContact contact) {
+    return Padding(
+      padding: EdgeInsets.all(10),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          color: Colors.white,
+          boxShadow: [BoxShadow(blurRadius: 10.0, color: Colors.black12)],
+        ),
+        child: Row(
+          children: [
+            Container(
+              child: Icon(
                 Icons.person_outline,
                 size: 60,
                 color: Colors.grey,
-              )),
-              Column(
-                children: [
-                  Container(
-                    width: (MediaQuery.of(context).size.width / 10) * 5,
-                    height: 35,
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      contact.nameContact,
-                      style: TextStyle(
-                          fontFamily: "Raleway",
-                          fontSize: 22,
-                          color: Colors.blueGrey),
+              ),
+            ),
+            Column(
+              children: [
+                Container(
+                  width: (MediaQuery.of(context).size.width / 10) * 5,
+                  height: 35,
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    contact.nameContact,
+                    style: TextStyle(
+                      fontFamily: "Raleway",
+                      fontSize: 22,
+                      color: Colors.blueGrey,
                     ),
                   ),
-                  Container(
-                      width: (MediaQuery.of(context).size.width / 10) * 5,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "+591 " + contact.number,
-                        style: TextStyle(
-                            fontFamily: "Raleway",
-                            fontSize: 18,
-                            color: Colors.grey),
-                      )),
-                ],
-              ),
-              //Edit Button
-              Container(
-                  width: 50,
-                  child: InkWell(
-                      onTap: () {
-                        functionality.onTapEditIcon(contact);
-                      },
-                      child: Icon(
-                        Icons.edit,
-                        size: 40,
-                        color: Colors.blueGrey,
-                      ))),
-              //
-              //Delete Button
-              Container(
-                width: 40,
-                alignment: Alignment.centerLeft,
-                child: InkWell(
-                  onTap: () {
-                    _showConfirmDelete(contact.idEmergencyContact);
-                  },
-                  child: Icon(
-                    Icons.delete,
-                    size: 40,
-                    color: Colors.red,
+                ),
+                Container(
+                  width: (MediaQuery.of(context).size.width / 10) * 5,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "+591 " + contact.number,
+                    style: TextStyle(
+                      fontFamily: "Raleway",
+                      fontSize: 18,
+                      color: Colors.grey,
+                    ),
                   ),
                 ),
+              ],
+            ),
+            //Edit Button
+            Container(
+              width: 50,
+              child: InkWell(
+                onTap: () {
+                  functionality.onTapEditIcon(contact);
+                },
+                child: Icon(
+                  Icons.edit,
+                  size: 40,
+                  color: Colors.blueGrey,
+                ),
               ),
-            ],
-          ),
+            ),
+            //Delete Button
+            Container(
+              width: 40,
+              alignment: Alignment.centerLeft,
+              child: InkWell(
+                onTap: () {
+                  _showConfirmDelete(contact.idEmergencyContact);
+                },
+                child: Icon(
+                  Icons.delete,
+                  size: 40,
+                  color: Colors.red,
+                ),
+              ),
+            ),
+          ],
         ),
-      );
-
-      temporal.add(item);
-    }
-    return temporal;
+      ),
+    );
   }
 
 // UI METHODS

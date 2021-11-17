@@ -25,33 +25,25 @@ class ListContactFunctionality {
       if (isSession) {
         currentUserId = await _authService.getCurrentId();
         return true;
-      } else
-        return false;
+      }
+
+      return false;
     } catch (e) {
       print("CheckSession msgError: " + e.toString());
       return false;
     }
   }
 
-  Future loadData() async {
+  void loadData() async {
     final isSession = await checkSession();
-    print(isSession);
     if (isSession) {
-      var dataSet = await emergencyContactService.getEmergencyContactsByIdUser(
-          new EmergencyContact.getByIdUser(currentUserId));
-      if (dataSet.toString() != "Error") {
-        if (dataSet != []) {
-          contacts.clear();
-          for (var a in dataSet) {
-            EmergencyContact aux = EmergencyContact.fromJson(a);
-            contacts.add(aux);
-          }
-        } else {
-          showCustomToast(
-              "No se han encontrado los datos del usuario.", Colors.red);
-        }
+      List<EmergencyContact>? contacts =
+          await emergencyContactService.getEmergencyContacts();
+
+      if (contacts != null) {
+        this.contacts = contacts;
       } else {
-        showCustomToast("Error en la base de datos.", Colors.red);
+        showToast("Error en la base de datos.", Colors.red);
       }
     }
   }
@@ -75,13 +67,13 @@ class ListContactFunctionality {
         new EmergencyContact.delete(idEmergencyContact));
 
     if (result) {
-      showCustomToast("Se ha borrado el contacto.", Colors.green);
+      showToast("Se ha borrado el contacto.", Colors.green);
     } else {
-      showCustomToast("Error, inténtelo de nuevo mas tarde...", Colors.red);
+      showToast("Error, inténtelo de nuevo mas tarde...", Colors.red);
     }
   }
 
-  void showCustomToast(String myText, Color myColor) {
+  void showToast(String myText, Color myColor) {
     Fluttertoast.showToast(
         msg: myText,
         toastLength: Toast.LENGTH_SHORT,
