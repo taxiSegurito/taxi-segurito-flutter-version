@@ -8,10 +8,10 @@ import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 class DriverRegisterForm extends StatefulWidget {
   GlobalKey<FormState> formKey;
   DriverRegisterForm(this.formKey);
-  _DriverRegisterFormState _state = _DriverRegisterFormState();
+  DriverRegisterFormState _state = DriverRegisterFormState();
 
   @override
-  _DriverRegisterFormState createState() => _state;
+  DriverRegisterFormState createState() => _state;
 
   Driver? getDriverIfIsValid() {
     bool isImageValid = _state.fieldImage.validate();
@@ -23,18 +23,55 @@ class DriverRegisterForm extends StatefulWidget {
   }
 }
 
-class _DriverRegisterFormState extends State<DriverRegisterForm> {
+class DriverRegisterFormState<T extends DriverRegisterForm> extends State<T> {
   late ImagesFileAdapter fieldImage;
   late CustomTextField fieldName, fieldLastname, fieldSecondLastname;
   late CustomTextField fieldCi, fieldLicense, fieldCellphone;
 
-  Driver getDriver() {
-    final name = fieldName.getValue();
-    final lastname = fieldLastname.getValue();
-    final secondLastname = fieldSecondLastname.getValue();
+  @override
+  void initState() {
+    super.initState();
+    fieldImage = ImagesFileAdapter(
+        imagePathDefaultUser: "assets/images/user_default.png",
+        isShapeCircle: true);
 
+    fieldCi = CustomTextField(
+      hint: "Número de carnet",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Número de carnet requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
+      ]),
+      marginLeft: 0,
+      marginRight: 0,
+      heightNum: 42,
+    );
+
+    fieldLicense = CustomTextField(
+      hint: "Nivel de licencia de conducir",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Nivel de licencia de conducir requerido'),
+        StringValidator(errorText: 'No puede ingresar valores numéricos'),
+      ]),
+      marginLeft: 0,
+      marginRight: 0,
+      heightNum: 42,
+    );
+
+    fieldCellphone = CustomTextField(
+      hint: "Número de celular",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Número de celular requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
+      ]),
+      marginLeft: 0,
+      marginRight: 0,
+      heightNum: 42,
+    );
+  }
+
+  Driver getDriver() {
     return new Driver.insert(
-      fullName: '$name $lastname $secondLastname',
+      fullName: fullname,
       cellphone: fieldCellphone.getValue(),
       license: fieldLicense.getValue(),
       ci: fieldCi.getValue(),
@@ -42,12 +79,25 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
     );
   }
 
+  String get fullname {
+    final name = fieldName.getValue();
+    final lastname = fieldLastname.getValue();
+    final secondLastname = fieldSecondLastname.getValue();
+    return '$name $lastname $secondLastname';
+  }
+
+  Widget get nameFields {
+    return Column(
+      children: [
+        fieldName,
+        fieldLastname,
+        fieldSecondLastname,
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    fieldImage = ImagesFileAdapter(
-        imagePathDefaultUser: "assets/images/user_default.png",
-        isShapeCircle: true);
-
     fieldName = CustomTextField(
       hint: "Nombre",
       multiValidator: MultiValidator([
@@ -70,43 +120,10 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
       heightNum: 42,
     );
 
-    fieldSecondLastname = new CustomTextField(
+    fieldSecondLastname = CustomTextField(
       hint: "Segundo apellido",
       multiValidator: MultiValidator([
         StringValidator(errorText: 'No puede ingresar valores numéricos'),
-      ]),
-      marginLeft: 0,
-      marginRight: 0,
-      heightNum: 42,
-    );
-
-    fieldCi = new CustomTextField(
-      hint: "Número de carnet",
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: 'Número de carnet requerido'),
-        NumberValidator(errorText: 'No puede ingresar letras')
-      ]),
-      marginLeft: 0,
-      marginRight: 0,
-      heightNum: 42,
-    );
-
-    fieldLicense = new CustomTextField(
-      hint: "Nivel de licencia de conducir",
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: 'Nivel de licencia de conducir requerido'),
-        StringValidator(errorText: 'No puede ingresar valores numéricos'),
-      ]),
-      marginLeft: 0,
-      marginRight: 0,
-      heightNum: 42,
-    );
-
-    fieldCellphone = new CustomTextField(
-      hint: "Número de celular",
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: 'Número de celular requerido'),
-        NumberValidator(errorText: 'No puede ingresar letras')
       ]),
       marginLeft: 0,
       marginRight: 0,
@@ -127,9 +144,7 @@ class _DriverRegisterFormState extends State<DriverRegisterForm> {
             ),
           ),
           SizedBox(height: 18),
-          fieldName,
-          fieldLastname,
-          fieldSecondLastname,
+          nameFields,
           fieldCi,
           fieldLicense,
           fieldCellphone,
