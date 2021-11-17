@@ -4,6 +4,8 @@ import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/driver_data.dart';
 import 'package:taxi_segurito_app/pages/driver_info/widgets/vehicle_data.dart';
+import 'package:taxi_segurito_app/pages/driver_register/driver_edit.dart';
+import 'package:taxi_segurito_app/pages/driver_register/driver_edit_form.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 
 // ignore: must_be_immutable
@@ -121,7 +123,13 @@ class DriverInfoPageState extends State<DriverInfoPage> {
                       ),
                     ],
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => DriverEdit(widget._driver)),
+                    );
+                  },
                 ),
               ),
               PopupMenuItem(
