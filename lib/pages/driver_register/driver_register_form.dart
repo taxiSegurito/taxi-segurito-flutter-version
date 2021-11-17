@@ -24,49 +24,17 @@ class DriverRegisterForm extends StatefulWidget {
 }
 
 class DriverRegisterFormState<T extends DriverRegisterForm> extends State<T> {
-  late ImagesFileAdapter fieldImage;
   late CustomTextField fieldName, fieldLastname, fieldSecondLastname;
   late CustomTextField fieldCi, fieldLicense, fieldCellphone;
+  late ImagesFileAdapter fieldImage = ImagesFileAdapter(
+    imagePathDefaultUser: "assets/images/user_default.png",
+    isShapeCircle: true,
+  );
 
   @override
   void initState() {
     super.initState();
-    fieldImage = ImagesFileAdapter(
-        imagePathDefaultUser: "assets/images/user_default.png",
-        isShapeCircle: true);
 
-    fieldCi = CustomTextField(
-      hint: "Número de carnet",
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: 'Número de carnet requerido'),
-        NumberValidator(errorText: 'No puede ingresar letras')
-      ]),
-      marginLeft: 0,
-      marginRight: 0,
-      heightNum: 42,
-    );
-
-    fieldLicense = CustomTextField(
-      hint: "Nivel de licencia de conducir",
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: 'Nivel de licencia de conducir requerido'),
-        StringValidator(errorText: 'No puede ingresar valores numéricos'),
-      ]),
-      marginLeft: 0,
-      marginRight: 0,
-      heightNum: 42,
-    );
-
-    fieldCellphone = CustomTextField(
-      hint: "Número de celular",
-      multiValidator: MultiValidator([
-        RequiredValidator(errorText: 'Número de celular requerido'),
-        NumberValidator(errorText: 'No puede ingresar letras')
-      ]),
-      marginLeft: 0,
-      marginRight: 0,
-      heightNum: 42,
-    );
   }
 
   Driver getDriver() {
@@ -124,6 +92,44 @@ class DriverRegisterFormState<T extends DriverRegisterForm> extends State<T> {
       hint: "Segundo apellido",
       multiValidator: MultiValidator([
         StringValidator(errorText: 'No puede ingresar valores numéricos'),
+      ]),
+      marginLeft: 0,
+      marginRight: 0,
+      heightNum: 42,
+    );
+
+    fieldImage = ImagesFileAdapter(
+      imagePathDefaultUser: "assets/images/user_default.png",
+      isShapeCircle: true,
+    );
+
+    fieldCi = CustomTextField(
+      hint: "Número de carnet",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Número de carnet requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
+      ]),
+      marginLeft: 0,
+      marginRight: 0,
+      heightNum: 42,
+    );
+
+    fieldLicense = CustomTextField(
+      hint: "Nivel de licencia de conducir",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Nivel de licencia de conducir requerido'),
+        StringValidator(errorText: 'No puede ingresar valores numéricos'),
+      ]),
+      marginLeft: 0,
+      marginRight: 0,
+      heightNum: 42,
+    );
+
+    fieldCellphone = CustomTextField(
+      hint: "Número de celular",
+      multiValidator: MultiValidator([
+        RequiredValidator(errorText: 'Número de celular requerido'),
+        NumberValidator(errorText: 'No puede ingresar letras')
       ]),
       marginLeft: 0,
       marginRight: 0,

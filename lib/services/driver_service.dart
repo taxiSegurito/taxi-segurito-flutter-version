@@ -1,6 +1,7 @@
 import 'dart:convert';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/models/driver.dart';
+import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'server.dart';
 
@@ -10,7 +11,7 @@ class DriversService {
   Future<bool> insert(Driver driver) async {
     final ownerId = await _authService.getCurrentId();
     String path = '${Server.url}/driver/driver_controller.php';
-    Response response = await post(
+    final response = await http.post(
       Uri.parse(path),
       body: jsonEncode({
         "fullname": driver.fullName,
@@ -33,7 +34,7 @@ class DriversService {
       queryParams,
     );
 
-    Response response = await get(endpoint);
+    http.Response response = await http.get(endpoint);
     if (response.statusCode == 200) {
       return _jsonToList(response);
     }
@@ -52,20 +53,54 @@ class DriversService {
       queryParams,
     );
 
-    Response response = await get(endpoint);
+    http.Response response = await http.get(endpoint);
     if (response.statusCode == 200) {
       return _jsonToList(response);
     }
     throw 'Unable to fetch drivers data';
   }
 
-  Future<bool> update(Driver driver) async {
-    return false;
-  }
-
-  List<Driver> _jsonToList(Response response) {
+  List<Driver> _jsonToList(http.Response response) {
     List<dynamic> body = jsonDecode(response.body);
     List<Driver> drivers = body.map((d) => Driver.fromJson(d)).toList();
     return drivers;
+  }
+
+  Future<bool> delete(Driver driver) async {
+    try {
+      String path = '${Server.url}/driver/driver_controller.php';
+      http.Response response = await http.delete(
+        Uri.parse(path),
+        body: jsonEncode({'id': driver.idPerson.toString()}),
+      );
+
+      final success = response.statusCode == 200;
+      return success;
+    } catch (exception) {
+      return false;
+    }
+  }
+
+  Future<bool> update(Driver driver) async {
+    try {
+      String path = '${Server.url}/driver/driver_controller.php';
+
+      http.Response response = await http.put(
+        Uri.parse(path),
+        body: jsonEncode({
+          'id': driver.idPerson.toString(),
+          'fullname': driver.fullName.toString(),
+          'cellphone': driver.cellphone.toString(),
+          'license': driver.license.toString(),
+          'ci': driver.ci.toString(),
+          'picture': stringFromBase64Bytes(driver.picture)
+        }),
+      );
+
+      final success = response.statusCode == 200;
+      return success;
+    } catch (exception) {
+      return false;
+    }
   }
 }

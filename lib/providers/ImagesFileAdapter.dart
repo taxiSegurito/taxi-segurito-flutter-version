@@ -68,7 +68,7 @@ class _ImagesFileAdapterState extends State<ImagesFileAdapter> {
   void initState() {
     super.initState();
     widget.imageDefault = widget.imagePathDefaultUser!.isEmpty
-        ? widget.imageDefault
+        ? Image.asset("assets/images/imageDefault.png")
         : new Image.asset(widget.imagePathDefaultUser!);
 
     widget.imageMain = widget.imageMainBase64!.isEmpty

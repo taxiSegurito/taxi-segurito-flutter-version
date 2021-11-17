@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
-import 'package:taxi_segurito_app/pages/driver_register/driver_edit_form.dart';
+import 'package:taxi_segurito_app/pages/driver_register/driver_Update_form.dart';
 import 'package:taxi_segurito_app/services/driver_service.dart';
 
-class DriverEdit extends StatelessWidget {
+class DriverUpdate extends StatelessWidget {
   DriversService _driversService = DriversService();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late DriverEditForm form;
+  late DriverUpdateForm form;
   late BuildContext context;
-  late Driver _driver;
-
-  DriverEdit(this._driver) {
-    form = DriverEditForm(_formKey, _driver);
+  Driver _driver;
+  DriverUpdate(this._driver) {
+    form = DriverUpdateForm(_formKey, _driver);
   }
 
   updateDriver() async {
@@ -21,8 +20,8 @@ class DriverEdit extends StatelessWidget {
     if (driver != null) {
       bool success = await _driversService.update(driver);
       if (success) {
-        showDialog('Actualización exitosa',
-            'Se han guardado los cambios exitosamente.');
+        showDialog('Moldificación exitosa',
+            'El conductor ha sido Modificado exitosamente.');
       } else {
         showDialog('Ups!', 'Ha ocurrido un problema, inténtelo de nuevo.');
       }
@@ -46,9 +45,9 @@ class DriverEdit extends StatelessWidget {
   Widget build(BuildContext context) {
     this.context = context;
 
-    final updateButton = CustomButton(
+    final registerButton = CustomButton(
       onTap: updateDriver,
-      buttonText: 'Guardar cambios',
+      buttonText: 'Modificar',
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
       buttonTextColor: Colors.white,
       marginBotton: 0,
@@ -73,7 +72,7 @@ class DriverEdit extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        title: Text('Editar datos de conductor'),
+        title: Text('Modificar conductor'),
       ),
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
@@ -92,7 +91,7 @@ class DriverEdit extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(flex: 1, child: cancelButton),
-                    Expanded(flex: 1, child: updateButton)
+                    Expanded(flex: 1, child: registerButton)
                   ],
                 ),
               ),

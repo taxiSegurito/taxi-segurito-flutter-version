@@ -59,13 +59,6 @@ class SideMenu extends StatelessWidget {
                 ],
               ),
             ),
-            ListTile(
-              leading: Icon(Icons.access_time_outlined),
-              title: Text('Historial De Reseñas'),
-              onTap: () {
-                Navigator.pushNamed(context, 'historyReview');
-              },
-            ),
             divider,
             ListTile(
               onTap: () {
