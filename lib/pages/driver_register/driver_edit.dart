@@ -16,16 +16,16 @@ class DriverEdit extends StatelessWidget {
     form = DriverEditForm(_formKey, _driver);
   }
 
-  registerDriver() async {
+  updateDriver() async {
     Driver? driver = form.getDriverIfIsValid();
     if (driver != null) {
-      // bool success = await _driversService.insert(driver);
-      // if (success) {
-      //   showDialog('Registro exitoso',
-      //       'El conductor ha sido registrado exitosamente.');
-      // } else {
-      //   showDialog('Ups!', 'Ha ocurrido un problema, inténtelo de nuevo.');
-      // }
+      bool success = await _driversService.update(driver);
+      if (success) {
+        showDialog('Actualización exitosa',
+            'Se han guardado los cambios exitosamente.');
+      } else {
+        showDialog('Ups!', 'Ha ocurrido un problema, inténtelo de nuevo.');
+      }
     }
   }
 
@@ -47,7 +47,7 @@ class DriverEdit extends StatelessWidget {
     this.context = context;
 
     final updateButton = CustomButton(
-      onTap: registerDriver,
+      onTap: updateDriver,
       buttonText: 'Guardar cambios',
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
       buttonTextColor: Colors.white,

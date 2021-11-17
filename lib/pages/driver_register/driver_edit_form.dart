@@ -20,8 +20,7 @@ class _DriverEditFormState extends DriverRegisterFormState<DriverEditForm> {
   _DriverEditFormState() : super();
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     fullnameField = CustomTextField(
       hint: "Nombre",
       multiValidator: MultiValidator([
@@ -40,6 +39,8 @@ class _DriverEditFormState extends DriverRegisterFormState<DriverEditForm> {
     super.fieldImage.imageMainBase64 =
         stringFromBase64Bytes(widget.driver.picture);
     super.fieldImage.imagePathDefaultUser = '';
+    // super.fieldImage.setImage(Image.memory(widget.driver.picture));
+    return super.build(context);
   }
 
   @override

@@ -7,8 +7,13 @@ import 'package:taxi_segurito_app/services/driver_service.dart';
 
 class DriverUpdate extends StatelessWidget {
   DriversService _driversService = DriversService();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late DriverUpdateForm form;
   late BuildContext context;
+  Driver _driver;
+  DriverUpdate(this._driver) {
+    form = DriverUpdateForm(_formKey, _driver);
+  }
 
   updateDriver() async {
     Driver? driver = form.getDriverIfIsValid();
