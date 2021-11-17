@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 import 'package:http/http.dart' as http;
+import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'widgets/ContainerListView.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 
@@ -9,7 +11,7 @@ import 'package:taxi_segurito_app/components/inputs/CustomTextFieldArea.dart';
 
 
 
-class MyApp extends StatelessWidget {
+class MyViewForgetObject extends StatelessWidget {
   // This widget is the root of your application.
   Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   @override
@@ -19,30 +21,36 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: colorMain,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePageForgetObject(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
+class MyHomePageForgetObject extends StatefulWidget {
   dynamic dynamicObject;
   final String title;
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePageForgetObject({Key? key, required this.title}) : super(key: key);
   
   @override
   _ForgeObjects createState() => _ForgeObjects();
 }
 
-class _ForgeObjects extends State<MyHomePage> {
+class _ForgeObjects extends State<MyHomePageForgetObject> {
   ContainerListView containerListView = new ContainerListView();
   Color colorMain = Color.fromRGBO(255, 193, 7, 1);
 
   CustomTextField txtNameObject = new CustomTextField(
+    multiValidator: MultiValidator([
+      RequiredValidator(errorText: "Nombre del objeto requerido"),
+    ]),
     hint: "Nombre del Objeto",
     obscureText: false,
     
   );
   CustomTextFieldArea txtDescription = new CustomTextFieldArea(
+    multiValidator: MultiValidator([
+      RequiredValidator(errorText: "Descripción del objeto requerido"),
+    ]),
     hint: "Descripción del objeto",
     maxLines: 5,
   );
@@ -80,6 +88,18 @@ class _ForgeObjects extends State<MyHomePage> {
         print(Exception);
       }
     }
+    showDialog(String text, String content) {
+    final dialog = CustomDialogShow(
+      buttonText: 'Ok',
+      context: context,
+      buttonColor: Color.fromRGBO(255, 193, 7, 1),
+      buttonColorText: Colors.white,
+      titleShowDialog: text,
+      message: content,
+    );
+
+    dialog.show();
+  }
 
     
     
@@ -93,7 +113,9 @@ class _ForgeObjects extends State<MyHomePage> {
           
           Expanded(
             child: RaisedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               child: Text("Cancelar"),
               color: Colors.white,
               textColor: colorMain,
@@ -107,6 +129,7 @@ class _ForgeObjects extends State<MyHomePage> {
             child: RaisedButton(
               onPressed: () {
                 insertObjects();
+                showDialog("Registro exitoso", "Se ha registrado el objeto perdido.");
               },
               child: Text("Insertar"),
               color: colorMain,
