@@ -15,7 +15,7 @@ class SessionsService {
   }
 
   //metodo para verificar si existe una variable de session true=existe
-  verificationSession(String key) async {
+  Future<bool> verificationSession(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool checkValue = prefs.containsKey(key);
     return checkValue;
