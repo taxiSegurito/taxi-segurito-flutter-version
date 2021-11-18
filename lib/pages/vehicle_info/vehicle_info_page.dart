@@ -8,7 +8,7 @@ import 'package:taxi_segurito_app/pages/driver_info/driverInfoPage.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/vehicle_reviews.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/widgets/SearchDialogDriver.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/widgets/vehicle_picture.dart';
-import 'package:taxi_segurito_app/pages/vehicle_page/vehicle_edit_screen.dart';
+import 'package:taxi_segurito_app/pages/vehicle_screen/vehicle_edit_screen.dart';
 import 'package:taxi_segurito_app/services/driver_service.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 
