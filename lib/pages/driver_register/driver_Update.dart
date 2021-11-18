@@ -32,7 +32,8 @@ class DriverUpdate extends StatelessWidget {
     final dialog = CustomDialogShow(
       buttonText: 'Ok',
       ontap: () {
-        Navigator.pushNamed(context, 'driverList');
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        // Navigator.pushNamed(context, 'driverList');
       },
       context: context,
       buttonColor: Color.fromRGBO(255, 193, 7, 1),
