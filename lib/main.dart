@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/pages/forgetObjectsAdmin/ForgetObject.dart';
 import './pages/driver_register/driver_register.dart';
 import './pages/main_window/main_window.dart';
 import './pages/log_in/log_in_page.dart';
@@ -90,6 +91,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'vehicleList': (_) => VehiclesListPage(),
         'historyReview': (_) => HistoryReview(),
         'userList': (_) => OwnerListPage(),
+        'forgetObjects': (_) => ForgetObjects(),
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),

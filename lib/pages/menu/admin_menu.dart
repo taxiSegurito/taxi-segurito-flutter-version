@@ -31,6 +31,11 @@ class AdminMenu extends Menu {
         iconPath: 'assets/icons/vehicle-menu.png',
         pageRoute: 'registerVehicle',
       ),
+        MenuItem(
+        text: 'Lista de Objetos Perdidos',
+        iconPath: 'assets/icons/vehicle-menu.png',
+        pageRoute: 'forgetObjects',
+      ),
     ];
   }
 }
