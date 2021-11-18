@@ -1,26 +1,18 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:taxi_segurito_app/models/company.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/pages/owner_register/widgets/DropDownCompany.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
-import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
-import 'package:http/http.dart' as http;
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
-import 'package:taxi_segurito_app/services/server.dart';
 import 'package:taxi_segurito_app/validators/TextFieldValidators.dart';
 import 'owner_register_functionality.dart';
 
 abstract class ScreenOwnerBase extends StatefulWidget {
   _ScreenOwnerBaseState _screenOwnerBaseState = new _ScreenOwnerBaseState();
-
   Owner owner = new Owner.init();
 
   Company company = new Company();
@@ -44,6 +36,9 @@ abstract class ScreenOwnerBase extends StatefulWidget {
   eventActionUpdate();
 
   eventActionDelete();
+  get passwordFieldVisible {
+    return true;
+  }
 }
 
 class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
@@ -228,6 +223,8 @@ class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
     AppBar appBar = new AppBar(
       backgroundColor: colorMain,
       elevation: 0,
+      automaticallyImplyLeading: false,
+      title: Text("Datos de propietario"),
     );
     Container containerTitle = new Container(
         alignment: Alignment.center,
@@ -263,7 +260,7 @@ class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
                     txtLastNameSecond,
                     txtPhone,
                     txtEmail,
-                    txtPassword,
+                    widget.passwordFieldVisible ? txtPassword : Container(),
                     txtDni,
                     txtAddress,
                     containerButtons
