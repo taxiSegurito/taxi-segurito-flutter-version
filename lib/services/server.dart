@@ -4,7 +4,7 @@ class Server {
   //     "http://10.0.2.2:8070/PHP_TAXISEGURITIO/taxi-segurito-backend/app/api/";
 
   static const protocol = "http://";
-  static const host = "d8dd-161-138-17-82.ngrok.io";
+  static const host = "b3b1-186-2-6-54.ngrok.io";
   // static const host = "10.0.3.2:8086";
   static const baseEndpoint = "/app/api";
   /* static const host = "192.168.0.18"; //static const host = "637e-161-138-17-0.ngrok.io"; 

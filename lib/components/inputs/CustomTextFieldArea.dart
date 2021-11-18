@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
 /*import 'package:fluttertoast/fluttertoast.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/bloc/validators/blocValidate.dart';*/
@@ -13,6 +14,8 @@ class CustomTextFieldArea extends StatefulWidget {
   double marginRight;
   double marginBotton;
   double marginTop;
+  MultiValidator? multiValidator;
+  
   int maxLines;
   //MultiValidator multiValidator;
   double heightNum;
@@ -27,7 +30,9 @@ class CustomTextFieldArea extends StatefulWidget {
     this.marginBotton = 5,
     this.heightNum = 35,
     this.obscureText = false,
-    this.maxLines = 1
+    this.maxLines = 1,
+    this.multiValidator
+
     
     //required this.multiValidator,
   }) : super(key: key);
@@ -40,17 +45,13 @@ class CustomTextFieldArea extends StatefulWidget {
   String getValue() {
     return value = _customTextFieldState.getValue();
   }
-
-  void changeHeightTextField(double num) {
-    _customTextFieldState.changeHeightTextField(num);
-  }
 }
 
 class _CustomTextFieldAreaState extends State<CustomTextFieldArea> {
   final TextEditingController valueController = TextEditingController();
-  changeHeightTextField(double num) {
+  changeHeightTextField(int num) {
     setState(() {
-      widget.heightNum = num;
+      widget.maxLines = num;
     });
   }
 
@@ -73,16 +74,16 @@ class _CustomTextFieldAreaState extends State<CustomTextFieldArea> {
             obscureText: widget.obscureText,
             textCapitalization: TextCapitalization.sentences,
             validator: (value) {
-              /*var validators = widget.multiValidator.validators;
+              var validators = widget.multiValidator!.validators;
               for (FieldValidator validator in validators) {
                 if (validator.call(value) != null) {
-                  changeHeightTextField(60);
+                  changeHeightTextField(5);
                   return validator.errorText;
                 } else {
-                  changeHeightTextField(35);
+                  
                   return null;
                 }
-              }*/
+              }
             
             },
             textAlignVertical: TextAlignVertical.center,
