@@ -17,6 +17,7 @@ class StringValidator extends TextFieldValidator {
   final Pattern _stringRegExp = r'[a-zA-Z]';
   final Pattern _numberRegExp = r'[0-9]';
   StringValidator({required String errorText}) : super(errorText);
+
   @override
   bool isValid(String? value) {
     bool isValidString =
@@ -26,7 +27,8 @@ class StringValidator extends TextFieldValidator {
 
     if (isValidNumber) {
       return false;
-    } else if (isValidString) {
+    }
+    if (isValidString) {
       return true;
     }
 
