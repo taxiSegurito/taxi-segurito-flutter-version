@@ -32,6 +32,7 @@ class VehicleEditScreen extends BaseVehicleScreen {
   @override
   eventAction() {
     registerVehicleFunctionality.onPressedbtnUpdateVehicle();
+    print("hm? :c");
   }
 
   @override

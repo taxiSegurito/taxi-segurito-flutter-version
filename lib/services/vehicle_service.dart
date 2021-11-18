@@ -41,7 +41,7 @@ class VehicleService {
   Future<bool> update(Vehicle vehicle) async {
     try {
       var path = Server.url + "vehicle_controller.php";
-      final response = await http.post(
+      final response = await http.put(
         Uri.parse(path),
         body: jsonEncode(
           {
@@ -52,20 +52,15 @@ class VehicleService {
             "capacity": vehicle.capacity,
             "photo": vehicle.picture,
             "status": vehicle.status,
-            "owner_idowner": vehicle.idOwner,
-            "typeRequest": "UPDATE"
+            "owner_idowner": vehicle.idOwner
           },
         ),
       );
-      String result = json.decode(response.body);
 
-      if (result == "Success") {
-        return Future<bool>.value(true);
-      } else {
-        return Future<bool>.value(false);
-      }
+      bool success = response.statusCode == 200;
+      return success;
     } catch (exception) {
-      return Future<bool>.value(false);
+      return false;
     }
   }
 

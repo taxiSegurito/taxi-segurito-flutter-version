@@ -137,6 +137,7 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
               .insert(widget.driver!.idPerson, widget.vehicle!.idVehicle!)
               .then((value) {
             if (value) {
+              Navigator.of(context).popUntil((route) => route.isFirst);
               Navigator.pushNamed(context, 'vehicleList');
             }
           });
@@ -146,6 +147,7 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
             .insert(widget.driver!.idPerson, widget.vehicle!.idVehicle!)
             .then((value) {
           if (value) {
+            Navigator.of(context).popUntil((route) => route.isFirst);
             Navigator.pushNamed(context, 'vehicleList');
           }
         });

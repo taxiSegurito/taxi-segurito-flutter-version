@@ -52,6 +52,11 @@ class VehicleScreenFunctionality {
 
   onPressedbtnUpdateVehicle() {
     Vehicle vehicleModel = vehicle!;
+    vehicleService.update(vehicleModel).then((value) {
+      if (value) {
+        Navigator.of(context!).popUntil((route) => route.isFirst);
+      }
+    });
     // update(vehicleModel).then(
     //   (value) {
     //     if (value) {
