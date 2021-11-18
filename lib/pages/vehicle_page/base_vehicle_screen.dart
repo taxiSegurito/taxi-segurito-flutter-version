@@ -72,7 +72,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
         ],
       ),
       assignValue: (value) {
-        widget.vehicle.capacity = int.parse(value);
+        if (value.length > 0) widget.vehicle.capacity = int.parse(value);
       },
     );
 
@@ -87,6 +87,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       ),
       assignValue: (value) {
         widget.vehicle.model = value;
+        print(widget.vehicle.model);
       },
     );
 

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
@@ -35,15 +37,13 @@ class _DriverUpdateFormState extends State<DriverUpdateForm> {
   late ImagesFileAdapter fieldImage;
 
   Driver getDriver() {
-    Driver driver = new Driver.insert(
-      fullName: fullnameField.getValue(),
-      cellphone: fieldCellphone.getValue(),
-      license: fieldLicense.getValue(),
-      ci: fieldCi.getValue(),
-      pictureStr: fieldImage.getImageBase64AsString(),
-    );
-    driver.idDriver = widget._driver.idDriver;
-    return driver;
+    widget._driver.fullName = fullnameField.getValue();
+    widget._driver.cellphone = fieldCellphone.getValue();
+    widget._driver.license = fieldLicense.getValue();
+    widget._driver.ci = fieldCi.getValue();
+    widget._driver.pictureStr = fieldImage.getImageBase64();
+    widget._driver.picture = base64Decode(fieldImage.getImageBase64());
+    return widget._driver;
   }
 
   @override
@@ -102,6 +102,7 @@ class _DriverUpdateFormState extends State<DriverUpdateForm> {
     );
 
     return Form(
+      key: widget.formKey,
       autovalidateMode: AutovalidateMode.always,
       child: Column(
         children: [

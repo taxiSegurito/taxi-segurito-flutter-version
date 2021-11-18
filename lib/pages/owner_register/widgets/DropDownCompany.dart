@@ -22,6 +22,7 @@ class DropDownCompany extends StatefulWidget {
     this.marginTop = 5,
     this.marginBotton = 5,
     this.heightNum = 35,
+    this.value,
   }) : super(key: key);
 
   @override
@@ -55,6 +56,15 @@ class _DropDownCompanyState extends State<DropDownCompany> {
     }
     widget.heightNum = 38;
     return isValid;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (!(widget.listItem.isEmpty)) {
+      widget.value = widget.listItem.firstWhere(
+          (element) => (element.idCompany == widget.value!.idCompany));
+    }
   }
 
   @override

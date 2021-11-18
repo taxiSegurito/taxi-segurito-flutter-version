@@ -29,7 +29,7 @@ class _ScannerQrPageState extends State<ScannerQrPage> {
         title: Text('Taxi Segurito'),
         foregroundColor: Colors.white,
       ),
-      drawer: SideMenu(username: widget.name),
+      drawer: widget.name != null ? SideMenu(username: widget.name) : null,
       body: Stack(
         children: <Widget>[
           _scanner(context),

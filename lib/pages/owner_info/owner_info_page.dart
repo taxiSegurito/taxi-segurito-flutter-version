@@ -4,6 +4,7 @@ import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/owner_info/widgets/owner_data.dart';
 import 'package:taxi_segurito_app/pages/owner_info/widgets/vehicle_data.dart';
+import 'package:taxi_segurito_app/pages/owner_register/UpdateOwnerScreen.dart';
 import 'package:taxi_segurito_app/services/vehicle_service.dart';
 
 class OwnerInfoPage extends StatefulWidget {
@@ -50,8 +51,11 @@ class _OwnerInfoPageState extends State<OwnerInfoPage> {
                     ],
                   ),
                   onTap: () {
-                    Navigator.pop(context);
-                    print("Estas en modificar");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                new UpdateOwnerScreen(widget.owner)));
                   },
                 )),
                 PopupMenuItem(
@@ -72,10 +76,11 @@ class _OwnerInfoPageState extends State<OwnerInfoPage> {
                   onTap: () {
                     print("Estas en Eliminar");
                     showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialogDelete(widget.owner);
-                        });
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialogDelete(widget.owner);
+                      },
+                    );
                   },
                 ))
               ];
