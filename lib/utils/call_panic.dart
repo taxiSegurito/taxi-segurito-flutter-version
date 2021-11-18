@@ -29,7 +29,7 @@ class CallPanic {
         try {
           for (var x in address) {
             await sender.sendSms(new SmsMessage(
-                x, "Este Telefono Envio Alerta Desde un Taxi de Placa"));
+                x, "Este teléfono envió un mensaje de alerta desde un taxi."));
           }
           return true;
         } catch (e) {
@@ -38,12 +38,13 @@ class CallPanic {
         }
       } else {
         await sender.sendSms(new SmsMessage(
-            "911", "Este Telefono Envio Alerta Desde un Taxi de Placa"));
+            "911", "Este teléfono envió un mensaje de alerta desde un taxi."));
+        log("Sin NRO Registrado");
         return true;
       }
     } else {
       await sender.sendSms(new SmsMessage(
-          "911", "Este Telefono Envio Alerta Desde un Taxi de Placa"));
+          "911", "Este teléfono envió un mensaje de alerta desde un taxi."));
       return true;
     }
   }
@@ -54,6 +55,7 @@ class CallPanic {
       await CallPanic().sendSms().then((value) => {
             if (value == true) {controlSms = value}
           });
+      log("sendSms Execute");
       await CallPanic().callNumber().then((value) => {
             if (value == true) {controlCall = value}
           });
@@ -65,7 +67,7 @@ class CallPanic {
         return false;
       }
     } catch (e) {
-      log(e.toString());
+      log(e.toString() + " btnpanic()");
       return false;
     }
   }

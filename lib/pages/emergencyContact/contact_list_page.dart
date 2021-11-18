@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:taxi_segurito_app/models/emergencyContact.dart';
 import 'package:taxi_segurito_app/pages/emergencyContact/contact_list_functionality.dart';
 import 'package:taxi_segurito_app/services/emergency_contact_service.dart';
+import 'package:taxi_segurito_app/services/sessions_service.dart';
 
 class ListContactPage extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class ListContactPage extends StatefulWidget {
 
 class _ListContactState extends State<ListContactPage> {
   EmergencyContactService _contactService = EmergencyContactService();
+  SessionsService _sessionsService = SessionsService();
   late List<EmergencyContact> contacts;
   late Future<List<EmergencyContact>?> contactsFuture;
   late ListContactFunctionality functionality;
@@ -69,8 +71,17 @@ class _ListContactState extends State<ListContactPage> {
           ),
         ],
       ),
-      floatingActionButton:
-          functionality.isSession ? _insertFloatingButton() : null,
+      floatingActionButton: FutureBuilder(
+        future: _sessionsService.verificationSession("id"),
+        builder: (_, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!) {
+              return _insertFloatingButton();
+            }
+          }
+          return Container();
+        },
+      ),
       body: (contacts.isNotEmpty)
           ? ListView.builder(
               itemCount: contacts.length,
