@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
+import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/vehicle_reviews.dart';
+import 'package:taxi_segurito_app/pages/vehicle_info/widgets/SearchDialogDriver.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/widgets/vehicle_picture.dart';
+import 'package:taxi_segurito_app/services/driver_service.dart';
 
-class VehicleInfoPage extends StatelessWidget {
-  Vehicle _vehicle;
-  VehicleInfoPage(this._vehicle);
+class VehicleInfoPage extends StatefulWidget {
+  Vehicle? vehicle;
+  Driver? driver;
+  bool isEdit = false;
+  VehicleInfoPage(this.vehicle, {Key? key}) : super(key: key);
 
+  @override
+  _VehicleInfoPageState createState() => _VehicleInfoPageState();
+}
+
+class _VehicleInfoPageState extends State<VehicleInfoPage> {
+  static const Color colorMain = Color.fromRGBO(255, 193, 7, 1);
+  static const Color colorMainText = Colors.white;
   Widget _driverAttribute(
     title, {
     String value = '',
@@ -49,7 +63,7 @@ class VehicleInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    VehiclePicture vehiclePicture = new VehiclePicture(_vehicle);
+    VehiclePicture vehiclePicture = new VehiclePicture(widget.vehicle!);
     PopupMenuItem _popupMenuButton(title, Icon icon, VoidCallback ontap) {
       return PopupMenuItem(
         child: InkWell(
@@ -68,6 +82,27 @@ class VehicleInfoPage extends StatelessWidget {
             onTap: ontap),
       );
     }
+
+    closeNavigator(BuildContext context) {
+      Navigator.of(context).pop();
+    }
+
+    callBackSendData(Driver driver) {
+      setState(() {
+        widget.driver = driver;
+        widget.isEdit = true;
+      });
+    }
+
+    SearchDialogDriver searchDialogDriver = new SearchDialogDriver(
+      context: context,
+      titleShowDialog: 'Lista de Conductores',
+      ontapButtonCancel: () => closeNavigator(context),
+      buttonCancelText: "Cancelar",
+      callback: callBackSendData,
+      callbackValueSearch: (value) {},
+      listDriver: [],
+    );
 
     AppBar appBar = new AppBar(
       centerTitle: true,
@@ -110,8 +145,9 @@ class VehicleInfoPage extends StatelessWidget {
                   Icon(
                     Icons.edit,
                     color: Colors.black,
-                  ),
-                  () {})
+                  ), () {
+                searchDialogDriver.showAlertDialog();
+              })
             ];
           },
         )
@@ -133,6 +169,48 @@ class VehicleInfoPage extends StatelessWidget {
       thickness: 0.5,
       color: Colors.black,
     );
+
+    CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
+      onTap: () {
+        setState(() {
+          widget.isEdit = false;
+          widget.driver = null;
+        });
+      },
+      buttonText: "Cancelar",
+      buttonColor: Colors.white,
+      buttonTextColor: colorMain,
+      buttonBorderColor: colorMainText,
+      marginLeft: 0,
+      marginRight: 5,
+    );
+    CustomButton btnAssign = new CustomButton(
+      onTap: () {},
+      buttonText: 'Guardar',
+      buttonColor: colorMain,
+      buttonTextColor: Colors.white,
+      marginLeft: 5,
+      marginRight: 0,
+    );
+
+    Widget _buttonsAction() {
+      return widget.isEdit
+          ? Container(
+              margin: EdgeInsets.symmetric(horizontal: 35),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: btnCancel,
+                  ),
+                  Expanded(
+                    child: btnAssign,
+                  ),
+                ],
+              ),
+            )
+          : Container();
+    }
+
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         color: Colors.grey.shade300,
@@ -153,7 +231,8 @@ class VehicleInfoPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => VehicleReviewsPage(_vehicle)),
+                            builder: (context) =>
+                                VehicleReviewsPage(widget.vehicle!)),
                       );
                     },
                     child: Container(
@@ -173,11 +252,24 @@ class VehicleInfoPage extends StatelessWidget {
         children: [
           vehiclePicture,
           divider,
-          _driverAttribute('Modelo', value: _vehicle.model),
+          _driverAttribute('Modelo', value: widget.vehicle!.model),
           divider,
-          _driverAttribute('Color', value: _vehicle.color),
+          _driverAttribute('Color', value: widget.vehicle!.color),
           divider,
-          _driverAttribute('Conductor', value: 'Sin conductor')
+          Container(
+              color: widget.isEdit ? Color.fromRGBO(241, 241, 241, 1) : null,
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              child: Column(
+                children: [
+                  _driverAttribute(
+                    'Conductor',
+                    value: widget.driver != null
+                        ? widget.driver!.fullName
+                        : 'Sin conductor',
+                  ),
+                  _buttonsAction()
+                ],
+              ))
         ],
       ),
     );
