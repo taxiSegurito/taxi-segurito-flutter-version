@@ -87,14 +87,16 @@ class DriversService {
 
       http.Response response = await http.put(
         Uri.parse(path),
-        body: jsonEncode({
-          'id': driver.idPerson.toString(),
-          'fullname': driver.fullName.toString(),
-          'cellphone': driver.cellphone.toString(),
-          'license': driver.license.toString(),
-          'ci': driver.ci.toString(),
-          'picture': stringFromBase64Bytes(driver.picture)
-        }),
+        body: jsonEncode(
+          {
+            'id': driver.idPerson,
+            'fullname': driver.fullName,
+            'cellphone': driver.cellphone,
+            'license': driver.license,
+            'ci': driver.ci,
+            'picture': stringFromBase64Bytes(driver.picture)
+          },
+        ),
       );
 
       final success = response.statusCode == 200;
