@@ -169,10 +169,17 @@ class AlertDialogDelete extends StatelessWidget {
               style: TextStyle(
                   color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
             ),
-            onPressed: () {
+            onPressed: () async {
               Navigator.of(context).pop('Aceptar');
               print('Eliminar conductor');
-              deleteOwner(owner);
+              final success = await deleteOwner(owner);
+              if (success) {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.pushReplacementNamed(
+                  context,
+                  'adminMenu',
+                );
+              }
             }),
         CupertinoDialogAction(
           child: Text(
