@@ -42,67 +42,6 @@ class DriverInfoPageState extends State<DriverInfoPage> {
       color: Colors.black,
     );
 
-    showAlertDialog() {
-      showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-            ),
-            titleTextStyle: TextStyle(
-              color: Colors.black,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-            ),
-            title: Text(
-              "¿Esta se seguro de eliminar a ${widget._driver.fullName}?",
-              textAlign: TextAlign.center,
-            ),
-            backgroundColor: Colors.white,
-            content: Row(
-              children: [
-                Expanded(
-                  child: CustomButtonWithLinearBorder(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      buttonBorderColor: colorMainNull,
-                      marginBotton: 0,
-                      marginLeft: 0,
-                      marginRight: 0,
-                      marginTop: 0,
-                      buttonText: "Cancelar",
-                      buttonColor: Colors.white,
-                      buttonTextColor: colorMainNull),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: CustomButtonWithLinearBorder(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      buttonBorderColor: colorMainDanger,
-                      marginBotton: 0,
-                      marginLeft: 0,
-                      marginRight: 0,
-                      marginTop: 0,
-                      buttonText: "Eliminar",
-                      buttonColor: Colors.white,
-                      buttonTextColor: colorMainDanger),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
-
     AppBar appBar = new AppBar(
       centerTitle: true,
       title: Text('Datos Conductor'),
@@ -182,39 +121,38 @@ class DriverInfoPageState extends State<DriverInfoPage> {
         builder: (_, constraints) {
           return Container(
             height: constraints.maxHeight,
-            child: FutureBuilder(
-              future: futureInfo,
-              builder: (_, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
-                if (snapshot.hasData) {
-                  if (snapshot.data != null) {
-                    widget._driver = snapshot.data!['driver'] as Driver;
-                    widget._vehicle = snapshot.data!['vehicle'] as Vehicle;
-                    widget._driverHasVehicleId =
-                        snapshot.data!['idDriverHasVehicle'];
-                    return Column(
-                      children: [
-                        driverData,
-                        divider,
-                        _driverAttribute("Carnet de identidad",
-                            value: widget._driver.ci),
-                        divider,
-                        _driverAttribute("Celular",
-                            value: widget._driver.cellphone),
-                        divider,
-                        _driverAttribute("Licencia",
-                            value: widget._driver.license),
-                        divider,
-                        _driverAttribute(
-                          "Vehículo asignado",
-                        ),
-                        VehicleData(widget._vehicle!),
-                      ],
-                    );
-                  }
-                  return Center(child: CircularProgressIndicator());
-                }
-                return Center(child: CircularProgressIndicator());
-              },
+            child: Column(
+              children: [
+                driverData,
+                divider,
+                _driverAttribute("Carnet de identidad",
+                    value: widget._driver.ci),
+                divider,
+                _driverAttribute("Celular", value: widget._driver.cellphone),
+                divider,
+                _driverAttribute("Licencia", value: widget._driver.license),
+                divider,
+                _driverAttribute(
+                  "Vehículo asignado",
+                ),
+                FutureBuilder(
+                  future: futureInfo,
+                  builder: (_, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      // if (snapshot.data != null) {
+                      if (snapshot.hasData && snapshot.data != null) {
+                        widget._driver = snapshot.data!['driver'] as Driver;
+                        widget._vehicle = snapshot.data!['vehicle'] as Vehicle;
+                        widget._driverHasVehicleId =
+                            snapshot.data!['idDriverHasVehicle'];
+                        return VehicleData(widget._vehicle!);
+                      }
+                      return Text('Sin vehículo asignado');
+                    }
+                    return Center(child: CircularProgressIndicator());
+                  },
+                ),
+              ],
             ),
           );
         },
@@ -281,10 +219,12 @@ class AlertDialogDelete extends StatelessWidget {
               style: TextStyle(
                   color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
             ),
-            onPressed: () {
-              Navigator.of(context).pop('Aceptar');
+            onPressed: () async {
               print('Eliminar conductor');
-              DriversService().delete(driver);
+              final success = await DriversService().delete(driver);
+              if (success) {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              }
             }),
         CupertinoDialogAction(
           child: Text(
