@@ -61,7 +61,7 @@ class _DropDownCompanyState extends State<DropDownCompany> {
   @override
   void initState() {
     super.initState();
-    if (!(widget.listItem.isEmpty)) {
+    if (!(widget.listItem.isEmpty) && widget.value != null) {
       widget.value = widget.listItem.firstWhere(
           (element) => (element.idCompany == widget.value!.idCompany));
     }

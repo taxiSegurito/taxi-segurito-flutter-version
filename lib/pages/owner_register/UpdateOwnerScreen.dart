@@ -1,5 +1,5 @@
 import 'package:taxi_segurito_app/models/owner.dart';
-
+import 'package:taxi_segurito_app/models/company.dart';
 import 'ScreenOwnerBase.dart';
 import 'owner_register_functionality.dart';
 
@@ -27,7 +27,7 @@ class UpdateOwnerScreen extends ScreenOwnerBase {
 
   @override
   String tittleScreen() {
-    return 'Actualizacion del Propietario';
+    return 'Actualizar datos';
   }
 
   @override
@@ -48,5 +48,10 @@ class UpdateOwnerScreen extends ScreenOwnerBase {
   @override
   eventActionDelete() {
     registerOwnerFunctionality.onPressedbtnDeleteOwner();
+  }
+
+  @override
+  get passwordFieldVisible {
+    return false;
   }
 }

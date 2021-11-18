@@ -58,6 +58,7 @@ class _ListViewDriversState extends State<ListViewDrivers> {
                 itemCount: drivers.length,
                 itemBuilder: (_, index) {
                   Driver driver = drivers[index];
+                  print(drivers[index].idPerson);
                   Color colors = Colors.black;
                   Color colorBackground = Colors.white;
 
@@ -80,6 +81,7 @@ class _ListViewDriversState extends State<ListViewDrivers> {
                         ),
                         trailing: Icon(Icons.add),
                         onTap: () {
+                          print(driver.idPerson);
                           widget.callback(driver);
                         },
                       ),

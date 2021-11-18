@@ -68,7 +68,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       multiValidator: MultiValidator(
         [
           RequiredValidator(errorText: "Campo vacio"),
-          StringValidator(errorText: "Ingrese la capacidad en formato texto"),
+          //StringValidator(errorText: "Ingrese la capacidad en formato texto"),
         ],
       ),
       assignValue: (value) {

@@ -1,17 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/pages/driver_info/driverInfoPage.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/vehicle_reviews.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/widgets/SearchDialogDriver.dart';
 import 'package:taxi_segurito_app/pages/vehicle_info/widgets/vehicle_picture.dart';
+import 'package:taxi_segurito_app/pages/vehicle_page/vehicle_edit_screen.dart';
 import 'package:taxi_segurito_app/services/driver_service.dart';
+import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 
 class VehicleInfoPage extends StatefulWidget {
   Vehicle? vehicle;
   Driver? driver;
   bool isEdit = false;
+  int? idDriverHasVehicle;
   VehicleInfoPage(this.vehicle, {Key? key}) : super(key: key);
 
   @override
@@ -21,6 +26,26 @@ class VehicleInfoPage extends StatefulWidget {
 class _VehicleInfoPageState extends State<VehicleInfoPage> {
   static const Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   static const Color colorMainText = Colors.white;
+  final _driverVehicleService = DriverVehicleService();
+  late Future<Map<String, dynamic>?> futureInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    futureInfo = _driverVehicleService
+        .getAssignationByVehicleId(widget.vehicle!.idVehicle!)
+        .then((value) {
+      Vehicle vehicle = value!['vehicle'] as Vehicle;
+      setState(
+        () {
+          widget.driver = value['driver'] as Driver;
+          widget.idDriverHasVehicle = value['idDriverHasVehicle'] as int;
+        },
+      );
+      print(vehicle.model);
+    });
+  }
+
   Widget _driverAttribute(
     title, {
     String value = '',
@@ -90,6 +115,7 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
     callBackSendData(Driver driver) {
       setState(() {
         widget.driver = driver;
+        print(widget.driver!.fullName);
         widget.isEdit = true;
       });
     }
@@ -103,6 +129,28 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
       callbackValueSearch: (value) {},
       listDriver: [],
     );
+
+    assigmentVehicle() {
+      if (widget.idDriverHasVehicle != null) {
+        _driverVehicleService.update(widget.idDriverHasVehicle!).then((value) {
+          _driverVehicleService
+              .insert(widget.driver!.idPerson, widget.vehicle!.idVehicle!)
+              .then((value) {
+            if (value) {
+              Navigator.pushNamed(context, 'vehicleList');
+            }
+          });
+        });
+      } else {
+        _driverVehicleService
+            .insert(widget.driver!.idPerson, widget.vehicle!.idVehicle!)
+            .then((value) {
+          if (value) {
+            Navigator.pushNamed(context, 'vehicleList');
+          }
+        });
+      }
+    }
 
     AppBar appBar = new AppBar(
       centerTitle: true,
@@ -119,11 +167,11 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
                   color: Colors.black,
                 ),
                 () {
-                  /* Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => DriverUpdate(widget._driver)),
-                    );*/
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => VehicleEditScreen(widget.vehicle!)),
+                  );
                 },
               ),
               _popupMenuButton(
@@ -133,11 +181,11 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
                   color: Colors.red,
                 ),
                 () {
-                  /* showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialogDelete(widget._driver);
-                        });*/
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialogDeleteVehicle(widget.vehicle!);
+                      });
                 },
               ),
               _popupMenuButton(
@@ -185,7 +233,9 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
       marginRight: 5,
     );
     CustomButton btnAssign = new CustomButton(
-      onTap: () {},
+      onTap: () {
+        assigmentVehicle();
+      },
       buttonText: 'Guardar',
       buttonColor: colorMain,
       buttonTextColor: Colors.white,
@@ -272,6 +322,47 @@ class _VehicleInfoPageState extends State<VehicleInfoPage> {
               ))
         ],
       ),
+    );
+  }
+}
+
+class AlertDialogDeleteVehicle extends StatelessWidget {
+  late Vehicle vehicle;
+  AlertDialogDeleteVehicle(this.vehicle);
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoAlertDialog(
+      title: Text(
+        '¿Está seguro de eliminar el auto con placa ${vehicle.pleik}?',
+        style:
+            TextStyle(color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
+      ),
+      actions: <Widget>[
+        CupertinoDialogAction(
+            child: Text(
+              'Eliminar',
+              style: TextStyle(
+                  color: Colors.red, fontFamily: 'Raleway', fontSize: 18),
+            ),
+            onPressed: () async {
+              print('Eliminar conductor');
+              // final success = await DriversService().delete(driver);
+              /*if (success) {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              }*/
+            }),
+        CupertinoDialogAction(
+          child: Text(
+            'Cancelar',
+            style: TextStyle(
+                color: Colors.black, fontFamily: 'Raleway', fontSize: 18),
+          ),
+          onPressed: () {
+            Navigator.of(context).pop('Cancelar');
+            print('Cancelar eliminacion');
+          },
+        )
+      ],
     );
   }
 }
