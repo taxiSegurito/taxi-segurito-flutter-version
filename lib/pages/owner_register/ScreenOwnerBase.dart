@@ -67,7 +67,7 @@ class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     Color colorMain = Color.fromRGBO(255, 193, 7, 1);
-    functionality!.context = context;
+    functionality!.setContext = context;
 
     Text title = new Text(
       widget.tittleScreen(),

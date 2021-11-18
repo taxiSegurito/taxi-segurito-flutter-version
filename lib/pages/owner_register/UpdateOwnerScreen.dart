@@ -1,5 +1,5 @@
 import 'package:taxi_segurito_app/models/owner.dart';
-
+import 'package:taxi_segurito_app/models/company.dart';
 import 'ScreenOwnerBase.dart';
 import 'owner_register_functionality.dart';
 
