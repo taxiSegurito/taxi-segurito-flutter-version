@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/company.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 
-class DropDownCompany extends StatefulWidget {
-  _DropDownCompanyState _customDropdownButtonState =
-      new _DropDownCompanyState();
+class DropDownOwner extends StatefulWidget {
+  _DropDownOwnerState _customDropdownButtonState = new _DropDownOwnerState();
   String hint;
-  Company? value;
+  Owner? value;
   double marginLeft;
   double marginRight;
   double marginBotton;
   double marginTop;
   double heightNum;
-  List<Company> listItem;
+  List<Owner> listItem;
 
-  DropDownCompany({
+  DropDownOwner({
     Key? key,
-    this.hint = "Campo de text",
+    this.hint = "Campo de texto",
     required this.listItem,
     this.marginLeft = 50,
     this.marginRight = 50,
@@ -26,11 +26,11 @@ class DropDownCompany extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DropDownCompanyState createState() {
+  _DropDownOwnerState createState() {
     return _customDropdownButtonState;
   }
 
-  Company? getValue() {
+  Owner? getValue() {
     return value;
   }
 
@@ -39,7 +39,7 @@ class DropDownCompany extends StatefulWidget {
   }
 }
 
-class _DropDownCompanyState extends State<DropDownCompany> {
+class _DropDownOwnerState extends State<DropDownOwner> {
   String? dropdownError;
   Color colorBorder = Colors.grey;
   bool validateDrown() {
@@ -86,13 +86,13 @@ class _DropDownCompanyState extends State<DropDownCompany> {
               border: Border.all(color: colorBorder, width: 1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: DropdownButton<Company>(
+            child: DropdownButton<Owner>(
               hint: Text(widget.hint),
               value: widget.value,
               isExpanded: true,
               underline: SizedBox(),
               style: TextStyle(fontSize: 13, color: Colors.black),
-              onChanged: (Company? newValue) {
+              onChanged: (Owner? newValue) {
                 setState(
                   () {
                     widget.value = newValue;
@@ -100,10 +100,10 @@ class _DropDownCompanyState extends State<DropDownCompany> {
                 );
               },
               items: widget.listItem.map(
-                (Company? valueItem) {
-                  return DropdownMenuItem<Company>(
+                (Owner? valueItem) {
+                  return DropdownMenuItem<Owner>(
                     value: valueItem,
-                    child: Text(valueItem!.companyName),
+                    child: Text(valueItem!.fullName),
                   );
                 },
               ).toList(),
