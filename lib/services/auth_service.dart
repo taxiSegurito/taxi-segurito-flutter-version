@@ -73,7 +73,7 @@ class AuthService {
     );
 
     final response = await http.get(endpoint);
-    log("response.body: "+response.body);
+    log("response.body: " + response.body);
     if (response.statusCode == 200) {
       final body = json.decode(response.body);
       log(body['name']);
