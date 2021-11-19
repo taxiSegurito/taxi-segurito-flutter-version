@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/Driver.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicleFunctionality.dart';
+import 'package:taxi_segurito_app/models/driver.dart';
+import 'package:taxi_segurito_app/pages/vehicle_screen/vehicle_screen_functionality.dart';
 
 class CustomListViewCardSimple extends StatefulWidget {
   List<Driver>? listDrivers = listDriver;
@@ -45,16 +45,16 @@ class _CustomListViewCardSimpleState extends State<CustomListViewCardSimple> {
               child: Column(children: [
                 ListTile(
                   title: Text(
-                    driver.name,
+                    driver.fullName,
                     style: TextStyle(fontSize: 13),
                   ),
                   subtitle: Row(
                     children: [
                       Expanded(
-                          child: Text("CI: " + driver.dni,
+                          child: Text("CI: " + driver.ci,
                               style: TextStyle(fontSize: 13))),
                       Expanded(
-                          child: Text("Celular: " + driver.phone,
+                          child: Text("Celular: " + driver.cellphone,
                               style: TextStyle(fontSize: 13)))
                     ],
                   ),

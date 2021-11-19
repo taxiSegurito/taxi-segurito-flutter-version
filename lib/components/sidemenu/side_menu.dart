@@ -1,13 +1,17 @@
+import 'dart:async';
+//import 'package:custom_long_tap/custom_long_tap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/components/sidemenu/side_menu_functionality.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({
-    Key? key,
-  }) : super(key: key);
+  late Timer timer;
+  String? username;
+  SideMenu({this.username});
 
   @override
   Widget build(BuildContext context) {
+    SideMenuFunctionality functionality = SideMenuFunctionality(context);
     var divider = Divider(
       color: Colors.grey[350],
       height: 5,
@@ -32,10 +36,10 @@ class SideMenu extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 45,
                       backgroundImage: NetworkImage(
-                          'http://assets.stickpng.com/images/585e4bd7cb11b227491c3397.png'),
+                          'https://www.hispano-irish.com/wp-content/uploads/2020/05/PngItem_1300253.png'),
                     ),
                   ),
-                  Text("Nombre Usuario"),
+                  Text(this.username ?? "Nombre usuario"),
                   Text(
                     "+591 xxxxxxxxx",
                     style: TextStyle(
@@ -50,25 +54,57 @@ class SideMenu extends StatelessWidget {
             ListTile(
               leading: Icon(Icons.access_time_outlined),
               title: Text('Historial De Reseñas'),
+              onTap: () {
+                Navigator.pushNamed(context, 'historyReview');
+              },
             ),
             divider,
             ListTile(
+              onTap: () {
+                functionality.onPressedbtnContactEmergency();
+              },
               leading: Icon(Icons.contact_page_rounded),
               title: Text('Contactos de Emergencia'),
             ),
             divider,
-            ListTile(
-              tileColor: Colors.red.shade100,
-              leading: Icon(
-                Icons.warning_rounded,
-                color: Colors.red,
-              ),
-              title: Text(
-                'Boton de Panico',
-                style: TextStyle(color: Colors.red),
+            GestureDetector(
+              onPanCancel: () => timer.cancel(),
+              onPanDown: (_) => {
+                // time duration
+                timer = Timer(Duration(seconds: 5), () async {
+                  // your function here
+                  functionality.onPressedbtnCallPanic();
+                })
+              },
+              child: ListTile(
+                tileColor: Colors.red.shade100,
+                leading: Icon(
+                  Icons.warning_rounded,
+                  color: Colors.red,
+                ),
+                onTap: () {
+                  functionality.onPressedTimePressedFault();
+                },
+                title: Text(
+                  'Boton de Panico',
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ),
             divider,
+            ListTile(
+              leading: Icon(
+                Icons.logout,
+                color: Colors.red,
+              ),
+              title: Text(
+                'Cerrar Sesion',
+                style: TextStyle(color: Colors.red),
+              ),
+              onTap: () {
+                functionality.onPressedLogOut();
+              },
+            ),
           ],
         ),
       ),

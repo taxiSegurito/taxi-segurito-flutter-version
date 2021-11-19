@@ -3,25 +3,27 @@ import 'package:flutter/material.dart';
 class CustomTextFieldSearch extends StatefulWidget {
   String hint;
   final void Function(String) callbackValueSearch;
-  VoidCallback ontap;
+  VoidCallback? ontap;
   String? value;
   double marginLeft;
   double marginRight;
   double marginBotton;
   double marginTop;
   double heightNum;
+  double radius;
   _CustomTextFieldSearchState _customTextFieldState =
       new _CustomTextFieldSearchState();
   CustomTextFieldSearch({
     Key? key,
-    required this.ontap,
     required this.callbackValueSearch,
+    this.ontap,
     this.hint = "Campo de texto",
     this.marginLeft = 50,
     this.marginRight = 50,
     this.marginTop = 5,
     this.marginBotton = 5,
     this.heightNum = 35,
+    this.radius = 10,
   }) : super(key: key);
 
   @override
@@ -40,19 +42,20 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Container(
-        margin: new EdgeInsets.only(
-            top: widget.marginTop,
-            bottom: widget.marginBotton,
-            left: widget.marginLeft,
-            right: widget.marginRight),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey,
-            width: 1,
-          ),
-          borderRadius: BorderRadius.circular(10),
+      margin: new EdgeInsets.only(
+          top: widget.marginTop,
+          bottom: widget.marginBotton,
+          left: widget.marginLeft,
+          right: widget.marginRight),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+          width: 1,
         ),
-        child: Row(children: [
+        borderRadius: BorderRadius.circular(widget.radius),
+      ),
+      child: Row(
+        children: [
           Padding(
             padding: EdgeInsets.only(left: 8),
             child: Icon(
@@ -78,18 +81,27 @@ class _CustomTextFieldSearchState extends State<CustomTextFieldSearch> {
                   isDense: true,
                   hintText: widget.hint,
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide:
-                        BorderSide(width: 0, color: Colors.grey.withOpacity(0)),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(widget.radius),
+                    ),
+                    borderSide: BorderSide(
+                      width: 0,
+                      color: Colors.grey.withOpacity(0),
+                    ),
                   ),
                   fillColor: Colors.yellow,
                   border: InputBorder.none),
               onFieldSubmitted: (value) {
                 widget.callbackValueSearch(value);
               },
+              onTap: () {
+                widget.ontap;
+              },
             ),
           )),
-        ]));
+        ],
+      ),
+    );
   }
 
   String getValue() {

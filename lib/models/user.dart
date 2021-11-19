@@ -3,6 +3,7 @@ import 'package:taxi_segurito_app/models/person.dart';
 class User extends Person {
   late String email;
   late String password;
+  late String role;
   late DateTime registerDate;
   late DateTime updateDate;
   late int status;
@@ -18,4 +19,6 @@ class User extends Person {
       : super.insert(fullname, cellphone);
 
   User.login(this.email, this.password);
+  User.logInResponse(int id, this.role, String fullname, String cellphone)
+      : super.logIn(id, fullname, cellphone);
 }
