@@ -147,7 +147,7 @@ class _ListContactState extends State<ListContactPage> {
                   width: (MediaQuery.of(context).size.width / 10) * 5,
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "+591 " + contact.number,
+                    contact.number,
                     style: TextStyle(
                       fontFamily: "Raleway",
                       fontSize: 18,

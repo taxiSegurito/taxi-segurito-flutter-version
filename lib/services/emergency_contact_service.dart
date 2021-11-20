@@ -14,14 +14,18 @@ class EmergencyContactService {
       final queryParams = {
         'idClientUser': userId.toString(),
       };
-      final uri = Uri.https(
+      final uri = Uri.http(
         Server.host,
         '${Server.baseEndpoint}/emergencyContact/emergencyContact_controller.php',
         queryParams,
       );
 
       final response = await http.get(uri);
-      return _contactsToList(response);
+      final success = response.statusCode == 200;
+      if (success) {
+        return _contactsToList(response);
+      }
+      return null;
     } catch (e) {
       return null;
     }
@@ -45,6 +49,7 @@ class EmergencyContactService {
       final success = response.statusCode == 200;
       return success;
     } catch (e) {
+      print(e);
       return false;
     }
   }
