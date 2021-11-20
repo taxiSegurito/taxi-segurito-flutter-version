@@ -50,14 +50,6 @@ class SideMenu extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Text(
-                    "+591 xxxxxxxxx",
-                    style:
-                        TextStyle(color: Colors.white, fontFamily: "Raleway"),
-                  ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
                 ],
               ),
             ),
