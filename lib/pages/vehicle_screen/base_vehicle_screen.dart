@@ -5,6 +5,7 @@ import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorde
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
+import 'package:taxi_segurito_app/pages/vehicle_screen/widgets/DropDownOwner.dart';
 import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 import 'package:taxi_segurito_app/providers/ImagesFileAdapter.dart';
 import 'package:taxi_segurito_app/components/inputs/CustomTextField.dart';
@@ -85,7 +86,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       multiValidator: MultiValidator(
         [
           RequiredValidator(errorText: "Campo vacio"),
-          StringValidator(errorText: "Ingrese la capacidad en formato texto"),
+          // StringValidator(errorText: "Ingrese la capacidad en formato texto"),
         ],
       ),
       assignValue: (value) {
@@ -227,15 +228,18 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
         child: title);
 
     Container containerButtons = new Container(
-        alignment: Alignment.centerLeft,
-        margin: new EdgeInsets.only(
-            top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
-        child: Row(
-          children: [
-            Expanded(flex: 1, child: btnCancel),
-            Expanded(flex: 1, child: btnGeneric)
-          ],
-        ));
+      alignment: Alignment.centerLeft,
+      margin:
+          new EdgeInsets.only(top: 20.0, bottom: 10.0, left: 50.0, right: 50.0),
+      child: Row(
+        children: [
+          Expanded(flex: 1, child: btnCancel),
+          Expanded(flex: 1, child: btnGeneric)
+        ],
+      ),
+    );
+
+    DropDownOwner dropDownOwner = new DropDownOwner(listItem: []);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -268,6 +272,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
                   ],
                 ),
               ),
+              dropDownOwner,
               txtModelCar,
               txtNumberPlate,
               txtCarColor,

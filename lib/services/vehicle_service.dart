@@ -40,9 +40,12 @@ class VehicleService {
 
   Future<bool> update(Vehicle vehicle) async {
     try {
-      var path = Server.url + "vehicle_controller.php";
+      final endpoint = Uri.http(
+        Server.host,
+        '${Server.baseEndpoint}/vehicle/vehicle_controller.php',
+      );
       final response = await http.put(
-        Uri.parse(path),
+        endpoint,
         body: jsonEncode(
           {
             "idVehicle": vehicle.idVehicle,
