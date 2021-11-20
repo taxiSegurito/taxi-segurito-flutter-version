@@ -1,9 +1,7 @@
 import 'dart:async';
-//import 'package:custom_long_tap/custom_long_tap.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/components/sidemenu/side_menu_functionality.dart';
-import 'package:taxi_segurito_app/models/forgetObject.dart';
 import 'package:taxi_segurito_app/pages/forgetObjects/forgetObjectMain.dart';
 
 class SideMenu extends StatelessWidget {
@@ -58,9 +56,11 @@ class SideMenu extends StatelessWidget {
               title: Text("Registrar Objetos Perdidos"),
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MyHomePageForgetObject()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyHomePageForgetObject(),
+                  ),
+                );
               },
             ),
             divider,
@@ -75,9 +75,7 @@ class SideMenu extends StatelessWidget {
             GestureDetector(
               onPanCancel: () => timer.cancel(),
               onPanDown: (_) => {
-                // time duration
                 timer = Timer(Duration(seconds: 5), () async {
-                  // your function here
                   functionality.onPressedbtnCallPanic();
                 })
               },

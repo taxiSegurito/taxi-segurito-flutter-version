@@ -1,11 +1,10 @@
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
+import 'package:taxi_segurito_app/pages/scanner_qr/scanner_qr_page.dart';
 import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/utils/login_facebook_utils.dart';
 import 'package:taxi_segurito_app/utils/login_google_utils.dart';
 import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
-import 'main_window.dart';
 import 'package:flutter/material.dart';
 
 var showToast = Fluttertoast.showToast(
@@ -101,7 +100,7 @@ class MainWindowFunctionality {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.yellow);
-    Navigator.pushNamed(context, 'scannerQr');
+    Navigator.push(context, MaterialPageRoute(builder: (_) => ScannerQrPage()));
   }
 
   //evento click del boton de crear cuenta
