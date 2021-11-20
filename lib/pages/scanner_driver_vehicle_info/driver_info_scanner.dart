@@ -5,6 +5,7 @@ import 'package:taxi_segurito_app/components/sidemenu/side_menu.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/pages/travel_review/driver_travel_calification_page.dart';
+import 'package:taxi_segurito_app/services/auth_service.dart';
 import 'package:taxi_segurito_app/services/driver_vehicle_service.dart';
 import 'package:taxi_segurito_app/services/report_car_service.dart';
 import './widgets/driver_data.dart';
@@ -22,10 +23,12 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
   Color colorMain = Color.fromRGBO(255, 193, 7, 1);
   final _driverVehicleService = DriverVehicleService();
   final _reportCarService = ReportCarService();
+  AuthService _authService = AuthService();
   late Future<Map<String, dynamic>?> futureInfo;
   late Driver driver;
   late Vehicle vehicle;
   late int driverHasVehicleId;
+  late bool isLoggedIn;
 
   @override
   void initState() {
@@ -46,42 +49,18 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
     );
 
     final cancelButton = CustomButton(
-      onTap: () {
-        Navigator.pushReplacementNamed(context, 'scannerQr');
+      onTap: () async {
+        Navigator.of(context).popUntil((route) => route.isFirst);
+        Navigator.pushReplacementNamed(context, 'scannerQr',
+            arguments: await _authService.getCurrentUsername());
       },
       buttonText: 'Escanear nuevo QR',
       buttonColor: Colors.white,
       buttonTextColor: colorMain,
       marginBotton: 0,
       marginLeft: 0,
-      marginRight: 4,
-      marginTop: 0,
-    );
-
-    final btnNewReview = CustomButton(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute<void>(
-                builder: (_) => TravelReviewPage(driver, vehicle)));
-      },
-      buttonText: 'Nueva Reseña',
-      buttonColor: colorMain,
-      buttonTextColor: Colors.white,
-      marginBotton: 0,
-      marginLeft: 4,
       marginRight: 0,
-      marginTop: 0,
-    );
-
-    final buttons = Align(
-      alignment: Alignment.bottomCenter,
-      child: Row(
-        children: [
-          Expanded(flex: 1, child: cancelButton),
-          Expanded(flex: 1, child: btnNewReview)
-        ],
-      ),
+      marginTop: 10,
     );
 
     return Scaffold(
@@ -122,7 +101,28 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
                             padding: EdgeInsets.only(top: 16),
                             child: VehicleData(vehicle),
                           ),
-                          Expanded(child: buttons),
+                          FutureBuilder(
+                            future: _authService.isLoggedIn(),
+                            builder: (_, AsyncSnapshot<bool> snapshot) {
+                              if (snapshot.hasData) {
+                                isLoggedIn = snapshot.data!;
+                                return Expanded(
+                                  child: Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Column(
+                                      children: [
+                                        // Expanded(flex: 1, child: cancelButton),
+                                        // Expanded(flex: 1, child: btnNewReview)
+                                        getNewReviewButton(isLoggedIn),
+                                        cancelButton,
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }
+                              return CircularProgressIndicator();
+                            },
+                          )
                         ],
                       ),
                     );
@@ -156,5 +156,36 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
         ),
       ],
     );
+  }
+
+  Widget getNewReviewButton(bool isloggedin) {
+    return isloggedin
+        ? CustomButton(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                      builder: (_) => TravelReviewPage(driver, vehicle)));
+            },
+            buttonText: 'Nueva Reseña',
+            buttonColor: colorMain,
+            buttonTextColor: Colors.white,
+            marginBotton: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: 10,
+          )
+        : CustomButton(
+            onTap: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+            buttonText: 'Iniciar sesión para agregar reseña',
+            buttonColor: colorMain,
+            buttonTextColor: Colors.white,
+            marginBotton: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: 10,
+          );
   }
 }

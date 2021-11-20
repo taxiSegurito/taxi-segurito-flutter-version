@@ -26,6 +26,16 @@ class AuthService {
     return success;
   }
 
+  Future<bool> isLoggedIn() async {
+    bool id = await _sessionsService.verificationSession('id');
+    bool role = await _sessionsService.verificationSession('role');
+    bool name = await _sessionsService.verificationSession('name');
+    bool cell = await _sessionsService.verificationSession('cellphone');
+
+    final isLoggedId = id && role && name && cell;
+    return isLoggedId;
+  }
+
   Future<int> getCurrentId() async {
     final id = await _sessionsService.getSessionValue("id");
     return int.parse(id);

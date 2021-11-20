@@ -50,7 +50,7 @@ class _ScannerQrPageState extends State<ScannerQrPage> {
     setState(() {
       _camState = false;
     });
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (_) => ScannedQrInfoPage(code),
