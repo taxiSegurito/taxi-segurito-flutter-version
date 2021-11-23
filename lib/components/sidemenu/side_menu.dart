@@ -67,6 +67,13 @@ class SideMenu extends StatelessWidget {
               title: Text('Contactos de Emergencia'),
             ),
             divider,
+            ListTile(
+              onTap: () {
+                Navigator.pushNamed(context, 'listContact');
+              },
+              leading: Icon(Icons.location_on),
+              title: Text('Compartir Ubicacion'),
+            ),
             GestureDetector(
               onPanCancel: () => timer.cancel(),
               onPanDown: (_) => {

@@ -2,20 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:taxi_segurito_app/models/providers/HttpProvider.dart';
-import 'package:taxi_segurito_app/models/sesions/sesion.dart';
 import 'package:taxi_segurito_app/pages/contacList/list_contact.dart';
-import 'package:taxi_segurito_app/pages/mainWindow/MainWindow.dart';
-import 'package:taxi_segurito_app/pages/login/login_page.dart';
-import 'package:taxi_segurito_app/pages/qr_scanner/qr_page.dart';
-import 'package:taxi_segurito_app/pages/register/register_page_phone.dart';
-import 'package:taxi_segurito_app/pages/driverRegistration/DriverRegistration.dart';
-import 'package:taxi_segurito_app/pages/driversList/DriversList.dart';
-import 'package:taxi_segurito_app/pages/registerCompany/RegisterCompany.dart';
-import 'package:taxi_segurito_app/pages/registerOwner/RegisterOwner.dart';
-import 'package:taxi_segurito_app/pages/registerVehicle/RegisterVehicle.dart';
-=======
 import './pages/driver_register/driver_register.dart';
 import './pages/main_window/main_window.dart';
 import './pages/log_in/log_in_page.dart';
@@ -29,40 +16,18 @@ import './pages/owner_register/owner_register.dart';
 import './pages/menu/owner_menu.dart';
 import './pages/company_list/company_list_page.dart';
 import './pages/company_screen/company_register_screen.dart';
-// import './pages/vehicle_screen/vehicle_register_screen.dart';
-// import './pages/vehicle_screen/vehicle_edit_screen.dart';
 import './pages/vehicle_page/vehicle_register_screen.dart';
 import './pages/vehicle_page/vehicle_edit_screen.dart';
 import './pages/vehiclesList/VehiclesListPage.dart';
 import './pages/historyReview/HistoryReview.dart';
 import './models/vehicle.dart';
 import './models/providers/HttpProvider.dart';
->>>>>>> 3cf722851462709d66de75708711f172b1d89f09
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
   SessionsService sessions = SessionsService();
 
-<<<<<<< HEAD
-  bool idsession = await sessions.verificationSession("iduser");
-  bool rolsession = await sessions.verificationSession("rol");
-  Widget app = MaterialApp(
-    debugShowCheckedModeBanner: false,
-  );
-  if (!idsession && !rolsession) {
-    app = AppTaxiSegurito("firstScreen");
-  } else {
-    var rol = await sessions.getSessionValue("rol");
-    if (rol.toString() == "Administrador") {
-      app = AppTaxiSegurito("registerOwner");
-    }
-    if (rol.toString() == "Dueño") {
-      app = AppTaxiSegurito("driverList");
-    }
-    if (rol.toString() == "Cliente") {
-      app = AppTaxiSegurito("ContactList");
-=======
   bool idsession = await sessions.verificationSession('id');
   bool rolsession = await sessions.verificationSession('role');
 
@@ -74,15 +39,14 @@ void main() async {
 
     switch (rol.toString()) {
       case 'admin':
-        app = AppTaxiSegurito('adminMenu', sessionName: name);
+        app = AppTaxiSegurito('listContact', sessionName: name);
         break;
       case 'owner':
-        app = AppTaxiSegurito('ownerMenu', sessionName: name);
+        app = AppTaxiSegurito('listContact', sessionName: name);
         break;
       default:
         app = AppTaxiSegurito('scannerQr', sessionName: name);
         break;
->>>>>>> 3cf722851462709d66de75708711f172b1d89f09
     }
   }
 
@@ -113,21 +77,6 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
       debugShowCheckedModeBanner: false,
       initialRoute: routeInitial,
       routes: {
-<<<<<<< HEAD
-        'loginUser': (BuildContext contexUserLogin) => UserLoginPage(),
-        'firstScreen': (BuildContext contextFirstScreen) => MainWindow(),
-        'registerScreen': (BuildContext contextFirstScreen) => RegisterPage(),
-        'registerCompany': (BuildContext contextRegisterCompany) =>
-            RegisterCompany(),
-        'registerOwner': (BuildContext contextRegisterOwner) => RegisterOwner(),
-        'registerVehicle': (BuildContext contextRegisterVehicle) =>
-            RegisterVehicle(),
-        'driverRegistration': (BuildContext contextRegistration) =>
-            DriverRegistration(),
-        'driverList': (BuildContext contextDriveList) => DriversList(),
-        'QRpage': (BuildContext contextDriveList) => QRPAGE(),
-        'ContactList': (BuildContext contextDriveList) => ContactList()
-=======
         'loginUser': (_) => UserLoginPage(),
         'registerScreen': (_) => RegisterPage(),
         'firstScreen': (_) => MainWindow(),
@@ -143,6 +92,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
+        'listContact': (_) => ContactList(),
         'updateVehicleScreen': (BuildContext contextss) => VehicleEditScreen(
               Vehicle(
                   idVehicle: 1,
@@ -154,7 +104,6 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
                   status: 1,
                   idOwner: 1),
             ),
->>>>>>> 3cf722851462709d66de75708711f172b1d89f09
       },
     );
   }
