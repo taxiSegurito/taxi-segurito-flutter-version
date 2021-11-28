@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/services/owner_service.dart';
 import 'package:taxi_segurito_app/services/vehicle_service.dart';
 
 List<Driver> listDriver = [
@@ -20,6 +22,7 @@ class VehicleScreenFunctionality {
   Driver? driver;
   Vehicle? vehicle = new Vehicle.insert();
   late VehicleService vehicleService;
+  late OwnerService ownerService;
 
   VehicleScreenFunctionality({
     this.context,
@@ -48,6 +51,18 @@ class VehicleScreenFunctionality {
         activeShowDialog!();
       }
     });
+  }
+
+  Future<List<Owner>?> getOwners() async {
+    List<Owner> ownerList = [];
+    ownerList.clear();
+    try {
+      ownerList = await ownerService.select();
+      return ownerList;
+    } catch (exception) {
+      print(exception);
+      return null;
+    }
   }
 
   onPressedbtnUpdateVehicle() {

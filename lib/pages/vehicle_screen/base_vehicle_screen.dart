@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButton.dart';
 import 'package:taxi_segurito_app/components/buttons/CustomButtonWithLinearBorder.dart';
+import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
 import 'package:taxi_segurito_app/components/dialogs/CustomShowDialog.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
@@ -23,6 +24,7 @@ abstract class BaseVehicleScreen extends StatefulWidget {
 
   late Vehicle vehicle = Vehicle.empty();
   late Driver driver;
+  List<Owner> listOwners = [];
 
   @override
   State<BaseVehicleScreen> createState() {
@@ -40,6 +42,23 @@ abstract class BaseVehicleScreen extends StatefulWidget {
 }
 
 class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
+  VehicleScreenFunctionality? functionality;
+  @override
+  void initState() {
+    functionality = widget.functionality();
+    super.initState();
+    functionality = widget.functionality();
+    functionality!.getOwners().then((value) {
+      if (value != null) {
+        setState(
+          () {
+            widget.listOwners = value;
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
@@ -49,10 +68,9 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       Navigator.of(context).pop();
     }
 
-    VehicleScreenFunctionality functionality = widget.functionality();
-    functionality.setContext = context;
+    functionality!.setContext = context;
 
-    SelectDriverCard? cardInformationDriver;
+    // SelectDriverCard? cardInformationDriver;
 
     // ImagesFileAdapter imageCar = new ImagesFileAdapter(
     //   imagePathDefaultUser: "assets/images/carDefault.png",
@@ -129,7 +147,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
     );
 
     callBackSendData(Driver driver) {
-      cardInformationDriver!.updateParamaters(driver);
+      //cardInformationDriver!.updateParamaters(driver);
     }
 
     SearchDialogDriver showDialogSearch = new SearchDialogDriver(
@@ -141,13 +159,13 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       titleShowDialog: "Buscar conductor",
       buttonCancelText: "Cancelar",
       callbackValueSearch: (String value) {
-        functionality.onPressedSearchDriver(value);
+        functionality!.onPressedSearchDriver(value);
       },
     );
 
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
-        functionality.onPressedbtnCancelRegisterCar();
+        functionality!.onPressedbtnCancelRegisterCar();
       },
       buttonText: "Cancelar",
       buttonColor: Colors.white,
@@ -161,7 +179,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
 
     CustomDialogShow dialogShowRegister = new CustomDialogShow(
         ontap: () {
-          functionality.closeNavigator();
+          functionality!.closeNavigator();
         },
         buttonText: "Aceptar",
         buttonColor: colorMain,
@@ -173,7 +191,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       dialogShowRegister.show();
     }
 
-    cardInformationDriver = new SelectDriverCard(
+    /* cardInformationDriver = new SelectDriverCard(
       headerText: widget.titleCardDriverScreen(),
       ontap: () {
         showDialogSearch.showAlertDialog();
@@ -182,19 +200,19 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       ontapCloseDialog: () {
         showDialogSearch.closeDialog();
       },
-    );
+    );*/
 
     bool isRegisterDataVehicle() {
-      bool isValidCardData =
-          widget.isRegister() ? cardInformationDriver!.getIsValid() : true;
+      /* bool isValidCardData =
+          widget.isRegister() ? cardInformationDriver!.getIsValid() : true;*/
       bool isValidImageCar = vahicleImage.validate();
 
       if (_formKey.currentState!.validate() &&
-          isValidCardData &&
+          //isValidCardData &&
           isValidImageCar) {
-        functionality.vehicle = widget.vehicle;
-        functionality.driver = cardInformationDriver!.getDriver();
-        functionality.activeShowDialog = activeShowDialog;
+        functionality!.vehicle = widget.vehicle;
+        //functionality.driver = cardInformationDriver!.getDriver();
+        functionality!.activeShowDialog = activeShowDialog;
 
         return true;
       }
@@ -239,7 +257,8 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       ),
     );
 
-    DropDownOwner dropDownOwner = new DropDownOwner(listItem: []);
+    DropDownOwner dropDownOwner =
+        new DropDownOwner(listItem: widget.listOwners);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -261,7 +280,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
                   left: 50.0,
                   right: 50.0,
                 ),
-                child: widget.isRegister() ? cardInformationDriver : SizedBox(),
+                //child: widget.isRegister() ? cardInformationDriver : SizedBox(),
               ),
               Container(
                 margin: new EdgeInsets.only(
