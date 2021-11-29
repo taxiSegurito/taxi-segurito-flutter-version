@@ -16,8 +16,15 @@ class _ContactListState extends State<ContactList> {
   LocationFunctionality locationFunctionality = LocationFunctionality();
   late Future<List<EmergencyContact>> emergycontact;
   late List<EmergencyContact> contacts;
-  late Position currentPosition;
-  FToast fToast = FToast();
+  late Position currentPosition = Position(
+      latitude: 0,
+      longitude: 0,
+      accuracy: 0,
+      altitude: 0,
+      speed: 0,
+      heading: 0,
+      timestamp: DateTime.now(),
+      speedAccuracy: 0);
 
   _getCurrentLocation() {
     Geolocator.getCurrentPosition(
