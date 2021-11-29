@@ -39,10 +39,10 @@ void main() async {
 
     switch (rol.toString()) {
       case 'admin':
-        app = AppTaxiSegurito('listContact', sessionName: name);
+        app = AppTaxiSegurito('adminMenu', sessionName: name);
         break;
       case 'owner':
-        app = AppTaxiSegurito('listContact', sessionName: name);
+        app = AppTaxiSegurito('ownerMenu', sessionName: name);
         break;
       default:
         app = AppTaxiSegurito('scannerQr', sessionName: name);
