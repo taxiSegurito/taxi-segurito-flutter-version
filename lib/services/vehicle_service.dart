@@ -53,16 +53,20 @@ class VehicleService {
             "model": vehicle.model,
             "pleik": vehicle.pleik,
             "capacity": vehicle.capacity,
-            "photo": vehicle.picture,
+            "photo": vehicle.pictureStr,
             "status": vehicle.status,
             "owner_idowner": vehicle.idOwner
           },
         ),
       );
-
+      print(vehicle.idVehicle);
+      print(vehicle.idOwner);
+      print(response.statusCode);
+      print(jsonDecode(response.body));
       bool success = response.statusCode == 200;
       return success;
     } catch (exception) {
+      print(exception);
       return false;
     }
   }
@@ -75,7 +79,7 @@ class VehicleService {
 
   Future<bool> insertVehicle(Vehicle vehicle) async {
     try {
-      var path = '${Server.url}/Vehicle/vehicle_controller.php';
+      var path = '${Server.url}/vehicle/vehicle_controller.php';
       final response = await http.post(
         Uri.parse(path),
         body: jsonEncode({
@@ -83,12 +87,13 @@ class VehicleService {
           "model": vehicle.model,
           "pleik": vehicle.pleik,
           "capacity": vehicle.capacity,
-          "photo": vehicle.pictureStr,
-          //"ownerId": vehicle.idOwner.toString(),
+          "picture": vehicle.pictureStr,
+          "ownerId": vehicle.idOwner.toString(),
         }),
       );
       return response.statusCode == 200;
     } catch (exception) {
+      print(exception.toString());
       return false;
     }
   }

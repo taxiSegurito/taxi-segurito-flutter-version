@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
+import 'package:taxi_segurito_app/pages/vehicle_info/vehicle_info_page.dart';
 import 'package:taxi_segurito_app/providers/ImageFromBase64Provider.dart';
 
 class VehicleData extends StatelessWidget {
@@ -41,26 +42,30 @@ class VehicleData extends StatelessWidget {
           shape: BoxShape.rectangle),
     );
 
-    return Container(
-      width: width,
-      margin: EdgeInsets.only(left: 35, right: 35),
-      padding: EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-        ),
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(flex: 0, child: vehicleImage),
-              Expanded(flex: 1, child: vehicleData),
-            ],
+    return InkWell(
+      child: Container(
+        width: width,
+        margin: EdgeInsets.only(left: 35, right: 35),
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
           ),
-        ],
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(flex: 0, child: vehicleImage),
+                Expanded(flex: 1, child: vehicleData),
+              ],
+            ),
+          ],
+        ),
       ),
+      onTap: () => Navigator.push(context,
+          MaterialPageRoute(builder: (context) => VehicleInfoPage(vehicle))),
     );
   }
 }

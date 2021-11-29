@@ -96,7 +96,7 @@ class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
     );
 
     CustomTextField txtLastNameSecond = new CustomTextField(
-      value: widget.owner.fullName.split(' ')[2],
+      value: 'widget.owner.fullName.split(' ')[2]',
       hint: 'Apellido Maternos',
       multiValidator: MultiValidator([
         RequiredValidator(errorText: "Campo vacio"),
@@ -243,30 +243,32 @@ class _ScreenOwnerBaseState extends State<ScreenOwnerBase> {
           ],
         ));
     return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
-        appBar: appBar,
-        drawer: SideMenu(),
-        body: SingleChildScrollView(
-          child: Form(
-              key: _formKey,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    containerTitle,
-                    ddbNameCompany,
-                    txtNameOwner,
-                    txtLastName,
-                    txtLastNameSecond,
-                    txtPhone,
-                    txtEmail,
-                    widget.passwordFieldVisible ? txtPassword : Container(),
-                    txtDni,
-                    txtAddress,
-                    containerButtons
-                  ],
-                ),
-              )),
-        ));
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      appBar: appBar,
+      drawer: SideMenu(),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _formKey,
+          child: Expanded(
+            child: Column(
+              children: [
+                containerTitle,
+                ddbNameCompany,
+                txtNameOwner,
+                txtLastName,
+                txtLastNameSecond,
+                txtPhone,
+                txtEmail,
+                widget.passwordFieldVisible ? txtPassword : Container(),
+                txtDni,
+                txtAddress,
+                containerButtons
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

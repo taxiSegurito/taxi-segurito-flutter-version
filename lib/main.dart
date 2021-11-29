@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/pages/contacList/list_contact.dart';
 import 'package:taxi_segurito_app/pages/vehicle_screen/vehicle_edit_screen.dart';
 import 'package:taxi_segurito_app/pages/vehicle_screen/vehicle_register_screen.dart';
 import './pages/driver_register/driver_register.dart';
@@ -17,7 +18,6 @@ import './pages/owner_register/owner_register.dart';
 import './pages/menu/owner_menu.dart';
 import './pages/company_list/company_list_page.dart';
 import './pages/company_screen/company_register_screen.dart';
-
 import './pages/vehiclesList/VehiclesListPage.dart';
 import './pages/historyReview/HistoryReview.dart';
 import './models/vehicle.dart';
@@ -27,16 +27,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
   SessionsService sessions = SessionsService();
-
   bool idsession = await sessions.verificationSession('id');
   bool rolsession = await sessions.verificationSession('role');
-
-  Widget app = AppTaxiSegurito('adminMenu');
-
+  Widget app = AppTaxiSegurito('firstScreen');
   if (idsession && rolsession) {
     final rol = await sessions.getSessionValue('role');
     final name = await sessions.getSessionValue('name');
-
     switch (rol.toString()) {
       case 'admin':
         app = AppTaxiSegurito('adminMenu', sessionName: name);
@@ -49,7 +45,6 @@ void main() async {
         break;
     }
   }
-
   runApp(app);
 }
 
@@ -66,7 +61,6 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   String routeInitial;
   String? sessionName;
   _AppTaxiSeguritoState(this.routeInitial, {this.sessionName});
-
   @override
   Widget build(BuildContext context) {
     Uint8List image = base64Decode(
@@ -92,6 +86,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
+        'listContact': (_) => ContactList(),
         'updateVehicleScreen': (BuildContext contextss) => VehicleEditScreen(
               Vehicle(
                 idVehicle: 1,

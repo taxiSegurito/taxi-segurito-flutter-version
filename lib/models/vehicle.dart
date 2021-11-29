@@ -11,7 +11,7 @@ class Vehicle {
   late int capacity;
   late Uint8List picture;
   late String pictureStr;
-  late int idOwner;
+  late int? idOwner;
   late int? status;
 
   Vehicle.empty() {
@@ -19,6 +19,7 @@ class Vehicle {
     this.model = '';
     this.pleik = '';
     this.capacity = 0;
+    idOwner = null;
   }
 
   //atributos con required son para insert

@@ -8,6 +8,7 @@ class VehicleListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 2,
@@ -19,13 +20,22 @@ class VehicleListItem extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Image(
+                height: 70,
+                width: width,
+                fit: BoxFit.cover,
                 image: Image.memory(vehicle.picture).image,
               ),
               Container(
                 padding: EdgeInsets.only(top: 6),
                 child: ListTile(
-                  title: Text(vehicle.pleik),
-                  subtitle: Text(vehicle.model),
+                  title: Text(
+                    vehicle.pleik,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  subtitle: Text(
+                    vehicle.model,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
             ],

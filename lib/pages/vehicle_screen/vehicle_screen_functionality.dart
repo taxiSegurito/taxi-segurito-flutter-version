@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_segurito_app/models/driver.dart';
-import 'package:taxi_segurito_app/models/owner.dart';
 import 'package:taxi_segurito_app/models/vehicle.dart';
-import 'package:taxi_segurito_app/services/owner_service.dart';
 import 'package:taxi_segurito_app/services/vehicle_service.dart';
 
 List<Driver> listDriver = [
@@ -19,24 +17,18 @@ List<Driver> listDriver = [
 class VehicleScreenFunctionality {
   BuildContext? context;
   VoidCallback? activeShowDialog;
-  Driver? driver;
   Vehicle? vehicle = new Vehicle.insert();
-  late VehicleService vehicleService;
-  late OwnerService ownerService;
-
+  VehicleService vehicleService = VehicleService();
   VehicleScreenFunctionality({
     this.context,
     this.vehicle,
-    this.driver,
     this.activeShowDialog,
   });
-
   final Map<String, dynamic> someMap = {
     "context": BuildContext,
     "vehicle": Vehicle,
     "model": String,
   };
-
   set setContext(context) {
     this.context = context;
   }
@@ -46,6 +38,7 @@ class VehicleScreenFunctionality {
   }
 
   onPressedbtnRegisterCar() async {
+    print('working(?');
     vehicleService.insertVehicle(vehicle!).then((value) {
       if (value) {
         activeShowDialog!();
@@ -53,20 +46,7 @@ class VehicleScreenFunctionality {
     });
   }
 
-  Future<List<Owner>?> getOwners() async {
-    List<Owner> ownerList = [];
-    ownerList.clear();
-    try {
-      ownerList = await ownerService.select();
-      return ownerList;
-    } catch (exception) {
-      print(exception);
-      return null;
-    }
-  }
-
   onPressedbtnUpdateVehicle() {
-    vehicleService = new VehicleService();
     Vehicle vehicleModel = vehicle!;
     print("object");
     vehicleService.update(vehicleModel).then((value) {
@@ -76,24 +56,16 @@ class VehicleScreenFunctionality {
         print(value);
       }
     });
-    // update(vehicleModel).then(
-    //   (value) {
-    //     if (value) {
-    //       activeShowDialog!();m
-    //     }
-    //   },
-    // );
+// update(vehicleModel).then(
+// (value) {
+// if (value) {
+// activeShowDialog!();m
+// }
+// },
+// );
   }
 
   onPressedbtnCancelRegisterCar() {
     closeNavigator();
-  }
-
-  onPressedSearchDriver(String value) {
-    //TODO: implementar el buscador con la base de datos y el resultado añadirlo a la lista que esta acontinuacion.
-
-    listDriver = [
-      Driver("Juan", "1232348", "12234234678"),
-    ];
   }
 }

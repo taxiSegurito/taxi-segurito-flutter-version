@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_segurito_app/models/company.dart';
 import 'package:taxi_segurito_app/models/owner.dart';
+import 'package:taxi_segurito_app/services/owner_service.dart';
 
 class DropDownOwner extends StatefulWidget {
   _DropDownOwnerState _customDropdownButtonState = new _DropDownOwnerState();
@@ -11,6 +11,7 @@ class DropDownOwner extends StatefulWidget {
   double marginBotton;
   double marginTop;
   double heightNum;
+  int? ownerId;
   List<Owner> listItem;
 
   DropDownOwner({
@@ -22,7 +23,7 @@ class DropDownOwner extends StatefulWidget {
     this.marginTop = 5,
     this.marginBotton = 5,
     this.heightNum = 35,
-    this.value,
+    this.ownerId,
   }) : super(key: key);
 
   @override
@@ -31,7 +32,7 @@ class DropDownOwner extends StatefulWidget {
   }
 
   Owner? getValue() {
-    return value;
+    return _customDropdownButtonState.dropdown.value;
   }
 
   bool getIsValid() {
@@ -42,6 +43,9 @@ class DropDownOwner extends StatefulWidget {
 class _DropDownOwnerState extends State<DropDownOwner> {
   String? dropdownError;
   Color colorBorder = Colors.grey;
+  OwnerService _ownerService = OwnerService();
+  late Future<List<Owner>> ownersFuture;
+  late DropdownButton<Owner> dropdown;
   bool validateDrown() {
     bool isValid = true;
 
@@ -61,15 +65,23 @@ class _DropDownOwnerState extends State<DropDownOwner> {
   @override
   void initState() {
     super.initState();
-    if (!(widget.listItem.isEmpty) && widget.value != null) {
-      widget.value = widget.listItem.firstWhere(
-          (element) => (element.idCompany == widget.value!.idCompany));
+    ownersFuture = _ownerService.select();
+  }
+
+  Owner? getValue(List<Owner> owners) {
+    if (widget.value != null) {
+      return widget.value;
+    }
+    if (widget.ownerId != null) {
+      return owners.firstWhere(
+          (element) => int.parse(element.idOwner!) == widget.ownerId);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+
     return Container(
       child: Column(
         children: [
@@ -86,27 +98,37 @@ class _DropDownOwnerState extends State<DropDownOwner> {
               border: Border.all(color: colorBorder, width: 1),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: DropdownButton<Owner>(
-              hint: Text(widget.hint),
-              value: widget.value,
-              isExpanded: true,
-              underline: SizedBox(),
-              style: TextStyle(fontSize: 13, color: Colors.black),
-              onChanged: (Owner? newValue) {
-                setState(
-                  () {
-                    widget.value = newValue;
-                  },
-                );
-              },
-              items: widget.listItem.map(
-                (Owner? valueItem) {
-                  return DropdownMenuItem<Owner>(
-                    value: valueItem,
-                    child: Text(valueItem!.fullName),
+            child: FutureBuilder(
+              future: ownersFuture,
+              builder: (_, AsyncSnapshot<List<Owner>> snapshot) {
+                if (snapshot.hasData) {
+                  final owners = snapshot.data!;
+                  dropdown = DropdownButton<Owner>(
+                    hint: Text(widget.hint),
+                    value: getValue(owners) ?? owners.first,
+                    isExpanded: true,
+                    underline: SizedBox(),
+                    style: TextStyle(fontSize: 13, color: Colors.black),
+                    onChanged: (Owner? newValue) {
+                      setState(
+                        () {
+                          widget.value = newValue;
+                        },
+                      );
+                    },
+                    items: owners.map(
+                      (Owner? valueItem) {
+                        return DropdownMenuItem<Owner>(
+                          value: valueItem,
+                          child: Text(valueItem!.fullName),
+                        );
+                      },
+                    ).toList(),
                   );
-                },
-              ).toList(),
+                  return dropdown;
+                }
+                return Center(child: Text('Cargando...'));
+              },
             ),
           ),
           Container(
@@ -123,7 +145,10 @@ class _DropDownOwnerState extends State<DropDownOwner> {
                     child: Text(
                       dropdownError ?? "",
                       textAlign: TextAlign.left,
-                      style: TextStyle(color: Colors.red, fontSize: 12),
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
           ),
