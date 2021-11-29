@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:taxi_segurito_app/pages/contacList/list_contact.dart';
 import 'package:taxi_segurito_app/pages/vehicle_screen/vehicle_edit_screen.dart';
 import 'package:taxi_segurito_app/pages/vehicle_screen/vehicle_register_screen.dart';
 import './pages/driver_register/driver_register.dart';
@@ -17,7 +18,6 @@ import './pages/owner_register/owner_register.dart';
 import './pages/menu/owner_menu.dart';
 import './pages/company_list/company_list_page.dart';
 import './pages/company_screen/company_register_screen.dart';
-
 import './pages/vehiclesList/VehiclesListPage.dart';
 import './pages/historyReview/HistoryReview.dart';
 import './models/vehicle.dart';
@@ -39,10 +39,10 @@ void main() async {
 
     switch (rol.toString()) {
       case 'admin':
-        app = AppTaxiSegurito('adminMenu', sessionName: name);
+        app = AppTaxiSegurito('listContact', sessionName: name);
         break;
       case 'owner':
-        app = AppTaxiSegurito('ownerMenu', sessionName: name);
+        app = AppTaxiSegurito('listContact', sessionName: name);
         break;
       default:
         app = AppTaxiSegurito('scannerQr', sessionName: name);
@@ -92,6 +92,7 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
         'registerDriver': (_) => DriverRegister(),
         'registerOwner': (_) => RegisterOwner(),
         'registerVehicle': (_) => VehicleRegisterScreen(),
+        'listContact': (_) => ContactList(),
         'updateVehicleScreen': (BuildContext contextss) => VehicleEditScreen(
               Vehicle(
                 idVehicle: 1,
