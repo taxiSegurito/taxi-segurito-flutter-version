@@ -72,7 +72,17 @@ class _ContactListState extends State<ContactList> {
                       _getCurrentLocation();
                       print(currentPosition.latitude);
                       print(currentPosition.longitude);
-                      this._shareLocation(context, contacts[index]);
+                      if (currentPosition.latitude == 0.0 ||
+                          currentPosition.longitude == 0.0) {
+                        GlobalToast.displayToast(
+                            Text("Vuelva a seleccionar el contacto"),
+                            Colors.redAccent,
+                            Icon(Icons.sms_failed),
+                            2);
+                        Navigator.pop(context);
+                      } else {
+                        this._shareLocation(context, contacts[index]);
+                      }
                     },
                     title: Text(contacts[index].nameContact),
                     subtitle: Text(contacts[index].number),
