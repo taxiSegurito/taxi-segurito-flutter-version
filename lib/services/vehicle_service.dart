@@ -53,16 +53,20 @@ class VehicleService {
             "model": vehicle.model,
             "pleik": vehicle.pleik,
             "capacity": vehicle.capacity,
-            "photo": vehicle.picture,
+            "photo": vehicle.pictureStr,
             "status": vehicle.status,
             "owner_idowner": vehicle.idOwner
           },
         ),
       );
-
+      print(vehicle.idVehicle);
+      print(vehicle.idOwner);
+      print(response.statusCode);
+      print(jsonDecode(response.body));
       bool success = response.statusCode == 200;
       return success;
     } catch (exception) {
+      print(exception);
       return false;
     }
   }
@@ -87,14 +91,6 @@ class VehicleService {
           "ownerId": vehicle.idOwner.toString(),
         }),
       );
-      print(vehicle.color);
-      print(vehicle.model);
-      print(vehicle.pleik);
-      print(vehicle.capacity);
-      print(vehicle.pictureStr);
-      print(vehicle.idOwner);
-      print(response.statusCode);
-      print(jsonDecode(response.body));
       return response.statusCode == 200;
     } catch (exception) {
       print(exception.toString());

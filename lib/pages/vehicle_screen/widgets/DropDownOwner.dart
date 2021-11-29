@@ -32,7 +32,7 @@ class DropDownOwner extends StatefulWidget {
   }
 
   Owner? getValue() {
-    return value;
+    return _customDropdownButtonState.dropdown.value;
   }
 
   bool getIsValid() {
@@ -45,7 +45,7 @@ class _DropDownOwnerState extends State<DropDownOwner> {
   Color colorBorder = Colors.grey;
   OwnerService _ownerService = OwnerService();
   late Future<List<Owner>> ownersFuture;
-  Owner? selectedOwner;
+  late DropdownButton<Owner> dropdown;
   bool validateDrown() {
     bool isValid = true;
 
@@ -103,7 +103,7 @@ class _DropDownOwnerState extends State<DropDownOwner> {
               builder: (_, AsyncSnapshot<List<Owner>> snapshot) {
                 if (snapshot.hasData) {
                   final owners = snapshot.data!;
-                  return DropdownButton<Owner>(
+                  dropdown = DropdownButton<Owner>(
                     hint: Text(widget.hint),
                     value: getValue(owners) ?? owners.first,
                     isExpanded: true,
@@ -125,6 +125,7 @@ class _DropDownOwnerState extends State<DropDownOwner> {
                       },
                     ).toList(),
                   );
+                  return dropdown;
                 }
                 return Center(child: Text('Cargando...'));
               },
