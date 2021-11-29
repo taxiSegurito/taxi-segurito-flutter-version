@@ -29,6 +29,9 @@ class _ContactListState extends State<ContactList> {
       });
     }).catchError((e) {
       print(e);
+      GlobalToast.displayToast(Text("Revisa que este activa tu ubicacion"),
+          Colors.redAccent, Icon(Icons.sms_failed), 2);
+      Navigator.pop(context);
     });
   }
 
