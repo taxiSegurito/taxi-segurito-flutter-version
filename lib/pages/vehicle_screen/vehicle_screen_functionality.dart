@@ -19,19 +19,16 @@ class VehicleScreenFunctionality {
   VoidCallback? activeShowDialog;
   Vehicle? vehicle = new Vehicle.insert();
   VehicleService vehicleService = VehicleService();
-
   VehicleScreenFunctionality({
     this.context,
     this.vehicle,
     this.activeShowDialog,
   });
-
   final Map<String, dynamic> someMap = {
     "context": BuildContext,
     "vehicle": Vehicle,
     "model": String,
   };
-
   set setContext(context) {
     this.context = context;
   }
@@ -59,13 +56,13 @@ class VehicleScreenFunctionality {
         print(value);
       }
     });
-    // update(vehicleModel).then(
-    //   (value) {
-    //     if (value) {
-    //       activeShowDialog!();m
-    //     }
-    //   },
-    // );
+// update(vehicleModel).then(
+// (value) {
+// if (value) {
+// activeShowDialog!();m
+// }
+// },
+// );
   }
 
   onPressedbtnCancelRegisterCar() {

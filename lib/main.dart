@@ -27,16 +27,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = new HttpProvider();
   SessionsService sessions = SessionsService();
-
   bool idsession = await sessions.verificationSession('id');
   bool rolsession = await sessions.verificationSession('role');
-
   Widget app = AppTaxiSegurito('firstScreen');
-
   if (idsession && rolsession) {
     final rol = await sessions.getSessionValue('role');
     final name = await sessions.getSessionValue('name');
-
     switch (rol.toString()) {
       case 'admin':
         app = AppTaxiSegurito('adminMenu', sessionName: name);
@@ -49,7 +45,6 @@ void main() async {
         break;
     }
   }
-
   runApp(app);
 }
 
@@ -66,7 +61,6 @@ class _AppTaxiSeguritoState extends State<AppTaxiSegurito> {
   String routeInitial;
   String? sessionName;
   _AppTaxiSeguritoState(this.routeInitial, {this.sessionName});
-
   @override
   Widget build(BuildContext context) {
     Uint8List image = base64Decode(
