@@ -22,7 +22,7 @@ abstract class BaseVehicleScreen extends StatefulWidget {
       new _BaseVehicleScreenState();
 
   late Vehicle vehicle = Vehicle.empty();
-  late Driver driver;
+  // late Driver driver;
 
   @override
   State<BaseVehicleScreen> createState() {
@@ -51,8 +51,6 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
 
     VehicleScreenFunctionality functionality = widget.functionality();
     functionality.setContext = context;
-
-    SelectDriverCard? cardInformationDriver;
 
     // ImagesFileAdapter imageCar = new ImagesFileAdapter(
     //   imagePathDefaultUser: "assets/images/carDefault.png",
@@ -90,7 +88,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
         ],
       ),
       assignValue: (value) {
-        widget.vehicle.capacity = int.parse(value);
+        if (value.length > 0) widget.vehicle.capacity = int.parse(value);
       },
     );
 
@@ -128,23 +126,6 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       textAlign: TextAlign.center,
     );
 
-    callBackSendData(Driver driver) {
-      cardInformationDriver!.updateParamaters(driver);
-    }
-
-    SearchDialogDriver showDialogSearch = new SearchDialogDriver(
-      context: context,
-      ontapButtonCancel: () {
-        closeNavigator(context);
-      },
-      callback: callBackSendData,
-      titleShowDialog: "Buscar conductor",
-      buttonCancelText: "Cancelar",
-      callbackValueSearch: (String value) {
-        functionality.onPressedSearchDriver(value);
-      },
-    );
-
     CustomButtonWithLinearBorder btnCancel = new CustomButtonWithLinearBorder(
       onTap: () {
         functionality.onPressedbtnCancelRegisterCar();
@@ -173,27 +154,29 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       dialogShowRegister.show();
     }
 
-    cardInformationDriver = new SelectDriverCard(
-      headerText: widget.titleCardDriverScreen(),
-      ontap: () {
-        showDialogSearch.showAlertDialog();
-      },
-      driver: widget.driver,
-      ontapCloseDialog: () {
-        showDialogSearch.closeDialog();
-      },
+    AppBar appBar = new AppBar(
+      backgroundColor: colorMain,
+      elevation: 0,
+    );
+
+    Container containerTitle = new Container(
+        alignment: Alignment.center,
+        margin: new EdgeInsets.only(
+            top: 20.0, bottom: 10.0, left: 35.0, right: 35.0),
+        child: title);
+
+    DropDownOwner dropDownOwner = new DropDownOwner(
+      listItem: [],
+      ownerId: widget.vehicle.idOwner ?? null,
     );
 
     bool isRegisterDataVehicle() {
-      bool isValidCardData =
-          widget.isRegister() ? cardInformationDriver!.getIsValid() : true;
       bool isValidImageCar = vahicleImage.validate();
 
-      if (_formKey.currentState!.validate() &&
-          isValidCardData &&
-          isValidImageCar) {
+      if (_formKey.currentState!.validate() && isValidImageCar) {
+        widget.vehicle.pictureStr = vahicleImage.getImageBase64();
+        widget.vehicle.idOwner = int.parse(dropDownOwner.getValue()!.idOwner!);
         functionality.vehicle = widget.vehicle;
-        functionality.driver = cardInformationDriver!.getDriver();
         functionality.activeShowDialog = activeShowDialog;
 
         return true;
@@ -216,17 +199,6 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
       marginTop: 0,
     );
 
-    AppBar appBar = new AppBar(
-      backgroundColor: colorMain,
-      elevation: 0,
-    );
-
-    Container containerTitle = new Container(
-        alignment: Alignment.center,
-        margin: new EdgeInsets.only(
-            top: 20.0, bottom: 10.0, left: 35.0, right: 35.0),
-        child: title);
-
     Container containerButtons = new Container(
       alignment: Alignment.centerLeft,
       margin:
@@ -238,8 +210,6 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
         ],
       ),
     );
-
-    DropDownOwner dropDownOwner = new DropDownOwner(listItem: []);
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -261,7 +231,7 @@ class _BaseVehicleScreenState extends State<BaseVehicleScreen> {
                   left: 50.0,
                   right: 50.0,
                 ),
-                child: widget.isRegister() ? cardInformationDriver : SizedBox(),
+                child: SizedBox(),
               ),
               Container(
                 margin: new EdgeInsets.only(

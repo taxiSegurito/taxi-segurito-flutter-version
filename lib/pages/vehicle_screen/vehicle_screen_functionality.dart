@@ -17,14 +17,12 @@ List<Driver> listDriver = [
 class VehicleScreenFunctionality {
   BuildContext? context;
   VoidCallback? activeShowDialog;
-  Driver? driver;
   Vehicle? vehicle = new Vehicle.insert();
-  late VehicleService vehicleService;
+  VehicleService vehicleService = VehicleService();
 
   VehicleScreenFunctionality({
     this.context,
     this.vehicle,
-    this.driver,
     this.activeShowDialog,
   });
 
@@ -43,6 +41,7 @@ class VehicleScreenFunctionality {
   }
 
   onPressedbtnRegisterCar() async {
+    print('working(?');
     vehicleService.insertVehicle(vehicle!).then((value) {
       if (value) {
         activeShowDialog!();
@@ -51,7 +50,6 @@ class VehicleScreenFunctionality {
   }
 
   onPressedbtnUpdateVehicle() {
-    vehicleService = new VehicleService();
     Vehicle vehicleModel = vehicle!;
     print("object");
     vehicleService.update(vehicleModel).then((value) {
@@ -72,13 +70,5 @@ class VehicleScreenFunctionality {
 
   onPressedbtnCancelRegisterCar() {
     closeNavigator();
-  }
-
-  onPressedSearchDriver(String value) {
-    //TODO: implementar el buscador con la base de datos y el resultado añadirlo a la lista que esta acontinuacion.
-
-    listDriver = [
-      Driver("Juan", "1232348", "12234234678"),
-    ];
   }
 }
