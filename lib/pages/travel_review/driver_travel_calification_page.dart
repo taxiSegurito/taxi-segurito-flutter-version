@@ -29,15 +29,43 @@ class _TravelReviewPageState extends State<TravelReviewPage> {
     widget.reportCar.idClientuser = await _authService.getCurrentId();
   }
 
+  Future<void> _showDialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Mensaje'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Aceptar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   insertDataBase() async {
     _getUserId();
     widget.reportCar.comment = txtComent.text;
     _reportCarService.insertReportCar(widget.reportCar).then(
-      (value) {
+      (value) async {
         if (value) {
-          Navigator.pushNamed(context, 'adminMenu');
+          await _showDialog("Muchas gracias por agregar tu reseña!");
         } else {
-          print("no se inserto");
+          await _showDialog(
+              "Ups! no se registró tu reseña, inténtalo otra vez.");
         }
       },
     );
