@@ -16,8 +16,15 @@ class _ContactListState extends State<ContactList> {
   LocationFunctionality locationFunctionality = LocationFunctionality();
   late Future<List<EmergencyContact>> emergycontact;
   late List<EmergencyContact> contacts;
-  late Position currentPosition;
-  FToast fToast = FToast();
+  late Position currentPosition = Position(
+      latitude: 0,
+      longitude: 0,
+      accuracy: 0,
+      altitude: 0,
+      speed: 0,
+      heading: 0,
+      timestamp: DateTime.now(),
+      speedAccuracy: 0);
 
   _getCurrentLocation() {
     Geolocator.getCurrentPosition(
@@ -29,6 +36,9 @@ class _ContactListState extends State<ContactList> {
       });
     }).catchError((e) {
       print(e);
+      GlobalToast.displayToast(Text("Revisa que este activa tu ubicacion"),
+          Colors.redAccent, Icon(Icons.sms_failed), 2);
+      Navigator.pop(context);
     });
   }
 
@@ -62,7 +72,17 @@ class _ContactListState extends State<ContactList> {
                       _getCurrentLocation();
                       print(currentPosition.latitude);
                       print(currentPosition.longitude);
-                      this._shareLocation(context, contacts[index]);
+                      if (currentPosition.latitude == 0.0 ||
+                          currentPosition.longitude == 0.0) {
+                        GlobalToast.displayToast(
+                            Text("Vuelva a seleccionar el contacto"),
+                            Colors.redAccent,
+                            Icon(Icons.sms_failed),
+                            2);
+                        Navigator.pop(context);
+                      } else {
+                        this._shareLocation(context, contacts[index]);
+                      }
                     },
                     title: Text(contacts[index].nameContact),
                     subtitle: Text(contacts[index].number),
