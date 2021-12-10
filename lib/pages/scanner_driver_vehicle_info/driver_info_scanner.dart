@@ -65,7 +65,6 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
 
     return Scaffold(
       appBar: appBar,
-      drawer: SideMenu(),
       backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (_, constraints) {

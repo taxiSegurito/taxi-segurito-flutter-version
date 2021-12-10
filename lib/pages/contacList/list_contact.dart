@@ -37,7 +37,7 @@ class _ContactListState extends State<ContactList> {
     }).catchError((e) {
       print(e);
       GlobalToast.displayToast(Text("Revisa que este activa tu ubicacion"),
-          Colors.redAccent, Icon(Icons.sms_failed), 2);
+          Colors.redAccent, Icon(Icons.sms_failed), 1);
       Navigator.pop(context);
     });
   }
@@ -78,8 +78,7 @@ class _ContactListState extends State<ContactList> {
                             Text("Vuelva a seleccionar el contacto"),
                             Colors.redAccent,
                             Icon(Icons.sms_failed),
-                            2);
-                        Navigator.pop(context);
+                            1);
                       } else {
                         this._shareLocation(context, contacts[index]);
                       }
