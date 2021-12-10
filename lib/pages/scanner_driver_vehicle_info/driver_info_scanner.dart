@@ -46,6 +46,18 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
         textAlign: TextAlign.center,
       ),
       foregroundColor: Colors.white,
+      leading: Builder(
+        builder: (BuildContext context) {
+          return IconButton(
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, "scannerQr"),
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+          );
+        },
+      ),
     );
 
     final cancelButton = CustomButton(
