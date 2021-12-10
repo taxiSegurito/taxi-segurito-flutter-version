@@ -13,7 +13,8 @@ import './widgets/vehicle_data.dart';
 
 class ScannedQrInfoPage extends StatefulWidget {
   String pleik;
-  ScannedQrInfoPage(this.pleik);
+  String? name;
+  ScannedQrInfoPage(this.pleik, this.name);
 
   @override
   _ScannedQrInfoPageState createState() => _ScannedQrInfoPageState();
@@ -46,18 +47,6 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
         textAlign: TextAlign.center,
       ),
       foregroundColor: Colors.white,
-      leading: Builder(
-        builder: (BuildContext context) {
-          return IconButton(
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, "scannerQr"),
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-          );
-        },
-      ),
     );
 
     final cancelButton = CustomButton(
@@ -77,6 +66,7 @@ class _ScannedQrInfoPageState extends State<ScannedQrInfoPage> {
 
     return Scaffold(
       appBar: appBar,
+      drawer: widget.name == null ? null : SideMenu(),
       backgroundColor: Colors.white,
       body: LayoutBuilder(
         builder: (_, constraints) {

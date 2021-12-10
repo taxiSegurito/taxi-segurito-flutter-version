@@ -53,7 +53,7 @@ class _ScannerQrPageState extends State<ScannerQrPage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => ScannedQrInfoPage(code),
+        builder: (_) => ScannedQrInfoPage(code, widget.name),
       ),
     );
   }
