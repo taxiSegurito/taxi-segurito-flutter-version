@@ -22,6 +22,8 @@ class DriversService {
         "ownerId": ownerId,
       }),
     );
+    print(response.body);
+
     return response.statusCode == 200;
   }
 
